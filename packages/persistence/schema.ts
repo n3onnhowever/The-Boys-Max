@@ -1,0 +1,11 @@
+import {pgTable,uuid,text,integer,jsonb,timestamp,primaryKey,uniqueIndex} from 'drizzle-orm/pg-core';
+import {sql} from 'drizzle-orm';
+import type {Plan,Snapshot} from '../contracts/domain.ts';
+export const actors=pgTable('actors',{id:uuid('id').primaryKey(),externalId:text('external_id').notNull().unique(),displayName:text('display_name').notNull()});
+export const plans=pgTable('plans',{id:uuid('id').primaryKey(),organizerId:uuid('organizer_id').notNull().references(()=>actors.id),stateVersion:integer('state_version').notNull(),state:jsonb('state').$type<Plan>().notNull()});
+export const slots=pgTable('plan_slots',{planId:uuid('plan_id').notNull().references(()=>plans.id),slotId:uuid('slot_id').notNull(),actorId:uuid('actor_id').references(()=>actors.id),state:text('state').notNull()},t=>[
+ primaryKey({columns:[t.planId,t.slotId]}),uniqueIndex('one_active_slot_per_actor').on(t.planId,t.actorId).where(sql`${t.state} = 'ACTIVE'`)]);
+export const snapshots=pgTable('snapshots',{id:uuid('id').primaryKey(),planId:uuid('plan_id').notNull().references(()=>plans.id),optionId:uuid('option_id').notNull(),body:jsonb('body').$type<Snapshot>().notNull()});
+export const receipts=pgTable('command_receipts',{scope:text('scope').notNull(),actorId:uuid('actor_id').notNull().references(()=>actors.id),key:uuid('key').notNull(),payloadHash:text('payload_hash').notNull(),body:jsonb('body').$type<{planId:string;stateVersion:number;status:'APPLIED';commandId:string}>().notNull()},t=>[primaryKey({columns:[t.scope,t.actorId,t.key]})]);
+export const joins=pgTable('join_requests',{planId:uuid('plan_id').notNull().references(()=>plans.id),actorId:uuid('actor_id').notNull().references(()=>actors.id),state:text('state').notNull()},t=>[primaryKey({columns:[t.planId,t.actorId]})]);
+export const outbox=pgTable('outbox',{id:uuid('id').primaryKey(),commandId:uuid('command_id'),planId:uuid('plan_id').references(()=>plans.id),actorId:uuid('actor_id').notNull().references(()=>actors.id),state:text('state').notNull(),kind:text('kind').notNull(),purpose:text('purpose').notNull(),expectedSelectionRevision:integer('expected_selection_revision'),expectedConfigRevision:integer('expected_config_revision'),expiresAt:timestamp('expires_at',{withTimezone:true}).notNull()});

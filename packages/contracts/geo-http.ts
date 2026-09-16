@@ -1,0 +1,7 @@
+import {z} from 'zod';
+import {parseView} from '../../modules/maps/component/core/geo.ts';
+// Structural HTTP/OpenAPI shape; semantic authority stays in module21 parseView.
+const text=z.string(),maybe=text.nullable();
+const source=z.strictObject({kind:z.enum(['USER_ENTERED','PROVIDER','OPEN_DATA','UNKNOWN']),provider:maybe,record_id:maybe,source_url:maybe,observed_at:maybe,rights_profile_id:text});
+const disclosure=z.enum(['ALLOW','BLOCK','UNKNOWN']);
+export const geoViewSchema=z.strictObject({schema_version:z.literal('maps.geo-view/2-proposed'),geo:z.strictObject({state:z.enum(['KNOWN','UNKNOWN']),venue:z.strictObject({name:text,provider:maybe,external_id:maybe}).nullable(),city:maybe,address:maybe,meeting_point:maybe,position:z.strictObject({lat:z.number().min(-90).max(90),lon:z.number().min(-180).max(180),crs:z.literal('EPSG:4326')}).nullable(),source,precision:z.enum(['ENTRANCE','BUILDING','VENUE','STREET','CITY','UNKNOWN']),confidence:z.enum(['UNASSESSED','PROVIDER_ASSERTED','ORGANIZER_CHECKED']),organizer_verified:z.boolean(),route_url:z.null()}),position_source:source.nullable(),axis_order:z.enum(['NAMED_LAT_LON','UNVERIFIED']),address_status:z.enum(['UNVERIFIED','VERIFIED','INVALID','CONFLICT']),disclosure:z.strictObject({basemap:disclosure,navigation:disclosure})}).superRefine((v,c)=>{try{parseView(v);}catch{c.addIssue({code:'custom',message:'GEO_CANONICAL_MISMATCH'});}});

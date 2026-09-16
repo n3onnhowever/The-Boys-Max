@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.runtime/
+.env*
+!.env.example
+*.log
+openapi.json
+coverage/
+
+.env.release
+.run-evidence/
+lock-review.json
+dependency-preflight.json
+openapi.json
+
+# Codex/project evidence
+.env
+.env.*
+!.env.example
+artifacts/runtime/
+artifacts/secrets/
+*.local
+
+# Local authority/evidence bundles (kept in workspace, not source repo)
+input/results/*.zip
+input/reviews/*.zip
+input/official/*.pdf

@@ -1,0 +1,26 @@
+{
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "const": "request_approved_search"
+        },
+        "arguments": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "name",
+        "arguments"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "null"
+    }
+  ]
+}
