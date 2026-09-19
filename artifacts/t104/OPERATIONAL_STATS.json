@@ -1,0 +1,63 @@
+{
+  "baseline_sha": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "api_version": "v1.4",
+  "verifier": "t104-probe/1",
+  "probe_timestamp": "2026-09-19T07:56:23.720097+00:00",
+  "response_hashes": {
+    "actual_after_end.json": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+    "actual_overlap.json": "4451b77f53ad18b7f96e86db9333f91d65c89e94938ef8d2c6a5366e7982bb5a",
+    "categories.json": "ef5cc4fbb461d89e1cfe08dbf36d3dc9658295102f2a259d2fdd5afc3f506664",
+    "detail_190707.json": "acbecc87f83a98bcb0d206b8ab17dc9716136fc354485ef5f27175f45f67ef94",
+    "detail_202293.json": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+    "detail_202293_repeat.json": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+    "detail_210889.json": "494513f254544b239f3a085d90f42b6f4898fb8e3260d5d4665b61208b0f2535",
+    "detail_default_fields.json": "33fcd96fd6131398b871e5cb1c24de040ddfaa1c835b5553e800df0e585439a7",
+    "DG-01_page_1.json": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+    "DG-02_page_1.json": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+    "DG-03_page_1.json": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+    "DG-04_page_1.json": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+    "DG-05_page_1.json": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+    "DG-06_page_1.json": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+    "DG-07_page_1.json": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+    "DG-08_page_1.json": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+    "DG-09_page_1.json": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+    "DG-10_11_page_1.json": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+    "DG-12_page_1.json": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+    "first_moscow.json": "b194978e066ee59df43382f95471a2a43d3ec49d8182c374638b83cf03d6726f",
+    "invalid_category.json": "2699e68e69690f2c600a1b32d3424e1006e63ffadbd6f15d1057c3e0517e728d",
+    "missing_event.json": "a385c4d973c4669d07fd72df009418484f242e635a6e3e6f8771d28b150fc4a9",
+    "moscow.json": "7b00a9042d07c7e468c71ec1e2d4f6dd1c22aec58e748319a7920273505ede5e",
+    "official_docs.json": "ce43106fdc1e2c1db4a95546b963ff77fdd4367f414dbbd36b95a398252e06be",
+    "pagination_1.json": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+    "pagination_1_repeat.json": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+    "pagination_2.json": "07a5cddef02fd9fb156049643671ffb17086533d15e7e2ecb3d655181cc20cd5",
+    "secondary_202293.json": "c558dd0549de5c7f5876b4a7e07e57b69c2c75eeda2deec53ae1b046dbbca4a3",
+    "secondary_210889.json": "262688ab1cefa4d21605d3e1cd9da8cd03abaf0afe24496fc26b8f2a3587d732"
+  },
+  "request_count": 29,
+  "api_request_count": 26,
+  "http_status_counts": {
+    "200": 24,
+    "400": 1,
+    "404": 1,
+    "429": 0
+  },
+  "latency_ms": {
+    "min": 133.72,
+    "median": 1331.245,
+    "max": 22333.22
+  },
+  "responses_over_10_seconds": 4,
+  "responses_over_256_KiB": 6,
+  "largest_response_bytes": 3244537,
+  "nonrepresentative_frozen_and_bounded_sample": {
+    "unique_events": 205,
+    "null_place": 53,
+    "missing_venue_coordinates": 68,
+    "empty_price": 27,
+    "missing_source_url": 0,
+    "event_with_null_end_time": 163,
+    "event_with_schedule": 66,
+    "dates_over_50": 35
+  }
+}

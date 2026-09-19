@@ -1,0 +1,113 @@
+{
+  "baseline_sha": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "branch": "codex/t104-kudago-gate",
+  "api_version": "v1.4",
+  "probe_timestamp": "2026-09-19T07:56:24.628343+00:00",
+  "response_hashes_ref": "RECEIPT_INDEX.json",
+  "response_hashes": {
+    "actual_after_end.json": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+    "actual_overlap.json": "4451b77f53ad18b7f96e86db9333f91d65c89e94938ef8d2c6a5366e7982bb5a",
+    "categories.json": "ef5cc4fbb461d89e1cfe08dbf36d3dc9658295102f2a259d2fdd5afc3f506664",
+    "detail_190707.json": "acbecc87f83a98bcb0d206b8ab17dc9716136fc354485ef5f27175f45f67ef94",
+    "detail_202293.json": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+    "detail_202293_repeat.json": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+    "detail_210889.json": "494513f254544b239f3a085d90f42b6f4898fb8e3260d5d4665b61208b0f2535",
+    "detail_default_fields.json": "33fcd96fd6131398b871e5cb1c24de040ddfaa1c835b5553e800df0e585439a7",
+    "DG-01_page_1.json": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+    "DG-02_page_1.json": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+    "DG-03_page_1.json": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+    "DG-04_page_1.json": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+    "DG-05_page_1.json": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+    "DG-06_page_1.json": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+    "DG-07_page_1.json": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+    "DG-08_page_1.json": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+    "DG-09_page_1.json": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+    "DG-10_11_page_1.json": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+    "DG-12_page_1.json": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+    "first_moscow.json": "b194978e066ee59df43382f95471a2a43d3ec49d8182c374638b83cf03d6726f",
+    "invalid_category.json": "2699e68e69690f2c600a1b32d3424e1006e63ffadbd6f15d1057c3e0517e728d",
+    "missing_event.json": "a385c4d973c4669d07fd72df009418484f242e635a6e3e6f8771d28b150fc4a9",
+    "moscow.json": "7b00a9042d07c7e468c71ec1e2d4f6dd1c22aec58e748319a7920273505ede5e",
+    "official_docs.json": "ce43106fdc1e2c1db4a95546b963ff77fdd4367f414dbbd36b95a398252e06be",
+    "pagination_1.json": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+    "pagination_1_repeat.json": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+    "pagination_2.json": "07a5cddef02fd9fb156049643671ffb17086533d15e7e2ecb3d655181cc20cd5",
+    "secondary_202293.json": "c558dd0549de5c7f5876b4a7e07e57b69c2c75eeda2deec53ae1b046dbbca4a3",
+    "secondary_210889.json": "262688ab1cefa4d21605d3e1cd9da8cd03abaf0afe24496fc26b8f2a3587d732"
+  },
+  "verification_status": "PASS",
+  "provider_decision": "FAIL / LEGAL OPEN / NOT APPROVED",
+  "checked_HEAD_before_commit": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "phase": "pre-commit; final commit SHA and clean tree verified in final tool output",
+  "checks": {
+    "clean-install": 0,
+    "verify-dependencies": 0,
+    "syntax": 0,
+    "unit": 0,
+    "typecheck": 0,
+    "build": 0,
+    "final-constraint-tests": 0,
+    "final-normalizer-replay": 0,
+    "diff-check-staged-accepted": 0
+  },
+  "unit_tests": {
+    "passed": 115,
+    "failed": 0,
+    "skipped": 0
+  },
+  "probe_tests": {
+    "passed": 12,
+    "failed": 0
+  },
+  "baseline_replay_summary": {
+    "events": 205,
+    "normalized": 79,
+    "quarantined": 126,
+    "errors": {
+      "INTEGER_REQUIRED:integer": 84,
+      "ARRAY_REQUIRED:dates": 35,
+      "NATIVE_TIME_CONFLICT:payload": 7
+    }
+  },
+  "git_diff_check": 0,
+  "preservation": "All original tracked inputs unchanged; changes limited to T104 evidence/tooling and one handoff",
+  "secret_prohibited_scan": "PASS (heuristic)",
+  "receipts_validated": 29,
+  "data_gate_summary": {
+    "task_status_counts": {
+      "PASS": 3,
+      "NO_PASS": 4,
+      "UNKNOWN": 5,
+      "ERROR": 0
+    },
+    "final_status_count": 12,
+    "verified_suitable_task_count": 0,
+    "critical_false_pass": 0,
+    "critical_false_pass_scope": "T104 experiment; production replay independently recorded",
+    "DATA_RUNTIME_GATE": "FAIL",
+    "LEGAL_MANUAL_GATE": "OPEN",
+    "provider_status": "CONDITIONAL_PRIMARY / NOT APPROVED",
+    "moscow_activation": false,
+    "runtime_conditions": {
+      "all_12_final_statuses": true,
+      "at_least_8_verified_suitable": false,
+      "zero_observed_critical_false_pass": true,
+      "required_safety_cases_evidenced": true
+    }
+  },
+  "NOT_RUN": [
+    "Docker",
+    "PostgreSQL",
+    "Redis",
+    "MAX clients/auth",
+    "browser/UI",
+    "production importer",
+    "production provider transport",
+    "actual cancellation/reschedule/deletion transitions",
+    "429/5xx/natural timeout",
+    "legal clearance"
+  ],
+  "environment_notes": [
+    "Initial sandbox process setup failed before Git ran; authorized escalated commands in requested worktree succeeded. No global Git config or safe.directory change was needed."
+  ]
+}

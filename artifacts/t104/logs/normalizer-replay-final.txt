@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "events": 205,
+    "normalized": 79,
+    "quarantined": 126,
+    "errors": {
+      "INTEGER_REQUIRED:integer": 84,
+      "ARRAY_REQUIRED:dates": 35,
+      "NATIVE_TIME_CONFLICT:payload": 7
+    }
+  },
+  "experiments": [
+    {
+      "task": "DG-09",
+      "status": "UNKNOWN"
+    },
+    {
+      "task": "DG-10",
+      "status": "UNKNOWN"
+    },
+    {
+      "task": "DG-11",
+      "status": "UNKNOWN"
+    },
+    {
+      "task": "PARTIAL",
+      "status": {
+        "scope_id": "t104-isolated",
+        "all_pages_consumed": false,
+        "snapshot_consistent": false,
+        "truncated": false
+      }
+    },
+    {
+      "task": "STALE_SIMULATION",
+      "status": "UNKNOWN"
+    }
+  ],
+  "failures": []
+}
