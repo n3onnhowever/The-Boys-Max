@@ -1,4 +1,7 @@
 # T010 — Integration v2
+
+> Historical task; inactive. Follow [ACTIVE_TASK](ACTIVE_TASK.md). The T101/T102 authorization supersedes this old work order.
+
 Recommended: GPT-5.3-Codex / high
 
 Goal
@@ -11,7 +14,7 @@ Inputs
 - input/results/MAX_RESULT_29_AI_EVAL_2026-09-16_v1.zip
 - input/results/MAX_RESULT_30_EVENTS_MAP_2026-09-16_v1.zip
 - docs/current/*
-- docs/architecture/TARGET_ARCHITECTURE.md
+- docs/TARGET_ARCHITECTURE.md
 
 Do
 1. Inspect only manifests/deltas/changed code needed for the merge.

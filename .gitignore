@@ -25,3 +25,6 @@ artifacts/secrets/
 input/results/*.zip
 input/reviews/*.zip
 input/official/*.pdf
+
+# Safe release template only; real .env.release remains ignored.
+!.env.release.example

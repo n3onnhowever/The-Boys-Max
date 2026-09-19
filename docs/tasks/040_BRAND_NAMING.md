@@ -1,4 +1,7 @@
 # T040 — Product naming + brand system
+
+> Historical task; inactive. Follow [ACTIVE_TASK](ACTIVE_TASK.md). The T101/T102 authorization supersedes this old work order.
+
 Recommended: GPT-5.6 Sol / medium
 
 Goal

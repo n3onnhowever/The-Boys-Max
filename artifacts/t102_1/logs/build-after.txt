@@ -1,0 +1,17 @@
+
+> the-boys-afisha-integration@0.2.0-candidate build
+> node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+
+Drizzle 0.45.2: 0 declaration corrections applied; 15 verified
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 140 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/miniapp/index.html                              0.50 kB │ gzip:   0.34 kB
+dist/miniapp/assets/index-CRcBuR0B.css              10.61 kB │ gzip:   3.22 kB
+dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+dist/miniapp/assets/leaflet-renderer-5iTiyxBM.js   150.63 kB │ gzip:  44.29 kB
+dist/miniapp/assets/index-V31-VLCX.js              344.90 kB │ gzip: 105.50 kB
+
+✓ built in 415ms

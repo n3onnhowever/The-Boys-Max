@@ -1,5 +1,8 @@
 # First Codex session
 
+> Historical prompt; do not execute its old ticket. Read [ACTIVE_TASK](../tasks/ACTIVE_TASK.md) and current source authority first.
+
+
 Recommended model: GPT-5.3-Codex
 Reasoning: low
 

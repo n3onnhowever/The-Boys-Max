@@ -1,28 +1,14 @@
 # Known gaps / gates
 
-## Runtime
-- Docker CLI exists but Docker Desktop Linux daemon is not running.
-- End-to-end API + PostgreSQL + Redis/BullMQ + worker has not yet been accepted on the final merged tree.
-- Live MAX bot/mini-app verification has not yet been completed on the final tree.
+Current scope: [authority](POVOD_SOURCE_AUTHORITY.md). Execution: [active ticket](../tasks/ACTIVE_TASK.md). The preflight gap matrix is historical evidence, not permission to activate all proposed tickets.
 
-## Integration
-- Result 26 is the current baseline but does not yet contain all later valid deltas from 27/29/30.
-- Root dependency/lockfile and clean-install/build evidence must be regenerated in the working Windows environment.
-- Re-run regressions for past events, canonical price, geo projection, cancellation expiry, and UI↔API adapters after merge.
+- T102: PASS after T102.2 (115/115 unit; strict typecheck/build; clean Docker build 25.132 s; startup, host/internal health and restart). Local API loopback mapping fixed; PostgreSQL/Redis stay internal and unpublished. Declaration patch remains guarded technical debt. See [handoff](../handoffs/T102_2_NETWORK_MIGRATION_ACCEPTANCE.md).
+- T103: PG/Redis/BullMQ/outbox/governor runtime verification; queue decision remains BLOCKED. Preserve all existing code.
+- T104: KudaGo runtime + manual provider-use/rights gate; no approval or live importer currently established.
+- T105: integration-owned safety mapping to Event/Occurrence and stable identifiers, conditional/unknown data.
+- T106/T111: attached MAX Mini App, valid/repeat login and mobile/web/API2 runtime evidence.
+- T107–T110: live ingestion, discovery, Save/basic profile persistence and frozen UI remain separate work. Existing UI says Афиша; branding changes are deferred to T110.
+- T112: EventHive adapted paths/hashes referenced by licenses/module-22-NOTICES.md are absent (`analysis/REUSE_AND_LICENSES.csv`). Keep notices and unresolved provenance; do not invent missing evidence. Final HTTPS/OpenAPI/DATA-API, judge scenario remain submission gates. T102.2 clean Docker build meets <=5 minutes; local host access PASS. Public deployment remains a separate gate.
+- T113: presentation and user-research claims must follow actual evidence. Historical module/donor checks are not current app acceptance.
 
-## Visual
-- Real donor runtime screenshots were not produced in ChatGPT sandbox due DNS restrictions.
-- User approval of the visual direction is still pending.
-
-## Events/maps
-- ChatGPT sandbox could not reach KudaGo/Timepad. Live provider probes and real map runtime remain to be executed locally.
-- OSM public tile servers must not be assumed to be a guaranteed production CDN.
-
-## AI
-- Local adapter/eval harness exists.
-- No provider/model may be declared selected until legal/access/zero-budget conditions and real benchmark calls are satisfied.
-- API credentials must remain outside repository/chat.
-
-## Submission
-- Final Docker build under the official 5-minute constraint not yet measured.
-- Final OpenAPI/DATA-API package, live HTTPS endpoint, web/mobile MAX checks, frozen commit/archive checksum, and technical slide require final acceptance evidence.
+No pending map/Follow/Smart/social work blocks frozen P0. No blanket merge of older result ZIPs. Prior gap text is preserved in artifacts/t101/BASELINE_DOCUMENTS.json.

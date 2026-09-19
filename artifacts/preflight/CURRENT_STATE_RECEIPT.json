@@ -1,0 +1,387 @@
+{
+  "captured_at": "2026-09-18T22:10:24.365392+00:00",
+  "repo_absolute_path": "D:\\Dev\\Repos\\The-Boys-Max",
+  "branch": "main",
+  "head": "4f9a198d4fa2b18686efa19a59b6ac78281d341d",
+  "baseline_git_status_short": "",
+  "baseline_clean": true,
+  "remotes": [],
+  "node": "v24.20.0",
+  "package_manager_declared": "npm@11.19.0",
+  "npm_actual": "11.19.0",
+  "lockfiles": [],
+  "node_modules_present": false,
+  "postgres": {
+    "configured_image": "postgres:18.6",
+    "runtime_version": null,
+    "runtime_status": "BLOCKED_DOCKER_DAEMON",
+    "config": "compose.yaml: internal test network, named pgdata volume, no host DB port, pg_isready healthcheck; release uses external DATABASE_URL",
+    "extensions_declared": [],
+    "extensions_runtime": null,
+    "client_psql": "NOT_AVAILABLE",
+    "pooler": "not declared; hosting unknown"
+  },
+  "queue": {
+    "classification": "BLOCKED",
+    "implemented": "BullMQ 6.3.4 + ioredis 5.11.1",
+    "configured_service": "redis:8.2.9; appendonly=yes; appendfsync=everysec; maxmemory=256mb; noeviction",
+    "pg_boss": "absent",
+    "valkey": "absent",
+    "worker": "apps/worker/main.ts",
+    "scheduler": "1-second reconcile timer in apps/worker/main.ts; no provider-sync scheduler",
+    "runtime": "NOT_RUN: missing dependencies/lock and Docker daemon",
+    "action": "Preserve existing code; verify BullMQ before selecting a queue path. No migration."
+  },
+  "dependencies": {
+    "fastify": "5.12.3",
+    "zod": "4.5.4",
+    "fastify-type-provider-zod": "7.0.0",
+    "@fastify/swagger": "9.8.1",
+    "@fastify/cookie": "11.0.2",
+    "openapi-types": "12.1.3",
+    "drizzle-orm": "0.45.2",
+    "pg": "8.23.0",
+    "bullmq": "6.3.4",
+    "ioredis": "5.11.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "leaflet": "1.9.4"
+  },
+  "dev_dependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "24.13.3",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "vite": "8.2.2",
+    "@vitejs/plugin-react": "6.1.1",
+    "@types/leaflet": "1.9.20"
+  },
+  "dockerfiles": [
+    "Dockerfile",
+    "compose.yaml",
+    "compose.release.yaml",
+    ".dockerignore"
+  ],
+  "provider_paths": [
+    "modules/search/port.ts",
+    "modules/search/core/types.ts",
+    "modules/search/core/provider.ts",
+    "modules/search/core/normalizers.ts",
+    "modules/search/core/service.ts",
+    "modules/search/core/observations.ts",
+    "packages/persistence/catalog.ts",
+    "modules/ai/port.ts",
+    "modules/ai/provider/",
+    "modules/maps/port.ts"
+  ],
+  "max_paths": {
+    "auth": [
+      "packages/platform/auth.ts",
+      "packages/persistence/sessions.ts"
+    ],
+    "bridge": [
+      "apps/miniapp/bridge.ts",
+      "apps/miniapp/index.html",
+      "apps/miniapp/client.ts"
+    ],
+    "bot": [
+      "packages/platform/transport.ts",
+      "packages/platform/ingress.ts",
+      "packages/platform/governor.ts",
+      "packages/platform/links.ts"
+    ],
+    "api": [
+      "apps/api/app.ts",
+      "apps/api/main.ts"
+    ]
+  },
+  "scripts": {
+    "verify:dependencies": "node scripts/verify-dependencies.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test tests/unit/*.test.ts",
+    "test:integration": "node --experimental-strip-types --test --test-concurrency=1 tests/integration/*.test.ts",
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp",
+    "migrate": "node --experimental-strip-types scripts/migrate.ts",
+    "seed:test": "node --experimental-strip-types scripts/seed-test.ts",
+    "openapi": "node --experimental-strip-types scripts/openapi.ts",
+    "start:api": "node dist/apps/api/main.js",
+    "start:worker": "node dist/apps/worker/main.js",
+    "migrate:price": "node --experimental-strip-types scripts/upgrade-price.ts",
+    "syntax": "node scripts/check-source-syntax.mjs",
+    "test:offline": "node --experimental-strip-types --test tests/unit/*.test.ts",
+    "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json"
+  },
+  "lint_command": null,
+  "ci": {
+    "tracked_workflows": [],
+    "remote_ci": "NOT_INSPECTABLE: no remotes"
+  },
+  "deployment_docs": [
+    "README.md",
+    "README_CODEX.md",
+    "docs/runbooks/DOCKER_WINDOWS.md",
+    "docs/current/KNOWN_GAPS.md",
+    "compose.release.yaml",
+    ".env.example",
+    ".env.release.example"
+  ],
+  "deployment_url": "No verified live deployment URL found; example PUBLIC_ORIGIN is not deployment evidence",
+  "environment_variable_names": {
+    ".env.example": [
+      "APP_MODE",
+      "PUBLIC_ORIGIN",
+      "COOKIE_PROFILE",
+      "MAX_INGRESS_MODE",
+      "DATABASE_URL",
+      "REDIS_URL",
+      "SESSION_KEY",
+      "ESCROW_KEY",
+      "BOT_TOKEN",
+      "WEBHOOK_SECRET",
+      "CREDENTIAL_SCOPE",
+      "MAX_BOT_USERNAME",
+      "ALLOWED_SOURCE_ORIGINS",
+      "AI_EXTERNAL_ENABLED",
+      "MAP_EXTERNAL_ENABLED",
+      "LIVE_GATE"
+    ],
+    ".env.release.example": [
+      "APP_MODE",
+      "PUBLIC_ORIGIN",
+      "COOKIE_PROFILE",
+      "MAX_INGRESS_MODE",
+      "DATABASE_URL",
+      "REDIS_URL",
+      "SESSION_KEY",
+      "ESCROW_KEY",
+      "BOT_TOKEN",
+      "WEBHOOK_SECRET",
+      "CREDENTIAL_SCOPE",
+      "MAX_BOT_USERNAME",
+      "ALLOWED_SOURCE_ORIGINS",
+      "AI_EXTERNAL_ENABLED",
+      "MAP_EXTERNAL_ENABLED",
+      "LIVE_GATE"
+    ]
+  },
+  "workflow": {
+    "root_agents": "AGENTS.md",
+    "historical_agents": "archive/SOURCE26_AGENTS.md",
+    "repo_agents_directory": false,
+    "repo_codex_directory": false,
+    "repo_skills": [],
+    "active_git_hooks": [],
+    "custom_hooks_path": null,
+    "repo_mcp_config": [],
+    "global_mcp_sections": [
+      "mcp_servers.node_repl"
+    ],
+    "global_config_values_recorded": false,
+    "global_agents_exists": true,
+    "global_agents_bytes": 0,
+    "preferred_custom_skills_present": false
+  },
+  "authority": [
+    {
+      "path": "input/official/Досуг и развлечения.pdf",
+      "absolute_path": "D:\\Dev\\Repos\\The-Boys-Max\\input\\official\\Досуг и развлечения.pdf",
+      "sha256": "638e5de074ea38645f367d2c9d00385064a6db4c8e29036d1efc450a04c0914a",
+      "read": true
+    },
+    {
+      "path": "docs/product/povod-2026-09-19/POVOD_FINAL_SCOPE_FREEZE_MVP.md",
+      "absolute_path": "D:\\Dev\\Repos\\The-Boys-Max\\docs\\product\\povod-2026-09-19\\POVOD_FINAL_SCOPE_FREEZE_MVP.md",
+      "sha256": "a904abdcb148692a22a821ca0ccf22e52281d3204c7ca26e9c9a563b04e05f99",
+      "read": true
+    },
+    {
+      "path": "docs/product/povod-2026-09-19/POVOD_PRODUCT_CONTRACT_V1.json",
+      "absolute_path": "D:\\Dev\\Repos\\The-Boys-Max\\docs\\product\\povod-2026-09-19\\POVOD_PRODUCT_CONTRACT_V1.json",
+      "sha256": "fee706e1a28155c9a33a744fcaf4588803f4bcf76df04a580f053c9900199640",
+      "read": true
+    },
+    {
+      "path": "docs/product/povod-2026-09-19/POVOD_PRODUCT_SPEC_V1.md",
+      "absolute_path": "D:\\Dev\\Repos\\The-Boys-Max\\docs\\product\\povod-2026-09-19\\POVOD_PRODUCT_SPEC_V1.md",
+      "sha256": "66509ced23dde708a8cc5f101ab15423387d0e51e0c4d31c82d8f5f4f1aba5e8",
+      "read": true
+    },
+    {
+      "path": "docs/product/povod-2026-09-19/POVOD_PRODUCT_SPEC_V1_1_DATA_SAFETY_PATCH.md",
+      "absolute_path": "D:\\Dev\\Repos\\The-Boys-Max\\docs\\product\\povod-2026-09-19\\POVOD_PRODUCT_SPEC_V1_1_DATA_SAFETY_PATCH.md",
+      "sha256": "54b4a98e8a0373c01fabee12a46a89be0773e37aeb26523c56e026f29f3daab4",
+      "read": true
+    }
+  ],
+  "official_case_pages": 22,
+  "official_case_matches_synthesis": true,
+  "source_archive": {
+    "path": "C:\\Users\\admin\\Downloads\\POVOD_SYNTHESIS_HANDOFF_2026-09-19.zip",
+    "sha256": "eb06177c37aaadddcce3f0aeeb6f98406c6ec9d10a7a8f254fa15dd171614aa0"
+  },
+  "checks": {
+    "head": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=D:/Dev/Repos/The-Boys-Max",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/head.txt"
+    },
+    "branch": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=D:/Dev/Repos/The-Boys-Max",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/branch.txt"
+    },
+    "remotes": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=D:/Dev/Repos/The-Boys-Max",
+        "remote",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/remotes.txt"
+    },
+    "tracked-files": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=D:/Dev/Repos/The-Boys-Max",
+        "ls-files"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/tracked-files.txt"
+    },
+    "git-config-names": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=D:/Dev/Repos/The-Boys-Max",
+        "config",
+        "--name-only",
+        "--list"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/git-config-names.txt"
+    },
+    "hooks-path": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=D:/Dev/Repos/The-Boys-Max",
+        "config",
+        "--get",
+        "core.hooksPath"
+      ],
+      "exit_code": 1,
+      "log": "artifacts/preflight/logs/hooks-path.txt"
+    },
+    "node": {
+      "command": [
+        "node",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/node.txt"
+    },
+    "npm": {
+      "command": [
+        "npm.cmd",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/npm.txt"
+    },
+    "docker": {
+      "command": [
+        "docker",
+        "--version"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/docker.txt"
+    },
+    "compose": {
+      "command": [
+        "docker",
+        "compose",
+        "version"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/compose.txt"
+    },
+    "docker-runtime": {
+      "command": [
+        "docker",
+        "info",
+        "--format",
+        "{{.ServerVersion}}"
+      ],
+      "exit_code": 1,
+      "log": "artifacts/preflight/logs/docker-runtime.txt"
+    },
+    "psql": {
+      "command": [
+        "psql",
+        "--version"
+      ],
+      "exit_code": null,
+      "log": "artifacts/preflight/logs/psql.txt"
+    },
+    "unit": {
+      "command": [
+        "npm.cmd",
+        "run",
+        "test:unit"
+      ],
+      "exit_code": 0,
+      "log": "artifacts/preflight/logs/unit.txt"
+    },
+    "typecheck": {
+      "command": [
+        "npm.cmd",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 1,
+      "log": "artifacts/preflight/logs/typecheck.txt"
+    },
+    "build": {
+      "command": [
+        "npm.cmd",
+        "run",
+        "build"
+      ],
+      "exit_code": 1,
+      "log": "artifacts/preflight/logs/build.txt"
+    }
+  },
+  "not_run": [
+    "npm ci (no lockfile; no dependency mutation in this pass)",
+    "PG/Redis/BullMQ integration",
+    "Docker build/start/timing",
+    "live MAX/API2 TLS from release image",
+    "provider probe and legal approval",
+    "browser screenshots",
+    "lint: no command configured"
+  ],
+  "scope": "documentation/import/preflight only; no Phase 2; imported prompts and code are inert evidence",
+  "official_case_visual_check": {
+    "page": 10,
+    "status": "PASS_VISUALLY_INSPECTED",
+    "renderer": "installed Poppler pdftoppm",
+    "earlier_fitz_attempt": "ModuleNotFoundError; recovered via Poppler",
+    "artifact": "artifacts/preflight/official-case-page-10.png"
+  }
+}

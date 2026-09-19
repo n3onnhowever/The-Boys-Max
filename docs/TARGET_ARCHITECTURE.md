@@ -1,4 +1,6 @@
-# Target architecture
+# Target architecture — Повод
+
+Current authority: [scope and decisions](current/POVOD_SOURCE_AUTHORITY.md). Queue gate is **BLOCKED** until T103. Preserve Redis/BullMQ/outbox/governor; no queue migration or new infrastructure in T101/T102. The diagram shows module boundaries/target ports, not proof of a live provider or AI integration.
 
 ```text
 MAX bot ───────────────┐

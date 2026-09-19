@@ -1,0 +1,12 @@
+{
+  "modified": 17,
+  "created": 120,
+  "code_baseline": "PASS",
+  "T102": "PARTIAL_REQUIRES_NETWORK_REVIEW",
+  "source_hashes_match": true,
+  "secret_scan": "PASS_WITH_REVIEWED_TEST_FIXTURE",
+  "unresolved": [],
+  "prohibited": [],
+  "jsonErrors": [],
+  "brokenLinks": []
+}

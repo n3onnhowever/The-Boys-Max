@@ -1,32 +1,11 @@
-# Product frame
+# Повод — product frame
 
-## One-line
-A personal event guide in MAX that helps a person find something suitable to do — and, when they want, turn it into a shared plan with friends.
+Team: The Boys. [Canonical authority](../current/POVOD_SOURCE_AUTHORITY.md) controls frozen scope.
 
-## Priority path
-1. User opens the mini-app.
-2. User sets constraints or describes intent in natural language.
-3. Product returns suitable events with time, price/uncertainty, location and source provenance.
-4. User inspects details/map and gets a useful solo result.
-5. Optional: “Invite friends” / “Create shared plan”.
-6. Group members respond to the current terms.
-7. The final plan distinguishes preference from explicit commitment.
-8. Material term changes trigger re-confirmation where required.
+Priority P0 path: open attached Mini App in MAX → server-validated MAX identity → interests and structured conditions → live Moscow events → concrete Occurrence detail → honest price/UNKNOWN, place and source → open source. Save and basic «Мой Повод» preferences persist across repeat login. Support MAX mobile and web.
 
-## Product boundary
-Not required for the first accepted MVP:
-- ticket purchase/settlement;
-- proprietary routing engine;
-- nationwide perfect event coverage;
-- autonomous AI decisions;
-- social network/community feed;
-- microservices/Kafka/Kubernetes.
+P1: Follow, Smart Povod, map. Stretch: second city and optional Shared Plan / invite friends. Social is never required for personal value. Preserve existing distinctions between saved, suitable, voted and committed; material changes invalidate current commitment until explicit re-confirmation.
 
-## Candidate success metrics
-Treat as hypotheses until measured:
-- time to useful event shortlist;
-- completion rate of personal discovery;
-- number of manual cross-service actions;
-- time from shortlist to confirmed group plan;
-- percentage of commitments valid for current terms;
-- repeat use.
+No ticket purchase/payment/live availability claims, obligatory LLM, multi-provider launch or nationwide coverage. Unknown data is never invented.
+
+Candidate metrics remain hypotheses until measured: successful solo path, time to useful occurrence, source-open/save/repeat-login success and critical false-PASS count. Prior group-oriented metrics and product-frame text are historical and preserved in artifacts/t101/BASELINE_DOCUMENTS.json.

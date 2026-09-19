@@ -1,0 +1,22 @@
+{
+  "T101": "PASS",
+  "T102": "PARTIAL",
+  "starting_sha": "4f9a198d4fa2b18686efa19a59b6ac78281d341d",
+  "ending_sha": "4f9a198d4fa2b18686efa19a59b6ac78281d341d",
+  "commit_created": false,
+  "application_and_runtime_config_unchanged": true,
+  "imported_files_unchanged": 40,
+  "preflight_evidence_unchanged": true,
+  "lock_unchanged_after_ci": true,
+  "env_templates_safe_and_unchanged": true,
+  "git_diff_check_exit": 0,
+  "secret_scan_status": "PASS_WITH_REVIEWED_TEST_FIXTURE",
+  "prohibited_files": [],
+  "json_parse_errors": [],
+  "current_doc_broken_links": [],
+  "compiler": "FAIL; no suppressions applied",
+  "docker": "BLOCKED_DOCKER_DAEMON",
+  "queue": "BLOCKED",
+  "no_active_implementation_ticket": true,
+  "T103_T104_T105_T106_started": false
+}

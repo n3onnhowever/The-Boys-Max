@@ -1,0 +1,22 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+const base='node_modules/drizzle-orm/';
+const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
+const rows=[];
+function patch(path,transform,reason){const original=fs.readFileSync(base+path,'utf8');const updated=transform(original);if(updated===original)throw Error('No correction: '+path);let offset=0;while(original[offset]===updated[offset]&&offset<original.length)offset++;let tail=0;while(original.at(-1-tail)===updated.at(-1-tail)&&tail<original.length-offset&&tail<updated.length-offset)tail++;rows.push({path,reason,before_sha256:hash(original),after_sha256:hash(updated),offset,remove:original.slice(offset,original.length-tail),insert:updated.slice(offset,updated.length-tail)});}
+function member(s,cls,declaration){const at=s.indexOf('class '+cls+'<')>=0?s.indexOf('class '+cls+'<'):s.indexOf('class '+cls+' ');if(at<0)throw Error(cls);const pos=s.indexOf('static readonly [entityKind]: string;',at);if(pos<0)throw Error(cls);return s.slice(0,pos)+declaration+'\n    '+s.slice(pos);}
+for(const [dialect,cls] of [['pg','PgRelationalQuery'],['gel','GelRelationalQuery'],['sqlite','SQLiteRelationalQuery']])patch(`${dialect}-core/query-builders/query.d.ts`,s=>member(s,cls,'getSQL(): import("../../sql/sql.js").SQL;'),'Restore getSQL present in the pinned runtime and stripped from declarations.');
+for(const [dialect,prefix] of [['mysql','MySql'],['singlestore','SingleStore']])patch(`${dialect}-core/query-builders/delete.d.ts`,s=>member(s,prefix+'DeleteBase','getSQL(): SQL;'),'Restore runtime getSQL.');
+for(const [dialect,prefix] of [['mysql','MySql'],['singlestore','SingleStore'],['sqlite','SQLite']]){
+ patch(`${dialect}-core/query-builders/select.d.ts`,s=>member(s,prefix+'SelectQueryBuilderBase','getSQL(): SQL;'),'Restore inherited concrete getSQL implemented in runtime.');
+ patch(`${dialect}-core/query-builders/select.types.d.ts`,s=>s.replace(/(export type \w+SetOperatorExcludedMethods = [^;]+);/,(_all,union)=>union.replace(" | 'session'",'').replace("'config' | ",'')+';'),'session/config is protected/internal, not a public key. Removing it from the public omission list preserves its protection and public method restrictions.');
+}
+for(const [dialect,prefix] of [['pg','Pg'],['gel','Gel']])patch(`${dialect}-core/roles.d.ts`,s=>member(s,prefix+'Role',`readonly createDb: ${prefix}RoleConfig['createDb'];\n    readonly createRole: ${prefix}RoleConfig['createRole'];\n    readonly inherit: ${prefix}RoleConfig['inherit'];`),'Restore readonly optional config fields from pinned source map.');
+patch('singlestore-core/columns/common.d.ts',s=>member(s,'SingleStoreColumnBuilder',"generatedAlwaysAs(as: import('../../sql/sql.js').SQL | T['data'] | (() => import('../../sql/sql.js').SQL), config?: SingleStoreGeneratedColumnConfig): import('../../column-builder.js').HasGenerated<this, { type: 'always' }>;"),'Restore runtime method using the existing abstract contract, without any.');
+patch('singlestore-core/columns/enum.d.ts',s=>s.replace('HasGenerated<this, {}>','never'),'Runtime always throws Method not implemented: never is the exact return type.');
+fs.mkdirSync('patches',{recursive:true});fs.mkdirSync('licenses',{recursive:true});
+if(!fs.readFileSync('licenses/drizzle-orm-0.45.2-LICENSE.txt','utf8').includes('Apache License'))throw Error('License missing');
+const pkg=JSON.parse(fs.readFileSync('package-lock.json','utf8')).packages['node_modules/drizzle-orm'];
+fs.writeFileSync('licenses/drizzle-orm-0.45.2-NOTICES.md',`# Drizzle ORM declaration corrections\n\nSource: ${pkg.resolved}\nPinned version: 0.45.2\nIntegrity: ${pkg.integrity}\nLicense: Apache-2.0; full original license retained alongside this notice. Upstream: https://github.com/drizzle-team/drizzle-orm .\n\nModified declarations are recorded with original/modified SHA-256 and exact text in patches/drizzle-orm-0.45.2.json. Adapted paths:\n\n${rows.map(x=>'- '+x.path+': '+x.reason).join('\n')}\n\nOnly declarations are modified; JavaScript runtime is unchanged. Source/runtime evidence is the corresponding .js and .js.map from the same pinned tarball. Local modifications by The Boys, 2026-09-19. See artifacts/t102_1/ROOT_CAUSE_ANALYSIS.md.\n`);
+fs.writeFileSync('patches/drizzle-orm-0.45.2.json',JSON.stringify({package:'drizzle-orm',version:'0.45.2',source:pkg.resolved,integrity:pkg.integrity,files:rows},null,2)+'\n');
+console.log(rows.map(x=>x.path));

@@ -1,0 +1,12 @@
+
+> the-boys-afisha-integration@0.2.0-candidate typecheck
+> node scripts/patch-drizzle-declarations.mjs && tsc --noEmit
+
+file:///D:/Dev/Repos/The-Boys-Max/scripts/patch-drizzle-declarations.mjs:18
+ if(current.slice(file.offset,file.offset+file.remove.length)!==file.remove||hash(text)!==file.after_sha256)throw new Error(`Invalid patch receipt: ${file.path}`);
+                                                                                                                  ^
+
+Error: Invalid patch receipt: mysql-core/query-builders/select.types.d.ts
+    at file:///D:/Dev/Repos/The-Boys-Max/scripts/patch-drizzle-declarations.mjs:18:115
+
+Node.js v24.20.0

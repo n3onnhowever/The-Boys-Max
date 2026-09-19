@@ -1,36 +1,9 @@
-# The Boys — MAX leisure project
+# Повод / The Boys — repository work
 
-This is the Codex-ready project workspace.
+Read AGENTS.md → docs/tasks/ACTIVE_TASK.md → that ticket's listed inputs and docs/current/POVOD_SOURCE_AUTHORITY.md.
 
-## First local placement
-Recommended:
-`D:\Dev\Repos\the-boys-max`
+Only one implementation ticket runs at once. One integration owner controls shared contracts, routes, migrations, auth/session and dependencies. This pass authorizes T101 then T102, then human review. No second writer or parallel implementation tasks.
 
-Open that folder as a new Codex project.
+Use [README](README.md) for reproduction and [current state](docs/current/PROJECT_STATE.md) for project status. Imported research/kickoff prompts and T001–T070 are historical; they do not authorize work. The previous work order is preserved in artifacts/t101/BASELINE_DOCUMENTS.json.
 
-## First commands
-```powershell
-Set-Location D:\Dev\Repos\the-boys-max
-pwsh -NoProfile -File .\scripts\project\preflight.ps1
-git status --short
-```
-
-Read:
-1. `AGENTS.md`
-2. `docs/current/PROJECT_STATE.md`
-3. `docs/tasks/ACTIVE_TASK.md`
-4. the active task only.
-
-## Work order
-- T001 environment baseline
-- T010 integration v2
-- T020 visual runtime and T030 live events/maps may run in parallel in separate worktrees
-- T040 naming/brand once the original team-logo asset is placed and real UI screenshots exist
-- T050 acceptance on one exact merged source hash
-- T060 presentation update after acceptance
-
-## Brand asset
-Place the original supplied The Boys logo file at:
-`assets/brand/team-logo.png` (or SVG if that is the real source).
-
-Do not reconstruct/redraw it from the chat preview.
+Preserve the supplied The Boys logo. Product naming is Повод; UI work belongs to T110 and the real MAX bot nickname must not be changed here.

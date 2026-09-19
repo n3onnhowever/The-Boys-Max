@@ -1,5 +1,5 @@
 import {Worker,Queue} from 'bullmq';
-import Redis from 'ioredis';
+import {Redis} from 'ioredis';
 import {connect} from '../../packages/persistence/db.ts';
 import {config} from '../../packages/platform/config.ts';
 import {Governor} from '../../packages/platform/governor.ts';

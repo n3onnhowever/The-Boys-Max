@@ -37,8 +37,11 @@ export async function buildApp(c:Config){
  app.addHook('onSend',async(_r,reply,payload)=>{reply.header('Cache-Control','no-store');reply.header('X-Content-Type-Options','nosniff');return payload;});
  app.addHook('onResponse',async(r,reply)=>{console.log(JSON.stringify({event:'http_end',requestId:r.id,route:r.routeOptions.url,status:reply.statusCode}));});
  app.setErrorHandler((err,req,reply)=>{
-  const status=err instanceof CoreError?422:err instanceof AppError?err.status:err.validation?400:err.statusCode&&err.statusCode>=400&&err.statusCode<500?err.statusCode:503;
-  const code=err instanceof CoreError?err.code:err instanceof AppError?err.code:err.validation?'VALIDATION_FAILED':status===413?'BODY_TOO_LARGE':status===415?'JSON_REQUIRED':'SERVICE_UNAVAILABLE';
+  // Fastify 5 passes unknown: thrown values need not be Error instances.
+  const validation=typeof err==='object'&&err!==null&&'validation' in err&&Array.isArray(err.validation);
+  const statusCode=typeof err==='object'&&err!==null&&'statusCode' in err?err.statusCode:undefined;
+  const status=err instanceof CoreError?422:err instanceof AppError?err.status:validation?400:typeof statusCode==='number'&&Number.isInteger(statusCode)&&statusCode>=400&&statusCode<500?statusCode:503;
+  const code=err instanceof CoreError?err.code:err instanceof AppError?err.code:validation?'VALIDATION_FAILED':status===413?'BODY_TOO_LARGE':status===415?'JSON_REQUIRED':'SERVICE_UNAVAILABLE';
   void reply.code(status).send({error:{code,requestId:req.id}});
  });
  app.setNotFoundHandler((req,reply)=>reply.code(404).send({error:{code:'NOT_FOUND',requestId:req.id}}));

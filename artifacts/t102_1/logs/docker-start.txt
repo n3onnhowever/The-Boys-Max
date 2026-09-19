@@ -1,0 +1,179 @@
+ Image the-boys-integration26-test-prepare Building 
+ Image the-boys-integration26-test-migrate Building 
+ Image the-boys-integration26-test-api Building 
+ Image the-boys-integration26-test-worker Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.93kB 0.0s done
+#1 DONE 0.0s
+
+#2 [api internal] load build definition from Dockerfile
+#2 transferring dockerfile: 623B done
+#2 DONE 0.0s
+
+#3 [api internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim
+#3 DONE 0.0s
+
+#4 [api internal] load .dockerignore
+#4 transferring context: 88B done
+#4 DONE 0.0s
+
+#5 [worker build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [prepare internal] load build context
+#6 transferring context: 217.68kB 0.0s done
+#6 DONE 0.0s
+
+#7 [prepare build 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [prepare build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 CACHED
+
+#9 [prepare build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#9 [migrate build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#10 [migrate build 5/6] COPY . .
+#10 DONE 0.2s
+
+#10 [prepare build 5/6] COPY . .
+#10 DONE 0.2s
+
+#11 [prepare build 6/6] RUN npm run build
+#11 0.233 
+#11 0.233 > the-boys-afisha-integration@0.2.0-candidate build
+#11 0.233 > node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+#11 0.233 
+#11 0.274 Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
+#11 5.674 vite v8.2.2 building client environment for production...
+#11 5.680 transforming...
+#11 5.722 ✓ 140 modules transformed.
+#11 5.787 rendering chunks...
+#11 5.820 computing gzip size...
+#11 5.824 dist/miniapp/index.html                              0.50 kB │ gzip:   0.34 kB
+#11 5.824 dist/miniapp/assets/index-CRcBuR0B.css              10.61 kB │ gzip:   3.22 kB
+#11 5.824 dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+#11 5.824 dist/miniapp/assets/leaflet-renderer-5iTiyxBM.js   150.63 kB │ gzip:  44.29 kB
+#11 5.824 dist/miniapp/assets/index-V31-VLCX.js              344.90 kB │ gzip: 105.50 kB
+#11 5.824 
+#11 5.824 ✓ built in 150ms
+#11 DONE 5.9s
+
+#7 [worker build 2/6] WORKDIR /app
+#7 CACHED
+
+#12 [prepare stage-1 3/3] COPY --from=build --chown=node:node /app /app
+#12 DONE 1.1s
+
+#12 [prepare stage-1 3/3] COPY --from=build --chown=node:node /app /app
+#12 DONE 1.1s
+
+#13 [api] exporting to image
+#13 exporting layers
+#13 exporting layers 2.8s done
+#13 exporting manifest sha256:65a2e5603c0222406e45f457e431c1bfabff4533f7c551f256b142caa5338dd8 0.0s done
+#13 exporting config sha256:e6fb2a27107f1620466528abe2502ffcff37ebc48b6d252d02e328bd5221c161 0.0s done
+#13 exporting attestation manifest sha256:6d98fdb8872ee645bf9e309e1538e7c183af56d34f2362fdf7d0df55822624f1
+#13 exporting attestation manifest sha256:6d98fdb8872ee645bf9e309e1538e7c183af56d34f2362fdf7d0df55822624f1 0.0s done
+#13 exporting manifest list sha256:a8b0f6fa63fcc222b10d2e45465d7b284f4e02184e1bad422735d48b784ba92d 0.0s done
+#13 naming to docker.io/library/the-boys-integration26-test-api:latest done
+#13 unpacking to docker.io/library/the-boys-integration26-test-api:latest
+#13 unpacking to docker.io/library/the-boys-integration26-test-api:latest 1.5s done
+#13 DONE 4.5s
+
+#14 [worker] exporting to image
+#14 exporting layers 2.8s done
+#14 exporting manifest sha256:ac0318b706eb2fb72e6606a97c3a9df0b18384f7abb22ec0adcb71b345c470aa 0.0s done
+#14 exporting config sha256:7c63bb0ae4f7ac2abcb22d5c74f2c2289c42aa5b289db8feb2312e0e9ee97b7b 0.0s done
+#14 exporting attestation manifest sha256:cf77678476b88be35d309a8e9e6d21d965dca4604a78daefa18262730ac3fc0d 0.0s done
+#14 exporting manifest list sha256:e8557916327f9f31f0f16c182a24aab5a42efb09296143b37679128f7114c84a 0.0s done
+#14 naming to docker.io/library/the-boys-integration26-test-worker:latest done
+#14 unpacking to docker.io/library/the-boys-integration26-test-worker:latest 1.6s done
+#14 DONE 4.5s
+
+#15 [prepare] exporting to image
+#15 exporting layers 2.8s done
+#15 exporting manifest sha256:df65ac52d031ea6276099094c41f09c8dd6290df7021217523f75f1265e5c068 0.0s done
+#15 exporting config sha256:7fd432a23abb7871c6e7b5c616e588b0159c4d036bf00178885ee7dbef7402b0 0.0s done
+#15 exporting attestation manifest sha256:bde1fc0c554197fe8eabbdcf5a0ab3efc3f905e37d3876e92eb536b8c7209aef 0.0s done
+#15 exporting manifest list sha256:b08b375f2bb71a3d74c573d350d50f908332c27d19826aa37cba7eb17ce433fd 0.0s done
+#15 naming to docker.io/library/the-boys-integration26-test-prepare:latest done
+#15 unpacking to docker.io/library/the-boys-integration26-test-prepare:latest 1.6s done
+#15 DONE 4.5s
+
+#16 [migrate] exporting to image
+#16 exporting layers 2.8s done
+#16 exporting manifest sha256:3016102c0a12ac6804fa14e345b6864dab0a3b634a6208882ab7b33807a4d79e 0.0s done
+#16 exporting config sha256:b6c83b024bcc4d197fe2742490d26a7c3ec726adb271039155f105849d66c563 0.0s done
+#16 exporting attestation manifest sha256:ac3bd24f34fb57d6e3ea9b197b2890dc35d7b00e1d129436c6c599c9822d1de2 0.0s done
+#16 exporting manifest list sha256:9431d1e98bedfc2d571bcb4e6885494cca72f8cc8c8bcf3a081008a20c9514f2 0.0s done
+#16 naming to docker.io/library/the-boys-integration26-test-migrate:latest done
+#16 unpacking to docker.io/library/the-boys-integration26-test-migrate:latest 1.6s done
+#16 DONE 4.5s
+
+#17 [worker] resolving provenance for metadata file
+#17 DONE 0.1s
+
+#18 [api] resolving provenance for metadata file
+#18 DONE 0.1s
+
+#19 [prepare] resolving provenance for metadata file
+#19 DONE 0.0s
+
+#20 [migrate] resolving provenance for metadata file
+#20 DONE 0.0s
+ Image the-boys-integration26-test-migrate Built 
+ Image the-boys-integration26-test-prepare Built 
+ Image the-boys-integration26-test-worker Built 
+ Image the-boys-integration26-test-api Built 
+ Volume the-boys-integration26-test_redisdata Creating 
+ Volume the-boys-integration26-test_runtime Creating 
+ Volume the-boys-integration26-test_pgdata Creating 
+ Network the-boys-integration26-test_test Creating 
+ Volume the-boys-integration26-test_redisdata Creating 
+ Volume the-boys-integration26-test_runtime Creating 
+ Network the-boys-integration26-test_test Creating 
+ Volume the-boys-integration26-test_pgdata Creating 
+ Volume the-boys-integration26-test_redisdata Created 
+ Volume the-boys-integration26-test_redisdata Created 
+ Volume the-boys-integration26-test_runtime Created 
+ Volume the-boys-integration26-test_runtime Created 
+ Volume the-boys-integration26-test_pgdata Created 
+ Volume the-boys-integration26-test_pgdata Created 
+ Network the-boys-integration26-test_test Created 
+ Network the-boys-integration26-test_test Created 
+ Container the-boys-integration26-test-postgres-1 Creating 
+ Container the-boys-integration26-test-redis-1 Creating 
+ Container the-boys-integration26-test-init-1 Creating 
+ Container the-boys-integration26-test-init-1 Created 
+ Container the-boys-integration26-test-redis-1 Created 
+ Container the-boys-integration26-test-postgres-1 Created 
+ Container the-boys-integration26-test-migrate-1 Creating 
+ Container the-boys-integration26-test-migrate-1 Created 
+ Container the-boys-integration26-test-prepare-1 Creating 
+ Container the-boys-integration26-test-prepare-1 Created 
+ Container the-boys-integration26-test-worker-1 Creating 
+ Container the-boys-integration26-test-api-1 Creating 
+ Container the-boys-integration26-test-worker-1 Created 
+ Container the-boys-integration26-test-api-1 Created 
+ Container the-boys-integration26-test-init-1 Starting 
+ Container the-boys-integration26-test-redis-1 Starting 
+ Container the-boys-integration26-test-postgres-1 Starting 
+ Container the-boys-integration26-test-init-1 Started 
+ Container the-boys-integration26-test-redis-1 Started 
+ Container the-boys-integration26-test-postgres-1 Started 
+ Container the-boys-integration26-test-postgres-1 Waiting 
+ Container the-boys-integration26-test-init-1 Waiting 
+ Container the-boys-integration26-test-init-1 Exited 
+ Container the-boys-integration26-test-postgres-1 Healthy 
+ Container the-boys-integration26-test-migrate-1 Starting 
+ Container the-boys-integration26-test-migrate-1 Started 
+ Container the-boys-integration26-test-migrate-1 Waiting 
+ Container the-boys-integration26-test-redis-1 Waiting 
+ Container the-boys-integration26-test-redis-1 Healthy 
+ Container the-boys-integration26-test-migrate-1 Error service "migrate" didn't complete successfully: exit 1
+service "migrate" didn't complete successfully: exit 1

@@ -9,7 +9,7 @@ import {setTimeout as sleep} from 'node:timers/promises';
 import {fork} from 'node:child_process';
 import {once} from 'node:events';
 import {Queue,Worker} from 'bullmq';
-import Redis from 'ioredis';
+import {Redis} from 'ioredis';
 import {buildApp} from '../../apps/api/app.ts';
 import {config} from '../../packages/platform/config.ts';
 import {Governor} from '../../packages/platform/governor.ts';

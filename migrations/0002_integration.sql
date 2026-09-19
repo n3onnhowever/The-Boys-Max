@@ -1,5 +1,5 @@
 -- Existing immutable snapshot/audit rows are not rewritten. See scripts/upgrade-price.ts.
-ALTER TABLE plans DROP CONSTRAINT plans_state_check;
+ALTER TABLE plans DROP CONSTRAINT plans_check;
 ALTER TABLE plans ADD CONSTRAINT plans_state_check CHECK(state->>'version' IN ('max.backend.23.v1-candidate','the-boys.backend.26.v1-candidate') AND (state->>'stateVersion')::integer=state_version);
 ALTER TABLE outbox ALTER COLUMN command_id DROP NOT NULL;
 ALTER TABLE outbox ALTER COLUMN plan_id DROP NOT NULL;

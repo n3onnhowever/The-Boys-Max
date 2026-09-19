@@ -26,7 +26,8 @@ export function mountMap(element:HTMLElement,markers:readonly MapMarker[],onStat
   tiles.on('tileerror',()=>{failed++;}); // IMG events do not expose HTTP status: never guess 429/quota.
   tiles.on('load',()=>{stopTimer();send(completedTiles(ok,failed));});
   const coords=markers.map(m=>L.latLng(m.position.lat,m.position.lon));
-  if(coords.length===1)map.setView(coords[0],15,{animate:false});
+  const first=coords[0];
+  if(coords.length===1&&first!==undefined)map.setView(first,15,{animate:false});
   else map.fitBounds(L.latLngBounds(coords),{padding:[32,32],maxZoom:16,animate:false});
   for(const m of markers){
     const text=document.createElement('span');text.textContent=String(m.ordinal); // Never inject provider HTML.

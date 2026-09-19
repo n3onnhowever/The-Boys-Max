@@ -1,0 +1,13 @@
+{
+  "head": "4f9a198d4fa2b18686efa19a59b6ac78281d341d",
+  "tracked_changed": [
+    "docs/tasks/ACTIVE_TASK.md"
+  ],
+  "only_expected_existing_doc_changed": true,
+  "application_source_config_unchanged": true,
+  "all_40_imports_byte_identical": true,
+  "git_diff_check_exit": 0,
+  "json_parse_errors": [],
+  "secret_scan_status": "PASS_WITH_REVIEWED_TEST_FIXTURE",
+  "phase_2_started": false
+}

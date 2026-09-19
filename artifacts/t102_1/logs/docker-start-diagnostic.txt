@@ -1,0 +1,16 @@
+prepare-1  | 
+prepare-1  | > the-boys-afisha-integration@0.2.0-candidate seed:test
+prepare-1  | > node --experimental-strip-types scripts/seed-test.ts
+prepare-1  | 
+prepare-1  | One owned SYNTHETIC catalog fixture seeded; freshness expires after one hour and then shows UNKNOWN.
+prepare-1  | Three synthetic roles and test-only destinations seeded. No session issued; real API exchange remains required.
+prepare-1  | Synthetic outbound armed. Start/restart worker now so it reads the new epoch.
+api-1      | (node:1) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+api-1      | (Use `node --trace-warnings ...` to show where the warning was created)
+api-1      | {"event":"http_end","requestId":"7b9ef682-0580-4c22-97aa-24bc5d1848a8","route":"/health/ready","status":200}
+api-1      | {"event":"http_end","requestId":"96ccf39a-149d-45cf-8038-cc82ca5e4534","route":"/health/ready","status":200}
+api-1      | {"event":"http_end","requestId":"11408ba9-43ca-43db-a626-06fc210259e5","route":"/health/ready","status":200}
+api-1      | {"event":"http_end","requestId":"7f5d5127-c1df-459d-a05b-d622962ce950","route":"/health/ready","status":200}
+api-1      | {"event":"http_end","requestId":"63fe971b-4d87-4e15-85c9-0c7eb501fe49","route":"/health/ready","status":200}
+api-1      | {"event":"http_end","requestId":"88caf313-a345-4f5a-a1d2-1b03b4bcb51d","route":"/health/ready","status":200}
+api-1      | {"event":"http_end","requestId":"cc48f1f6-1a93-4535-9a42-6b7a1161288c","route":"/health/ready","status":200}

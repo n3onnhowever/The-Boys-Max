@@ -1,0 +1,152 @@
+--progress is a global compose flag, better use `docker compose --progress xx build ...
+ Image the-boys-integration26-test-worker Building 
+ Image the-boys-integration26-test-migrate Building 
+ Image the-boys-integration26-test-prepare Building 
+ Image the-boys-integration26-test-api Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.03kB 0.0s done
+#1 DONE 0.0s
+
+#2 [migrate internal] load build definition from Dockerfile
+#2 transferring dockerfile: 623B done
+#2 DONE 0.0s
+
+#3 [migrate internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim
+#3 DONE 0.0s
+
+#4 [worker internal] load .dockerignore
+#4 transferring context: 88B done
+#4 DONE 0.0s
+
+#5 [prepare internal] load build context
+#5 DONE 0.0s
+
+#6 [migrate build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#6 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#6 DONE 0.0s
+
+#6 [api build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#6 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#6 DONE 0.1s
+
+#7 [api build 2/6] WORKDIR /app
+#7 DONE 0.0s
+
+#5 [worker internal] load build context
+#5 transferring context: 33.87MB 2.5s done
+#5 DONE 2.5s
+
+#8 [migrate build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 DONE 0.0s
+
+#8 [worker build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 DONE 0.0s
+
+#9 [migrate build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 7.756 
+#9 7.756 changed 10 packages in 8s
+#9 7.756 
+#9 7.756 15 packages are looking for funding
+#9 7.756   run `npm fund` for details
+#9 12.03 
+#9 12.03 added 136 packages in 4s
+#9 12.04 npm notice
+#9 12.04 npm notice New major version of npm available! 11.19.0 -> 12.0.2
+#9 12.04 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#9 12.04 npm notice To update run: npm install -g npm@12.0.2
+#9 12.04 npm notice
+#9 DONE 12.3s
+
+#9 [migrate build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 DONE 12.3s
+
+#10 [migrate build 5/6] COPY . .
+#10 DONE 0.2s
+
+#10 [api build 5/6] COPY . .
+#10 DONE 0.2s
+
+#11 [prepare build 6/6] RUN npm run build
+#11 0.236 
+#11 0.236 > the-boys-afisha-integration@0.2.0-candidate build
+#11 0.236 > node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+#11 0.236 
+#11 0.279 Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
+#11 5.528 vite v8.2.2 building client environment for production...
+#11 5.534 transforming...
+#11 5.576 ✓ 140 modules transformed.
+#11 5.639 rendering chunks...
+#11 5.687 computing gzip size...
+#11 5.691 dist/miniapp/index.html                              0.50 kB │ gzip:   0.34 kB
+#11 5.691 dist/miniapp/assets/index-CRcBuR0B.css              10.61 kB │ gzip:   3.22 kB
+#11 5.691 dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+#11 5.691 dist/miniapp/assets/leaflet-renderer-5iTiyxBM.js   150.63 kB │ gzip:  44.29 kB
+#11 5.691 dist/miniapp/assets/index-V31-VLCX.js              344.90 kB │ gzip: 105.50 kB
+#11 5.691 
+#11 5.691 ✓ built in 162ms
+#11 DONE 5.7s
+
+#12 [migrate stage-1 3/3] COPY --from=build --chown=node:node /app /app
+#12 DONE 1.1s
+
+#12 [migrate stage-1 3/3] COPY --from=build --chown=node:node /app /app
+#12 DONE 1.1s
+
+#13 [migrate] exporting to image
+#13 exporting layers
+#13 exporting layers 2.7s done
+#13 exporting manifest sha256:2f2bb83abc427640c339bffe2f6f6d8a501f068e6c0a4c946f89fab05bcf163e 0.0s done
+#13 exporting config sha256:5c07a658e3d60132ad779d4d00321b982754055aae5f2f6e6e714adbdc84fc36 0.0s done
+#13 exporting attestation manifest sha256:5c3491bfa51661204df2747c03ee67a71909173b09952c6b0dfe9731505afdf5 0.0s done
+#13 exporting manifest list sha256:8f5da2fe2f95466453375bb943cdd072d844134ce8572973f38961e9821a3cb9
+#13 exporting manifest list sha256:8f5da2fe2f95466453375bb943cdd072d844134ce8572973f38961e9821a3cb9 0.0s done
+#13 naming to docker.io/library/the-boys-integration26-test-migrate:latest 0.0s done
+#13 unpacking to docker.io/library/the-boys-integration26-test-migrate:latest
+#13 unpacking to docker.io/library/the-boys-integration26-test-migrate:latest 1.6s done
+#13 DONE 4.5s
+
+#14 [prepare] exporting to image
+#14 exporting layers 2.7s done
+#14 exporting manifest sha256:7480f0d0bca322aa1901459db506712d71cc29236930e88fcb7b473c7b43a8ca 0.0s done
+#14 exporting config sha256:642d23032eea235c148906ee63be94f8e8187f6cd638d5d6b838b5a52e096d3a 0.0s done
+#14 exporting attestation manifest sha256:67a7e543f598bf4be33976e84e178f983df00d1a4085f8b76d2c9aaf55a5cde8 0.0s done
+#14 exporting manifest list sha256:df293e28299b863083a269838bf67ea2265cbdaf62555a4ca73cebb7e9c900fe 0.0s done
+#14 naming to docker.io/library/the-boys-integration26-test-prepare:latest 0.0s done
+#14 unpacking to docker.io/library/the-boys-integration26-test-prepare:latest 1.6s done
+#14 DONE 4.5s
+
+#15 [worker] exporting to image
+#15 exporting layers 2.7s done
+#15 exporting manifest sha256:0960dbeb21a48884583cbb1c480a15cb012e960439c41b27e907eafc020a65d0 0.0s done
+#15 exporting config sha256:d12cd55ebd9c2e0193803422db8a29a92a922d0d2245811941193d1884fe16a2 0.0s done
+#15 exporting attestation manifest sha256:9ffc06fa21ab012b0fca3481dc7ea56c0c2eb12720abf374726daa0b068c74bf 0.1s done
+#15 exporting manifest list sha256:80bb7fa71a692749ef39399fd5fda5d2c646ef4b66ee4c082c24970b2f8d9880 0.0s done
+#15 naming to docker.io/library/the-boys-integration26-test-worker:latest done
+#15 unpacking to docker.io/library/the-boys-integration26-test-worker:latest 1.6s done
+#15 DONE 4.5s
+
+#16 [api] exporting to image
+#16 exporting layers 2.7s done
+#16 exporting manifest sha256:7ff1c99d8615154d272b6f6d4832e139a7976f82b582021d49b292eb24f1e6ec 0.0s done
+#16 exporting config sha256:f148abeacb9ad8b19809a34c801d60f48cd78bb876449fd54c36f898e37ed5d9 0.0s done
+#16 exporting attestation manifest sha256:e08ddea020f8d908456f28efcdd002bf078c251e73ae003baff86a4a2614572a 0.0s done
+#16 exporting manifest list sha256:ffba4dbacca9b785979ad6998ce905c4efecc26104f7335a831530e1234bf634 0.0s done
+#16 naming to docker.io/library/the-boys-integration26-test-api:latest done
+#16 unpacking to docker.io/library/the-boys-integration26-test-api:latest 1.6s done
+#16 DONE 4.5s
+
+#17 [migrate] resolving provenance for metadata file
+#17 DONE 0.1s
+
+#18 [prepare] resolving provenance for metadata file
+#18 DONE 0.1s
+
+#19 [api] resolving provenance for metadata file
+#19 DONE 0.0s
+
+#20 [worker] resolving provenance for metadata file
+#20 DONE 0.0s
+ Image the-boys-integration26-test-worker Built 
+ Image the-boys-integration26-test-api Built 
+ Image the-boys-integration26-test-migrate Built 
+ Image the-boys-integration26-test-prepare Built 

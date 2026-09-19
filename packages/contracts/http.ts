@@ -2,7 +2,10 @@ import {parsePrice} from '../../modules/search/core/price.ts';
 import {z} from 'zod';
 const uuid=z.uuid(),str=z.string(),instant=z.iso.datetime({offset:false});
 const minor=str.regex(/^(0|[1-9]\d{0,17})$/).nullable();
-export const amountSchema=z.strictObject({kind:z.enum(['FREE','EXACT','RANGE']),exact_minor:minor,min_minor:minor,max_minor:minor});
+export const amountSchema=z.discriminatedUnion('kind',[
+ z.strictObject({kind:z.literal('FREE'),exact_minor:z.null(),min_minor:z.null(),max_minor:z.null()}),
+ z.strictObject({kind:z.literal('EXACT'),exact_minor:minor.unwrap(),min_minor:z.null(),max_minor:z.null()}),
+ z.strictObject({kind:z.literal('RANGE'),exact_minor:z.null(),min_minor:minor.unwrap(),max_minor:minor.unwrap()})]);
 const basis=z.enum(['PER_PERSON','GROUP_TOTAL','UNKNOWN']),currency=str.regex(/^[A-Z]{3}$/).nullable();
 export const moneySchema=z.discriminatedUnion('knownness',[
  z.strictObject({knownness:z.literal('UNKNOWN'),basis,currency,amount:z.null()}),

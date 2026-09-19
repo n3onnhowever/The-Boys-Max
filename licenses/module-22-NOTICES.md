@@ -4,7 +4,10 @@
 
 Source: NekoTheDev/EventHive, commit `2c1d44453ed3a159134e01a35cce877c5ea2cef0`.
 Five limited component/layout adaptations; not an approved full application donor.
-Original source paths and file hashes: `analysis/REUSE_AND_LICENSES.csv`.
+Historical source-path/hash reference: `analysis/REUSE_AND_LICENSES.csv`.
+T102 verified that this artifact is absent from this repository. Exact copied/adapted
+path/hash recovery remains BLOCKED_PROVENANCE_T112; no missing evidence is invented.
+The original notice and licence below are retained.
 The MIT permission below covers code in the inspected repository notice; it does not
 independently license remote pictures, logos, fonts, content feeds or third-party APIs.
 No font files, remote photos, logos or donor event fixtures are bundled in the product.

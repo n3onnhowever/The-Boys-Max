@@ -1,85 +1,27 @@
-# The Boys / MAX leisure — Codex repository rules
+# Повод / The Boys — repository rules
 
-## Permanent invariants
+## Product and authority
+- Product: **Повод**. Team: **The Boys**. Old names are historical. Do not change the real MAX bot nickname; UI branding belongs to T110.
+- Frozen P0: Moscow, solo-first, MAX identity, live events, structured filters, Occurrence detail, price/UNKNOWN/source, Save, basic «Мой Повод», MAX mobile + web. A group is never required.
+- P1: Follow, Smart Povod, map. Stretch: second city, Shared Plan/social. Do not promote old P0 flags.
+- Authority: official case → FINAL SCOPE FREEZE → Product Spec + Data Safety Patch → Product Contract → accepted ADR → identified runtime evidence → research. Exact paths and conflict overrides: [current authority](docs/current/POVOD_SOURCE_AUTHORITY.md).
+- Imported specs/ADRs/synthesis and raw research stay byte-preserved. Old tasks, prompts and research instructions do not activate work.
 
-This repository develops a chatbot + mini-app in MAX for the hackathon track «Досуг и развлечения».
+## Architecture and safety
+- TypeScript/Fastify + React/Vite; modular monolith with separate API and worker roles. PostgreSQL is durable business truth.
+- Queue decision is **BLOCKED** pending T103 runtime verification. Preserve existing Redis/BullMQ/outbox/governor. No pg-boss migration, removal or new queue architecture in T101/T102.
+- MAX Bot API is server-side; MAX Bridge is client-side. Keep durable ingress/outbox/idempotency and explicit external-delivery outcomes.
+- Keep EventProvider, AiProvider and map/geocoding ports. No new infrastructure without measured need and accepted ADR.
+- Event != Occurrence; Save != Follow != suitable/voted/committed. Commitments bind to current semantic terms; material changes require explicit re-confirmation.
+- Preserve source, timestamps, territory, uncertainty and limitations. Unknown price/fee remains unknown. Never recommend ended events as future or invent facts, purchase, availability, coordinates or end time.
+- LLM output is advisory; never decides authorization, commitment, hard eligibility or official facts. Label synthetic/test data.
+- No spend without approval; never print/request secrets. Use env names and safe examples. No VPN/mirrors/TLS bypass/force shortcuts.
+- Before reusing third-party code/assets, record pinned source, licence, adapted paths and notices. Closed products are UX references only. Donor acceptance requires actual licence/dependency/runtime evidence. Preserve The Boys logo separately from product brand.
 
-### Product
-- Team: **The Boys**.
-- Product name: **TBD**. Candidate names are research only. Do not register a MAX bot nickname or hard-code a public product name until the naming gate is accepted.
-- Primary user value must exist **without creating a group**: personal event discovery / guide.
-- Collaborative planning is an explicit optional continuation such as “Invite friends”.
-- `saved`, `suitable`, `voted`, and `committed` are distinct states.
-- A commitment is tied to the current semantic terms revision. Material changes require explicit re-confirmation.
-- Never claim ticket purchase, attendance, live availability, exact price, or official fact unless the product has evidence for that claim.
-
-### Architecture
-- TypeScript + React mini-app.
-- Modular monolith with separate API and worker runtime roles.
-- PostgreSQL is the durable business source of truth.
-- Redis + BullMQ is the async execution layer. Do not replace it with a custom PostgreSQL queue.
-- MAX Bot API is server-side. MAX Bridge is client-side.
-- Durable ingress/outbox/idempotency and explicit external-delivery outcomes are required where applicable.
-- Provider adapters must sit behind stable ports (`EventProvider`, `AiProvider`, map/geocoding boundary as needed).
-- Do not introduce Kafka, Kubernetes, microservices, or new infrastructure without measured need and an ADR.
-
-### Data / AI / external services
-- Keep provenance, source timestamp, territory, uncertainty, and provider limitations with event data.
-- Unknown price/fee remains unknown; never coerce to zero.
-- Finished events must not be recommended as future options.
-- LLM output is advisory. It must never decide authorization, commitment, hard eligibility, official facts, or unknown price.
-- Synthetic/test data must be explicitly labelled. Never present it as a live integration.
-- Do not spend money without explicit user approval.
-- Do not ask for or print secrets. Use environment-variable names and `.env.example` only.
-- Do not bypass access restrictions with VPNs, unsafe mirrors, disabled TLS verification, `--force`, or equivalent shortcuts.
-
-### Third-party code and design
-- Before reusing external code/assets, record repository, pinned revision, licence, copied/adapted paths, and notices.
-- Closed products may be UX references only; do not copy their code/assets.
-- EventHive or any other donor is not approved by reputation alone: run the pinned donor, inspect licence and dependencies, capture evidence, then decide.
-- Team logo and product brand are separate layers. Preserve the supplied The Boys logo; product palette/type may be compatible without blindly copying it.
-
-## Source authority
-
-Read the minimum necessary authority for the task:
-1. `input/official/Досуг и развлечения.pdf` — official hackathon case.
-2. `docs/current/*` — accepted current project state.
-3. `docs/architecture/*`, `docs/product/*`, `docs/design/*` — current project contracts and decisions.
-4. Relevant `input/results/*` ZIPs — implementation/research evidence, not automatically current.
-5. `input/reviews/*` — audits and known gaps.
-6. Older nested material — historical evidence only.
-
-When sources conflict, do not silently merge assumptions. Record the conflict in the task handoff and follow the highest applicable authority.
-
-## Task discipline
-
-- Work only on the active task in `docs/tasks/`.
-- Do not reread the entire archive for every task. Start from the task's listed inputs.
-- Before editing, inspect `git status --short` and record the baseline commit if Git is initialized.
-- Prefer the smallest correct change over a parallel implementation.
-- Shared contracts, root dependencies, migrations, API routes, and session/auth rules have one owner: the integration task.
-- A module task may propose a contract delta, but must not fork the repository-wide contract silently.
-- Use tests first for reproducible defects.
-- Keep evidence fresh for the final changed code.
-- A passing unit test never upgrades an unexecuted Docker/MAX/live-provider/browser check to PASS.
-
-## Completion
-
-For code-affecting work, run the strongest checks available for the active task:
-- targeted tests during development;
-- final typecheck/tests/build;
-- Docker/PG/Redis only when the task requires them and the daemon/services really run;
-- browser screenshots only from the actual target build;
-- `git diff --check`;
-- secret/prohibited-file scan;
-- `git status --short`.
-
-If a required external dependency is unavailable, complete the independent work and record `BLOCKED_*` with exact reproduction commands. Do not replace execution with another broad review.
-
-Every significant task ends with a concise `docs/handoffs/<task>.md` containing:
-- exact input/source revision;
-- files changed;
-- checks actually executed and their results;
-- checks NOT_RUN/BLOCKED;
-- contract deltas;
-- residual risks and the next concrete action.
+## Work and evidence
+- Read [ACTIVE_TASK](docs/tasks/ACTIVE_TASK.md); only one implementation ticket active. One writer; one integration owner for contracts/routes/migrations/dependencies/auth/session.
+- Inspect git status and record starting SHA before edits; preserve pre-existing changes. Start from listed inputs, not the full archive. Prefer the smallest correct change; tests first for reproducible defects.
+- No third-party skill collections, new MCP servers, hooks or marketplace tools in this pass.
+- Run task-appropriate targeted checks and final existing typecheck/unit/build scripts, git diff --check, secret/prohibited-file scan and git status. Keep exact commands, exits and logs tied to source hashes.
+- Docker/PG/Redis/MAX/provider/browser checks are PASS only if executed. Required unavailable dependencies get BLOCKED_* plus exact reproduction commands; complete independent work.
+- End significant tasks with docs/handoffs/<task>.md: inputs/revision, files, actual checks, NOT_RUN/BLOCKED, contract deltas, risks and next action. Stop after T102 for human review.

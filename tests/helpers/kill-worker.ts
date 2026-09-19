@@ -1,5 +1,5 @@
 /** Only spawned by isolated integration suite; intentionally killed after a test-only submission. */
-import {Worker} from 'bullmq';import Redis from 'ioredis';
+import {Worker} from 'bullmq';import {Redis} from 'ioredis';
 import {config} from '../../packages/platform/config.ts';import {connect} from '../../packages/persistence/db.ts';
 import {Governor} from '../../packages/platform/governor.ts';import {deliver} from '../../packages/persistence/delivery.ts';
 import {TestTransport} from '../../packages/platform/transport.ts';import type {Transport} from '../../packages/platform/transport.ts';

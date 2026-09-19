@@ -1,0 +1,54 @@
+ M .gitignore
+ M AGENTS.md
+ M README.md
+ M README_CODEX.md
+ M apps/api/app.ts
+ M apps/worker/main.ts
+ M compose.yaml
+ M docs/TARGET_ARCHITECTURE.md
+ M docs/current/DECISIONS.md
+ M docs/current/KNOWN_GAPS.md
+ M docs/current/PROJECT_STATE.md
+ M docs/design/BRAND_BRIEF.md
+ M docs/design/NAMING_WORKSPACE.md
+ M docs/product/PRODUCT_FRAME.md
+ M docs/prompts/FIRST_SESSION.md
+ M docs/prompts/INTEGRATION_SESSION.md
+ M docs/tasks/001_ENVIRONMENT_BASELINE.md
+ M docs/tasks/010_INTEGRATION_V2.md
+ M docs/tasks/020_VISUAL_RUNTIME.md
+ M docs/tasks/030_LIVE_EVENTS_MAPS.md
+ M docs/tasks/040_BRAND_NAMING.md
+ M docs/tasks/050_ACCEPTANCE.md
+ M docs/tasks/060_PRESENTATION_UPDATE.md
+ M docs/tasks/ACTIVE_TASK.md
+ M licenses/module-22-NOTICES.md
+ M migrations/0002_integration.sql
+ M modules/maps/component/leaflet-renderer.ts
+ M package.json
+ M packages/contracts/http.ts
+ M packages/platform/governor.ts
+ M scripts/arm-test-outbound.ts
+ M tests/helpers/kill-worker.ts
+ M tests/integration/foundation.test.ts
+?? .env.release.example
+?? artifacts/
+?? docs/architecture/
+?? docs/current/POVOD_SOURCE_AUTHORITY.md
+?? docs/handoffs/T070_RESEARCH_IMPORT_PREFLIGHT.md
+?? docs/handoffs/T101_SCOPE_GOVERNANCE.md
+?? docs/handoffs/T102_1_COMPILER_DOCKER_BASELINE.md
+?? docs/handoffs/T102_2_NETWORK_MIGRATION_ACCEPTANCE.md
+?? docs/handoffs/T102_DEPENDENCY_BUILD_BASELINE.md
+?? docs/product/povod-2026-09-19/
+?? docs/research/
+?? docs/tasks/070_RESEARCH_IMPORT_PREFLIGHT.md
+?? docs/tasks/101_SCOPE_GOVERNANCE.md
+?? docs/tasks/102_DEPENDENCY_BUILD_BASELINE.md
+?? licenses/drizzle-orm-0.45.2-LICENSE.txt
+?? licenses/drizzle-orm-0.45.2-NOTICES.md
+?? package-lock.json
+?? patches/
+?? scripts/patch-drizzle-declarations.mjs
+?? tests/unit/dependency-boundaries.test.ts
+?? tests/unit/http-price.test.ts

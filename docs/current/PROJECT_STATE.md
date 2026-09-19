@@ -1,40 +1,13 @@
-# Current project state — 2026-09-16
+# Current project state — 2026-09-19
 
-## Product frame
-The Boys is building a MAX personal event guide. A person can discover an event for themselves and get a useful result without creating a group. If they want, they can turn one or more events into a collaborative plan and invite friends.
+**Повод**, team **The Boys**: a personal event guide inside MAX. [Authority and frozen scope](POVOD_SOURCE_AUTHORITY.md) govern implementation. Solo value does not require a group.
 
-Working public product name is **not decided**. “Есть планы” and “Договорились” are historical/working candidates only.
+P0: Moscow, MAX identity, live events, structured filters, Occurrence detail, price/UNKNOWN/source, Save and basic «Мой Повод», mobile + web. P1: Follow/Smart Povod/map. Stretch: second city/social.
 
-## Current implementation base
-Repository tree is extracted from `MAX_RESULT_26_INTEGRATION_2026-09-16_v1` and is the current code baseline for the next integration pass.
+Code baseline: main, `4f9a198d4fa2b18686efa19a59b6ac78281d341d`, extracted result-26 implementation. The completed T070 imports/evidence were uncommitted when T101 started; this pass preserves them. [Preflight receipt](../../artifacts/preflight/CURRENT_STATE_RECEIPT.md) records 105/105 unit tests, missing root lock/tsc and unavailable Docker at that time, not current build acceptance.
 
-Known verified local evidence from the previous review:
-- result 26: 105/105 local unit tests passed in the review environment;
-- result 27: 122/122 local frontend unit tests passed;
-- result 29: 348/348 local AI-module tests passed;
-- result 30: its local `tests/run_all.py` passed.
+Execution: follow [ACTIVE_TASK](../tasks/ACTIVE_TASK.md). Only T101 then T102 are authorized now; stop for human review afterward. T103 owns existing queue runtime verification; classification remains BLOCKED. No blanket merge of result archives or new broad research.
 
-These are module/local checks, **not** an end-to-end application pass.
+History: «Есть планы», «Договорились», «Туда» and other names were candidates; TBD was the old status. Result 27/29/30 module test counts are historical local evidence, not tests of this tree. Previous project-state text and work order are preserved in artifacts/t101/BASELINE_DOCUMENTS.json.
 
-## Environment
-User Windows workstation on 2026-09-16:
-- DNS and TCP 443: GitHub, npm registry, KudaGo docs, Timepad docs — reachable;
-- Node `v24.20.0`;
-- npm `11.19.0`;
-- Git `2.55.0.windows.3`;
-- npm registry `npm ping` — PASS;
-- EventHive `git ls-remote` — PASS;
-- Docker CLI `29.7.2` and Compose `v5.5.1` installed;
-- Docker Desktop Linux daemon is currently **not running** (`docker info` cannot connect to `dockerDesktopLinuxEngine`).
-
-Do not treat the Docker daemon as available until `docker info` and a disposable container actually pass.
-
-## Immediate priorities
-1. Integration v2: merge valid deltas from 27/29/30 into the result-26 code tree, resolve contract conflicts, create one dependency/lock graph, and run clean checks.
-2. Visual runtime: run the pinned donor in the working Windows/Codex environment and capture real original/adapted screenshots.
-3. Live events/maps: perform safe read-only provider probes, preserve samples/provenance, and validate map runtime.
-4. Then perform independent acceptance against one exact source commit/hash.
-5. Update the presentation only with evidence from the accepted build.
-
-## Do not restart
-No new broad architecture, competitor, stack, or product-direction review is needed unless a concrete blocker invalidates an accepted decision.
+T101 PASS. T102 PASS after T102.2: reproducible install, metadata, syntax, unit 115/115, strict typecheck/build; clean Docker build 25.132 s, startup, internal and host health, stop/restart pass. PostgreSQL/Redis remain internal and unpublished. Migration 0002 classified SAFE_PRE_RELEASE_EDIT on available repository evidence. See [current handoff](../handoffs/T102_2_NETWORK_MIGRATION_ACCEPTANCE.md). T103 prerequisites from T102 cleared; queue decision remains BLOCKED pending T103. No next ticket active.

@@ -1,16 +1,15 @@
-# Accepted decisions
+# Accepted current decisions
 
-- Track alignment: recommended direction “Персональная афиша и навигатор событий”.
-- Main user path: personal discovery first; no group required.
-- Optional differentiator: turn discoveries into a collaborative plan in MAX.
-- Team name: The Boys.
-- Product name: TBD.
-- Backend: TypeScript modular monolith; separate API and worker roles.
-- Persistence: PostgreSQL.
-- Async: Redis + BullMQ.
-- Mini-app: React + TypeScript.
-- MAX: bot + connected mini-app; both web and mobile MAX must eventually be checked.
-- Search/price: uncertainty is explicit; unknown fees are not zero.
-- AI: optional helper, never the source of truth for hard facts or authorization.
-- Map: embedded location/comparison may coexist with an external navigation link.
-- Zero-new-spend constraint for hackathon preparation unless user explicitly approves otherwise.
+Authority: [POVOD_SOURCE_AUTHORITY](POVOD_SOURCE_AUTHORITY.md), including explicit overrides of immutable imported specs.
+
+- Product **Повод**; team **The Boys**. MAX bot nickname is unchanged; UI branding is T110.
+- Frozen P0: Moscow; solo-first MAX identity, live events, structured filters, Occurrence detail, price/UNKNOWN/source, Save, basic «Мой Повод», MAX mobile + web.
+- P1: Follow, Smart Povod, map. Stretch: second city and Shared Plan/social. No group prerequisite.
+- TypeScript/Fastify modular monolith, separate API/worker, React/Vite Mini App, PostgreSQL durable truth.
+- Queue gate **BLOCKED** pending T103: keep existing Redis/BullMQ/outbox/governor. No migration or new queue architecture.
+- Unknown fees/prices stay unknown; conditional price and provenance follow Data Safety Patch. AI is optional advice, never authorization or hard facts.
+- KudaGo remains conditional / NOT APPROVED; no live ingestion or provider gate in T101/T102.
+- One active implementation ticket; one integration owner for shared contracts/routes/migrations/dependencies/auth/session. Stop after T102 for human review.
+- No new spend, third-party tooling, MCP or hooks in this pass.
+
+Earlier decisions (including TBD and the old work order) are preserved in artifacts/t101/BASELINE_DOCUMENTS.json. Imported ADRs remain unchanged.

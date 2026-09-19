@@ -1,0 +1,68 @@
+{
+  "provider": "kudago",
+  "api_version": "v1.4",
+  "city": {
+    "internal": "moscow",
+    "provider_slug": "msk"
+  },
+  "status": "candidate_runtime_and_legal_gate_open",
+  "event_fields": [
+    "id",
+    "title",
+    "description",
+    "dates",
+    "place",
+    "location",
+    "categories",
+    "age_restriction",
+    "price",
+    "is_free",
+    "images",
+    "site_url",
+    "participants"
+  ],
+  "expand": [
+    "dates",
+    "place",
+    "location",
+    "participants"
+  ],
+  "normalization": {
+    "event_id": "provider:kudago:event:{id}",
+    "occurrence_source": "dates[]",
+    "source_url": "site_url",
+    "raw_price_text": "price",
+    "free_hint": "is_free",
+    "venue": "place",
+    "coordinates": "place.coords if present"
+  },
+  "price_kinds": [
+    "exact",
+    "from",
+    "range",
+    "free",
+    "conditional",
+    "unknown"
+  ],
+  "critical_rules": [
+    "is_free_true_does_not_imply_total_cost_zero",
+    "preserve_raw_price_text",
+    "null_end_is_unknown",
+    "null_place_or_coords_never_generate_fake_coords",
+    "provider_filters_are_not_final_suitability",
+    "source_url_is_mandatory",
+    "no_false_pass_on_hard_constraints"
+  ],
+  "data_gate": {
+    "task_count": 12,
+    "minimum_verified_suitable": 8,
+    "critical_false_pass_allowed": 0,
+    "formal_status": "not_run"
+  },
+  "open_risks": [
+    "runtime_api_receipts_missing",
+    "cancellation_semantics_not_documented_in_event_fields",
+    "miniapp_attribution_indexability_needs_legal_confirmation",
+    "advertising_material_filtering_needs_confirmation"
+  ]
+}

@@ -1,6 +1,6 @@
 # Naming workspace
 
-The public product name is intentionally **TBD**. Do not register the irreversible MAX bot nickname yet.
+**Historical naming research.** Current accepted product is **Повод**, team **The Boys**. The former TBD state and candidate table below are preserved as history, not active naming instructions. No real MAX bot nickname change is authorized.
 
 ## Stronger candidates to research
 These are creative candidates, not availability/legal conclusions.
@@ -23,7 +23,7 @@ These are creative candidates, not availability/legal conclusions.
 | **Курс** | Navigation/action | Weak connection to leisure |
 | **Событийно** | Direct event association | Artificial/less natural word |
 
-## Naming gate
+## Historical naming gate
 Before approval, research at minimum:
 - MAX bot nickname availability;
 - Russian web/app-store/GitHub confusion;

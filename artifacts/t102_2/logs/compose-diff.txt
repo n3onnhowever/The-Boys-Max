@@ -1,0 +1,20 @@
+diff --git a/compose.yaml b/compose.yaml
+index c6c463b..b1f1289 100644
+--- a/compose.yaml
++++ b/compose.yaml
+@@ -44,7 +44,7 @@ services:
+     depends_on: {prepare: {condition: service_completed_successfully}}
+     healthcheck: {test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"], interval: 5s, timeout: 3s, retries: 30}
+     stop_grace_period: 30s
+-    networks: [test]
++    networks: [frontend, test]
+   worker:
+     build: .
+     command: ["node","dist/apps/worker/main.js"]
+@@ -63,4 +63,5 @@ services:
+     networks: [test]
+ volumes: {pgdata: {},redisdata: {},runtime: {}}
+ networks:
++  frontend: {driver: bridge}
+   test: {internal: true}
+warning: in the working copy of 'compose.yaml', LF will be replaced by CRLF the next time Git touches it

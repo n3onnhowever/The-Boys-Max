@@ -1,0 +1,1 @@
+{"path":"/health/ready","status":200,"body":"{\"database\":\"UP\",\"outboundHold\":false}"}

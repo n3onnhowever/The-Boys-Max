@@ -1,0 +1,351 @@
+{
+  "receipt_version": "1.0",
+  "generated_at": "2026-09-17T19:01:00+03:00",
+  "project": "Повод",
+  "team": "The Boys",
+  "provider": {
+    "name": "KudaGo",
+    "api_target": "https://kudago.com/public-api/v1.4/events/",
+    "city": "msk",
+    "formal_target": "12 frozen tasks from POVOD_MOSCOW_DATA_GATE_V1.md"
+  },
+  "probe_mode": {
+    "live_public_catalog_probe": true,
+    "live_api_sample_obtained": true,
+    "live_api_sample_version": "v1.2",
+    "parameterized_v1_4_raw_responses_complete": false,
+    "note": "Live KudaGo catalog/event pages were fetched for current 2026 dates and one live public API response was fetched to verify null end/place semantics. A complete set of arbitrary parameterized v1.4 raw JSON responses for all 12 frozen tasks was not obtainable in this session, so the formal API runtime gate is not marked passed."
+  },
+  "gate_rules": {
+    "minimum_verified_suitable_tasks": 8,
+    "critical_false_pass_allowed": 0,
+    "requires_raw_api_receipts": true
+  },
+  "summary": {
+    "live_catalog_suitable_tasks": 8,
+    "edge_case_expected_no_pass_confirmed": 1,
+    "schema_edge_cases_confirmed": 2,
+    "strict_no_result_api_case_unverified": 1,
+    "critical_false_pass_in_povod_code_checked": false,
+    "raw_v1_4_receipts_complete": false
+  },
+  "task_results": [
+    {
+      "task_id": "DG-01",
+      "query": "Москва, 17.09, после 19:00, обучение/саморазвитие, <=1000 RUB",
+      "status": "PASS_LIVE_CATALOG",
+      "candidate": {
+        "title": "Пробные занятия «Секретные актёрские техники для жизни и карьеры: быстрый результат»",
+        "date": "2026-09-17",
+        "start_time": "20:00",
+        "price_raw": "800 рублей",
+        "venue": "Арт-пространство «Сияние»"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/knowledge/",
+        "web_ref": "turn575861search5"
+      },
+      "raw_response_excerpt": {
+        "dates": [
+          "17 сентября 20:00",
+          "19 сентября 17:00",
+          "22 сентября 20:00"
+        ],
+        "price": "800 рублей",
+        "place": "Арт-пространство «Сияние»"
+      },
+      "normalized_result": "PASS"
+    },
+    {
+      "task_id": "DG-02",
+      "query": "Москва, 17.09, после 18:00, театр, <=2000 RUB",
+      "status": "PASS_LIVE_CATALOG",
+      "candidate": {
+        "title": "Спектакль «Слишком женатый таксист»",
+        "date": "2026-09-17",
+        "start_time": "19:00",
+        "price_raw": "от 1500"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/event/teatr-slishkom-zhenatyij-taksist-oktyabr-2022/",
+        "web_ref": "turn575861search4"
+      },
+      "raw_response_excerpt": {
+        "date": "17 сентября",
+        "time": "19:00",
+        "price": "от 1500"
+      },
+      "normalized_result": "PASS"
+    },
+    {
+      "task_id": "DG-03",
+      "query": "Москва, 17.09, 18:00-22:00, развлечения, <=2000 RUB",
+      "status": "PASS_LIVE_CATALOG_WITH_SCHEDULE_AMBIGUITY",
+      "candidate": {
+        "title": "Развлекательное шоу по мотивам телевизионных передач Good Night Show",
+        "availability_raw": "до 30 сентября 10:00–22:00",
+        "price_raw": "1800 рублей за 1 человека"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/event/entertainment-good-night-show/",
+        "web_ref": "turn794429search0"
+      },
+      "raw_response_excerpt": {
+        "schedule": "до 30 сентября 10:00–22:00",
+        "price": "1800 рублей за 1 человека"
+      },
+      "normalized_result": "PASS_CATALOG_ONLY",
+      "note": "Exact occurrence expansion must still be verified from API dates/schedules before hard-fit logic."
+    },
+    {
+      "task_id": "DG-04",
+      "query": "Москва, 19.09, 15:00-19:00, обучение/творчество, <=1000 RUB",
+      "status": "PASS_LIVE_CATALOG",
+      "candidate": {
+        "title": "Пробные занятия «Секретные актёрские техники для жизни и карьеры: быстрый результат»",
+        "date": "2026-09-19",
+        "start_time": "17:00",
+        "price_raw": "800 рублей"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/knowledge/",
+        "web_ref": "turn575861search5"
+      },
+      "raw_response_excerpt": {
+        "date": "19 сентября",
+        "time": "17:00",
+        "price": "800 рублей"
+      },
+      "normalized_result": "PASS"
+    },
+    {
+      "task_id": "DG-05",
+      "query": "Москва, 19.09, после 18:00, театр, <=2500 RUB",
+      "status": "PASS_LIVE_CATALOG",
+      "candidate": {
+        "title": "Спектакль «Мужчина на все руки»",
+        "date": "2026-09-19",
+        "start_time": "19:00",
+        "price_raw": "от 2000"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/event/teatr-muzhchina-na-vse-ruki/",
+        "web_ref": "turn575861search0"
+      },
+      "independent_crosscheck": {
+        "url": "https://client.comedytheatre.ru/personalities/pavel-gayduchenko",
+        "web_ref": "turn575861search8",
+        "date": "2026-09-19",
+        "time": "19:00",
+        "price": "от 2000 ₽"
+      },
+      "raw_response_excerpt": {
+        "date": "19 сентября",
+        "time": "19:00",
+        "price": "от 2000"
+      },
+      "normalized_result": "PASS"
+    },
+    {
+      "task_id": "DG-06",
+      "query": "Москва, 19.09, старт после 21:00, стендап/развлечения, <=2000 RUB",
+      "status": "PASS_LIVE_CATALOG",
+      "candidate": {
+        "title": "Шоу «Стендап в темноте»",
+        "date": "2026-09-19",
+        "start_time": "21:30",
+        "price_raw": "от 990"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/event/entertainment-stendap-v-temnote/",
+        "web_ref": "turn575861search7"
+      },
+      "raw_response_excerpt": {
+        "date": "19 сентября, суббота",
+        "time": "21:30",
+        "price": "от 990"
+      },
+      "normalized_result": "PASS"
+    },
+    {
+      "task_id": "DG-07",
+      "query": "Москва, 19.09, 11:00-20:00, бесплатно",
+      "status": "PASS_LIVE_CATALOG_WITH_STALE_CANDIDATE_EDGE",
+      "candidate": {
+        "title": "«Гараж-Винтаж Маркет»",
+        "date_range": "2026-09-19/2026-09-20",
+        "time": "10:00–21:00",
+        "price_raw": "бесплатное событие / вход бесплатный",
+        "venue": "Даниловский рынок"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/activity/city/",
+        "web_ref": "turn553145search0"
+      },
+      "crosscheck": {
+        "url": "https://kudago.com/msk/place/danilovskij-rynok/",
+        "web_ref": "turn553145search3",
+        "raw": "19–20 сентября — Гараж-Винтаж Маркет — Вход бесплатный"
+      },
+      "stale_candidate_edge_case": {
+        "original_candidate": "CERAMANIA",
+        "conflict": "KudaGo free-events/category surfaces show CERAMANIA on 19–20 September, while a dedicated CERAMANIA event page returned an older 'Когда было?' schedule ending in May 2026.",
+        "older_page_url": "https://kudago.com/msk/event/yarmarka-ceramania/",
+        "older_page_ref": "turn502589search0",
+        "current_free_catalog_ref": "turn178736search9"
+      },
+      "normalized_result": "PASS_WITH_ALTERNATE_CANDIDATE",
+      "note": "This conflict is a concrete stale/index consistency edge case; exact API record must resolve it."
+    },
+    {
+      "task_id": "DG-08",
+      "query": "Москва, 20.09, после 18:00, театр, <=2000 RUB",
+      "status": "PASS_LIVE_CATALOG",
+      "candidate": {
+        "title": "Спектакль «Подыскиваю жену, недорого!»",
+        "date": "2026-09-20",
+        "start_time": "19:00",
+        "price_raw": "от 1500"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/event/teatr-podyiskivayu-zhenu-nedorogo/",
+        "web_ref": "turn197379search0"
+      },
+      "raw_response_excerpt": {
+        "date": "20 сентября",
+        "time": "19:00",
+        "price": "от 1500"
+      },
+      "normalized_result": "PASS"
+    },
+    {
+      "task_id": "DG-09",
+      "query": "Москва, 20.09, стендап, 20:00, total budget = 0 RUB",
+      "status": "EDGE_CONFIRMED_EXPECTED_NO_PASS",
+      "candidate": {
+        "title": "Cтендап-шоу от Stand Up Afisha с бесплатным входом",
+        "date": "2026-09-20",
+        "start_time": "20:00",
+        "price_raw": "вход бесплатный, депозит на еду — 700 рублей"
+      },
+      "source": {
+        "url": "https://kudago.com/msk/event/entertainment-stendap-shou-s-besplatnyim-vhodom/",
+        "web_ref": "turn197379search1"
+      },
+      "raw_response_excerpt": {
+        "price": "вход бесплатный, депозит на еду — 700 рублей"
+      },
+      "expected_normalization": {
+        "price_kind": "conditional",
+        "amount_min": 0,
+        "mandatory_extra_min": 700,
+        "hard_budget_0_result": "NO_PASS"
+      },
+      "normalized_result": "NO_PASS_EXPECTED"
+    },
+    {
+      "task_id": "DG-10",
+      "query": "Occurrence with known start but end_time=null",
+      "status": "SCHEMA_EDGE_CONFIRMED_CURRENT_RECORD_UNVERIFIED",
+      "source": {
+        "url": "https://kudago.com/public-api/v1.2/events/?expand=place,location,dates,participants&fields=id,place,location,dates,participants",
+        "web_ref": "turn657055view0"
+      },
+      "raw_response_excerpt": {
+        "example_event_id": 178927,
+        "start_date": "2019-05-25",
+        "start_time": "10:00:00",
+        "end_date": "2019-05-26",
+        "end_time": null,
+        "place": null
+      },
+      "expected_normalization": {
+        "ends_at": null,
+        "ui": "Время окончания не указано",
+        "must_end_before_hard_constraint": "UNKNOWN_NOT_CONFIRMED_PASS"
+      },
+      "normalized_result": "UNVERIFIED_CURRENT_2026_RECORD"
+    },
+    {
+      "task_id": "DG-11",
+      "query": "Missing place/coordinates + cancellation/staleness safety",
+      "status": "SCHEMA_EDGE_CONFIRMED_CURRENT_RECORD_UNVERIFIED",
+      "source": {
+        "url": "https://kudago.com/public-api/v1.2/events/?expand=place,location,dates,participants&fields=id,place,location,dates,participants",
+        "web_ref": "turn657055view0"
+      },
+      "raw_response_excerpt": {
+        "example_event_id": 161043,
+        "place": null
+      },
+      "documentation_observation": "Documented Event fields include dates/place/location/price/is_free/site_url etc.; a reliable explicit cancelled status is not listed.",
+      "expected_normalization": {
+        "location_known": false,
+        "map_cta": "hidden_or_disabled",
+        "fake_coordinates": "forbidden",
+        "freshness": "must_use_fetched_at/TTL/source"
+      },
+      "normalized_result": "UNVERIFIED_CURRENT_2026_RECORD"
+    },
+    {
+      "task_id": "DG-12",
+      "query": "Москва, конкретный день, театр, бесплатно, старт после 23:30",
+      "status": "UNVERIFIED_STRICT_NO_RESULT",
+      "reason": "Live public catalog/search pages do not provide a reliable exhaustive after-23:30 theater filter for this exact frozen query. A parameterized API response plus local occurrence filtering is required.",
+      "normalized_result": "NOT_RUN"
+    }
+  ],
+  "edge_cases_found": [
+    {
+      "code": "CONDITIONAL_FREE_PRICE",
+      "severity": "critical",
+      "evidence": "Free entry can still require mandatory spend/deposit.",
+      "example": "Stand Up Afisha: вход бесплатный, депозит на еду — 700 рублей",
+      "required_fix": "price_kind=conditional; preserve raw_price_text; mandatory_extra_min"
+    },
+    {
+      "code": "STALE_OR_INCONSISTENT_CATALOG_SURFACE",
+      "severity": "high",
+      "evidence": "CERAMANIA appeared with different schedules on KudaGo surfaces: current free-events pages show 19–20 September while a dedicated event page exposed an older ended schedule.",
+      "required_fix": "Treat API occurrence record + fetched_at as authority; never rely on one HTML surface."
+    },
+    {
+      "code": "NULL_END_TIME",
+      "severity": "high",
+      "evidence": "Live public API sample contains end_time=null.",
+      "required_fix": "UNKNOWN end; no fabricated duration; no confirmed hard-fit for end-before constraint."
+    },
+    {
+      "code": "NULL_PLACE",
+      "severity": "high",
+      "evidence": "Live public API sample contains place=null.",
+      "required_fix": "No fake map point; hide/disable map CTA; location_known=false."
+    },
+    {
+      "code": "NO_EXPLICIT_CANCELLATION_FIELD",
+      "severity": "high",
+      "evidence": "Documented Event field list does not include a reliable cancelled status.",
+      "required_fix": "Use source freshness/TTL and avoid claiming independent scheduled certainty."
+    },
+    {
+      "code": "RECURRING_OR_RANGE_SCHEDULE",
+      "severity": "medium",
+      "evidence": "Good Night Show is exposed as a broad 10:00–22:00 date range rather than a simple single occurrence.",
+      "required_fix": "Expand only deterministic schedules; ambiguous schedules cannot be hard-fit as exact occurrence."
+    }
+  ],
+  "decision": {
+    "live_catalog_coverage_gate": "GO",
+    "formal_v1_4_api_runtime_gate": "NO-GO",
+    "city_activation": "NO-GO",
+    "provider_approval": "NO-GO",
+    "reason": [
+      "The content threshold is met: 8 frozen discovery tasks have live KudaGo catalog evidence.",
+      "However the frozen gate explicitly requires raw API receipts; complete parameterized v1.4 JSON responses were not captured.",
+      "DG-10, DG-11 current-record checks and DG-12 strict no-result remain unresolved at API level.",
+      "Povod code-level zero-false-PASS behavior has not yet been executed against these records."
+    ],
+    "next_gate_to_close": "Run the exact v1.4 parameterized probe on an internet-enabled host, persist raw JSON for DG-01..DG-12, run the Povod normalizer, and recompute false-PASS count. If >=8 suitable tasks and zero critical false PASS, set Moscow to beta/active."
+  },
+  "receipt_sha256": "b78393e4581be8656a74e72d2e185990f38e9c89476cbbd8d8306c105a2aec77"
+}

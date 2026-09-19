@@ -1,4 +1,4 @@
-import Redis from 'ioredis';import {randomUUID} from 'node:crypto';import {setTimeout} from 'node:timers/promises';
+import {Redis} from 'ioredis';import {randomUUID} from 'node:crypto';import {setTimeout} from 'node:timers/promises';
 import {connect} from '../packages/persistence/db.ts';import {config} from '../packages/platform/config.ts';import {requireThat} from '../packages/domain/errors.ts';import {digest} from '../packages/platform/auth.ts';
 const cfg=config();requireThat(cfg.mode==='test'&&new URL(cfg.databaseUrl).pathname==='/max23_test','TEST_ONLY');
 const {pool}=connect(cfg.databaseUrl),redis=new Redis(cfg.redisUrl,{maxRetriesPerRequest:1});redis.on('error',()=>{});

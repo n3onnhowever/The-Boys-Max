@@ -1,0 +1,3 @@
+{"path":"/health/live","status":200,"body":{"alive":true}}
+{"path":"/health/ready","status":200,"body":{"database":"UP","outboundHold":false}}
+HTML 200

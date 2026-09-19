@@ -1,4 +1,7 @@
 # T001 — Local environment baseline
+
+> Historical task; inactive. Follow [ACTIVE_TASK](ACTIVE_TASK.md). The T101/T102 authorization supersedes this old work order.
+
 Recommended: GPT-5.3-Codex / low
 
 Goal

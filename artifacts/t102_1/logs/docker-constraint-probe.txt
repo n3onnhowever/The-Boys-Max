@@ -1,0 +1,11 @@
+BEGIN
+CREATE TABLE
+                   conname                    |                                                              pg_get_constraintdef                                                               
+----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------
+ t102_constraint_probe_check                  | CHECK ((((state ->> 'version'::text) = 'max.backend.23.v1-candidate'::text) AND (((state ->> 'stateVersion'::text))::integer = state_version)))
+ t102_constraint_probe_state_not_null         | NOT NULL state
+ t102_constraint_probe_state_version_check    | CHECK ((state_version > 0))
+ t102_constraint_probe_state_version_not_null | NOT NULL state_version
+(4 rows)
+
+ROLLBACK

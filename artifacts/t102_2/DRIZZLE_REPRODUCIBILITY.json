@@ -1,0 +1,131 @@
+{
+  "version": "0.45.2",
+  "before": [
+    {
+      "path": "pg-core/query-builders/query.d.ts",
+      "match": true
+    },
+    {
+      "path": "gel-core/query-builders/query.d.ts",
+      "match": true
+    },
+    {
+      "path": "sqlite-core/query-builders/query.d.ts",
+      "match": true
+    },
+    {
+      "path": "mysql-core/query-builders/delete.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/query-builders/delete.d.ts",
+      "match": true
+    },
+    {
+      "path": "mysql-core/query-builders/select.d.ts",
+      "match": true
+    },
+    {
+      "path": "mysql-core/query-builders/select.types.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/query-builders/select.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/query-builders/select.types.d.ts",
+      "match": true
+    },
+    {
+      "path": "sqlite-core/query-builders/select.d.ts",
+      "match": true
+    },
+    {
+      "path": "sqlite-core/query-builders/select.types.d.ts",
+      "match": true
+    },
+    {
+      "path": "pg-core/roles.d.ts",
+      "match": true
+    },
+    {
+      "path": "gel-core/roles.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/columns/common.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/columns/enum.d.ts",
+      "match": true
+    }
+  ],
+  "after": [
+    {
+      "path": "pg-core/query-builders/query.d.ts",
+      "match": true
+    },
+    {
+      "path": "gel-core/query-builders/query.d.ts",
+      "match": true
+    },
+    {
+      "path": "sqlite-core/query-builders/query.d.ts",
+      "match": true
+    },
+    {
+      "path": "mysql-core/query-builders/delete.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/query-builders/delete.d.ts",
+      "match": true
+    },
+    {
+      "path": "mysql-core/query-builders/select.d.ts",
+      "match": true
+    },
+    {
+      "path": "mysql-core/query-builders/select.types.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/query-builders/select.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/query-builders/select.types.d.ts",
+      "match": true
+    },
+    {
+      "path": "sqlite-core/query-builders/select.d.ts",
+      "match": true
+    },
+    {
+      "path": "sqlite-core/query-builders/select.types.d.ts",
+      "match": true
+    },
+    {
+      "path": "pg-core/roles.d.ts",
+      "match": true
+    },
+    {
+      "path": "gel-core/roles.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/columns/common.d.ts",
+      "match": true
+    },
+    {
+      "path": "singlestore-core/columns/enum.d.ts",
+      "match": true
+    }
+  ],
+  "runtime_unchanged": true,
+  "lock_unchanged": true,
+  "provenance": "licenses/drizzle-orm-0.45.2-NOTICES.md",
+  "mechanism": "explicit typecheck/build prefix; validates all inputs before writes; version and before/after SHA256 guards; idempotent"
+}

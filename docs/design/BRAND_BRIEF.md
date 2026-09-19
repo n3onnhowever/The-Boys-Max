@@ -2,10 +2,12 @@
 
 ## Brand layers
 1. **Team brand: The Boys** — supplied team logo. Preserve it as a team mark for presentation/about/credits.
-2. **Product brand: TBD** — must work as a standalone consumer leisure product.
+2. **Product brand: Повод** — must work as a standalone consumer leisure product.
 3. **Platform context: MAX** — use platform-native interaction patterns where useful, but do not make the product visually indistinguishable from MAX itself.
 
 The team logo should inform compatibility, not force the entire mini-app to copy its exact visual language.
+
+Current scope is governed by [authority](../current/POVOD_SOURCE_AUTHORITY.md). Brand implementation belongs to T110. Map/Follow/Smart are P1; plan/invite are Stretch. The existing UI and real MAX nickname are unchanged by T101. Typography/palette below are verification guidance; accepted design tokens are in the canonical imports, and must be verified in the target UI. Earlier TBD brief is preserved in artifacts/t101/BASELINE_DOCUMENTS.json.
 
 ## Required visual outputs
 - exact logo asset inventory and provenance;

@@ -2,7 +2,7 @@ import {readFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
 import {performance} from 'node:perf_hooks';
 import {setTimeout as sleep} from 'node:timers/promises';
-import type Redis from 'ioredis';
+import type {Redis} from 'ioredis';
 import {requireThat} from '../domain/errors.ts';
 import {digest} from './auth.ts';
 const script=readFileSync(new URL('./governor.lua',import.meta.url),'utf8');

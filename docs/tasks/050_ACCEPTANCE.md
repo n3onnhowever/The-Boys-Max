@@ -1,4 +1,7 @@
 # T050 — Independent acceptance
+
+> Historical task; inactive. Follow [ACTIVE_TASK](ACTIVE_TASK.md). The T101/T102 authorization supersedes this old work order.
+
 Recommended: GPT-6 Astra / high (use GPT-5.6 Sol/high if Astra is unavailable or unnecessary)
 
 Goal
