@@ -1,0 +1,10 @@
+{
+  "name": "malformed-job",
+  "status": "PASS",
+  "duration_ms": 2023,
+  "evidence": {
+    "state": "failed",
+    "attemptsMade": 1,
+    "reason": "JOB_ID"
+  }
+}

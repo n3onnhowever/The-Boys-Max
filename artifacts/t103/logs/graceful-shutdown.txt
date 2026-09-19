@@ -1,0 +1,14 @@
+{
+  "name": "graceful-shutdown",
+  "status": "PASS",
+  "duration_ms": 1351,
+  "evidence": {
+    "exit": 0,
+    "signal": null,
+    "state": "SUCCEEDED",
+    "attempt_count": 1,
+    "queue_generation": 1,
+    "result_reason": "TEST_ACCEPTED",
+    "receipts": 1
+  }
+}

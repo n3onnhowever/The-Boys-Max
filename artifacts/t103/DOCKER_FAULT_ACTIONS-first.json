@@ -1,0 +1,140 @@
+[
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 527
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3146
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 906
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "kill",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 503
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3066
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 552
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3214
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 917
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 544
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3047
+  }
+]

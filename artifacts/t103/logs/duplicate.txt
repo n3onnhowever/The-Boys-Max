@@ -1,0 +1,12 @@
+{
+  "name": "duplicate",
+  "status": "PASS",
+  "duration_ms": 220,
+  "evidence": {
+    "state": "SUCCEEDED",
+    "attempt_count": 1,
+    "queue_generation": 0,
+    "result_reason": "TEST_ACCEPTED",
+    "receipts": 1
+  }
+}

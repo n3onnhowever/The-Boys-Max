@@ -1,0 +1,18 @@
+{"command":["docker","compose","-p","povod-t103","run","-T","--no-deps","--rm","-v","D:/Dev/Repos/The-Boys-Max-t103/tests:/app/tests:ro","-v","D:/Dev/Repos/The-Boys-Max-t103/packages:/app/packages:ro","-e","T103_ONLY=governor","checks","node","--experimental-strip-types","tests/helpers/t103-runtime.ts"]}
+ Container povod-t103-checks-run-efdc51108954 Creating
+ Container povod-t103-checks-run-efdc51108954 Created
+(node:1) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"postgres":"18.6 (Debian 18.6-1.pgdg13+2)","redis":"8.2.9","bullmq":"6.3.4"}
+T103_CONTROL redis stop 4d285c8d-0caa-4879-9990-2b7a2e44b1b6
+Container povod-t103-redis-1 Stopping
+
+ Container povod-t103-redis-1 Stopped
+T103_CONTROL redis start 11b9de1b-f4cd-449b-aab6-0e9b9714e2a6
+Container povod-t103-redis-1 Starting
+
+ Container povod-t103-redis-1 Started
+ Container povod-t103-redis-1 Waiting
+ Container povod-t103-redis-1 Healthy
+T103_RESULT {"name":"governor","status":"PASS","duration_ms":6839,"evidence":{"destination_gap_ms":622,"global_gaps_ms":[50,50,54,55,55],"blocked":["WAIT","25"],"globalWait":["WAIT","49"],"missingState":"HOLD","aofRestart":"state retained"}}
+{"t103Failures":0,"executed":["governor"]}
