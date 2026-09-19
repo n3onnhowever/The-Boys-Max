@@ -1,0 +1,12 @@
+{
+  "name": "normal-job",
+  "status": "PASS",
+  "duration_ms": 546,
+  "evidence": {
+    "state": "SUCCEEDED",
+    "attempt_count": 1,
+    "queue_generation": 1,
+    "result_reason": "TEST_ACCEPTED",
+    "receipts": 1
+  }
+}

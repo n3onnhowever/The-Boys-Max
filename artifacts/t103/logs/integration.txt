@@ -1,0 +1,107 @@
+1
+checks-1  |
+checks-1  | > the-boys-afisha-integration@0.2.0-candidate test:integration
+checks-1  | > node --experimental-strip-types --test --test-concurrency=1 tests/integration/*.test.ts
+checks-1  |
+checks-1  | (node:26) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+checks-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+checks-1  | ✖ IT-01: R5 nonparticipant organizer + invite privacy + R3 version confirmation in PostgreSQL (10087.853964ms)
+checks-1  | ✖ IT-02: persisted receipt replay, payload conflict, stale version and ACL-before-replay (29.616776ms)
+checks-1  | ✖ IT-03: two admissions race for one slot; only one applies (5.169374ms)
+checks-1  | {"event":"http_end","requestId":"3fda2cad-22bf-4e90-b643-19354fcf40d0","route":"/api/v1/session","status":200}
+checks-1  | {"event":"http_end","requestId":"12ab858d-f199-40e9-9708-74ad034efe97","route":"/api/v1/session","status":401}
+checks-1  | {"event":"http_end","requestId":"72588f66-021a-46ed-986e-9320c91248e8","route":"/api/v1/session/logout","status":403}
+checks-1  | {"event":"http_end","requestId":"cd0bea45-12c2-4f8d-8540-00d5de5e0b98","route":"/api/v1/session/logout","status":403}
+checks-1  | {"event":"http_end","requestId":"566d9771-8383-4234-85c8-40df4ae6b906","route":"/api/v1/session/logout","status":200}
+checks-1  | ✔ IT-04: bootstrap/session exchange retry, reload, CSRF, logout revokes escrow (28.414754ms)
+checks-1  | {"event":"http_end","requestId":"0e96411a-606f-4648-b939-0976264fa616","route":"/api/v1/max/webhook","status":403}
+checks-1  | {"event":"http_end","requestId":"865fb2b3-4702-4dcd-bc2c-5c32dd40f045","route":"/api/v1/max/webhook","status":200}
+checks-1  | {"event":"http_end","requestId":"075c3631-8d68-4ce3-84b5-dfe8c9a8a9f0","route":"/api/v1/max/webhook","status":200}
+checks-1  | {"event":"http_end","requestId":"a862d244-04e3-451e-be16-9ea75c080c3b","route":"/api/v1/max/webhook","status":200}
+checks-1  | {"event":"http_end","requestId":"39fc1709-befd-4473-ae2c-b13d0d3d5c4a","route":"/api/v1/max/webhook","status":413}
+checks-1  | (node:26) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+checks-1  | ✔ IT-05: webhook durable ACK, duplicate, quarantine, wrong secret and body limit (13.374844ms)
+checks-1  | {"event":"http_end","requestId":"71c901e6-1629-45d3-bba1-d06c44072ef8","route":"/api/v1/max/webhook","status":503}
+checks-1  | ✔ IT-06: database unavailable never acknowledges authenticated webhook (6.922073ms)
+checks-1  | ConnectionClosedError: Connection is closed.
+checks-1  |     at RedisConnection.waitUntilReady (/app/node_modules/bullmq/dist/cjs/classes/redis-connection.js:195:19)
+checks-1  |     at RedisConnection.init (/app/node_modules/bullmq/dist/cjs/classes/redis-connection.js:274:35)
+checks-1  |     at new RedisConnection (/app/node_modules/bullmq/dist/cjs/classes/redis-connection.js:153:34)
+checks-1  |     at Queue.createRedisBackend [as backendFactory] (/app/node_modules/bullmq/dist/cjs/utils/create-backend.js:41:24)
+checks-1  |     at Queue.createBackend (/app/node_modules/bullmq/dist/cjs/classes/queue-base.js:70:29)
+checks-1  |     at new QueueBase (/app/node_modules/bullmq/dist/cjs/classes/queue-base.js:37:14)
+checks-1  |     at new Queue (/app/node_modules/bullmq/dist/cjs/classes/queue.js:39:9)
+checks-1  |     at TestContext.<anonymous> (file:///app/tests/integration/foundation.test.ts:119:10)
+checks-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+checks-1  |     at async Test.run (node:internal/test_runner/test:1404:7) {
+checks-1  |   cause: undefined
+checks-1  | }
+checks-1  | ✔ IT-07: Redis down preserves committed PostgreSQL action; later reconciliation enqueues (41.309107ms)
+checks-1  | ✔ IT-08: real BullMQ workers use PostgreSQL outbox + explicit test transport, not MAX (669.338995ms)
+checks-1  | ✔ IT-09: scoped Redis key loss fences sends; restore requires an explicit new epoch (1.269495ms)
+checks-1  | ✔ IT-10: SIGKILL after test submission becomes UNKNOWN, never blind resend (31629.641876ms)
+checks-1  | {"event":"http_end","requestId":"ac99246c-9075-495c-ae08-5f179b8aa7f8","route":"/api/v1/plans","status":200}
+checks-1  | {"event":"http_end","requestId":"3964b2cb-9dc3-45ab-85c6-8dd9e95b00bc","route":"/api/v1/plans","status":200}
+checks-1  | {"event":"http_end","requestId":"f2095f6f-2363-4a84-b8b3-b7afeadc4ce5","route":"/api/v1/plans/:planId","status":200}
+checks-1  | ✔ IT-11: authenticated HTTP plan creation preserves Origin, CSRF and idempotency headers (28.518882ms)
+checks-1  | ✔ IT-12 PC002: PG cancellation notice after commitment deadline, before event; no renewed ask (35.826953ms)
+checks-1  | (node:50) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+checks-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+checks-1  | {"event":"http_end","requestId":"de2678a7-eb45-4d43-9ae9-e55df4d5e74d","route":"/api/ui/v1/view","status":200}
+checks-1  | {"event":"http_end","requestId":"15c82886-2e0d-417b-a035-8387aa05c134","route":"/api/ui/v1/view","status":200}
+checks-1  | {"event":"http_end","requestId":"6d71d34a-9959-48da-8d9d-9d6e32661c0f","route":"/api/ui/v1/commands","status":409}
+checks-1  | {"event":"http_end","requestId":"63e58a20-18bf-425d-9a79-3383efc0e4dd","route":"/api/ui/v1/commands","status":200}
+checks-1  | {"event":"http_end","requestId":"10920af4-a36c-41b5-b041-77fd2b4f28c9","route":"/api/ui/v1/commands","status":200}
+checks-1  | {"event":"http_end","requestId":"7fe1099b-0a65-4ee5-8b5e-94d72decd47f","route":"/api/v1/plans/:planId","status":200}
+checks-1  | {"event":"http_end","requestId":"d800af68-2f5f-4e8d-8abf-05e88def2107","route":"/api/ui/v1/commands","status":200}
+checks-1  | {"event":"http_end","requestId":"3be3a398-0193-4f47-b6d2-9be5d0fa4e7e","route":"/api/ui/v1/view","status":200}
+checks-1  | {"event":"http_end","requestId":"c5bfe0d1-ee09-4df9-afc4-86c5464c5d46","route":"/api/ui/v1/commands","status":200}
+checks-1  | {"event":"http_end","requestId":"df4977d2-0511-4d31-a8d3-ca3862b0867c","route":"/api/ui/v1/view","status":200}
+checks-1  | {"event":"http_end","requestId":"2b136d27-e4fd-436c-bfec-61846b4cc94b","route":"/api/v1/plans/:planId","status":404}
+checks-1  | ✔ UI26-01 actual API personal -> 500+30 -> explicit group -> persisted edit -> replay, no implicit membership (137.672533ms)
+checks-1  | {"event":"http_end","requestId":"c78758c8-ac39-4808-84f9-6b8f1a495a58","route":"/api/ui/v1/view","status":200}
+checks-1  | {"event":"http_end","requestId":"acaf3eb3-242f-4919-9555-3b1ed722b4cb","route":"/api/ui/v1/commands","status":200}
+checks-1  | {"event":"http_end","requestId":"cb315978-b47f-4052-bddd-0bc2a2e6f535","route":"/api/ui/v1/view","status":200}
+checks-1  | {"event":"http_end","requestId":"92241c03-c2d8-4be9-af69-809facf29342","route":"/api/ui/v1/commands","status":422}
+checks-1  | {"event":"http_end","requestId":"056fcd8c-60d5-47ed-82e7-d98363eac96b","route":"/api/ui/v1/view","status":200}
+checks-1  | ✔ UI26-02 filter fields survive a new read; text rejection does not erase prior successful query (36.575827ms)
+checks-1  | ℹ tests 14
+checks-1  | ℹ suites 0
+checks-1  | ℹ pass 11
+checks-1  | ℹ fail 3
+checks-1  | ℹ cancelled 0
+checks-1  | ℹ skipped 0
+checks-1  | ℹ todo 0
+checks-1  | ℹ duration_ms 43724.70274
+checks-1  |
+checks-1  | ✖ failing tests:
+checks-1  |
+checks-1  | test at tests/integration/foundation.test.ts:52:1
+checks-1  | ✖ IT-01: R5 nonparticipant organizer + invite privacy + R3 version confirmation in PostgreSQL (10087.853964ms)
+checks-1  |   TypeError: created.rows[0].expires_at.toISOString is not a function
+checks-1  |       at file:///app/packages/persistence/plans.ts:85:66
+checks-1  |       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+checks-1  |       at async NodePgSession.transaction (file:///app/node_modules/drizzle-orm/node-postgres/session.js:186:22)
+checks-1  |       at async TestContext.<anonymous> (file:///app/tests/integration/foundation.test.ts:53:56)
+checks-1  |       at async Test.run (node:internal/test_runner/test:1404:7)
+checks-1  |       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+checks-1  |
+checks-1  | test at tests/integration/foundation.test.ts:72:1
+checks-1  | ✖ IT-02: persisted receipt replay, payload conflict, stale version and ACL-before-replay (29.616776ms)
+checks-1  |   TypeError: created.rows[0].expires_at.toISOString is not a function
+checks-1  |       at file:///app/packages/persistence/plans.ts:85:66
+checks-1  |       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+checks-1  |       at async NodePgSession.transaction (file:///app/node_modules/drizzle-orm/node-postgres/session.js:186:22)
+checks-1  |       at async TestContext.<anonymous> (file:///app/tests/integration/foundation.test.ts:77:12)
+checks-1  |       at async Test.run (node:internal/test_runner/test:1404:7)
+checks-1  |       at async Test.processPendingSubtests (node:internal/test_runner/test:969:7)
+checks-1  |
+checks-1  | test at tests/integration/foundation.test.ts:83:1
+checks-1  | ✖ IT-03: two admissions race for one slot; only one applies (5.169374ms)
+checks-1  |   TypeError: created.rows[0].expires_at.toISOString is not a function
+checks-1  |       at file:///app/packages/persistence/plans.ts:85:66
+checks-1  |       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+checks-1  |       at async NodePgSession.transaction (file:///app/node_modules/drizzle-orm/node-postgres/session.js:186:22)
+checks-1  |       at async TestContext.<anonymous> (file:///app/tests/integration/foundation.test.ts:84:47)
+checks-1  |       at async Test.run (node:internal/test_runner/test:1404:7)
+checks-1  |       at async Test.processPendingSubtests (node:internal/test_runner/test:969:7)

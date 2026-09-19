@@ -1,0 +1,16 @@
+{
+  "name": "redis-restart",
+  "status": "PASS",
+  "duration_ms": 41242,
+  "evidence": {
+    "initialGeneration": 1,
+    "afterRecovery": {
+      "state": "SUCCEEDED",
+      "attempt_count": 2,
+      "queue_generation": 3,
+      "result_reason": "TEST_ACCEPTED",
+      "receipts": 1
+    },
+    "operatorAction": "existing arm-test-outbound.ts: fresh epoch, 10s warm hold, worker restart; old governor remains fenced"
+  }
+}

@@ -1,0 +1,550 @@
+{
+  "task": "T103",
+  "status": "PASS",
+  "queue_decision": "KEEP_EXISTING_BULLMQ",
+  "starting_baseline": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "branch": "codex/t103-bullmq-runtime",
+  "tested_head_before_commit": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "resulting_commit": {
+    "resolution": "git log -1 --format=%H -- artifacts/t103/FINAL_VERIFICATION.json",
+    "literal_post_commit_receipt": ".run-evidence/t103-final-commit.json",
+    "reason": "A tracked file cannot contain the SHA of its own containing commit."
+  },
+  "integration": {
+    "initial": {
+      "tests": 14,
+      "passed": 11,
+      "failed": 3,
+      "skipped": 0
+    },
+    "final": {
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "runtime": {
+    "source_hashes_match_final": true,
+    "final_total": 17,
+    "passed": 17,
+    "failed": 0,
+    "scenarios": [
+      {
+        "name": "normal-job",
+        "status": "PASS",
+        "duration_ms": 546,
+        "evidence": {
+          "state": "SUCCEEDED",
+          "attempt_count": 1,
+          "queue_generation": 1,
+          "result_reason": "TEST_ACCEPTED",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "duplicate",
+        "status": "PASS",
+        "duration_ms": 220,
+        "evidence": {
+          "state": "SUCCEEDED",
+          "attempt_count": 1,
+          "queue_generation": 0,
+          "result_reason": "TEST_ACCEPTED",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "concurrent-duplicate",
+        "status": "PASS",
+        "duration_ms": 128,
+        "evidence": {
+          "state": "SUCCEEDED",
+          "attempt_count": 1,
+          "queue_generation": 0,
+          "result_reason": "TEST_ACCEPTED",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "worker-before",
+        "status": "PASS",
+        "duration_ms": 92220,
+        "evidence": {
+          "atCrash": {
+            "state": "READY",
+            "attempt_count": 0,
+            "queue_generation": 0,
+            "result_reason": null,
+            "receipts": 0
+          },
+          "afterRecovery": {
+            "state": "SUCCEEDED",
+            "attempt_count": 1,
+            "queue_generation": 1,
+            "result_reason": "TEST_ACCEPTED",
+            "receipts": 1
+          },
+          "bullState": "completed",
+          "stalledCounter": 1
+        }
+      },
+      {
+        "name": "worker-during",
+        "status": "PASS",
+        "duration_ms": 92378,
+        "evidence": {
+          "atCrash": {
+            "state": "RUNNING",
+            "attempt_count": 1,
+            "queue_generation": 0,
+            "result_reason": null,
+            "receipts": 1
+          },
+          "afterRecovery": {
+            "state": "UNKNOWN",
+            "attempt_count": 1,
+            "queue_generation": 0,
+            "result_reason": "LEASE_RECOVERY",
+            "receipts": 1
+          },
+          "bullState": "completed",
+          "stalledCounter": 1
+        }
+      },
+      {
+        "name": "worker-after-db-before-ack",
+        "status": "PASS",
+        "duration_ms": 92191,
+        "evidence": {
+          "atCrash": {
+            "state": "SUCCEEDED",
+            "attempt_count": 1,
+            "queue_generation": 0,
+            "result_reason": "TEST_ACCEPTED",
+            "receipts": 1
+          },
+          "afterRecovery": {
+            "state": "SUCCEEDED",
+            "attempt_count": 1,
+            "queue_generation": 0,
+            "result_reason": "TEST_ACCEPTED",
+            "receipts": 1
+          },
+          "bullState": "completed",
+          "stalledCounter": 1
+        }
+      },
+      {
+        "name": "worker-restart",
+        "status": "PASS",
+        "duration_ms": 2661,
+        "evidence": {
+          "state": "SUCCEEDED",
+          "attempt_count": 1,
+          "queue_generation": 1,
+          "result_reason": "TEST_ACCEPTED",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "poison-job",
+        "status": "PASS",
+        "duration_ms": 5451,
+        "evidence": {
+          "state": "DEAD",
+          "attempt_count": 5,
+          "queue_generation": 5,
+          "result_reason": "RETRY_BUDGET_EXHAUSTED",
+          "receipts": 0,
+          "gaps_ms": [
+            1029,
+            1031,
+            1030,
+            1036
+          ]
+        }
+      },
+      {
+        "name": "malformed-job",
+        "status": "PASS",
+        "duration_ms": 2023,
+        "evidence": {
+          "state": "failed",
+          "attemptsMade": 1,
+          "reason": "JOB_ID"
+        }
+      },
+      {
+        "name": "redis-loss",
+        "status": "PASS",
+        "duration_ms": 33522,
+        "evidence": {
+          "down": {
+            "state": "QUEUED",
+            "attempt_count": 0,
+            "queue_generation": 1,
+            "result_reason": null,
+            "receipts": 0
+          },
+          "afterRecovery": {
+            "state": "SUCCEEDED",
+            "attempt_count": 1,
+            "queue_generation": 2,
+            "result_reason": "TEST_ACCEPTED",
+            "receipts": 1
+          },
+          "readinessWhileRedisDown": 200
+        }
+      },
+      {
+        "name": "redis-restart",
+        "status": "PASS",
+        "duration_ms": 41242,
+        "evidence": {
+          "initialGeneration": 1,
+          "afterRecovery": {
+            "state": "SUCCEEDED",
+            "attempt_count": 2,
+            "queue_generation": 3,
+            "result_reason": "TEST_ACCEPTED",
+            "receipts": 1
+          },
+          "operatorAction": "existing arm-test-outbound.ts: fresh epoch, 10s warm hold, worker restart; old governor remains fenced"
+        }
+      },
+      {
+        "name": "pg-failure",
+        "status": "PASS",
+        "duration_ms": 5890,
+        "evidence": {
+          "http": 503,
+          "startWhilePgDownExit": 1,
+          "afterRecovery": {
+            "state": "SUCCEEDED",
+            "attempt_count": 1,
+            "queue_generation": 1,
+            "result_reason": "TEST_ACCEPTED",
+            "receipts": 1
+          }
+        }
+      },
+      {
+        "name": "pg-active-failure",
+        "status": "PASS",
+        "duration_ms": 30823,
+        "evidence": {
+          "state": "UNKNOWN",
+          "attempt_count": 1,
+          "queue_generation": 0,
+          "result_reason": "LEASE_RECOVERY",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "pg-live-failure",
+        "status": "PASS",
+        "duration_ms": 7573,
+        "evidence": {
+          "sameWorkerAlive": true,
+          "readyDuringOutage": 503,
+          "state": "SUCCEEDED",
+          "attempt_count": 1,
+          "queue_generation": 1,
+          "result_reason": "TEST_ACCEPTED",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "pg-final-commit-failure",
+        "status": "PASS",
+        "duration_ms": 31488,
+        "evidence": {
+          "bullState": "failed",
+          "state": "UNKNOWN",
+          "attempt_count": 1,
+          "queue_generation": 0,
+          "result_reason": "LEASE_RECOVERY",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "graceful-shutdown",
+        "status": "PASS",
+        "duration_ms": 1351,
+        "evidence": {
+          "exit": 0,
+          "signal": null,
+          "state": "SUCCEEDED",
+          "attempt_count": 1,
+          "queue_generation": 1,
+          "result_reason": "TEST_ACCEPTED",
+          "receipts": 1
+        }
+      },
+      {
+        "name": "governor",
+        "status": "PASS",
+        "duration_ms": 6803,
+        "evidence": {
+          "destination_gap_ms": 622,
+          "global_gaps_ms": [
+            55,
+            54,
+            54,
+            54,
+            52
+          ],
+          "blocked": [
+            "WAIT",
+            "25"
+          ],
+          "globalWait": [
+            "WAIT",
+            "50"
+          ],
+          "missingState": "HOLD",
+          "aofRestart": "state retained"
+        }
+      }
+    ]
+  },
+  "regression": {
+    "unit": "115/115 PASS",
+    "typecheck": "PASS",
+    "syntax": "PASS",
+    "build": "PASS",
+    "docker_build": "PASS",
+    "dependencies": "PASS; pinned versions and lock unchanged; 15 Drizzle after hashes verified"
+  },
+  "code_fix": "Raw Drizzle invite expires_at is a string: convert to Date for create/replay expiry checks and ISO serialization. No queue, retry, concurrency, governor or schema change.",
+  "checks": [
+    {
+      "name": "environment",
+      "command": "node --version; npm --version; docker version; docker compose version; git branch --show-current; git rev-parse HEAD; git status --short",
+      "exit_code": 0,
+      "duration_seconds": 1.6976986,
+      "log": "artifacts/t103/logs/environment.txt",
+      "source_manifest": "artifacts/t103/logs/environment-source.json"
+    },
+    {
+      "name": "clean-install",
+      "command": "npm ci --ignore-scripts",
+      "exit_code": 0,
+      "duration_seconds": 8.1014786,
+      "log": "artifacts/t103/logs/clean-install.txt",
+      "source_manifest": "artifacts/t103/logs/clean-install-source.json"
+    },
+    {
+      "name": "compose-start",
+      "command": "docker compose -p povod-t103 --profile checks up --build -d postgres redis prepare checks",
+      "exit_code": 0,
+      "duration_seconds": 45.7728861,
+      "log": "artifacts/t103/logs/compose-start.txt",
+      "source_manifest": "artifacts/t103/logs/compose-start-source.json"
+    },
+    {
+      "name": "integration",
+      "command": "docker wait povod-t103-checks-1; $result=$LASTEXITCODE; docker compose -p povod-t103 logs --no-color checks; $containerExit=docker inspect --format \"{{.State.ExitCode}}\" povod-t103-checks-1; if($result -ne 0){exit $result}; exit ([int]$containerExit)",
+      "exit_code": 1,
+      "duration_seconds": 15.474437,
+      "log": "artifacts/t103/logs/integration.txt",
+      "source_manifest": "artifacts/t103/logs/integration-source.json"
+    },
+    {
+      "name": "invite-regression-before",
+      "command": "docker compose -p povod-t103 run -T --no-deps --rm -v D:/Dev/Repos/The-Boys-Max-t103/tests:/app/tests:ro checks node --experimental-strip-types --test --test-name-pattern=\"IT-13\" tests/integration/foundation.test.ts",
+      "exit_code": 1,
+      "duration_seconds": 11.8465985,
+      "log": "artifacts/t103/logs/invite-regression-before.txt",
+      "source_manifest": "artifacts/t103/logs/invite-regression-before-source.json"
+    },
+    {
+      "name": "invite-regression-after",
+      "command": "docker compose -p povod-t103 run -T --no-deps --rm -v D:/Dev/Repos/The-Boys-Max-t103/tests:/app/tests:ro -v D:/Dev/Repos/The-Boys-Max-t103/packages:/app/packages:ro checks node --experimental-strip-types --test --test-name-pattern=\"IT-13\" tests/integration/foundation.test.ts",
+      "exit_code": 0,
+      "duration_seconds": 12.1210649,
+      "log": "artifacts/t103/logs/invite-regression-after.txt",
+      "source_manifest": "artifacts/t103/logs/invite-regression-after-source.json"
+    },
+    {
+      "name": "typecheck-first",
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "duration_seconds": 7.6888037,
+      "log": "artifacts/t103/logs/typecheck-first.txt",
+      "source_manifest": "artifacts/t103/logs/typecheck-first-source.json"
+    },
+    {
+      "name": "verify-dependencies",
+      "command": "npm run verify:dependencies",
+      "exit_code": 0,
+      "duration_seconds": 7.1374415,
+      "log": "artifacts/t103/logs/verify-dependencies.txt",
+      "source_manifest": "artifacts/t103/logs/verify-dependencies-source.json"
+    },
+    {
+      "name": "patch-guards",
+      "command": "node artifacts/t103/verify-patch.mjs; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; node scripts/patch-drizzle-declarations.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.602197,
+      "log": "artifacts/t103/logs/patch-guards.txt",
+      "source_manifest": "artifacts/t103/logs/patch-guards-source.json"
+    },
+    {
+      "name": "unit",
+      "command": "npm run test:unit",
+      "exit_code": 0,
+      "duration_seconds": 4.8502829,
+      "log": "artifacts/t103/logs/unit.txt",
+      "source_manifest": "artifacts/t103/logs/unit-source.json"
+    },
+    {
+      "name": "syntax",
+      "command": "npm run syntax",
+      "exit_code": 0,
+      "duration_seconds": 1.3790182,
+      "log": "artifacts/t103/logs/syntax.txt",
+      "source_manifest": "artifacts/t103/logs/syntax-source.json"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "exit_code": 0,
+      "duration_seconds": 6.0035242,
+      "log": "artifacts/t103/logs/build.txt",
+      "source_manifest": "artifacts/t103/logs/build-source.json"
+    },
+    {
+      "name": "runtime-matrix",
+      "command": "node artifacts/t103/run-runtime.mjs",
+      "exit_code": 1,
+      "duration_seconds": 364.4355752,
+      "log": "artifacts/t103/logs/runtime-matrix.txt",
+      "source_manifest": "artifacts/t103/logs/runtime-matrix-source.json"
+    },
+    {
+      "name": "governor-targeted",
+      "command": "node artifacts/t103/run-runtime.mjs governor",
+      "exit_code": 0,
+      "duration_seconds": 9.0777006,
+      "log": "artifacts/t103/logs/governor-targeted.txt",
+      "source_manifest": "artifacts/t103/logs/governor-targeted-source.json"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "duration_seconds": 4.8142794,
+      "log": "artifacts/t103/logs/typecheck.txt",
+      "source_manifest": "artifacts/t103/logs/typecheck-source.json"
+    },
+    {
+      "name": "docker-final-build",
+      "command": "docker compose -p povod-t103 --profile checks --progress plain build checks",
+      "exit_code": 0,
+      "duration_seconds": 14.6819565,
+      "log": "artifacts/t103/logs/docker-final-build.txt",
+      "source_manifest": "artifacts/t103/logs/docker-final-build-source.json"
+    },
+    {
+      "name": "syntax-final",
+      "command": "npm run syntax",
+      "exit_code": 0,
+      "duration_seconds": 1.3757417,
+      "log": "artifacts/t103/logs/syntax-final.txt",
+      "source_manifest": "artifacts/t103/logs/syntax-final-source.json"
+    },
+    {
+      "name": "runtime-environment",
+      "command": "docker compose -p povod-t103 exec -T postgres psql -U max23 -d max23_test -Atc \"SHOW server_version\"; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; docker compose -p povod-t103 exec -T redis redis-cli PING; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; docker compose -p povod-t103 exec -T redis redis-cli CONFIG GET appendonly appendfsync maxmemory-policy; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; npm ls bullmq ioredis drizzle-orm --depth=0; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; Get-Item node_modules | Select-Object FullName,Attributes,LinkType; git diff --exit-code -- package.json package-lock.json patches licenses compose.yaml compose.release.yaml apps/worker/main.ts packages/persistence/delivery.ts packages/platform/governor.ts packages/platform/governor.lua",
+      "exit_code": 0,
+      "duration_seconds": 2.261025,
+      "log": "artifacts/t103/logs/runtime-environment.txt",
+      "source_manifest": "artifacts/t103/logs/runtime-environment-source.json"
+    },
+    {
+      "name": "runtime-final",
+      "command": "node artifacts/t103/run-runtime.mjs",
+      "exit_code": 0,
+      "duration_seconds": 448.4615134,
+      "log": "artifacts/t103/logs/runtime-final.txt",
+      "source_manifest": "artifacts/t103/logs/runtime-final-source.json"
+    },
+    {
+      "name": "integration-final",
+      "command": "docker compose -p povod-t103 run -T --no-deps --rm checks npm run test:integration",
+      "exit_code": 0,
+      "duration_seconds": 46.3275513,
+      "log": "artifacts/t103/logs/integration-final.txt",
+      "source_manifest": "artifacts/t103/logs/integration-final-source.json"
+    },
+    {
+      "name": "compose-stop",
+      "command": "docker compose -p povod-t103 stop; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; docker compose -p povod-t103 ps -a",
+      "exit_code": 0,
+      "duration_seconds": 1.5305031,
+      "log": "artifacts/t103/logs/compose-stop.txt",
+      "source_manifest": "artifacts/t103/logs/compose-stop-source.json"
+    },
+    {
+      "name": "secret-prohibited-scan",
+      "command": "node artifacts/t103/scan.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.7506244,
+      "log": "artifacts/t103/logs/secret-prohibited-scan.txt",
+      "source_manifest": "artifacts/t103/logs/secret-prohibited-scan-source.json"
+    },
+    {
+      "name": "diff-check",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "duration_seconds": 0.51409,
+      "log": "artifacts/t103/logs/diff-check.txt",
+      "source_manifest": "artifacts/t103/logs/diff-check-source.json"
+    },
+    {
+      "name": "staged-diff-before",
+      "command": "git diff --cached --check",
+      "exit_code": 1,
+      "duration_seconds": 0.5618165,
+      "log": "artifacts/t103/logs/staged-diff-before.txt",
+      "source_manifest": "artifacts/t103/logs/staged-diff-before-source.json"
+    },
+    {
+      "name": "staged-diff-final",
+      "command": "git diff --cached --check",
+      "exit_code": 0,
+      "duration_seconds": 0.5328659,
+      "log": "artifacts/t103/logs/staged-diff-final.txt",
+      "source_manifest": "artifacts/t103/logs/staged-diff-final-source.json"
+    },
+    {
+      "name": "secret-prohibited-final",
+      "command": "node artifacts/t103/scan.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.727274,
+      "log": "artifacts/t103/logs/secret-prohibited-final.txt",
+      "source_manifest": "artifacts/t103/logs/secret-prohibited-final-source.json"
+    }
+  ],
+  "not_run": [
+    "Real MAX sends or delivery receipts",
+    "Provider ingestion/rights/data acceptance",
+    "Real MAX mobile/web/auth/client acceptance",
+    "Host power loss, Redis disk corruption or PostgreSQL volume loss",
+    "Long-running load/fairness soak and all distributed partitions",
+    "Release deployment or T107 implementation"
+  ],
+  "risks": [
+    "UNKNOWN conservatively suppresses resend and may represent an unsent message.",
+    "Governor state loss requires fresh epoch, warm hold and worker restart; do not auto-unlimit.",
+    "Redis AOF everysec is not zero-loss; PG outbox recovers pending intent.",
+    "Observed stalled-job recovery about 62–93 seconds.",
+    "Worker start without PG exits 1; explicit restart/supervision is required. Running worker recovery is proven separately.",
+    "Readiness remains 200 on Redis-only outage; it is not queue-health evidence.",
+    "TestTransport acceptance does not prove real MAX/user delivery."
+  ],
+  "t107": "No T103 queue blocker. Other tickets and provider/normalization gates are not accepted by this evidence.",
+  "next_action": "Human review/integration of this branch only. STOP; no next ticket, push or merge."
+}

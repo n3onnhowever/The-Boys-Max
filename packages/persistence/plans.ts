@@ -78,11 +78,11 @@ export function planService(db:Database,inviteSecret:string) {
    const [row]=await tx.select().from(plans).where(eq(plans.id,planId)).for('update');requireThat(row,'NOT_FOUND',404);assertRead(row.state,actor);
    requireThat(row.organizerId===actor&&!['CLOSED','CANCELLED'].includes(row.state.phase),'FORBIDDEN',403);
    const token=keyed(inviteSecret,`invite:${planId}:${actor}:${key}`);
-   const existing=await tx.execute<{expected_revision:number;expires_at:Date;revoked:boolean}>(sql`SELECT expected_revision,expires_at,revoked FROM invites WHERE plan_id=${planId} AND create_key=${key}`);
-   if(existing.rows[0]){const old=existing.rows[0];requireThat(old.expected_revision===expectedStateVersion,'IDEMPOTENCY_CONFLICT',409);requireThat(!old.revoked&&old.expires_at.getTime()>Date.now(),'INVITE_INVALID',409);return {inviteRef:token,expiresAt:old.expires_at.toISOString()};}
+   const existing=await tx.execute<{expected_revision:number;expires_at:string;revoked:boolean}>(sql`SELECT expected_revision,expires_at,revoked FROM invites WHERE plan_id=${planId} AND create_key=${key}`);
+   if(existing.rows[0]){const old=existing.rows[0];requireThat(old.expected_revision===expectedStateVersion,'IDEMPOTENCY_CONFLICT',409);requireThat(!old.revoked&&new Date(old.expires_at).getTime()>Date.now(),'INVITE_INVALID',409);return {inviteRef:token,expiresAt:new Date(old.expires_at).toISOString()};}
    requireThat(row.stateVersion===expectedStateVersion,'VERSION_CONFLICT',409);
-   const created=await tx.execute<{expires_at:Date}>(sql`INSERT INTO invites(id,plan_id,token_hash,create_key,expected_revision,expires_at) VALUES(${randomUUID()},${planId},${digest(token)},${key},${expectedStateVersion},clock_timestamp()+interval '7 days') RETURNING expires_at`);
-   return {inviteRef:token,expiresAt:created.rows[0]!.expires_at.toISOString()};
+   const created=await tx.execute<{expires_at:string}>(sql`INSERT INTO invites(id,plan_id,token_hash,create_key,expected_revision,expires_at) VALUES(${randomUUID()},${planId},${digest(token)},${key},${expectedStateVersion},clock_timestamp()+interval '7 days') RETURNING expires_at`);
+   return {inviteRef:token,expiresAt:new Date(created.rows[0]!.expires_at).toISOString()};
   });
  },
  async requestJoin(actor:string,token:string){

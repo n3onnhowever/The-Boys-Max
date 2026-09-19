@@ -1,0 +1,12 @@
+{
+  "name": "pg-active-failure",
+  "status": "PASS",
+  "duration_ms": 30823,
+  "evidence": {
+    "state": "UNKNOWN",
+    "attempt_count": 1,
+    "queue_generation": 0,
+    "result_reason": "LEASE_RECOVERY",
+    "receipts": 1
+  }
+}

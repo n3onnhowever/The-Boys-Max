@@ -176,3 +176,30 @@ test('IT-12 PC002: PG cancellation notice after commitment deadline, before even
  await deliver(pool,id,new TestTransport(pool,'test'),gov,'test');
  assert.notEqual((await pool.query('SELECT state FROM outbox WHERE id=$1',[id])).rows[0]!.state,'SUCCEEDED');
 });
+
+test('IT-13: invite raw timestamp maps to ISO on create and receipt replay',async()=>{
+ const p=await create(),key=randomUUID();
+ const first=await plans.invite(O,p.planId,key,1);
+ assert.equal(new Date(first.expiresAt).toISOString(),first.expiresAt);
+ assert.deepEqual(await plans.invite(O,p.planId,key,1),first);
+});
+
+test('IT-14: concurrent and sequential SELECT receipt replay creates and delivers one semantic notice',async()=>{
+ const p=await create(),optionId=randomUUID();
+ await cmd(O,p.planId,{kind:'ADD_OPTION',optionId,snapshotId:randomUUID(),terms} as Command);
+ await cmd(O,p.planId,{kind:'START'});
+ await cmd(O,p.planId,{kind:'RESPOND',optionId,termsRevision:1,value:'CAN'} as Command);
+ const key=randomUUID(),select:Command={kind:'SELECT',optionId,allowProvisional:false,reason:'',expectedStateVersion:(await state(p.planId)).stateVersion};
+ const results=await Promise.all(Array.from({length:8},(_,i)=>plans.command(O,p.planId,key,select,`t103-duplicate-${i}`)));
+ for(const r of results)assert.deepEqual(r,results[0]);
+ assert.deepEqual(await plans.command(O,p.planId,key,select,'t103-sequential'),results[0]);
+ assert.equal((await pool.query("SELECT 1 FROM command_audit WHERE plan_id=$1 AND kind='SELECT'",[p.planId])).rowCount,1);
+ const effects=await pool.query<{id:string}>('SELECT id FROM outbox WHERE plan_id=$1',[p.planId]);assert.equal(effects.rowCount,1);
+ const id=effects.rows[0]!.id,q=new Queue(`${queueName}-command-duplicates`,{connection:redis});
+ const w=new Worker(q.name,j=>deliver(pool,j.data.outboxId,new TestTransport(pool,'test'),gov,'test'),{connection:workerRedis,concurrency:4});w.on('error',()=>{});
+ try{await w.waitUntilReady();const jobs=await Promise.all(Array.from({length:8},(_,i)=>q.add('deliver',{outboxId:id},{jobId:`${id}-duplicate-${i}`,attempts:1,removeOnComplete:1000,removeOnFail:1000})));
+  await until(async()=>(await Promise.all(jobs.map(j=>j.getState()))).every(s=>s==='completed'));
+  assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,1);
+  assert.equal((await pool.query('SELECT attempt_count FROM outbox WHERE id=$1',[id])).rows[0]!.attempt_count,1);
+ }finally{await w.close();await q.close();}
+});
