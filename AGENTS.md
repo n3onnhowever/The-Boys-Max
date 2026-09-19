@@ -9,7 +9,7 @@
 
 ## Architecture and safety
 - TypeScript/Fastify + React/Vite; modular monolith with separate API and worker roles. PostgreSQL is durable business truth.
-- Queue decision is **BLOCKED** pending T103 runtime verification. Preserve existing Redis/BullMQ/outbox/governor. No pg-boss migration, removal or new queue architecture in T101/T102.
+- Queue decision is **KEEP_EXISTING_BULLMQ** after accepted T103 runtime verification. Preserve existing Redis/BullMQ/outbox/governor; the P0 queue comparison is closed. No queue migration, removal or new queue architecture is authorized.
 - MAX Bot API is server-side; MAX Bridge is client-side. Keep durable ingress/outbox/idempotency and explicit external-delivery outcomes.
 - Keep EventProvider, AiProvider and map/geocoding ports. No new infrastructure without measured need and accepted ADR.
 - Event != Occurrence; Save != Follow != suitable/voted/committed. Commitments bind to current semantic terms; material changes require explicit re-confirmation.
@@ -24,4 +24,4 @@
 - No third-party skill collections, new MCP servers, hooks or marketplace tools in this pass.
 - Run task-appropriate targeted checks and final existing typecheck/unit/build scripts, git diff --check, secret/prohibited-file scan and git status. Keep exact commands, exits and logs tied to source hashes.
 - Docker/PG/Redis/MAX/provider/browser checks are PASS only if executed. Required unavailable dependencies get BLOCKED_* plus exact reproduction commands; complete independent work.
-- End significant tasks with docs/handoffs/<task>.md: inputs/revision, files, actual checks, NOT_RUN/BLOCKED, contract deltas, risks and next action. Stop after T102 for human review.
+- End significant tasks with docs/handoffs/<task>.md: inputs/revision, files, actual checks, NOT_RUN/BLOCKED, contract deltas, risks and next action. Stop at the boundary of the explicitly authorized ticket/checkpoint.

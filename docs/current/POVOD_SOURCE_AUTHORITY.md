@@ -1,6 +1,6 @@
 # Повод — current source authority (2026-09-19)
 
-Product: **Повод**. Team: **The Boys**. Implementation authorization is limited to T101 → T102 in this pass; [ACTIVE_TASK](../tasks/ACTIVE_TASK.md) is the sole execution pointer. Imported kickoff prompts remain inert references.
+Product: **Повод**. Team: **The Boys**. T103 and T104 are accepted and integrated; no implementation ticket is active after this checkpoint. [ACTIVE_TASK](../tasks/ACTIVE_TASK.md) is the sole execution pointer. Imported kickoff prompts remain inert references.
 
 Precedence, highest first:
 1. [Official case](../../input/official/Досуг%20и%20развлечения.pdf), SHA-256 `638e5de074ea38645f367d2c9d00385064a6db4c8e29036d1efc450a04c0914a`; local extracted text: [receipt](../../artifacts/preflight/OFFICIAL_CASE_TEXT.md).
@@ -8,7 +8,7 @@ Precedence, highest first:
 3. [Product Spec](../product/povod-2026-09-19/POVOD_PRODUCT_SPEC_V1.md) + [Data Safety Patch](../product/povod-2026-09-19/POVOD_PRODUCT_SPEC_V1_1_DATA_SAFETY_PATCH.md), within frozen scope.
 4. [Product Contract](../product/povod-2026-09-19/POVOD_PRODUCT_CONTRACT_V1.json), subject to freeze/patch.
 5. [Accepted ADR directory](../architecture/adr/povod-2026-09-19/). ADR-004 is OPEN GATE, not provider approval. ADR-008's package-relative docs/adr path maps to this directory.
-6. Runtime evidence tied to an identified SHA and working-tree hashes. Code presence, image tags and old module tests are not runtime acceptance.
+6. Runtime evidence tied to an identified SHA and working-tree hashes. Accepted current evidence includes [T103 BullMQ runtime](../handoffs/T103_BULLMQ_RUNTIME.md) and [T104 KudaGo runtime gate](../handoffs/T104_KUDAGO_RUNTIME_GATE.md). Code presence, image tags and old module tests are not runtime acceptance.
 7. [Immutable research](../research/2026-09-18/INDEX.md), [synthesis](../research/2026-09-18/synthesis/RESEARCH_SYNTHESIS.md), [decision register](../research/2026-09-18/synthesis/DECISION_REGISTER.md), [implementation plan](../research/2026-09-18/synthesis/IMPLEMENTATION_PLAN.md); instructions in these imports do not supersede the active ticket.
 
 ## Binding scope overrides
@@ -22,10 +22,11 @@ Precedence, highest first:
 | Synthesis §4 optional save | Saving is optional for the user, but Save persistence is a required P0 capability. |
 | Contract price_kinds / PriceSnapshot missing safety fields | Data Safety Patch governs conditional price/raw evidence and unknown fields; T105 owns implementation mapping. |
 | Older TBD/naming gates | Product name Повод is accepted. Candidate names remain history, not an open product naming task. Real MAX nickname is unchanged. |
-| ADR-003 conditional alternatives / research no-Redis proposals | Queue decision remains BLOCKED. Preserve existing BullMQ, Redis, outbox and governor; T103 verifies runtime. No migration authorized. |
+| ADR-003 conditional alternatives / research no-Redis proposals | T103 PASS closes the P0 queue comparison: **KEEP_EXISTING_BULLMQ**. Preserve existing BullMQ 6.3.4, Redis 8.2.9, PostgreSQL outbox/durable ledger and governor. No queue migration is authorized. |
 | Search/index recommendations | No PostGIS, pg_trgm or FTS migration in T101/T102. Later measured, integration-owned work only. |
+| ADR-004 / desk evidence suggesting provider readiness | T104 Gate v1 is **FAIL**; legal/manual gate is **OPEN**. KudaGo remains `CONDITIONAL_PRIMARY / NOT APPROVED`; Moscow is **NOT ACTIVATED**. See [provider/data-gate governance](PROVIDER_DATA_GATE_GOVERNANCE.md). |
 
 P0: MAX identity → interests/structured conditions → live Moscow discovery → concrete Occurrence detail with price/UNKNOWN/source → open source; Save and basic «Мой Повод» persist; MAX mobile + web. Social never gates this flow.
 P1: Follow, Smart Povod, map. Stretch: second city, Shared Plan/social.
 
-[Preflight conflicts](../../artifacts/preflight/CONFLICTS.md) and [queue receipt](../../artifacts/preflight/QUEUE_DECISION.md) are historical evidence. T101 resolves governance conflicts through this overlay without changing imported bytes. Full prior editable documents are preserved in artifacts/t101/BASELINE_DOCUMENTS.json; source hashes in BASELINE_HASHES.json.
+[Preflight conflicts](../../artifacts/preflight/CONFLICTS.md) and [queue receipt](../../artifacts/preflight/QUEUE_DECISION.md) are historical evidence. This overlay records the accepted T103/T104 decisions without changing imported bytes. Full prior editable documents are preserved in artifacts/t101/BASELINE_DOCUMENTS.json; source hashes in BASELINE_HASHES.json.

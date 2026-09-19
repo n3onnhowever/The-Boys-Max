@@ -1,8 +1,14 @@
-# Active task — isolated T103 worktree
+# Active task
 
-**T103 PASS: KEEP_EXISTING_BULLMQ. Completed; stopped for human review.**
+**No implementation ticket active. T103/T104 integration checkpoint complete; stop before T105/T107.**
 
-- Explicit user activation applied only to `D:/Dev/Repos/The-Boys-Max-t103`, branch `codex/t103-bullmq-runtime`, baseline `5e4973f24fb74489387b3c29313cfcd1e8401ca7`.
-- [T103 handoff](../handoffs/T103_BULLMQ_RUNTIME.md), [verification](../../artifacts/t103/FINAL_VERIFICATION.json).
-- T101/T102 accepted baseline preserved. T104/T106 parallel worktrees and other tickets were not modified or accepted by this task.
-- No next implementation ticket active here. No push/merge; integration remains a human decision.
+- T101: PASS.
+- T102: PASS.
+- T103: PASS; canonical queue decision `KEEP_EXISTING_BULLMQ`.
+- T104: accepted `DATA_RUNTIME_GATE = FAIL`, `LEGAL_MANUAL_GATE = OPEN`; KudaGo not approved; Moscow not activated.
+- T105: worktree may be prepared from the clean post-integration baseline, but implementation is **NOT STARTED**.
+- T107: **BLOCKED** by provider/data readiness.
+- T106: independent/in progress on `codex/t106-max-runtime`; not merged or modified by this checkpoint.
+- One writer/integration owner. Historical prompts do not activate work.
+
+Next authorized data sequence requires a separate T105 start decision, then a future-dated Moscow Data Gate v2, then a provider/live-ingestion decision.
