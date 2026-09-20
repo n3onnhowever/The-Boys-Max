@@ -1,0 +1,28 @@
+ apps/miniapp/src/App.tsx                           |   2 +-
+ apps/miniapp/src/components/AvatarStack.tsx        |  16 ++
+ apps/miniapp/src/components/DetailActionBar.tsx    |  27 ++
+ apps/miniapp/src/components/DetailScreen.tsx       |  67 +++++
+ apps/miniapp/src/components/EventDetail.tsx        |  96 ++++---
+ apps/miniapp/src/components/EventDetailSurface.tsx |  17 ++
+ apps/miniapp/src/components/EventHero.tsx          |  38 +++
+ apps/miniapp/src/components/Icon.tsx               |   6 +-
+ apps/miniapp/src/components/OccurrenceTimeRow.tsx  |  13 +
+ apps/miniapp/src/components/PriceRow.tsx           |   9 +
+ apps/miniapp/src/components/SourceRow.tsx          |  13 +
+ apps/miniapp/src/components/VenueRow.tsx           |  12 +
+ apps/miniapp/src/design-data/detail.ts             |  78 ++++++
+ apps/miniapp/src/main.tsx                          |  13 +-
+ apps/miniapp/src/styles.css                        | 292 +++++++++++++++++++++
+ apps/miniapp/src/view-model/detail.ts              | 139 ++++++++++
+ artifacts/ui-povod-v1/detail/360.png               | Bin 0 -> 170059 bytes
+ artifacts/ui-povod-v1/detail/390-price-unknown.png | Bin 0 -> 179971 bytes
+ .../ui-povod-v1/detail/390-source-unavailable.png  | Bin 0 -> 181143 bytes
+ artifacts/ui-povod-v1/detail/390-venue-unknown.png | Bin 0 -> 179406 bytes
+ artifacts/ui-povod-v1/detail/390.png               | Bin 0 -> 181798 bytes
+ artifacts/ui-povod-v1/detail/430.png               | Bin 0 -> 193674 bytes
+ artifacts/ui-povod-v1/detail/parity-comparison.png | Bin 0 -> 748847 bytes
+ docs/handoffs/ui-v1/UI_DETAIL_HANDOFF.md           |  86 ++++++
+ package.json                                       |   1 +
+ scripts/capture-povod-home.mjs                     |   4 +-
+ tests/unit/detail-view-model.test.ts               |  83 ++++++
+ 27 files changed, 957 insertions(+), 55 deletions(-)

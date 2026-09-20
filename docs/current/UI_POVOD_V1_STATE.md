@@ -1,16 +1,28 @@
-# UI POVOD V1 state
+# POVOD UI v1 — integrated state
 
-- Task: production-grade UI foundation and Home / Personal Discovery.
-- Baseline SHA: 1e4a7a2b454bed87bdcb40559773143c2fc38c9b.
-- Resulting SHA: this Search / Filter Sheet handoff is part of the task commit; resolve as Git HEAD (the exact hash is reported in the final task response).
-- Branch / worktree: codex/ui-povod-v1 / D:\Dev\Repos\The-Boys-Max-ui.
-- Visual references: input/design/povod-master-ui-v1/01_povod_ui_pack_core_4screens.png through 07_povod_icon_circle_black_red.png.
-- Design tokens: warm background/surface, text/muted/border, action red, social violet, dark surface; spacing 2–40; radii 8–999; typography, borders, shadow, controls, icons and safe areas.
-- Shared components: AppViewport, Screen, BrandHeader, SearchBar, FilterChip, CategoryChip, SectionHeader, HeroEventCard, EventCardCompact, SaveAction, BottomNav, Skeleton primitives, SelectedFilterChip, FilterControl, SortTabs, EventCardList, FilterSection and FilterSheet.
-- Home parity: hardened against the normalized Master UI Home reference with a red-slice temporary wordmark, measured control/card geometry, corrected rail insets and responsive 360/390/430 captures; no provider, auth, database, queue or domain contract changes.
-- Search: implemented with deterministic `?design=search` data, removable applied filters, four structured controls, three sort modes, design-only map affordance, dense saved-event rows and active Search navigation; the server adapter keeps map affordance hidden and does not execute provider queries.
-- Filter Sheet: implemented as a full-height reusable overlay with shared filter state, select/deselect, reset, apply, close, subtle motion and a non-functional P1 map toggle; available at `?design=filters` for deterministic capture.
-- Screenshots: Home: artifacts/ui-povod-v1/home/360.png, 390.png, 430.png and parity-comparison.png; Search: artifacts/ui-povod-v1/search/360.png, 390.png, 430.png and parity-comparison.png; Filter Sheet: artifacts/ui-povod-v1/filters/390.png and parity-comparison.png.
-- Verification: focused Home tests 3/3 PASS; focused Search/filter tests 7/7 PASS; repository unit suite 125/125 PASS; TypeScript typecheck PASS; production build PASS. Exact logs are under artifacts/ui-povod-v1/logs/.
-- Remaining parity gaps: the Home temporary wordmark remains 21 px narrower and 3 px taller optically; local event artwork preserves the black/red concert hierarchy but differs in subjects/crops; normalized Search/Filter comparisons omit phone/status/Dynamic Island chrome, and the Filter Sheet's exposed top underlay therefore shows web app content.
-- Next recommended slice: Event / Occurrence detail.
+- Status: **PASS — parallel UI wave integration and visual regression** (2026-09-20).
+- Branch: `codex/ui-v1-integrated`; worktree: `D:\Dev\Repos\The-Boys-Max-ui-integrated`.
+- Integration base: `84ca97d41dd16991359ccdcf39f7c068cfd566b5`.
+- Final integrated implementation SHA: `14528e10a9a855fab661bdef23228b1c69903354`. The following delivery commit contains only canonical documentation and evidence; its immutable HEAD is recorded in the package `RESULT_SHA.txt` and final response.
+
+| Source | Accepted SHA |
+|---|---|
+| Detail | `a6f8cc4c259bab62937e260ac4f68a0b8534b4a9` |
+| Saved | `fa27796e9d79ad2fd207e96f5d68f44246d9c10a` |
+| Profile | `ba184df44aa3beefc9722f5c3cb7d8bc1b1a2f71` |
+| Plans | `cb278a70cd66c7e4c3e810dd57733e41510aeecc` |
+| States | `b5b1c423f5ce18290ba927cefa1146b8e9a417a6` |
+
+- Screens: Home, Search, Filter Sheet, Event Detail (including price UNKNOWN, venue UNKNOWN and source unavailable), Saved, Profile / Preferences, My Plans, Plan Detail, Loading, Empty, Error, Offline. Solo and empty-discussion Plan Detail states are also explicitly routable.
+- Shared system: unchanged `design/tokens.css`, one 28-glyph Icon, capability-aware BottomNav, AppViewport/Screen, EventCardList/SaveAction, Detail primitives, participant primitives, one scoped stylesheet and one CDP capture helper. No dependencies or lockfile changes.
+- Routing: exact `?design=` allowlist in `view-model/design-preview.ts` dynamically loads `DesignPreview.tsx`; unknown/missing values enter normal runtime. Preview transitions preserve selected event/plan identity.
+- Profile: **Связанные сервисы**, fixture set **VK + monochrome OK + add**. All three controls are disabled placeholders; no OAuth/linking/Telegram integration. Runtime shows a service only for an explicitly supplied `SERVER_ADAPTER / CONNECTED` record.
+- Navigation: Saved remains a Profile subsection; its active Profile state is preserved. A bookmark in the existing left Profile header slot opens Saved in preview. Detail inherits Home/Search/Profile/Plan from its origin. Friends remains unavailable; Plans is enabled only by the preview navigation capability.
+- Fixture boundary: all people, prices, dates, attendance, RSVP/discussion, avatar and service placeholders stay within explicit previews; local actions never call the API or imply persistence. No fixture URL is opened. Normal runtime never loads the DesignPreview data chunk; three browser negative controls pass. Runtime Detail keeps unknowns and allowlisted source URLs; Offline accepts only supplied cached records.
+- Visual authority: the three approved Master UI packs, unchanged. Evidence: `artifacts/ui-povod-v1/integrated/{390,360,430}/`, `POVOD_UI_V1_FULL_MONTAGE.png`, `POVOD_UI_V1_MASTER_COMPARISON.png`. 37 PNGs: 32 required captures plus three Detail and two Plan Detail variants.
+- Regression: 20/32 primary PNGs exactly match accepted slice evidence. Remaining differences are Profile/OK/navigation affordance, Detail active Home, normalized plus glyph and 92/26 changed Home pixels at 360/430; no layout regression. Both branded state PNGs retain their original hashes and paths.
+- Checks: focused **39/39**, full unit **154/154**, typecheck **PASS**, pure typecheck **PASS**, production build **PASS** (193 modules), diff check **PASS**. Eight browser interaction groups, three fixture negative controls, 360/390/430 layout checks and reduced motion **PASS**. Final build matches all six captured build-file hashes. Exact commands/receipts: `artifacts/ui-povod-v1/integrated/VERIFICATION_SUMMARY.json`.
+- Concrete remaining gaps: reference artwork/portraits still differ where accepted slices use existing artwork or initials; the temporary wordmark and raster state assets retain their previously accepted optical differences. Persisted Save/Saved, real profile preferences and social delivery are not newly wired by this UI wave; unavailable runtime capabilities remain disabled.
+- Next integration slice: connect the existing persisted Save/Saved P0 contract to the accepted Saved/Detail presentation, with authenticated data and source-opening checks.
+
+[Integration handoff](../handoffs/UI_POVOD_V1_INTEGRATED.md)

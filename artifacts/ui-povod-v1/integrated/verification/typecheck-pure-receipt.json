@@ -1,0 +1,8 @@
+{
+  "startedUtc": "2026-09-20T17:05:56.6792644Z",
+  "exit": 0,
+  "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+  "name": "typecheck-pure",
+  "command": "npm.cmd run typecheck:pure",
+  "finishedUtc": "2026-09-20T17:05:58.5327187Z"
+}
