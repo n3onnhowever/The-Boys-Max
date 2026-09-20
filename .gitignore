@@ -1,33 +1,57 @@
+# Local dependencies and generated output.
 node_modules/
 dist/
-.runtime/
-.env*
-!.env.example
-*.log
-openapi.json
 coverage/
-
-.env.release
+.runtime/
 .run-evidence/
+openapi.json
 lock-review.json
 dependency-preflight.json
-openapi.json
+*.log
 
-# Codex/project evidence
-.env
-.env.*
+# Private configuration. Only these two safe templates belong in Git.
+.env*
 !.env.example
+!.env.release.example
+.secrets/
 artifacts/runtime/
 artifacts/secrets/
 *.local
 
-# Local authority/evidence bundles (kept in workspace, not source repo)
+# Local authority/evidence bundles: retain originals outside tracked source.
 input/results/*.zip
 input/reviews/*.zip
 input/official/*.pdf
+/artifacts/research/*.zip
 
-# Safe release template only; real .env.release remains ignored.
-!.env.release.example
+# Disposable browser/test output; selected audit evidence is kept explicitly.
+.playwright/
+.browser-output/
+playwright-report/
+blob-report/
+test-results/
+/test-downloads/
+/artifacts/screenshots/
+/artifacts/repo-cleanroom/probes/
+/artifacts/repo-cleanroom/install/
 
-# Local secrets - never commit
-.secrets/
+# Local database/storage directories. Do not hide source fixtures globally.
+/pgdata/
+/redis-data/
+/storage/
+*.sqlite-journal
+*.sqlite3-journal
+*.db-journal
+
+# Editor state, OS junk and temporary files.
+.idea/
+.history/
+.vscode/*.local.json
+*.suo
+*.user
+*.swp
+*.swo
+*.tmp
+.DS_Store
+Thumbs.db
+desktop.ini
