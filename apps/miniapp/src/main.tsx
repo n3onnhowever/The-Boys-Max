@@ -12,8 +12,12 @@ import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
 import { HOME_DESIGN_DATA } from './design-data/home.ts';
 import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
+import { SYSTEM_STATE_DESIGN_DATA } from './design-data/states.ts';
+import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
+import { HOME_SYSTEM_CHROME, previewDestination, type HomeSystemStateKind } from './view-model/system-state.ts';
 import './styles.css';
+
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
  * No token or actor is read from URL/localStorage/initDataUnsafe. This is not an auth implementation. */
 const sessionSchema = z.object({csrfToken:z.string().min(1),externalOrigins:z.array(z.url())}).strict();
@@ -36,6 +40,7 @@ if (invite && invite.length <= 512) initialRoute = {kind:'INVITE',inviteRef:invi
 const element = document.getElementById('root');
 if (!element) throw new Error('Missing root element');
 const root = createRoot(element);
+
 async function start() {
   root.render(<App controller={controller} origins={[]} clipboard={navigator.clipboard ?? null} />);
   try {
@@ -50,14 +55,23 @@ async function start() {
     clipboard={navigator.clipboard ?? null} renderMap={place=>place.geoView?<MapComparison options={[{uiKey:'place',view:place.geoView}]} selectedKey={'place'} onHighlight={()=>{}} onBack={()=>{}} gate="ADMISSION_HOLD" />:<p>Для этого места есть только адрес. Точка не придумана.</p>} /></StrictMode>);
   await controller.load(initialRoute);
 }
+
 const designPreview = params.get('design');
+const statePreviewKinds: readonly HomeSystemStateKind[] = ['loading', 'empty', 'error', 'offline'];
+const statePreview = statePreviewKinds.find(kind => kind === designPreview);
 const navigateDesign = (target: string) => {
   const url = new URL(location.href);
   url.search = '';
   url.searchParams.set('design', target);
   location.assign(url);
 };
-if (designPreview === 'home') {
+if (statePreview) {
+  root.render(<StrictMode><HomeSystemScreen
+    state={SYSTEM_STATE_DESIGN_DATA[statePreview]}
+    chrome={HOME_SYSTEM_CHROME}
+    onAction={action => navigateDesign(previewDestination(action))}
+  /></StrictMode>);
+} else if (designPreview === 'home') {
   root.render(<StrictMode><App controller={controller} origins={[]} clipboard={null} designPreview={HOME_DESIGN_DATA} /></StrictMode>);
 } else if (designPreview === 'search' || designPreview === 'filters') {
   root.render(<StrictMode><SearchScreen

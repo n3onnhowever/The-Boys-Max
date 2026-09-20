@@ -2,7 +2,7 @@ import type { SearchEventViewModel } from '../view-model/search.ts';
 import { Icon } from './Icon.tsx';
 import { SaveAction } from './SaveAction.tsx';
 
-export function EventCardList({ events, savedEventIds, onSave }: { events: SearchEventViewModel[]; savedEventIds: string[]; onSave: (eventId: string) => void }) {
+export function EventCardList({ events, savedEventIds, onSave }: { events: SearchEventViewModel[]; savedEventIds: string[]; onSave?: (eventId: string) => void }) {
   return <div className="event-list" aria-label="Результаты поиска">
     {events.map(event => <article className="event-list-card" key={event.id}>
       <img className="event-list-artwork" src={event.artwork} alt={event.artworkAlt} />
@@ -12,7 +12,7 @@ export function EventCardList({ events, savedEventIds, onSave }: { events: Searc
         <span className="event-list-venue"><Icon name="pin" />{event.venue}</span>
         <strong className="event-list-price">{event.priceLabel}</strong>
       </div>
-      <SaveAction saved={savedEventIds.includes(event.id)} onToggle={() => onSave(event.id)} />
+      <SaveAction saved={savedEventIds.includes(event.id)} onToggle={onSave ? () => onSave(event.id) : undefined} />
     </article>)}
   </div>;
 }

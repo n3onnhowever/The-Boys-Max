@@ -7,12 +7,12 @@ import { EventDetail } from './components/EventDetail.tsx';
 import { PlanPanel } from './components/PlanPanel.tsx';
 import { InvitePanel } from './components/InvitePanel.tsx';
 import { HomeScreen } from './components/HomeScreen.tsx';
-import { AppViewport, Screen } from './components/AppShell.tsx';
-import { BrandHeader } from './components/BrandHeader.tsx';
-import { BottomNav } from './components/BottomNav.tsx';
-import { HomeSkeleton } from './components/Skeleton.tsx';
+import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
+import { HOME_SYSTEM_CHROME, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
 import type { HomeViewModel } from './view-model/home.ts';
+
 export interface AppProps { controller: ViewController; origins: readonly string[]; clipboard: ClipboardPort | null; renderMap?: MapRenderer; designPreview?: HomeViewModel; }
+
 export function App({controller,origins,clipboard,renderMap,designPreview}:AppProps) {
   const state = useSyncExternalStore(controller.subscribe,controller.getSnapshot,controller.getSnapshot);
   const {view} = state;
@@ -25,12 +25,21 @@ export function App({controller,origins,clipboard,renderMap,designPreview}:AppPr
     document.querySelector<HTMLElement>('main h1')?.focus();
   },[routeKey]);
   if (designPreview) return <HomeScreen model={designPreview} />;
+  if (!view && state.phase === 'loading') return <HomeSystemScreen state={loadingSystemState()} chrome={HOME_SYSTEM_CHROME} />;
+  if (!view && state.phase === 'offline') return <HomeSystemScreen
+    state={offlineSystemState([])}
+    chrome={HOME_SYSTEM_CHROME}
+    onAction={action => { if (action === 'retry') void controller.retry(); }}
+  />;
+  if (!view && state.phase === 'error') return <HomeSystemScreen
+    state={errorSystemState()}
+    chrome={HOME_SYSTEM_CHROME}
+    onAction={action => {
+      if (action === 'retry') void controller.retry();
+      if (action === 'return-home') void controller.load({kind:'CATALOG',scope:{kind:'PERSONAL'}});
+    }}
+  />;
   if (view?.kind === 'CATALOG') return <EventsList view={view} controller={controller} state={state} busy={busy} />;
-  if (!view && state.phase === 'loading') return <AppViewport>
-    <a className="skip-link" href="#main">К содержимому</a>
-    <Screen><BrandHeader /><HomeSkeleton /></Screen>
-    <BottomNav active="home" />
-  </AppViewport>;
   return <>
     <a className="skip-link" href="#main">К содержимому</a>
     <header className="app-header"><span className="brand">Повод</span><span className="brand-subtitle">Личный выбор и необязательные совместные планы</span></header>

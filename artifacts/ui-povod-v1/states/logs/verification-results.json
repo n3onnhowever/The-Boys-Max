@@ -1,0 +1,107 @@
+{
+  "generatedUtc": "2026-09-20T15:48:08.870Z",
+  "node": "v24.19.0",
+  "unitFiles": 10,
+  "status": "PASS",
+  "results": [
+    {
+      "name": "verify-dependencies",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe scripts/verify-dependencies.mjs",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:47:44.859Z",
+      "finishedUtc": "2026-09-20T15:47:53.372Z",
+      "log": "artifacts/ui-povod-v1/states/logs/verify-dependencies.log",
+      "logSha256": "d36cc8239d61d477d5c995b0f4c257bd7ec4d6bb9e491bcf51d330237e1017d3"
+    },
+    {
+      "name": "syntax",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe scripts/check-source-syntax.mjs",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:47:53.378Z",
+      "finishedUtc": "2026-09-20T15:47:54.138Z",
+      "log": "artifacts/ui-povod-v1/states/logs/syntax.log",
+      "logSha256": "8cc83b315616a84a5ffe3618a920ac2157f537423deda5281a21769c00ccb0a0"
+    },
+    {
+      "name": "unit",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe --experimental-strip-types --test tests\\unit\\delivery-and-ports.test.ts tests\\unit\\dependency-boundaries.test.ts tests\\unit\\home-system-reset.test.ts tests\\unit\\home-system-state.test.ts tests\\unit\\home-view-model.test.ts tests\\unit\\http-price.test.ts tests\\unit\\integration26.test.ts tests\\unit\\plan.test.ts tests\\unit\\search-ui-state.test.ts tests\\unit\\security.test.ts",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:47:54.144Z",
+      "finishedUtc": "2026-09-20T15:47:54.934Z",
+      "log": "artifacts/ui-povod-v1/states/logs/unit.log",
+      "logSha256": "29f227b60d216ca3163a38879032ff015096e951edad1d3da809b3dedf12b3cc"
+    },
+    {
+      "name": "patch-drizzle-typecheck",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe scripts/patch-drizzle-declarations.mjs",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:47:54.942Z",
+      "finishedUtc": "2026-09-20T15:47:55.018Z",
+      "log": "artifacts/ui-povod-v1/states/logs/patch-drizzle-typecheck.log",
+      "logSha256": "4938b46c6a6155d616d52077222a3b6421a42e307e7081336af107522fb4d224"
+    },
+    {
+      "name": "typecheck",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe node_modules/typescript/bin/tsc --noEmit",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:47:55.024Z",
+      "finishedUtc": "2026-09-20T15:48:00.856Z",
+      "log": "artifacts/ui-povod-v1/states/logs/typecheck.log",
+      "logSha256": "04b32e1317aafad454443e15b7235c05a9e1d3ac33f8df28b5eff635939edc77"
+    },
+    {
+      "name": "typecheck-pure",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe node_modules/typescript/bin/tsc --noEmit -p tsconfig.pure.json",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:48:00.862Z",
+      "finishedUtc": "2026-09-20T15:48:02.723Z",
+      "log": "artifacts/ui-povod-v1/states/logs/typecheck-pure.log",
+      "logSha256": "d569826eb13c4749b881432ce86d23447cd2fc0d05b7170c2610d7827c47dedb"
+    },
+    {
+      "name": "patch-drizzle-build",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe scripts/patch-drizzle-declarations.mjs",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:48:02.729Z",
+      "finishedUtc": "2026-09-20T15:48:02.806Z",
+      "log": "artifacts/ui-povod-v1/states/logs/patch-drizzle-build.log",
+      "logSha256": "4938b46c6a6155d616d52077222a3b6421a42e307e7081336af107522fb4d224"
+    },
+    {
+      "name": "build-typescript",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe node_modules/typescript/bin/tsc -p tsconfig.build.json",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:48:02.808Z",
+      "finishedUtc": "2026-09-20T15:48:08.348Z",
+      "log": "artifacts/ui-povod-v1/states/logs/build-typescript.log",
+      "logSha256": "0295dbc79e7da161441615336fcf92ad97f99c5309dd47944f2657e4ccea7210"
+    },
+    {
+      "name": "copy-assets",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe scripts/copy-assets.mjs",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:48:08.354Z",
+      "finishedUtc": "2026-09-20T15:48:08.422Z",
+      "log": "artifacts/ui-povod-v1/states/logs/copy-assets.log",
+      "logSha256": "dbd521575adcd2dcac14cdafc07141e1b5e2e3ac3a1f70929cffbe2544ae3e5b"
+    },
+    {
+      "name": "vite-build",
+      "command": "C:\\Users\\admin\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe node_modules/vite/bin/vite.js build apps/miniapp",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:48:08.427Z",
+      "finishedUtc": "2026-09-20T15:48:08.785Z",
+      "log": "artifacts/ui-povod-v1/states/logs/vite-build.log",
+      "logSha256": "5d64d75cb81c07df118f5cce9e1aec1a0cff7382cee8a64730dbdeea3c7d5eb8"
+    },
+    {
+      "name": "diff-check",
+      "command": "git diff --check",
+      "exitCode": 0,
+      "startedUtc": "2026-09-20T15:48:08.790Z",
+      "finishedUtc": "2026-09-20T15:48:08.865Z",
+      "log": "artifacts/ui-povod-v1/states/logs/diff-check.log",
+      "logSha256": "2470b850d36c8818a53b2338ed14ee25f2a532254987dc39308951adf335e3e1"
+    }
+  ]
+}

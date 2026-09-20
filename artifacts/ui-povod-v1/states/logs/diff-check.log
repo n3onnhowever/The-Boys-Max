@@ -1,0 +1,6 @@
+$ git diff --check
+warning: in the working copy of 'apps/miniapp/src/assets.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'apps/miniapp/src/components/EventCardList.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'apps/miniapp/src/components/Icon.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'apps/miniapp/src/components/Skeleton.tsx', LF will be replaced by CRLF the next time Git touches it
+exit=0
