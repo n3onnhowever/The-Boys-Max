@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { SearchFilterState, SearchUiAction } from '../view-model/search.ts';
 import { SEARCH_FILTER_OPTIONS } from '../view-model/search.ts';
 import { FilterChip } from './FilterChip.tsx';
@@ -15,9 +16,40 @@ function choiceLabel(label: string, selected: boolean, removable: boolean) {
 }
 
 export function FilterSheet({ open, filters, onAction }: FilterSheetProps) {
-  return <div className={`filter-sheet-layer${open ? ' is-open' : ''}`} aria-hidden={!open}>
-    <button className="filter-sheet-backdrop" type="button" aria-label="Закрыть фильтры" onClick={() => onAction({ type: 'CLOSE_FILTERS' })} />
-    <aside className="filter-sheet" role="dialog" aria-modal="true" aria-labelledby="filter-sheet-title">
+  const dialogRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!open || !dialogRef.current) return;
+    const dialog = dialogRef.current;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const layer = dialog.parentElement;
+    const background = Array.from(layer?.parentElement?.children ?? [])
+      .filter((element): element is HTMLElement => element instanceof HTMLElement && element !== layer)
+      .map(element => ({ element, inert: element.inert }));
+    background.forEach(({ element }) => { element.inert = true; });
+    const focusFrame = requestAnimationFrame(() => {
+      dialog.querySelector<HTMLButtonElement>('.filter-sheet-close')?.focus({ preventScroll: true });
+    });
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      background.forEach(({ element, inert }) => { element.inert = inert; });
+      if (opener?.isConnected && opener !== document.body) opener.focus({ preventScroll: true });
+    };
+  }, [open]);
+  return <div className={`filter-sheet-layer${open ? ' is-open' : ''}`} aria-hidden={!open} inert={!open}>
+    <button className="filter-sheet-backdrop" type="button" tabIndex={-1} aria-label="Закрыть фильтры" onClick={() => onAction({ type: 'CLOSE_FILTERS' })} />
+    <aside ref={dialogRef} id="filter-sheet-dialog" className="filter-sheet" role="dialog" aria-modal="true" aria-labelledby="filter-sheet-title" onKeyDown={event => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onAction({ type: 'CLOSE_FILTERS' });
+      }
+      if (event.key === 'Tab') {
+        const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), [tabindex="0"]'));
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    }}>
       <span className="filter-sheet-handle" aria-hidden="true" />
       <header className="filter-sheet-header">
         <h1 id="filter-sheet-title">Фильтры</h1>

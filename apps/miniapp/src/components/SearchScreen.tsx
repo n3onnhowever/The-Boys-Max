@@ -38,10 +38,10 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
         {selected.slice(0, 3).map(filter => <SelectedFilterChip key={filter.id} filter={filter} onRemove={() => act({ type: 'REMOVE_FILTER', key: filter.key, value: filter.value })} />)}
       </div>
       <div className="search-filter-controls" aria-label="Настроить фильтры">
-        <FilterControl label="Дата" active={state.applied.date !== 'any'} onOpen={openFilters} />
-        <FilterControl label="Категория" active={state.applied.categories.length > 0} onOpen={openFilters} />
-        <FilterControl label="Формат" active={state.applied.format !== 'any'} onOpen={openFilters} />
-        <FilterControl label="Цена" active={state.applied.price !== 'any'} onOpen={openFilters} />
+        <FilterControl label="Дата" active={state.applied.date !== 'any'} onOpen={openFilters} expanded={state.sheetOpen} />
+        <FilterControl label="Категория" active={state.applied.categories.length > 0} onOpen={openFilters} expanded={state.sheetOpen} />
+        <FilterControl label="Формат" active={state.applied.format !== 'any'} onOpen={openFilters} expanded={state.sheetOpen} />
+        <FilterControl label="Цена" active={state.applied.price !== 'any'} onOpen={openFilters} expanded={state.sheetOpen} />
       </div>
       <SortTabs active={state.applied.sort} onSelect={value => act({ type: 'SET_SORT', value })} />
       <div className="search-results-header">

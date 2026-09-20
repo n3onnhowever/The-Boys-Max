@@ -6,7 +6,7 @@ export function EventCardCompact({ event, variant = 'compact', onOpen, onSave }:
   return <article className={`event-card-compact event-card-${variant}`}>
     <div className="event-card-artwork">
       <button type="button" className="event-card-image-button" onClick={onOpen} disabled={!onOpen} aria-label={`Открыть событие «${event.title}»`}>
-        <img src={event.artwork} alt={event.artworkAlt} />
+        <img src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} />
       </button>
       <SaveAction saved={event.saved} onToggle={onSave} inverse />
     </div>

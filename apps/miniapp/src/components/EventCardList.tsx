@@ -14,7 +14,7 @@ export function EventCardList({ events, savedEventIds, onSave, onOpen, ariaLabel
   return <div className="event-list" aria-label={ariaLabel}>
     {events.map(event => <article className="event-list-card" key={event.id}>
       <button className="event-list-open" type="button" onClick={() => onOpen?.(event.id)} disabled={!onOpen} aria-label={`Открыть событие «${event.title}»`}>
-        <img className="event-list-artwork" src={event.artwork} alt={event.artworkAlt} />
+        <img className="event-list-artwork" src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} />
         <span className="event-list-copy">
           <span className="event-list-date">{event.dateTimeLabel}</span>
           <span className="event-list-title">{event.title}</span>

@@ -14,7 +14,7 @@ interface EventHeroProps {
 
 export function EventHero({ title, dateTimeLabel, venueLabel, artwork, artworkAlt, saved, onBack, onShare, onSave }: EventHeroProps) {
   return <section className="event-detail-hero" aria-labelledby="event-detail-title">
-    {artwork && <img className="event-detail-hero-artwork" src={artwork} alt={artworkAlt} />}
+    {artwork && <img className="event-detail-hero-artwork" src={artwork} decoding="async" fetchPriority="high" alt={artworkAlt} />}
     <div className="event-detail-hero-shade" aria-hidden="true" />
     <div className="event-detail-hero-controls">
       <button type="button" className="event-detail-hero-control" onClick={onBack ?? undefined} disabled={!onBack} aria-label="Назад">

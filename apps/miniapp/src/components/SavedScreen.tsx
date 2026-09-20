@@ -29,14 +29,13 @@ export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, o
           <span className="notification-dot" aria-hidden="true" />
         </button>
       </header>
-      <div className="saved-segmented" role="tablist" aria-label="Период сохранённых событий">
+      <div className="saved-segmented" role="group" aria-label="Период сохранённых событий">
         {model.segments.map(segment => <button
           key={segment.id}
           id={`saved-tab-${segment.id}`}
           type="button"
-          role="tab"
           aria-controls="saved-events-panel"
-          aria-selected={state.activeSegment === segment.id}
+          aria-pressed={state.activeSegment === segment.id}
           className={state.activeSegment === segment.id ? 'is-active' : ''}
           onClick={() => dispatch({ type: 'SELECT_SEGMENT', segment: segment.id })}
         >{segment.label}</button>)}
@@ -44,7 +43,6 @@ export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, o
       <section
         id="saved-events-panel"
         className="saved-events-panel"
-        role="tabpanel"
         aria-labelledby={`saved-tab-${state.activeSegment}`}
       >
         {events.length > 0 ? <EventCardList
