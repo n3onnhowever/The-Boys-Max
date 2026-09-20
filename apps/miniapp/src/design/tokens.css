@@ -4,6 +4,7 @@
   --povod-color-text: #0e0e0e;
   --povod-color-muted: #6f6d68;
   --povod-color-border: #dedbd3;
+  --povod-color-control: #f2f0eb;
   --povod-color-action: #c63b2b;
   --povod-color-social: #6c54ff;
   --povod-color-dark: #151515;
@@ -28,6 +29,7 @@
   --povod-font-metadata: "IBM Plex Mono", ui-monospace, monospace;
   --povod-border: 1px solid var(--povod-color-border);
   --povod-shadow-raised: 0 8px 24px rgb(14 14 14 / 8%);
+  --povod-motion-fast: 160ms;
   --povod-control-height: 44px;
   --povod-control-height-large: 52px;
   --povod-icon-small: 18px;

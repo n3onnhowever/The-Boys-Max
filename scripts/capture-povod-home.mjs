@@ -5,10 +5,16 @@ import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-const widths = [360, 390, 430];
+const options = Object.fromEntries(process.argv.slice(2).map(argument => {
+  const [key, ...value] = argument.replace(/^--/, '').split('=');
+  return [key, value.join('=')];
+}));
+const design = options.design || 'home';
+const widths = (options.widths || process.env.POVOD_CAPTURE_WIDTHS || '360,390,430')
+  .split(',').map(Number).filter(width => Number.isInteger(width) && width > 0);
 const height = 844;
-const targetUrl = process.env.POVOD_CAPTURE_URL ?? 'http://127.0.0.1:4173/?design=home';
-const outputDir = path.resolve(process.env.POVOD_CAPTURE_DIR ?? 'artifacts/ui-povod-v1/home');
+const targetUrl = process.env.POVOD_CAPTURE_URL ?? `http://127.0.0.1:4173/?design=${encodeURIComponent(design)}`;
+const outputDir = path.resolve(options.output || process.env.POVOD_CAPTURE_DIR || `artifacts/ui-povod-v1/${design}`);
 const browserCandidates = [
   process.env.POVOD_BROWSER_PATH,
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',

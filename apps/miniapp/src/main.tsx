@@ -11,6 +11,8 @@ import { HttpVisualPort } from './port/http.ts';
 import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
 import { HOME_DESIGN_DATA } from './design-data/home.ts';
+import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
+import { SearchScreen } from './components/SearchScreen.tsx';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
  * No token or actor is read from URL/localStorage/initDataUnsafe. This is not an auth implementation. */
@@ -48,8 +50,22 @@ async function start() {
     clipboard={navigator.clipboard ?? null} renderMap={place=>place.geoView?<MapComparison options={[{uiKey:'place',view:place.geoView}]} selectedKey={'place'} onHighlight={()=>{}} onBack={()=>{}} gate="ADMISSION_HOLD" />:<p>Для этого места есть только адрес. Точка не придумана.</p>} /></StrictMode>);
   await controller.load(initialRoute);
 }
-if (params.get('design') === 'home') {
+const designPreview = params.get('design');
+const navigateDesign = (target: string) => {
+  const url = new URL(location.href);
+  url.search = '';
+  url.searchParams.set('design', target);
+  location.assign(url);
+};
+if (designPreview === 'home') {
   root.render(<StrictMode><App controller={controller} origins={[]} clipboard={null} designPreview={HOME_DESIGN_DATA} /></StrictMode>);
+} else if (designPreview === 'search' || designPreview === 'filters') {
+  root.render(<StrictMode><SearchScreen
+    model={SEARCH_DESIGN_DATA}
+    initialFilterSheetOpen={designPreview === 'filters'}
+    onBack={() => navigateDesign('home')}
+    onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
+  /></StrictMode>);
 } else {
   void start();
 }
