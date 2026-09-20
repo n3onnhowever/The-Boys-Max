@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'arrow' | 'back' | 'bell' | 'calendar' | 'chevronDown' | 'close' | 'coins' | 'heart' | 'home' | 'map' | 'music' | 'people' | 'pin' | 'search' | 'user';
+export type IconName = 'arrow' | 'back' | 'bell' | 'calendar' | 'chevronDown' | 'chevronRight' | 'close' | 'coins' | 'heart' | 'home' | 'map' | 'more' | 'music' | 'people' | 'pin' | 'plus' | 'search' | 'send' | 'user';
 
 interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
@@ -22,6 +22,10 @@ export function Icon({ name, filled = false, ...props }: IconProps) {
     {name === 'back' && <><path {...common} d="m10 5-7 7 7 7" /><path {...common} d="M3 12h18" /></>}
     {name === 'close' && <><path {...common} d="m5 5 14 14" /><path {...common} d="M19 5 5 19" /></>}
     {name === 'chevronDown' && <path {...common} d="m7 9.5 5 5 5-5" />}
+    {name === 'chevronRight' && <path {...common} d="m9 5 7 7-7 7" />}
+    {name === 'plus' && <><path {...common} d="M12 4v16" /><path {...common} d="M4 12h16" /></>}
+    {name === 'send' && <><path {...common} d="m3.8 4.2 16.4 7.8-16.4 7.8 2.5-7.8z" /><path {...common} d="M6.3 12h13.9" /></>}
+    {name === 'more' && <><circle cx="5" cy="12" r="1.25" fill="currentColor" /><circle cx="12" cy="12" r="1.25" fill="currentColor" /><circle cx="19" cy="12" r="1.25" fill="currentColor" /></>}
     {name === 'map' && <><path {...common} d="m3.5 5.5 5-2.5 7 3 5-2.5v15l-5 2.5-7-3-5 2.5z" /><path {...common} d="M8.5 3v15M15.5 6v15" /></>}
     {name === 'music' && <><path {...common} d="M9 17.5V6l10-2v11.5" /><circle {...common} cx="6.5" cy="17.5" r="2.5" /><circle {...common} cx="16.5" cy="15.5" r="2.5" /></>}
     {name === 'coins' && <><ellipse {...common} cx="12" cy="6" rx="7" ry="3" /><path {...common} d="M5 6v5c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 11v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5" /></>}

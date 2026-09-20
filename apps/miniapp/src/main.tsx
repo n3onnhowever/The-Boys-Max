@@ -12,6 +12,9 @@ import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
 import { HOME_DESIGN_DATA } from './design-data/home.ts';
 import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
+import { MY_PLANS_DESIGN_DATA, PLAN_DETAIL_DESIGN_DATA } from './design-data/plans.ts';
+import { MyPlansScreen } from './components/MyPlansScreen.tsx';
+import { PlanDetailScreen } from './components/PlanDetailScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
@@ -65,6 +68,27 @@ if (designPreview === 'home') {
     initialFilterSheetOpen={designPreview === 'filters'}
     onBack={() => navigateDesign('home')}
     onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
+  /></StrictMode>);
+} else if (designPreview === 'my-plans') {
+  root.render(<StrictMode><MyPlansScreen
+    model={MY_PLANS_DESIGN_DATA}
+    onAddPlan={() => navigateDesign('search')}
+    onPlanOpen={() => navigateDesign('plan-detail')}
+    onNavigate={target => {
+      if (target === 'home' || target === 'search') navigateDesign(target);
+      if (target === 'plan') navigateDesign('my-plans');
+    }}
+  /></StrictMode>);
+} else if (designPreview === 'plan-detail') {
+  root.render(<StrictMode><PlanDetailScreen
+    model={PLAN_DETAIL_DESIGN_DATA}
+    onBack={() => navigateDesign('my-plans')}
+    onEventOpen={() => navigateDesign('home')}
+    onInvite={() => undefined}
+    onNavigate={target => {
+      if (target === 'home' || target === 'search') navigateDesign(target);
+      if (target === 'plan') navigateDesign('my-plans');
+    }}
   /></StrictMode>);
 } else {
   void start();

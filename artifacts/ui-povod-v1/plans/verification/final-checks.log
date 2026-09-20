@@ -1,0 +1,9 @@
+BASE_SHA=84ca97d41dd16991359ccdcf39f7c068cfd566b5
+SOURCE_DIFF_SHA256=32a2cf41bf5399fce661a5974f2a6c35cabe892f14b999745f261cb1f479c4d5
+CHANGED_PATHS=30
+COMMAND=git diff --cached --check
+EXIT=0
+COMMAND=protected changed-path allowlist scan
+EXIT=0
+COMMAND=staged added/changed-text secret heuristic
+EXIT=0
