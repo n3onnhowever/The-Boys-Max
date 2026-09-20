@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'arrow' | 'back' | 'bell' | 'bookmark' | 'calendar' | 'chevronDown' | 'close' | 'coins' | 'external' | 'heart' | 'home' | 'map' | 'music' | 'people' | 'pin' | 'search' | 'share' | 'ticket' | 'user';
+export type IconName = 'arrow' | 'back' | 'bell' | 'bookmark' | 'calendar' | 'chevronDown' | 'chevronRight' | 'clock' | 'close' | 'coins' | 'external' | 'heart' | 'home' | 'map' | 'music' | 'people' | 'pin' | 'plus' | 'search' | 'settings' | 'share' | 'ticket' | 'user' | 'wallet';
 
 interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
@@ -29,5 +29,10 @@ export function Icon({ name, filled = false, ...props }: IconProps) {
     {name === 'share' && <><path {...common} d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5" /><path {...common} d="M6 10H4.8A1.8 1.8 0 0 0 3 11.8v7.4A1.8 1.8 0 0 0 4.8 21h14.4a1.8 1.8 0 0 0 1.8-1.8v-7.4a1.8 1.8 0 0 0-1.8-1.8H18" /></>}
     {name === 'ticket' && <><path {...common} d="M4 7.2h16v3a2.2 2.2 0 0 0 0 4.4v2.2H4v-2.2a2.2 2.2 0 0 0 0-4.4z" /><path {...common} d="M9 7.2v9.6" strokeDasharray="2.2 2.2" /></>}
     {name === 'external' && <><path {...common} d="M14 4h6v6M20 4l-9 9" /><path {...common} d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6" /></>}
+    {name === 'chevronRight' && <path {...common} d="m9 5 7 7-7 7" />}
+    {name === 'clock' && <><circle {...common} cx="12" cy="12" r="8.5" /><path {...common} d="M12 7v5l3.5 2" /></>}
+    {name === 'plus' && <><path {...common} d="M12 5v14" /><path {...common} d="M5 12h14" /></>}
+    {name === 'settings' && <><circle {...common} cx="12" cy="12" r="3" /><path {...common} d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z" /></>}
+    {name === 'wallet' && <><path {...common} d="M4 6.5h14.5A1.5 1.5 0 0 1 20 8v10a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3 18V6a2 2 0 0 1 2-2h11" /><path {...common} d="M15 11h5v4h-5a2 2 0 0 1 0-4Z" /></>}
   </svg>;
 }

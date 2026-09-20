@@ -13,6 +13,10 @@ export const HOME_ARTWORK = {
   dance: '/assets/events/nearby-dance.jpg',
 } as const;
 
+export const PROFILE_ASSETS = {
+  designAvatar: '/assets/profile/design-avatar.jpg',
+} as const;
+
 /** Stable insertion points for future branded empty/offline/error illustrations. */
 export const STATE_ASSETS = {
   empty: null,

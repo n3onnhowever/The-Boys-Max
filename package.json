@@ -33,7 +33,8 @@
     "migrate:price": "node --experimental-strip-types scripts/upgrade-price.ts",
     "syntax": "node scripts/check-source-syntax.mjs",
     "test:offline": "node --experimental-strip-types --test tests/unit/*.test.ts",
-    "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json"
+    "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json",
+    "capture:profile": "node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430"
   },
   "dependencies": {
     "@fastify/cookie": "11.0.2",

@@ -15,6 +15,9 @@ import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
 import { DETAIL_DESIGN_DATA, type DetailDesignVariant } from './design-data/detail.ts';
 import { SAVED_DESIGN_DATA } from './design-data/saved.ts';
 import { SavedScreen } from './components/SavedScreen.tsx';
+import { PROFILE_DESIGN_DATA } from './design-data/profile.ts';
+import { HomeScreen } from './components/HomeScreen.tsx';
+import { ProfileScreen } from './components/ProfileScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
 import { DetailScreen } from './components/DetailScreen.tsx';
 import './styles.css';
@@ -71,7 +74,7 @@ if (detailDesignPreview) {
     onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
   /></StrictMode>);
 } else if (designPreview === 'home') {
-  root.render(<StrictMode><App controller={controller} origins={[]} clipboard={null} designPreview={HOME_DESIGN_DATA} /></StrictMode>);
+  root.render(<StrictMode><HomeScreen model={HOME_DESIGN_DATA} onNavigate={target => { if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target); }} /></StrictMode>);
 } else if (designPreview === 'search' || designPreview === 'filters') {
   root.render(<StrictMode><SearchScreen
     model={SEARCH_DESIGN_DATA}
@@ -91,6 +94,8 @@ if (detailDesignPreview) {
       if (target === 'home' || target === 'search') navigateDesign(target);
     }}
   /></StrictMode>);
+} else if (designPreview === 'profile') {
+  root.render(<StrictMode><ProfileScreen model={PROFILE_DESIGN_DATA} onNavigate={target => { if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target); }} /></StrictMode>);
 } else {
   void start();
 }
