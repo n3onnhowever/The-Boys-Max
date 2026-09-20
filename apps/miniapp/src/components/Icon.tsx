@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'arrow' | 'back' | 'bell' | 'bookmark' | 'calendar' | 'chevronDown' | 'chevronRight' | 'clock' | 'close' | 'coins' | 'external' | 'heart' | 'home' | 'map' | 'music' | 'people' | 'pin' | 'plus' | 'search' | 'settings' | 'share' | 'ticket' | 'user' | 'wallet';
+export type IconName = 'arrow' | 'back' | 'bell' | 'bookmark' | 'calendar' | 'chevronDown' | 'chevronRight' | 'clock' | 'close' | 'coins' | 'external' | 'heart' | 'home' | 'map' | 'more' | 'music' | 'people' | 'pin' | 'plus' | 'search' | 'send' | 'settings' | 'share' | 'ticket' | 'user' | 'wallet';
 
 interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
@@ -34,5 +34,7 @@ export function Icon({ name, filled = false, ...props }: IconProps) {
     {name === 'plus' && <><path {...common} d="M12 5v14" /><path {...common} d="M5 12h14" /></>}
     {name === 'settings' && <><circle {...common} cx="12" cy="12" r="3" /><path {...common} d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z" /></>}
     {name === 'wallet' && <><path {...common} d="M4 6.5h14.5A1.5 1.5 0 0 1 20 8v10a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3 18V6a2 2 0 0 1 2-2h11" /><path {...common} d="M15 11h5v4h-5a2 2 0 0 1 0-4Z" /></>}
+    {name === 'send' && <><path {...common} d="m3.8 4.2 16.4 7.8-16.4 7.8 2.5-7.8z" /><path {...common} d="M6.3 12h13.9" /></>}
+    {name === 'more' && <><circle cx="5" cy="12" r="1.25" fill="currentColor" /><circle cx="12" cy="12" r="1.25" fill="currentColor" /><circle cx="19" cy="12" r="1.25" fill="currentColor" /></>}
   </svg>;
 }

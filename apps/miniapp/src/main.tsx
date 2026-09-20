@@ -18,6 +18,9 @@ import { SavedScreen } from './components/SavedScreen.tsx';
 import { PROFILE_DESIGN_DATA } from './design-data/profile.ts';
 import { HomeScreen } from './components/HomeScreen.tsx';
 import { ProfileScreen } from './components/ProfileScreen.tsx';
+import { MY_PLANS_DESIGN_DATA, PLAN_DETAIL_DESIGN_DATA } from './design-data/plans.ts';
+import { MyPlansScreen } from './components/MyPlansScreen.tsx';
+import { PlanDetailScreen } from './components/PlanDetailScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
 import { DetailScreen } from './components/DetailScreen.tsx';
 import './styles.css';
@@ -96,6 +99,27 @@ if (detailDesignPreview) {
   /></StrictMode>);
 } else if (designPreview === 'profile') {
   root.render(<StrictMode><ProfileScreen model={PROFILE_DESIGN_DATA} onNavigate={target => { if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target); }} /></StrictMode>);
+} else if (designPreview === 'my-plans') {
+  root.render(<StrictMode><MyPlansScreen
+    model={MY_PLANS_DESIGN_DATA}
+    onAddPlan={() => navigateDesign('search')}
+    onPlanOpen={() => navigateDesign('plan-detail')}
+    onNavigate={target => {
+      if (target === 'home' || target === 'search') navigateDesign(target);
+      if (target === 'plan') navigateDesign('my-plans');
+    }}
+  /></StrictMode>);
+} else if (designPreview === 'plan-detail') {
+  root.render(<StrictMode><PlanDetailScreen
+    model={PLAN_DETAIL_DESIGN_DATA}
+    onBack={() => navigateDesign('my-plans')}
+    onEventOpen={() => navigateDesign('home')}
+    onInvite={() => undefined}
+    onNavigate={target => {
+      if (target === 'home' || target === 'search') navigateDesign(target);
+      if (target === 'plan') navigateDesign('my-plans');
+    }}
+  /></StrictMode>);
 } else {
   void start();
 }
