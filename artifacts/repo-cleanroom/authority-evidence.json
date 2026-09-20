@@ -1,0 +1,142 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "9328112409b4af8d4ebe9e106ab88d0d7cd5deb4820670dc464ecd2dc0493ab9",
+    "selected_status_lines": [
+      {
+        "line": 5,
+        "text": "**Текущий T102.2: T102 PASS.** Install/metadata/syntax/unit 115/115/typecheck/build, clean Docker build 25,132 с, startup, host/internal health и stop/restart прошли. API опубликован только на 127.0.0.1:3000; PostgreSQL/Redis остаются в internal backend без host ports. [Актуальный handoff](docs/handoffs/T102_2_NETWORK_MIGRATION_ACCEPTANCE.md), [evidence](artifacts/t102_2/FINAL_VERIFICATION.json). Следующие tickets не активированы."
+      },
+      {
+        "line": 17,
+        "text": "Queue decision **BLOCKED** до T103 runtime-verification. Существующие BullMQ/Redis/outbox/governor сохранены. [Схема](docs/TARGET_ARCHITECTURE.md) описывает границы, а не наличие работающего live provider."
+      },
+      {
+        "line": 42,
+        "text": "Docker daemon доступен. В T102.2 проверены clean build, startup и stop/restart. Windows host получает 200 от live/ready; внутренние live/ready/HTML тоже проходят. API подключён к обычной bridge-сети frontend и internal-сети test (backend). Настройки системы не менялись."
+      },
+      {
+        "line": 52,
+        "text": "Объявленные image tags: `node:24.20.0-bookworm-slim`, `postgres:18.6`, `redis:8.2.9`. В T102.2 наблюдены Node 24.20.0, npm 11.19.0, PostgreSQL 18.6, Redis 8.2.9, BullMQ 6.3.4 и ioredis 5.11.1. Сборка требует package-lock.json; Dockerfile уже использует `npm ci --ignore-scripts` и существующий build script."
+      },
+      {
+        "line": 56,
+        "text": "Проверка доступа с host (T102.2 PASS до и после restart):"
+      },
+      {
+        "line": 68,
+        "text": "Измерение T102.2: clean `docker compose --progress plain build --no-cache` — 25,132 с, лимит ≤5 минут выполнен. Первоначальные pull измерены отдельно: Node 16,493 с; PostgreSQL 23,005 с; Redis 7,574 с. Исходный код и точные команды привязаны к хэшам в `artifacts/t102_2/`."
+      }
+    ]
+  },
+  {
+    "path": "docs/TARGET_ARCHITECTURE.md",
+    "sha256": "9ed2cad36533a528799851c74ac3d9d0cb7c5ca657e7423a3c1d88edc79cace7",
+    "selected_status_lines": [
+      {
+        "line": 3,
+        "text": "Current authority: [scope and decisions](current/POVOD_SOURCE_AUTHORITY.md). Queue gate is **BLOCKED** until T103. Preserve Redis/BullMQ/outbox/governor; no queue migration or new infrastructure in T101/T102. The diagram shows module boundaries/target ports, not proof of a live provider or AI integration."
+      }
+    ]
+  },
+  {
+    "path": "docs/tasks/ACTIVE_TASK.md",
+    "sha256": "953e9de8c674c6edfed854ebe5881edf338cfedbbe39f22d83f73f771153bef1",
+    "selected_status_lines": [
+      {
+        "line": 3,
+        "text": "**No implementation ticket active. T103/T104 integration checkpoint complete; stop before T105/T107.**"
+      },
+      {
+        "line": 7,
+        "text": "- T103: PASS; canonical queue decision `KEEP_EXISTING_BULLMQ`."
+      }
+    ]
+  },
+  {
+    "path": "docs/current/DECISIONS.md",
+    "sha256": "3e6673e0ad497f43eea67a9eb3176282e42476796ca19441209ee4e4ed1c6954",
+    "selected_status_lines": [
+      {
+        "line": 9,
+        "text": "- Queue: **KEEP_EXISTING_BULLMQ**. T103 PASS verified BullMQ 6.3.4, Redis 8.2.9 and PostgreSQL 18.6 durable-ledger behavior, including duplicates, crashes, dependency outages, retry/poison handling, graceful shutdown and governor behavior. The P0 queue comparison is closed."
+      },
+      {
+        "line": 10,
+        "text": "- Accepted T103 residual risks are not automatic blockers: conservative `UNKNOWN` may suppress an unsent message; governor-state recovery needs controlled epoch/warm hold; stalled recovery was observed around 62–93 seconds; API readiness may remain green during Redis-only outage."
+      }
+    ]
+  },
+  {
+    "path": "docs/current/KNOWN_GAPS.md",
+    "sha256": "ca25e00cc8705b022ac31d4fbc31d044f29e11cf2318b9f53e2258e798fa15b3",
+    "selected_status_lines": [
+      {
+        "line": 3,
+        "text": "Current scope: [authority](POVOD_SOURCE_AUTHORITY.md). Execution: [active ticket](../tasks/ACTIVE_TASK.md)."
+      },
+      {
+        "line": 5,
+        "text": "- T103: PASS; no queue blocker. Keep existing BullMQ/Redis/outbox/governor. Residual delivery/readiness/recovery risks are recorded in the T103 handoff and do not reopen the P0 queue comparison."
+      },
+      {
+        "line": 10,
+        "text": "- T106: independent/in progress; not merged by the T103/T104 integration checkpoint. T111 and later MAX/client acceptance remain separate."
+      }
+    ]
+  },
+  {
+    "path": "docs/current/POVOD_SOURCE_AUTHORITY.md",
+    "sha256": "ddfe1b5c9c6e26388695cbdce97eeca3345321139002e2f8bd81bcf6fb85741c",
+    "selected_status_lines": [
+      {
+        "line": 3,
+        "text": "Product: **Повод**. Team: **The Boys**. T103 and T104 are accepted and integrated; no implementation ticket is active after this checkpoint. [ACTIVE_TASK](../tasks/ACTIVE_TASK.md) is the sole execution pointer. Imported kickoff prompts remain inert references."
+      },
+      {
+        "line": 11,
+        "text": "6. Runtime evidence tied to an identified SHA and working-tree hashes. Accepted current evidence includes [T103 BullMQ runtime](../handoffs/T103_BULLMQ_RUNTIME.md) and [T104 KudaGo runtime gate](../handoffs/T104_KUDAGO_RUNTIME_GATE.md). Code presence, image tags and old module tests are not runtime acceptance."
+      },
+      {
+        "line": 16,
+        "text": "| Imported or older statement | Current interpretation |"
+      },
+      {
+        "line": 25,
+        "text": "| ADR-003 conditional alternatives / research no-Redis proposals | T103 PASS closes the P0 queue comparison: **KEEP_EXISTING_BULLMQ**. Preserve existing BullMQ 6.3.4, Redis 8.2.9, PostgreSQL outbox/durable ledger and governor. No queue migration is authorized. |"
+      },
+      {
+        "line": 32,
+        "text": "[Preflight conflicts](../../artifacts/preflight/CONFLICTS.md) and [queue receipt](../../artifacts/preflight/QUEUE_DECISION.md) are historical evidence. This overlay records the accepted T103/T104 decisions without changing imported bytes. Full prior editable documents are preserved in artifacts/t101/BASELINE_DOCUMENTS.json; source hashes in BASELINE_HASHES.json."
+      }
+    ]
+  },
+  {
+    "path": "docs/current/PROJECT_STATE.md",
+    "sha256": "b9c2c35acbedd6a01f64ca52e6c5c3402b96c5125b4b8df5ee30eda054ccbd5e",
+    "selected_status_lines": [
+      {
+        "line": 1,
+        "text": "# Current project state — 2026-09-19"
+      },
+      {
+        "line": 7,
+        "text": "T101 and T102 are PASS. T103 is PASS and accepted: the canonical queue decision is **KEEP_EXISTING_BULLMQ**; the existing PostgreSQL durable ledger, BullMQ, Redis and governor remain. The P0 queue comparison is closed. [T103 handoff](../handoffs/T103_BULLMQ_RUNTIME.md)."
+      }
+    ]
+  },
+  {
+    "path": "docs/current/PROVIDER_DATA_GATE_GOVERNANCE.md",
+    "sha256": "6fbf0fbd664c8b446a27443b3533a013e0da07c3b6bafabd103fa06084335663",
+    "selected_status_lines": [
+      {
+        "line": 3,
+        "text": "## Current status"
+      },
+      {
+        "line": 25,
+        "text": "Gate v2 is not authorized or run by the T103/T104 integration checkpoint."
+      }
+    ]
+  }
+]

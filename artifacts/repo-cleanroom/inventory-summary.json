@@ -1,0 +1,44 @@
+{
+  "files": 124695,
+  "bytes": 2141639205,
+  "by_classification": {
+    "KEEP_TRACKED": 9429,
+    "IGNORE": 234,
+    "KEEP_UNTRACKED": 702,
+    "REVIEW_REQUIRED": 52,
+    "MOVE_TO_ARCHIVE": 833,
+    "DELETE_SAFE": 113445
+  },
+  "by_git_status": {
+    "tracked": 9429,
+    "ignored": 113756,
+    "untracked": 1510
+  },
+  "by_category": {
+    "other": 321,
+    "secret_path": 26,
+    "archives": 154,
+    "logs": 4305,
+    "local_runtime": 23,
+    "source": 1535,
+    "evidence": 2625,
+    "screenshots": 311,
+    "scripts": 216,
+    "research_copies": 833,
+    "build": 1707,
+    "dependencies": 111738,
+    "docs": 868,
+    "design_references": 33
+  },
+  "duplicate_groups_within_worktree": 964,
+  "tracked_binary_records": 403,
+  "archive_records": 154,
+  "errors": 0,
+  "worktrees": 12,
+  "limitations": [
+    "Git internal object files excluded; refs/objects audited separately",
+    "Credential/private runtime content and node_modules not opened or hashed",
+    "Generated dependency file metadata included; same-path copies across worktrees not counted as clutter",
+    "Snapshot taken while other tasks may be running"
+  ]
+}

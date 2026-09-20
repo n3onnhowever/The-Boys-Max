@@ -1,0 +1,152 @@
+[
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max",
+    "HEAD": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+    "branch": "refs/heads/codex/max-bot-entry-flow",
+    "status_entries": 31,
+    "status_sha256": "716cf023d184db6473387a0e75b750c71997d752f131561b72a13fc4e1764e9e",
+    "file_counts": {
+      "tracked": 744,
+      "ignored": 43517,
+      "untracked": 1503
+    },
+    "bytes": 672830109
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-t103",
+    "HEAD": "e379c62b6804d67df811bb2db5338cbf9a3f9e83",
+    "branch": "refs/heads/codex/t103-bullmq-runtime",
+    "status_entries": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "file_counts": {
+      "tracked": 622,
+      "ignored": 8725
+    },
+    "bytes": 119473232
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-t104",
+    "HEAD": "3bb2a9a47163b6f25dafe3381b5fe278bcb46ea5",
+    "branch": "refs/heads/codex/t104-kudago-gate",
+    "status_entries": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "file_counts": {
+      "tracked": 641,
+      "ignored": 8726
+    },
+    "bytes": 157365564
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-t105",
+    "HEAD": "05ef63d2fa24a05e1ff308052b02c9b808d2af34",
+    "branch": "refs/heads/codex/t105-data-safety",
+    "status_entries": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "file_counts": {
+      "tracked": 744
+    },
+    "bytes": 42956705
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-t106",
+    "HEAD": "5583772554bb196f6410ea4b3a90da55ba1e68eb",
+    "branch": "refs/heads/codex/t106-max-runtime",
+    "status_entries": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "file_counts": {
+      "tracked": 709,
+      "ignored": 8728
+    },
+    "bytes": 119507231
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui",
+    "HEAD": "84ca97d41dd16991359ccdcf39f7c068cfd566b5",
+    "branch": "refs/heads/codex/ui-povod-v1",
+    "status_entries": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "file_counts": {
+      "tracked": 808,
+      "ignored": 8751
+    },
+    "bytes": 170857433
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui-detail",
+    "HEAD": "a6f8cc4c259bab62937e260ac4f68a0b8534b4a9",
+    "branch": "refs/heads/codex/ui-v1-detail",
+    "status_entries": 1,
+    "status_sha256": "4c3856e4083ce454fc79347b5a92877a7d0eae03f161115b9fc114b8bebb1976",
+    "file_counts": {
+      "tracked": 828,
+      "untracked": 1,
+      "ignored": 8736
+    },
+    "bytes": 174386705
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui-integrated",
+    "HEAD": "6cc7311aa2ad882437946a7970245704527732c6",
+    "branch": "refs/heads/codex/ui-v1-integrated",
+    "status_entries": 1,
+    "status_sha256": "4c3856e4083ce454fc79347b5a92877a7d0eae03f161115b9fc114b8bebb1976",
+    "file_counts": {
+      "tracked": 1006,
+      "ignored": 8798,
+      "untracked": 2
+    },
+    "bytes": 208660506
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui-plans",
+    "HEAD": "cb278a70cd66c7e4c3e810dd57733e41510aeecc",
+    "branch": "refs/heads/codex/ui-v1-plans",
+    "status_entries": 1,
+    "status_sha256": "4c3856e4083ce454fc79347b5a92877a7d0eae03f161115b9fc114b8bebb1976",
+    "file_counts": {
+      "tracked": 835,
+      "untracked": 1,
+      "ignored": 8738
+    },
+    "bytes": 176097345
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui-profile",
+    "HEAD": "ba184df44aa3beefc9722f5c3cb7d8bc1b1a2f71",
+    "branch": "refs/heads/codex/ui-v1-profile",
+    "status_entries": 1,
+    "status_sha256": "4c3856e4083ce454fc79347b5a92877a7d0eae03f161115b9fc114b8bebb1976",
+    "file_counts": {
+      "tracked": 825,
+      "untracked": 1,
+      "ignored": 8739
+    },
+    "bytes": 172652780
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui-saved",
+    "HEAD": "fa27796e9d79ad2fd207e96f5d68f44246d9c10a",
+    "branch": "refs/heads/codex/ui-v1-saved",
+    "status_entries": 1,
+    "status_sha256": "4c3856e4083ce454fc79347b5a92877a7d0eae03f161115b9fc114b8bebb1976",
+    "file_counts": {
+      "tracked": 818,
+      "untracked": 1,
+      "ignored": 147
+    },
+    "bytes": 59859468
+  },
+  {
+    "worktree": "D:/Dev/Repos/The-Boys-Max-ui-states",
+    "HEAD": "b5b1c423f5ce18290ba927cefa1146b8e9a417a6",
+    "branch": "refs/heads/codex/ui-v1-states",
+    "status_entries": 1,
+    "status_sha256": "4c3856e4083ce454fc79347b5a92877a7d0eae03f161115b9fc114b8bebb1976",
+    "file_counts": {
+      "tracked": 849,
+      "ignored": 151,
+      "untracked": 1
+    },
+    "bytes": 66992127
+  }
+]
