@@ -10,6 +10,8 @@ const options = Object.fromEntries(process.argv.slice(2).map(argument => {
   return [key, value.join('=')];
 }));
 const design = options.design || 'home';
+const suffix = options.suffix || '';
+if (suffix && !/^-[a-z0-9-]+$/.test(suffix)) throw new Error('Capture suffix must be empty or a lowercase kebab-case suffix beginning with a dash.');
 const widths = (options.widths || process.env.POVOD_CAPTURE_WIDTHS || '360,390,430')
   .split(',').map(Number).filter(width => Number.isInteger(width) && width > 0);
 const height = 844;
@@ -99,7 +101,7 @@ try {
     const { data } = await send('Page.captureScreenshot', {
       format: 'png', fromSurface: true, captureBeyondViewport: false,
     }, sessionId);
-    await writeFile(path.join(outputDir, `${width}.png`), Buffer.from(data, 'base64'));
+    await writeFile(path.join(outputDir, `${width}${suffix}.png`), Buffer.from(data, 'base64'));
     await send('Target.closeTarget', { targetId });
     process.stdout.write(`captured ${width}x${height}\n`);
   }
