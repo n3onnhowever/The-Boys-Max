@@ -22,6 +22,7 @@
     "capture:home": "node scripts/capture-povod-home.mjs",
     "capture:search": "node scripts/capture-povod-home.mjs --design=search --output=artifacts/ui-povod-v1/search --widths=360,390,430",
     "capture:filters": "node scripts/capture-povod-home.mjs --design=filters --output=artifacts/ui-povod-v1/filters --widths=390",
+    "capture:profile": "node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430",
     "migrate": "node --experimental-strip-types scripts/migrate.ts",
     "seed:test": "node --experimental-strip-types scripts/seed-test.ts",
     "openapi": "node --experimental-strip-types scripts/openapi.ts",

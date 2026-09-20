@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'arrow' | 'back' | 'bell' | 'calendar' | 'chevronDown' | 'close' | 'coins' | 'heart' | 'home' | 'map' | 'music' | 'people' | 'pin' | 'search' | 'user';
+export type IconName = 'arrow' | 'back' | 'bell' | 'calendar' | 'chevronDown' | 'chevronRight' | 'clock' | 'close' | 'coins' | 'heart' | 'home' | 'map' | 'music' | 'people' | 'pin' | 'plus' | 'search' | 'settings' | 'user' | 'wallet';
 
 interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
@@ -25,5 +25,10 @@ export function Icon({ name, filled = false, ...props }: IconProps) {
     {name === 'map' && <><path {...common} d="m3.5 5.5 5-2.5 7 3 5-2.5v15l-5 2.5-7-3-5 2.5z" /><path {...common} d="M8.5 3v15M15.5 6v15" /></>}
     {name === 'music' && <><path {...common} d="M9 17.5V6l10-2v11.5" /><circle {...common} cx="6.5" cy="17.5" r="2.5" /><circle {...common} cx="16.5" cy="15.5" r="2.5" /></>}
     {name === 'coins' && <><ellipse {...common} cx="12" cy="6" rx="7" ry="3" /><path {...common} d="M5 6v5c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 11v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5" /></>}
+    {name === 'chevronRight' && <path {...common} d="m9 5 7 7-7 7" />}
+    {name === 'clock' && <><circle {...common} cx="12" cy="12" r="8.5" /><path {...common} d="M12 7v5l3.5 2" /></>}
+    {name === 'plus' && <><path {...common} d="M12 5v14" /><path {...common} d="M5 12h14" /></>}
+    {name === 'settings' && <><circle {...common} cx="12" cy="12" r="3" /><path {...common} d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z" /></>}
+    {name === 'wallet' && <><path {...common} d="M4 6.5h14.5A1.5 1.5 0 0 1 20 8v10a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3 18V6a2 2 0 0 1 2-2h11" /><path {...common} d="M15 11h5v4h-5a2 2 0 0 1 0-4Z" /></>}
   </svg>;
 }

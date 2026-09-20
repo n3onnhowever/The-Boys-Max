@@ -12,6 +12,9 @@ import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
 import { HOME_DESIGN_DATA } from './design-data/home.ts';
 import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
+import { PROFILE_DESIGN_DATA } from './design-data/profile.ts';
+import { HomeScreen } from './components/HomeScreen.tsx';
+import { ProfileScreen } from './components/ProfileScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
@@ -58,14 +61,20 @@ const navigateDesign = (target: string) => {
   location.assign(url);
 };
 if (designPreview === 'home') {
-  root.render(<StrictMode><App controller={controller} origins={[]} clipboard={null} designPreview={HOME_DESIGN_DATA} /></StrictMode>);
+  root.render(<StrictMode><HomeScreen model={HOME_DESIGN_DATA} onNavigate={target => {
+    if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target);
+  }} /></StrictMode>);
 } else if (designPreview === 'search' || designPreview === 'filters') {
   root.render(<StrictMode><SearchScreen
     model={SEARCH_DESIGN_DATA}
     initialFilterSheetOpen={designPreview === 'filters'}
     onBack={() => navigateDesign('home')}
-    onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
+    onNavigate={target => { if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target); }}
   /></StrictMode>);
+} else if (designPreview === 'profile') {
+  root.render(<StrictMode><ProfileScreen model={PROFILE_DESIGN_DATA} onNavigate={target => {
+    if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target);
+  }} /></StrictMode>);
 } else {
   void start();
 }

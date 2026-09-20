@@ -1,0 +1,13 @@
+✔ Profile design render exposes the approved personalization surface (188.4056ms)
+✔ Profile fixture is deterministic and explicitly non-persistent (0.5311ms)
+✔ Preference chips only change during the local edit state (0.1486ms)
+✔ Notifications control is local UI state only (0.2305ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 413.8815
+EXIT_CODE=0

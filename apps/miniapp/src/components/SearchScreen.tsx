@@ -49,7 +49,7 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
       </div>
       <EventCardList events={model.events} savedEventIds={state.savedEventIds} onSave={eventId => act({ type: 'TOGGLE_SAVED', eventId })} />
     </Screen>
-    <BottomNav active="search" onSelect={onNavigate} />
+    <BottomNav active="search" onSelect={onNavigate} availableIds={['home', 'search', 'profile']} />
     <FilterSheet open={state.sheetOpen} filters={state.draft} onAction={act} />
   </AppViewport>;
 }

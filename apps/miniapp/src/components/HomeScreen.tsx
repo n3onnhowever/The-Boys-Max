@@ -18,9 +18,10 @@ interface HomeScreenProps {
   onCategorySelect?: (id: string) => void;
   onEventOpen?: (id: string) => void;
   onSave?: (id: string) => void;
+  onNavigate?: (id: string) => void;
 }
 
-export function HomeScreen({ model, searchValue, busy = false, onSearchChange, onSearchSubmit, onCategorySelect, onEventOpen, onSave }: HomeScreenProps) {
+export function HomeScreen({ model, searchValue, busy = false, onSearchChange, onSearchSubmit, onCategorySelect, onEventOpen, onSave, onNavigate }: HomeScreenProps) {
   const [localSearch, setLocalSearch] = useState('');
   const query = searchValue ?? localSearch;
   const changeSearch = onSearchChange ?? setLocalSearch;
@@ -55,6 +56,6 @@ export function HomeScreen({ model, searchValue, busy = false, onSearchChange, o
         </div>
       </section>
     </Screen>
-    <BottomNav active="home" />
+    <BottomNav active="home" onSelect={onNavigate} availableIds={['home', 'search', 'profile']} />
   </AppViewport>;
 }

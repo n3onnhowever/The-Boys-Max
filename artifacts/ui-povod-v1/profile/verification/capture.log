@@ -1,0 +1,8 @@
+
+> the-boys-afisha-integration@0.2.0-candidate capture:profile
+> node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430
+
+captured 360x844
+captured 390x844
+captured 430x844
+EXIT_CODE=0
