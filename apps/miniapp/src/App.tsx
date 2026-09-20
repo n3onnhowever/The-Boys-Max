@@ -6,14 +6,12 @@ import { EventsList } from './components/EventsList.tsx';
 import { EventDetail } from './components/EventDetail.tsx';
 import { PlanPanel } from './components/PlanPanel.tsx';
 import { InvitePanel } from './components/InvitePanel.tsx';
-import { HomeScreen } from './components/HomeScreen.tsx';
 import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
 import { HOME_SYSTEM_CHROME, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
-import type { HomeViewModel } from './view-model/home.ts';
 
-export interface AppProps { controller: ViewController; origins: readonly string[]; clipboard: ClipboardPort | null; renderMap?: MapRenderer; designPreview?: HomeViewModel; }
+export interface AppProps { controller: ViewController; origins: readonly string[]; clipboard: ClipboardPort | null; renderMap?: MapRenderer; }
 
-export function App({controller,origins,clipboard,renderMap,designPreview}:AppProps) {
+export function App({controller,origins,clipboard,renderMap}:AppProps) {
   const state = useSyncExternalStore(controller.subscribe,controller.getSnapshot,controller.getSnapshot);
   const {view} = state;
   const busy = ['loading','submitting','uncertain','offline'].includes(state.phase);
@@ -24,7 +22,6 @@ export function App({controller,origins,clipboard,renderMap,designPreview}:AppPr
     window.history.replaceState(null,'',url);
     document.querySelector<HTMLElement>('main h1')?.focus();
   },[routeKey]);
-  if (designPreview) return <HomeScreen model={designPreview} />;
   if (!view && state.phase === 'loading') return <HomeSystemScreen state={loadingSystemState()} chrome={HOME_SYSTEM_CHROME} />;
   if (!view && state.phase === 'offline') return <HomeSystemScreen
     state={offlineSystemState([])}

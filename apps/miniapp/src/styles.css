@@ -890,12 +890,8 @@ h1, h2, h3, p { margin-top: 0; }
   font-size: 14px;
   font-weight: 800;
 }
-.profile-contact-telegram {
-  background: var(--povod-color-muted);
-  font-size: 22px;
-  transform: rotate(-35deg);
-}
-.profile-contact-telegram span { transform: translate(1px, -1px); }
+.profile-contact-ok { background: var(--povod-color-muted); }
+.profile-contact-ok svg { width: 26px; height: 26px; }
 .profile-contact-add {
   border: var(--povod-border);
   background: var(--povod-color-surface);
@@ -2086,10 +2082,6 @@ button.rsvp-pill:active { transform: scale(.97); }
   .offline-content .event-list-artwork { width: 92px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .skeleton { animation: none !important; opacity: .72; }
-}
-
 /* Compatibility layer for the existing detail/plan/invite views. */
 .app-header {
   max-width: 960px;
@@ -2155,7 +2147,6 @@ input[type='radio'], input[type='checkbox'] { width: 24px; height: 24px; margin:
 .chip { padding: 6px 12px; border: var(--povod-border); border-radius: var(--povod-radius-pill); background: var(--povod-color-surface); font-size: 14px; }
 .event-cover { padding: 20px; display: flex; align-items: center; justify-content: center; background: #ece9e2; }
 .category-cover { color: var(--povod-color-text); font-size: 24px; font-weight: 700; text-align: center; }
-.detail-heading { padding: 32px; background: #ece9e2; }
 .warning, .status-panel { border: 1px solid #e6c6bd; background: #fff3ef; color: #742517; }
 .warning { padding: 8px 12px; border-radius: var(--povod-radius-small); font-size: 14px; }
 .price-summary { margin: 12px 0 20px; } .price-summary p { margin-bottom: 8px; }
@@ -2200,5 +2191,6 @@ details { margin: 16px 0; } summary { min-height: 44px; padding: 10px 0; cursor:
   .participant-invite > span { width: 50px; height: 50px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none !important; opacity: .72; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }

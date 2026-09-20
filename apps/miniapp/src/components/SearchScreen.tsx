@@ -16,9 +16,10 @@ interface SearchScreenProps {
   initialFilterSheetOpen?: boolean;
   onBack?: () => void;
   onNavigate?: (id: string) => void;
+  onEventOpen?: (id: string) => void;
 }
 
-export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, onNavigate }: SearchScreenProps) {
+export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, onNavigate, onEventOpen }: SearchScreenProps) {
   const [state, dispatch] = useReducer(searchUiReducer, undefined, () => createSearchUiState(model, initialFilterSheetOpen));
   const selected = selectedFilterChips(state.applied);
   const act = (action: SearchUiAction) => dispatch(action);
@@ -47,9 +48,9 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
         <span>{model.resultCountLabel}</span>
         {model.mapAffordance === 'DESIGN_ONLY' ? <span className="search-map-affordance" role="button" aria-disabled="true"><Icon name="map" />Карта</span> : null}
       </div>
-      <EventCardList events={model.events} savedEventIds={state.savedEventIds} onSave={eventId => act({ type: 'TOGGLE_SAVED', eventId })} />
+      <EventCardList onOpen={onEventOpen} events={model.events} savedEventIds={state.savedEventIds} onSave={eventId => act({ type: 'TOGGLE_SAVED', eventId })} />
     </Screen>
-    <BottomNav active="search" onSelect={onNavigate} availableIds={['home', 'search', 'profile']} />
+    <BottomNav active="search" onSelect={onNavigate} />
     <FilterSheet open={state.sheetOpen} filters={state.draft} onAction={act} />
   </AppViewport>;
 }

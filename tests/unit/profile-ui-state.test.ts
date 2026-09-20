@@ -41,7 +41,7 @@ test('Profile design render exposes the approved personalization surface', () =>
   assert.match(html, /Вечер · После 18:00/);
   assert.match(html, /Уведомления/);
   assert.match(html, /События, подборки, обновления/);
-  assert.match(html, /Всё ещё на связи/);
+  assert.match(html, /Связанные сервисы/);
   assert.doesNotMatch(html, /href="https?:/);
   assert.doesNotMatch(html, /t\.me|vk\.com/);
 });
@@ -78,4 +78,24 @@ test('Notifications control is local UI state only', () => {
   const changed = profileUiReducer(initial, { type: 'TOGGLE_NOTIFICATIONS' });
   assert.equal(initial.notificationsEnabled, true);
   assert.equal(changed.notificationsEnabled, false);
+});
+
+
+test('Profile fixtures show VK and OK as unconnected placeholders', () => {
+  assert.deepEqual(PROFILE_DESIGN_DATA.contacts.map(service => service.id), ['vk', 'ok']);
+  const html = renderToStaticMarkup(createElement(ProfileScreen, { model: PROFILE_DESIGN_DATA }));
+  assert.match(html, /Одноклассники/);
+  assert.doesNotMatch(html, /Telegram|telegram|подключён/);
+});
+
+test('Server Profile renders connected services only from supplied connected records', () => {
+  const model = { ...PROFILE_DESIGN_DATA, provenance: 'SERVER_ADAPTER', persistence: 'UNAVAILABLE', contacts: [
+    { id: 'vk', label: 'VK', presentation: 'CONNECTED' },
+    { id: 'ok', label: 'Одноклассники', presentation: 'DISPLAY_ONLY' },
+  ] } as ProfileViewModel;
+  const html = renderToStaticMarkup(createElement(ProfileScreen, { model }));
+  assert.match(html, /VK: подключён/);
+  assert.doesNotMatch(html, /Одноклассники|profile-contact-add/);
+  const empty = renderToStaticMarkup(createElement(ProfileScreen, { model: { ...model, contacts: [] } }));
+  assert.doesNotMatch(empty, /profile-contact-vk|profile-contact-ok/);
 });

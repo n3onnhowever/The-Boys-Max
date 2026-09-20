@@ -1,4 +1,3 @@
-import { HOME_ARTWORK } from '../assets.ts';
 import { safeExternalUrl } from '../core/links.ts';
 import type { EventView } from '../port/contracts.ts';
 
@@ -135,5 +134,3 @@ export function eventToDetailViewModel(view: EventView, origins: readonly string
     attendance: null,
   };
 }
-
-export const DETAIL_DESIGN_ARTWORK = HOME_ARTWORK.hero;

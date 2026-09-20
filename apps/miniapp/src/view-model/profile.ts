@@ -19,14 +19,14 @@ export interface ProfilePreferenceRowViewModel {
 }
 
 export interface ProfileContactViewModel {
-  id: 'vk' | 'telegram';
+  id: 'vk' | 'ok';
   label: string;
-  presentation: 'DISPLAY_ONLY';
+  presentation: 'DISPLAY_ONLY' | 'CONNECTED';
 }
 
 export interface ProfileViewModel {
-  provenance: 'DESIGN_FIXTURE';
-  persistence: 'LOCAL_PREVIEW_ONLY';
+  provenance: 'DESIGN_FIXTURE' | 'SERVER_ADAPTER';
+  persistence: 'LOCAL_PREVIEW_ONLY' | 'UNAVAILABLE';
   capabilities: {
     identityEditing: 'UNAVAILABLE';
     preferencePersistence: 'UNAVAILABLE';
@@ -84,4 +84,11 @@ export function profileUiReducer(state: ProfileUiState, action: ProfileUiAction)
     case 'TOGGLE_NOTIFICATIONS':
       return { ...state, notificationsEnabled: !state.notificationsEnabled };
   }
+}
+
+/** Placeholders belong only to explicit design previews; runtime needs supplied connection evidence. */
+export function visibleProfileServices(model: ProfileViewModel): ProfileContactViewModel[] {
+  return model.contacts.filter(service => model.provenance === 'DESIGN_FIXTURE'
+    ? service.presentation === 'DISPLAY_ONLY'
+    : service.presentation === 'CONNECTED');
 }

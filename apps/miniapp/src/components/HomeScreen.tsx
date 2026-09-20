@@ -56,6 +56,6 @@ export function HomeScreen({ model, searchValue, busy = false, onSearchChange, o
         </div>
       </section>
     </Screen>
-    <BottomNav active="home" onSelect={onNavigate} availableIds={['home', 'search', 'profile']} />
+    <BottomNav active="home" onSelect={onNavigate} />
   </AppViewport>;
 }

@@ -10,22 +10,7 @@ import { ViewController } from './core/controller.ts';
 import { HttpVisualPort } from './port/http.ts';
 import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
-import { HOME_DESIGN_DATA } from './design-data/home.ts';
-import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
-import { DETAIL_DESIGN_DATA, type DetailDesignVariant } from './design-data/detail.ts';
-import { SAVED_DESIGN_DATA } from './design-data/saved.ts';
-import { SavedScreen } from './components/SavedScreen.tsx';
-import { PROFILE_DESIGN_DATA } from './design-data/profile.ts';
-import { HomeScreen } from './components/HomeScreen.tsx';
-import { ProfileScreen } from './components/ProfileScreen.tsx';
-import { MY_PLANS_DESIGN_DATA, PLAN_DETAIL_DESIGN_DATA } from './design-data/plans.ts';
-import { MyPlansScreen } from './components/MyPlansScreen.tsx';
-import { PlanDetailScreen } from './components/PlanDetailScreen.tsx';
-import { SearchScreen } from './components/SearchScreen.tsx';
-import { DetailScreen } from './components/DetailScreen.tsx';
-import { SYSTEM_STATE_DESIGN_DATA } from './design-data/states.ts';
-import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
-import { HOME_SYSTEM_CHROME, previewDestination, type HomeSystemStateKind } from './view-model/system-state.ts';
+import { resolveDesignPreview } from './view-model/design-preview.ts';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
  * No token or actor is read from URL/localStorage/initDataUnsafe. This is not an auth implementation. */
@@ -63,70 +48,12 @@ async function start() {
     clipboard={navigator.clipboard ?? null} renderMap={place=>place.geoView?<MapComparison options={[{uiKey:'place',view:place.geoView}]} selectedKey={'place'} onHighlight={()=>{}} onBack={()=>{}} gate="ADMISSION_HOLD" />:<p>Для этого места есть только адрес. Точка не придумана.</p>} /></StrictMode>);
   await controller.load(initialRoute);
 }
-const designPreview = params.get('design');
-const statePreviewKinds: readonly HomeSystemStateKind[] = ['loading', 'empty', 'error', 'offline'];
-const statePreview = statePreviewKinds.find(kind => kind === designPreview);
-const detailDesignPreview = designPreview && Object.hasOwn(DETAIL_DESIGN_DATA, designPreview)
-  ? DETAIL_DESIGN_DATA[designPreview as DetailDesignVariant]
-  : null;
-const navigateDesign = (target: string) => {
-  const url = new URL(location.href);
-  url.search = '';
-  url.searchParams.set('design', target);
-  location.assign(url);
-};
-if (statePreview) {
-  root.render(<StrictMode><HomeSystemScreen state={SYSTEM_STATE_DESIGN_DATA[statePreview]} chrome={HOME_SYSTEM_CHROME} onAction={action => navigateDesign(previewDestination(action))} /></StrictMode>);
-} else if (detailDesignPreview) {
-  root.render(<StrictMode><DetailScreen
-    model={detailDesignPreview}
-    onBack={() => navigateDesign('home')}
-    onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
-  /></StrictMode>);
-} else if (designPreview === 'home') {
-  root.render(<StrictMode><HomeScreen model={HOME_DESIGN_DATA} onNavigate={target => { if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target); }} /></StrictMode>);
-} else if (designPreview === 'search' || designPreview === 'filters') {
-  root.render(<StrictMode><SearchScreen
-    model={SEARCH_DESIGN_DATA}
-    initialFilterSheetOpen={designPreview === 'filters'}
-    onBack={() => navigateDesign('home')}
-    onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
-  /></StrictMode>);
-} else if (designPreview === 'saved') {
-  root.render(<StrictMode><SavedScreen
-    model={SAVED_DESIGN_DATA}
-    onEventOpen={eventId => {
-      const url = new URL(location.href);
-      url.hash = `event=${encodeURIComponent(eventId)}`;
-      history.pushState({ designEventId: eventId }, '', url);
-    }}
-    onNavigate={target => {
-      if (target === 'home' || target === 'search') navigateDesign(target);
-    }}
-  /></StrictMode>);
-} else if (designPreview === 'profile') {
-  root.render(<StrictMode><ProfileScreen model={PROFILE_DESIGN_DATA} onNavigate={target => { if (target === 'home' || target === 'search' || target === 'profile') navigateDesign(target); }} /></StrictMode>);
-} else if (designPreview === 'my-plans') {
-  root.render(<StrictMode><MyPlansScreen
-    model={MY_PLANS_DESIGN_DATA}
-    onAddPlan={() => navigateDesign('search')}
-    onPlanOpen={() => navigateDesign('plan-detail')}
-    onNavigate={target => {
-      if (target === 'home' || target === 'search') navigateDesign(target);
-      if (target === 'plan') navigateDesign('my-plans');
-    }}
-  /></StrictMode>);
-} else if (designPreview === 'plan-detail') {
-  root.render(<StrictMode><PlanDetailScreen
-    model={PLAN_DETAIL_DESIGN_DATA}
-    onBack={() => navigateDesign('my-plans')}
-    onEventOpen={() => navigateDesign('home')}
-    onInvite={() => undefined}
-    onNavigate={target => {
-      if (target === 'home' || target === 'search') navigateDesign(target);
-      if (target === 'plan') navigateDesign('my-plans');
-    }}
-  /></StrictMode>);
+const designPreview = resolveDesignPreview(params.get('design'));
+if (designPreview) {
+  document.title = 'Повод — дизайн-пример';
+  void import('./DesignPreview.tsx').then(({ DesignPreview }) => {
+    root.render(<StrictMode><DesignPreview route={designPreview} /></StrictMode>);
+  });
 } else {
   void start();
 }

@@ -1,4 +1,5 @@
-import { DETAIL_DESIGN_ARTWORK, type DetailViewModel } from '../view-model/detail.ts';
+import { HOME_ARTWORK } from '../assets.ts';
+import type { DetailViewModel } from '../view-model/detail.ts';
 
 export type DetailDesignVariant = 'detail' | 'detail-price-unknown' | 'detail-venue-unknown' | 'detail-source-unavailable';
 
@@ -8,7 +9,7 @@ const baseDetail: DetailViewModel = {
   title: 'БИКИНИ KILL',
   heroDateTimeLabel: '12 АПР · 20:00',
   heroVenueLabel: 'VK Stadium · Москва',
-  heroArtwork: DETAIL_DESIGN_ARTWORK,
+  heroArtwork: HOME_ARTWORK.hero,
   heroArtworkAlt: 'Синтетический дизайн-пример концертной сцены',
   tags: ['Концерт', 'Инди-рок', 'Легенда'],
   description: 'Легендарные Bikini Kill возвращаются в Москву с долгожданным концертом. Феминистские гимны, энергия и честность, которые изменили целое поколение.',

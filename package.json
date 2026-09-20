@@ -34,7 +34,10 @@
     "syntax": "node scripts/check-source-syntax.mjs",
     "test:offline": "node --experimental-strip-types --test tests/unit/*.test.ts",
     "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json",
-    "capture:profile": "node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430"
+    "capture:profile": "node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430",
+    "capture:integrated": "node scripts/verify-povod-integrated.mjs",
+    "verify:integrated": "node scripts/verify-povod-integrated.mjs --no-capture",
+    "capture:states": "node scripts/capture-povod-states.mjs"
   },
   "dependencies": {
     "@fastify/cookie": "11.0.2",

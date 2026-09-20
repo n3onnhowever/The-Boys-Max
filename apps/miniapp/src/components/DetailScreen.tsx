@@ -14,13 +14,14 @@ import { VenueRow } from './VenueRow.tsx';
 interface DetailScreenProps {
   model: DetailViewModel;
   busy?: boolean;
+  activeNav?: string;
   onBack?: () => void;
   onPlan?: () => void;
   onNavigate?: (target: string) => void;
   planPanel?: ReactNode;
 }
 
-export function DetailScreen({ model, busy = false, onBack, onPlan, onNavigate, planPanel }: DetailScreenProps) {
+export function DetailScreen({ model, busy = false, activeNav = 'home', onBack, onPlan, onNavigate, planPanel }: DetailScreenProps) {
   const [saved, setSaved] = useState(model.saved);
   const [announcement, setAnnouncement] = useState('');
   const designNotice = (message: string) => setAnnouncement(`Дизайн-пример: ${message}`);
@@ -62,6 +63,6 @@ export function DetailScreen({ model, busy = false, onBack, onPlan, onNavigate, 
         <output className="sr-only" aria-live="polite">{announcement}</output>
       </EventDetailSurface>
     </Screen>
-    {onNavigate ? <BottomNav active="detail" onSelect={onNavigate} /> : <BottomNav active="detail" />}
+    {onNavigate ? <BottomNav active={activeNav} onSelect={onNavigate} /> : <BottomNav active={activeNav} />}
   </AppViewport>;
 }

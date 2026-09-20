@@ -50,6 +50,6 @@ export const PROFILE_DESIGN_DATA: ProfileViewModel = {
   ],
   contacts: [
     { id: 'vk', label: 'VK', presentation: 'DISPLAY_ONLY' },
-    { id: 'telegram', label: 'Telegram', presentation: 'DISPLAY_ONLY' },
+    { id: 'ok', label: 'Одноклассники / OK', presentation: 'DISPLAY_ONLY' },
   ],
 };
