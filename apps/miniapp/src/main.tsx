@@ -12,6 +12,8 @@ import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
 import { HOME_DESIGN_DATA } from './design-data/home.ts';
 import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
+import { SAVED_DESIGN_DATA } from './design-data/saved.ts';
+import { SavedScreen } from './components/SavedScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
@@ -65,6 +67,18 @@ if (designPreview === 'home') {
     initialFilterSheetOpen={designPreview === 'filters'}
     onBack={() => navigateDesign('home')}
     onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
+  /></StrictMode>);
+} else if (designPreview === 'saved') {
+  root.render(<StrictMode><SavedScreen
+    model={SAVED_DESIGN_DATA}
+    onEventOpen={eventId => {
+      const url = new URL(location.href);
+      url.hash = `event=${encodeURIComponent(eventId)}`;
+      history.pushState({ designEventId: eventId }, '', url);
+    }}
+    onNavigate={target => {
+      if (target === 'home' || target === 'search') navigateDesign(target);
+    }}
   /></StrictMode>);
 } else {
   void start();

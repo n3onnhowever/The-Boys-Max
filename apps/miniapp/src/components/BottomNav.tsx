@@ -17,6 +17,6 @@ export function BottomNav({ active = 'home', onSelect }: { active?: string; onSe
       aria-current={item.id === active ? 'page' : undefined}
       onClick={() => onSelect?.(item.id)}
       disabled={!onSelect && item.id !== active}
-    ><Icon name={item.icon} filled={item.id === active && item.id === 'home'} /><span>{item.label}</span></button>)}
+    ><Icon name={item.icon} filled={item.id === active && (item.id === 'home' || item.id === 'profile')} /><span>{item.label}</span></button>)}
   </nav>;
 }
