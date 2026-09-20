@@ -1,0 +1,22 @@
+{
+  "imageId": "sha256:c4e7cd181082c611708820895290e29547435222a1457750abe4e0edcc232105",
+  "sourceSha": "6cdd93c3f10a9179e2e3edb9ba08b3f300ba043e",
+  "sourceHashes": {
+    "tests/integration/foundation.test.ts": "f666b689af35eafb87ea42ac39526a8473087ce37209133899ed481e6ece5d57",
+    "tests/integration/max-bot.test.ts": "bad2255b143ea2cbe93c0cbecc0112446aa500d01ac7f2da39c3de916ce0a68d",
+    "tests/integration/miniapp-auth.test.ts": "2aa0200ef4de169464960c472d19b78f0a57df7612c59fa9b51a18741b1351cc",
+    "tests/integration/ui26.test.ts": "801fd07fcebbcc0f17435a50404a7c769e3058b7633cfa79c5724f45e88ad152",
+    "tests/helpers/kill-worker.ts": "adbf713ed83dd71abb53afa938047e36903ff4ff657056dda0834a66e4bee1b6",
+    "tests/helpers/t103-runtime.ts": "8b2b20b007e08e85512ed383611ee4876ffa65fe1827cba5ac9587830914af79",
+    "tests/helpers/t103-worker.ts": "76f3c0f7215380f687edb94a07e085edab3bc8ee549e5beca63073ff824ad307",
+    "tests/fixtures.ts": "0d63f674052055996ce494f861776f44790ce0e3139417350a17d9a84ef65165",
+    "tests/catalog-fixtures.ts": "585db17855f49e37cc856b1ac9ead100ea80296a0a7e0f39e9d85d7664e7ad04",
+    "tests/unit/max-bot.test.ts": "e77f3f6ea4190217ff70eacccc290a09610e091eda253022ec97c94c1952cf83",
+    "tests/unit/max-transport.test.ts": "4132855f81327fb64800e6f817759b270a92e7c1282040147f71c39317d4fbdb",
+    "tests/unit/max-tls-scope.test.ts": "e2f81a1ca620c64ebf1610230475d86130103fd0d9cb6568df1f8df9f041b65b",
+    "tests/unit/max-tls-trust.test.ts": "bfedee6f0a776e2fb0acc06a8de68c43f2f0fbe8d90657dc58542c8047fefcba",
+    "apps/miniapp/src/core/commands.ts": "46c701c80e00f25e26c625d585b8dbf20f943d74ef9b4b6bb016f0df9ef971b1",
+    "apps/miniapp/src/port/contracts.ts": "f3c031bc04143fb31a76f1878c97c50ff6534b48ecb76d546082edfe000bdc5b"
+  },
+  "adaptation": "Tests unchanged except import paths rewired to immutable /app/dist compiled backend; two client command helpers mounted separately; no backend source overlays."
+}

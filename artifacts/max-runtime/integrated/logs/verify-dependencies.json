@@ -1,0 +1,17 @@
+{
+  "label": "verify-dependencies",
+  "command": [
+    "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\24156_1789934492020\\node.exe",
+    "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\24156_1789934492020\\node_modules\\npm\\bin\\npm-cli.js",
+    "run",
+    "verify:dependencies"
+  ],
+  "started": "2026-09-20T20:01:32.877Z",
+  "finished": "2026-09-20T20:01:40.537Z",
+  "exit": 0,
+  "sourceHead": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "sourceHashesSha256": "aa6b1e552da36db65d3e6bfea0c3a4c478c1c54fe29f64d8eb0db3c835fcb36f",
+  "log": "logs/verify-dependencies.txt",
+  "logSha256": "38019c2db4b66617e3dec2cb0dc468a45e16a139e87d99e3c5a8ffcbc823a332",
+  "counts": {}
+}

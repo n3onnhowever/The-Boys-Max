@@ -1,0 +1,17 @@
+{
+  "label": "build",
+  "command": [
+    "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\24156_1789934492020\\node.exe",
+    "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\24156_1789934492020\\node_modules\\npm\\bin\\npm-cli.js",
+    "run",
+    "build"
+  ],
+  "started": "2026-09-20T20:01:47.399Z",
+  "finished": "2026-09-20T20:01:51.758Z",
+  "exit": 0,
+  "sourceHead": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "sourceHashesSha256": "aa6b1e552da36db65d3e6bfea0c3a4c478c1c54fe29f64d8eb0db3c835fcb36f",
+  "log": "logs/build.txt",
+  "logSha256": "d0c499940a69b6eded2b092110ef79637da7e36ff4c6fd7f21809a8947a577be",
+  "counts": {}
+}

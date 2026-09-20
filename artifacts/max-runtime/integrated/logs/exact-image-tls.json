@@ -1,0 +1,19 @@
+{
+  "label": "exact-image-tls",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--mount",
+    "type=bind,source=D:\\Dev\\Repos\\The-Boys-Max-max-integrated\\artifacts\\max-runtime\\integrated\\tls-smoke.mjs,target=/verify/tls-smoke.mjs,readonly",
+    "sha256:c4e7cd181082c611708820895290e29547435222a1457750abe4e0edcc232105",
+    "node",
+    "/verify/tls-smoke.mjs"
+  ],
+  "started": "2026-09-20T20:08:51.734Z",
+  "finished": "2026-09-20T20:08:52.799Z",
+  "exit": 0,
+  "sourceSha": "6cdd93c3f10a9179e2e3edb9ba08b3f300ba043e",
+  "log": "logs/exact-image-tls.txt",
+  "logSha256": "a3841488f1c3ef7d287814abf6bd9a2dfd7c51468d62155366dde50003578dd2"
+}

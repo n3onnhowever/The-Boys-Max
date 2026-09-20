@@ -308,3 +308,6 @@
 
 # Exact MAX Mini App evidence bytes; retain log/source receipts on checkout.
 /artifacts/max-runtime/miniapp/** -text
+
+# Preserve exact integrated-release receipts and raw verification log bytes.
+/artifacts/max-runtime/integrated/** -text
