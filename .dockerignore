@@ -55,3 +55,12 @@
 **/*.tmp
 **/*.swp
 **/*.swo
+
+# Evidence/private-input directories remain excluded inside allowed source trees.
+**/logs
+**/screenshots
+**/design-references
+**/research
+**/input
+**/docs
+**/artifacts
