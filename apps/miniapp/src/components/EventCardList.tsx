@@ -5,7 +5,7 @@ import { SaveAction } from './SaveAction.tsx';
 interface EventCardListProps {
   events: readonly SearchEventViewModel[];
   savedEventIds: readonly string[];
-  onSave: (eventId: string) => void;
+  onSave?: (eventId: string) => void;
   onOpen?: (eventId: string) => void;
   ariaLabel?: string;
 }
@@ -22,7 +22,7 @@ export function EventCardList({ events, savedEventIds, onSave, onOpen, ariaLabel
           <strong className="event-list-price">{event.priceLabel}</strong>
         </span>
       </button>
-      <SaveAction saved={savedEventIds.includes(event.id)} onToggle={() => onSave(event.id)} />
+      <SaveAction saved={savedEventIds.includes(event.id)} onToggle={onSave ? () => onSave(event.id) : undefined} />
     </article>)}
   </div>;
 }

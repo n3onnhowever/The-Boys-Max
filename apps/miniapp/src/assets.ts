@@ -17,9 +17,9 @@ export const PROFILE_ASSETS = {
   designAvatar: '/assets/profile/design-avatar.jpg',
 } as const;
 
-/** Stable insertion points for future branded empty/offline/error illustrations. */
+/** Replaceable raster placeholders derived from approved internal POVOD Master UI Reference v1. */
 export const STATE_ASSETS = {
-  empty: null,
+  empty: '/assets/states/povod-empty-magnifier.png',
   offline: null,
-  error: null,
+  error: '/assets/states/povod-error-cable.png',
 } as const;

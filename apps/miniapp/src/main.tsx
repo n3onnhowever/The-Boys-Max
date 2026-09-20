@@ -23,6 +23,9 @@ import { MyPlansScreen } from './components/MyPlansScreen.tsx';
 import { PlanDetailScreen } from './components/PlanDetailScreen.tsx';
 import { SearchScreen } from './components/SearchScreen.tsx';
 import { DetailScreen } from './components/DetailScreen.tsx';
+import { SYSTEM_STATE_DESIGN_DATA } from './design-data/states.ts';
+import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
+import { HOME_SYSTEM_CHROME, previewDestination, type HomeSystemStateKind } from './view-model/system-state.ts';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
  * No token or actor is read from URL/localStorage/initDataUnsafe. This is not an auth implementation. */
@@ -61,6 +64,8 @@ async function start() {
   await controller.load(initialRoute);
 }
 const designPreview = params.get('design');
+const statePreviewKinds: readonly HomeSystemStateKind[] = ['loading', 'empty', 'error', 'offline'];
+const statePreview = statePreviewKinds.find(kind => kind === designPreview);
 const detailDesignPreview = designPreview && Object.hasOwn(DETAIL_DESIGN_DATA, designPreview)
   ? DETAIL_DESIGN_DATA[designPreview as DetailDesignVariant]
   : null;
@@ -70,7 +75,9 @@ const navigateDesign = (target: string) => {
   url.searchParams.set('design', target);
   location.assign(url);
 };
-if (detailDesignPreview) {
+if (statePreview) {
+  root.render(<StrictMode><HomeSystemScreen state={SYSTEM_STATE_DESIGN_DATA[statePreview]} chrome={HOME_SYSTEM_CHROME} onAction={action => navigateDesign(previewDestination(action))} /></StrictMode>);
+} else if (detailDesignPreview) {
   root.render(<StrictMode><DetailScreen
     model={detailDesignPreview}
     onBack={() => navigateDesign('home')}
