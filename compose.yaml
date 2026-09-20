@@ -23,21 +23,21 @@ services:
     healthcheck: {test: ["CMD", "redis-cli", "ping"], interval: 2s, timeout: 2s, retries: 30}
     networks: [test]
   migrate:
-    build: .
+    build: {context: ., target: build}
     environment: {RUNTIME_FILE: /runtime/test.json}
     volumes: ["runtime:/runtime:ro"]
     command: ["npm","run","migrate"]
     depends_on: {init: {condition: service_completed_successfully}, postgres: {condition: service_healthy}}
     networks: [test]
   prepare:
-    build: .
+    build: {context: ., target: build}
     environment: {RUNTIME_FILE: /runtime/test.json}
     volumes: ["runtime:/runtime:ro"]
     command: ["sh","-c","npm run seed:test && node --experimental-strip-types scripts/arm-test-outbound.ts"]
     depends_on: {migrate: {condition: service_completed_successfully}, redis: {condition: service_healthy}}
     networks: [test]
   api:
-    build: .
+    build: {context: ., target: build}
     environment: {RUNTIME_FILE: /runtime/test.json}
     volumes: ["runtime:/runtime:ro"]
     ports: ["127.0.0.1:3000:3000"]
@@ -46,7 +46,7 @@ services:
     stop_grace_period: 30s
     networks: [frontend, test]
   worker:
-    build: .
+    build: {context: ., target: build}
     command: ["node","dist/apps/worker/main.js"]
     environment: {RUNTIME_FILE: /runtime/test.json}
     volumes: ["runtime:/runtime:ro"]
@@ -54,7 +54,7 @@ services:
     stop_grace_period: 30s
     networks: [test]
   checks:
-    build: .
+    build: {context: ., target: build}
     profiles: [checks]
     command: ["npm","run","test:integration"]
     environment: {RUNTIME_FILE: /runtime/test.json, RUN_MAX23_INTEGRATION: "1"}

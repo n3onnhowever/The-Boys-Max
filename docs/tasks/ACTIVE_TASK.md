@@ -1,14 +1,7 @@
 # Active task
 
-**No implementation ticket active. T103/T104 integration checkpoint complete; stop before T105/T107.**
+**MAX_RUNTIME_INTEGRATED — authorized bounded integration and exact release verification.**
 
-- T101: PASS.
-- T102: PASS.
-- T103: PASS; canonical queue decision `KEEP_EXISTING_BULLMQ`.
-- T104: accepted `DATA_RUNTIME_GATE = FAIL`, `LEGAL_MANUAL_GATE = OPEN`; KudaGo not approved; Moscow not activated.
-- T105: worktree may be prepared from the clean post-integration baseline, but implementation is **NOT STARTED**.
-- T107: **BLOCKED** by provider/data readiness.
-- T106: independent/in progress on `codex/t106-max-runtime`; not merged or modified by this checkpoint.
-- One writer/integration owner. Historical prompts do not activate work.
+Integration owner: codex/max-runtime-integrated. Baseline 1e4a7a2b454bed87bdcb40559773143c2fc38c9b. Compose accepted TLS, Bot and Mini App source commits; close the Mini App URL bound and Docker context/runtime containment; verify one exact release artifact. Preserve PostgreSQL/BullMQ/Redis/outbox/governor and conservative UNKNOWN. No live MAX mutations, deployment, queue redesign, data/Save/UI work.
 
-Next authorized data sequence requires a separate T105 start decision, then a future-dated Moscow Data Gate v2, then a provider/live-ingestion decision.
+T103 remains PASS / KEEP_EXISTING_BULLMQ. T104 DATA_RUNTIME_GATE=FAIL, LEGAL_MANUAL_GATE=OPEN. T105/T107 and unrelated UI work remain outside this authorization. Stop at the integration handoff/package boundary.

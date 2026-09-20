@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import {capabilities,share} from '../../bridge.ts';
+import {safeExternalUrl} from '../core/links.ts';
 import type { PlanView, Feasibility } from '../port/contracts.ts';
 import type { ViewController, UiState } from '../core/controller.ts';
 import type { ClipboardPort } from '../core/links.ts';
@@ -45,6 +47,10 @@ export function PlanPanel({ view, controller, state, busy, origins, clipboard, r
         <label className="block" htmlFor="invite-link">Ссылка приглашения</label>
         <input id="invite-link" readOnly value={view.inviteUrl} onFocus={event => event.currentTarget.select()} />
         <button disabled={busy} onClick={() => void copy()}>Скопировать приглашение</button>
+        {capabilities().shareMaxContent && <button disabled={busy} onClick={()=>{
+          const link=safeExternalUrl(view.inviteUrl,origins);if(!link)return;
+          void share(view.title,link).then(result=>setCopyMessage(result==='INVOKED'?'Запрос на открытие окна отправки передан в MAX. Отправку выберите сами.':'Не удалось открыть отправку. Скопируйте приглашение.'));
+        }}>Поделиться в MAX</button>}
         {copyMessage && <p role="status">{copyMessage}</p>}
       </>}
       <p className="muted">Ссылка позволяет попросить доступ. Вы сами выбираете, кого принять и какое место ему назначить.</p>

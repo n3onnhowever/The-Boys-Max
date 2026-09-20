@@ -32,9 +32,10 @@ export async function buildApp(c:Config){
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};
  const header=(r:FastifyRequest,name:string)=>{const h=r.headers[name];return typeof h==='string'?h:undefined;};
  const origin=(r:FastifyRequest)=>requireThat(header(r,'origin')===c.publicOrigin,'ORIGIN_INVALID',403);
+ const readOrigin=(r:FastifyRequest)=>{if(header(r,'origin')!==undefined)origin(r);requireThat(header(r,'sec-fetch-site')!=='cross-site','ORIGIN_INVALID',403);};
  const json=(r:FastifyRequest)=>requireThat(/^application\/json(?:\s*;.*)?$/i.test(header(r,'content-type')??''),'JSON_REQUIRED',415);
- const auth=async(r:FastifyRequest,write=false)=>{if(write){origin(r);json(r);requireThat(header(r,'x-csrf-token'),'CSRF_REQUIRED',403);}return sessions.authenticate(r.cookies['__Host-max_session'],write?header(r,'x-csrf-token'):undefined);};
- app.addHook('onSend',async(_r,reply,payload)=>{reply.header('Cache-Control','no-store');reply.header('X-Content-Type-Options','nosniff');return payload;});
+ const auth=async(r:FastifyRequest,write=false)=>{readOrigin(r);if(write){origin(r);json(r);requireThat(header(r,'x-csrf-token'),'CSRF_REQUIRED',403);}return sessions.authenticate(r.cookies['__Host-max_session'],write?header(r,'x-csrf-token'):undefined);};
+ app.addHook('onSend',async(_r,reply,payload)=>{reply.header('Cache-Control','no-store');reply.header('X-Content-Type-Options','nosniff');reply.header('Referrer-Policy','no-referrer');return payload;});
  app.addHook('onResponse',async(r,reply)=>{console.log(JSON.stringify({event:'http_end',requestId:r.id,route:r.routeOptions.url,status:reply.statusCode}));});
  app.setErrorHandler((err,req,reply)=>{
   // Fastify 5 passes unknown: thrown values need not be Error instances.
@@ -66,8 +67,8 @@ export async function buildApp(c:Config){
  app.post('/api/ui/v1/commands',{schema:{body:uiEnvelope,response:{200:z.strictObject({idempotencyKey:z.uuid(),outcome:z.enum(['APPLIED','REPLAYED','NO_CHANGE']),view:uiView}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{
   const s=await auth(r,true);return ui.execute({actor_id:s.actor.id,session_id:s.id},r.body,r.id);
  });
- app.get('/api/v1/session/bootstrap',{schema:{response:{200:z.strictObject({bootstrapId:z.uuid(),csrfToken:z.string(),expiresAt:z.iso.datetime()}),...S.errors}}},async(_r,reply)=>{
-  const x=await sessions.bootstrap();reply.setCookie('__Host-max_bootstrap',x.binding,{...attrs,maxAge:120});return x.body;
+ app.get('/api/v1/session/bootstrap',{schema:{response:{200:z.strictObject({bootstrapId:z.uuid(),csrfToken:z.string(),expiresAt:z.iso.datetime()}),...S.errors}}},async(r,reply)=>{
+  readOrigin(r);const x=await sessions.bootstrap();reply.setCookie('__Host-max_bootstrap',x.binding,{...attrs,maxAge:120});return x.body;
  });
  app.post('/api/v1/session/max',{schema:{body:z.strictObject({initData:z.string().min(1).max(65536),exchangeKey:z.uuid()}),response:{200:S.sessionSchema,...S.errors}}},async(r,reply)=>{
   origin(r);json(r);const x=await sessions.exchange(r.cookies['__Host-max_bootstrap'],header(r,'x-bootstrap-csrf'),r.body.initData,r.body.exchangeKey,r.cookies['__Host-max_session']);

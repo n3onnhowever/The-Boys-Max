@@ -17,7 +17,7 @@ const governor=new Governor(govRedis,c.credentialScope,epoch.rows[0]!.epoch);
 const transport=c.mode==='test'?new TestTransport(pool,c.mode):new MaxTransport(c.botToken,c.liveGate);
 const worker=new Worker('max-effects',async job=>{
  requireThat(typeof job.data.outboxId==='string'&&/^[0-9a-f-]{36}$/.test(job.data.outboxId),'JOB_ID');
- await deliver(pool,job.data.outboxId,transport,governor,c.mode,{publicOrigin:c.publicOrigin,...(c.botUsername?{botUsername:c.botUsername}:{})});
+ await deliver(pool,job.data.outboxId,transport,governor,c.mode,{publicOrigin:c.publicOrigin,botUsername:c.botUsername,miniappUrl:c.miniappUrl,privacyUrl:c.privacyUrl,aboutUrl:c.aboutUrl});
 },{connection:workerRedis,concurrency:4,lockDuration:30000,maxStalledCount:1});
 worker.on('error',()=>console.error(JSON.stringify({event:'WORKER_ERROR'})));
 let stopping=false,busy=false;

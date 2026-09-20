@@ -11,7 +11,8 @@
     "apps/api/**/*.ts",
     "apps/worker/**/*.ts",
     "packages/**/*.ts",
-    "modules/**/*.ts"
+    "modules/**/*.ts",
+    "scripts/migrate.ts"
   ],
   "exclude": [
     "tests",

@@ -26,3 +26,24 @@ for(const name of ['[]','{}','null','true','1'])test('signed wrong first_name ty
 test('AES-GCM escrow roundtrip; tamper fails',()=>{const key=randomBytes(32).toString('hex'),value='opaque-session-for-test';const a=seal(key,value);assert.equal(unseal(key,a),value);const bytes=Buffer.from(a,'base64');bytes[30]=bytes[30]!^1;assert.throws(()=>unseal(key,bytes.toString('base64')));});
 
 test('empty optional MAX profile fields are valid strings',()=>{const token='synthetic-token',now=1800000000;assert.equal(verifyInitData(sign(token,'{"id":12,"first_name":"Synthetic","last_name":"","username":""}',now),token,now).actorExternalId,'12');});
+
+test('valid HMAC-sized tampering rejected with AUTH_INVALID',()=>{
+ const raw=sign(token,user,now),tampered=raw.replace(/hash=([a-f0-9])/,(_,x)=>'hash='+(x==='0'?'1':'0'));
+ assert.throws(()=>verifyInitData(tampered,token,now),/AUTH_INVALID/);
+});
+test('freshness boundaries: 3599 seconds and 300 second future skew accepted',()=>{
+ assert.equal(verifyInitData(sign(token,user,now-3599),token,now).authDate,now-3599);
+ assert.equal(verifyInitData(sign(token,user,now+300),token,now).authDate,now+300);
+});
+for(const suffix of ['&hash='+'0'.repeat(64),'&%68ash='+'0'.repeat(64),'&auth_date='+now,'&%61uth_date='+now])
+ test('security rejects duplicate critical field '+suffix.slice(0,12),()=>assert.throws(()=>verifyInitData(sign(token,user,now)+suffix,token,now),/DUPLICATE_FORM/));
+for(const raw of ['user=%&hash=x','user=%G0&hash=x','user=%C0%AF&hash=x','user=%ED%A0%80&hash=x'])
+ test('security rejects malformed encoding '+raw,()=>assert.throws(()=>verifyInitData(raw,token,now),/FORM_ENCODING/));
+test('signed int64 max ID and non-ASCII profile remain exact',()=>{
+ assert.equal(verifyInitData(sign(token,'{"id":9223372036854775807,"first_name":"Тест + ="}',now),token,now).actorExternalId,'9223372036854775807');
+});
+test('signed start_param context never changes the validated actor',()=>{
+ const a=verifyInitData(sign(token,user,now,{start_param:'catalog'}),token,now),b=verifyInitData(sign(token,user,now,{start_param:'p_foreign'}),token,now);
+ assert.equal(a.actorExternalId,b.actorExternalId);assert.equal('start_param' in b,false);
+ assert.throws(()=>verifyInitData(sign(token,user,now,{start_param:'catalog'}).replace('start_param=catalog','start_param=admin'),token,now),/AUTH_INVALID/);
+});

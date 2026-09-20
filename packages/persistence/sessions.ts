@@ -26,10 +26,19 @@ export function sessionService(pool:Pool,config:SessionConfig){
    const bh=keyed(config.sessionKey,binding),ph=keyed(config.sessionKey,`proof:${proof.proofFingerprint}`);
    const b=await c.query<{csrf_hash:string}>('SELECT csrf_hash FROM session_bootstraps WHERE binding_hash=$1 AND expires_at>clock_timestamp() FOR UPDATE',[bh]);
    requireThat(b.rows[0]&&equalSecret(b.rows[0].csrf_hash,keyed(config.sessionKey,header)),'BOOTSTRAP_INVALID',401);
-   const replay=await c.query<{proof_hash:string;escrow:string|null;valid:boolean;revoked:boolean}>('SELECT proof_hash,escrow,escrow_expires_at>clock_timestamp() AS valid,revoked FROM session_exchanges WHERE binding_hash=$1 AND exchange_key=$2',[bh,exchangeKey]);
+   const replay=await c.query<{proof_hash:string;escrow:string|null;valid:boolean;revoked:boolean}>('SELECT e.proof_hash,e.escrow,e.escrow_expires_at>clock_timestamp() AND s.absolute_expires_at>clock_timestamp() AND s.last_seen_at>clock_timestamp()-interval \'900 seconds\' AS valid,e.revoked OR s.revoked AS revoked FROM session_exchanges e JOIN app_sessions s ON s.id=e.session_id WHERE e.binding_hash=$1 AND e.exchange_key=$2 FOR UPDATE OF s',[bh,exchangeKey]);
    if(replay.rows[0]){const x=replay.rows[0];requireThat(x.proof_hash===ph,'EXCHANGE_CONFLICT',409);requireThat(x.valid&&!x.revoked&&x.escrow,'REAUTH_REQUIRED',401);
     return JSON.parse(unseal(config.escrowKey,x.escrow)) as {token:string;body:{actor:{id:string;displayName:string};csrfToken:string;absoluteExpiresAt:string;idleTtlSeconds:900}};}
    await c.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[ph]);
+   // Resume a repeated launch only with the exact active cookie already bound to this proof.
+   if(previousToken){
+    const resumed=await c.query<SessionRow>(`SELECT s.id,s.actor_id,s.family_id,s.csrf_generation,s.absolute_expires_at,a.display_name FROM session_exchanges e JOIN app_sessions s ON s.id=e.session_id JOIN actors a ON a.id=s.actor_id WHERE e.proof_hash=$1 AND s.token_hash=$2 AND NOT e.revoked AND NOT s.revoked AND s.absolute_expires_at>clock_timestamp() AND s.last_seen_at>clock_timestamp()-interval '900 seconds' FOR UPDATE OF s`,[ph,keyed(config.sessionKey,previousToken)]);
+    const row=resumed.rows[0];
+    if(row){
+     await c.query('UPDATE app_sessions SET last_seen_at=clock_timestamp() WHERE id=$1',[row.id]);
+     return {token:previousToken,body:{actor:{id:row.actor_id,displayName:row.display_name},csrfToken:csrf(row.id,row.csrf_generation),absoluteExpiresAt:row.absolute_expires_at.toISOString(),idleTtlSeconds:900 as const}};
+    }
+   }
    const reused=await c.query('SELECT 1 FROM session_exchanges WHERE proof_hash=$1 OR binding_hash=$2',[ph,bh]);requireThat(reused.rowCount===0,'REAUTH_REQUIRED',401);
    const actor=await c.query<{id:string;display_name:string}>('INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3) ON CONFLICT(external_id) DO UPDATE SET display_name=EXCLUDED.display_name RETURNING id,display_name',[randomUUID(),proof.actorExternalId,proof.displayName]);
    if(previousToken){const old=await c.query<{family_id:string}>('SELECT family_id FROM app_sessions WHERE token_hash=$1 FOR UPDATE',[keyed(config.sessionKey,previousToken)]);

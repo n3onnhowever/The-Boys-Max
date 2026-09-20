@@ -31,3 +31,6 @@ input/official/*.pdf
 
 # Local secrets - never commit
 .secrets/
+
+# Generated source/evidence packages; never include runtime secrets.
+artifacts/packages/

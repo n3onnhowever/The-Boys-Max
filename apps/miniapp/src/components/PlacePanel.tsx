@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import {ExternalLink} from './ExternalLink.tsx';
 import type { PlaceView } from '../port/contracts.ts';
 import { safeExternalUrl } from '../core/links.ts';
 export type MapRenderer = (place: PlaceView) => ReactNode;
@@ -8,7 +9,7 @@ export function PlacePanel({ place, origins, renderMap }: { place: PlaceView; or
     <h2 className="text-xl font-bold">Место встречи</h2>
     <p>{place.address || 'Адрес уточняется'}</p>
     {renderMap ? renderMap(place) : <p className="muted">Карта пока недоступна. Пользуйтесь адресом встречи.</p>}
-    {url && <a className="link-button" href={url} target="_blank" rel="noopener noreferrer">Открыть в картах</a>}
+    {url && <ExternalLink href={url}>Открыть в картах</ExternalLink>}
     {place.attribution && <p className="muted">{place.attribution}</p>}
   </section>;
 }
