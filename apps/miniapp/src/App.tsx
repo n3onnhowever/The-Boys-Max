@@ -26,6 +26,7 @@ export function App({controller,origins,clipboard,renderMap,designPreview}:AppPr
   },[routeKey]);
   if (designPreview) return <HomeScreen model={designPreview} />;
   if (view?.kind === 'CATALOG') return <EventsList view={view} controller={controller} state={state} busy={busy} />;
+  if (view?.kind === 'EVENT' && !state.error) return <EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} />;
   if (!view && state.phase === 'loading') return <AppViewport>
     <a className="skip-link" href="#main">К содержимому</a>
     <Screen><BrandHeader /><HomeSkeleton /></Screen>
@@ -42,7 +43,6 @@ export function App({controller,origins,clipboard,renderMap,designPreview}:AppPr
       </section>}
       {state.phase === 'submitting' && <p className="operation-status" role="status">Сохраняем. Дождитесь ответа сервера…</p>}
       {state.receipt && !state.error && <p className="operation-status" role="status">{state.receipt === 'NO_CHANGE' ? 'Сервер подтвердил: изменений нет' : 'Сервер подтвердил сохранение'}</p>}
-      {view?.kind === 'EVENT' && <EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} {...(renderMap ? {renderMap} : {})} />}
       {view?.kind === 'PLAN' && <PlanPanel view={view} controller={controller} state={state} busy={busy} origins={origins} clipboard={clipboard} {...(renderMap ? {renderMap} : {})} />}
       {view?.kind === 'INVITE' && <InvitePanel view={view} controller={controller} busy={busy} />}
     </main>

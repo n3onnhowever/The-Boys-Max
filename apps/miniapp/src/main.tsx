@@ -12,7 +12,9 @@ import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
 import { HOME_DESIGN_DATA } from './design-data/home.ts';
 import { SEARCH_DESIGN_DATA } from './design-data/search.ts';
+import { DETAIL_DESIGN_DATA, type DetailDesignVariant } from './design-data/detail.ts';
 import { SearchScreen } from './components/SearchScreen.tsx';
+import { DetailScreen } from './components/DetailScreen.tsx';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
  * No token or actor is read from URL/localStorage/initDataUnsafe. This is not an auth implementation. */
@@ -51,13 +53,22 @@ async function start() {
   await controller.load(initialRoute);
 }
 const designPreview = params.get('design');
+const detailDesignPreview = designPreview && Object.hasOwn(DETAIL_DESIGN_DATA, designPreview)
+  ? DETAIL_DESIGN_DATA[designPreview as DetailDesignVariant]
+  : null;
 const navigateDesign = (target: string) => {
   const url = new URL(location.href);
   url.search = '';
   url.searchParams.set('design', target);
   location.assign(url);
 };
-if (designPreview === 'home') {
+if (detailDesignPreview) {
+  root.render(<StrictMode><DetailScreen
+    model={detailDesignPreview}
+    onBack={() => navigateDesign('home')}
+    onNavigate={target => { if (target === 'home' || target === 'search') navigateDesign(target); }}
+  /></StrictMode>);
+} else if (designPreview === 'home') {
   root.render(<StrictMode><App controller={controller} origins={[]} clipboard={null} designPreview={HOME_DESIGN_DATA} /></StrictMode>);
 } else if (designPreview === 'search' || designPreview === 'filters') {
   root.render(<StrictMode><SearchScreen

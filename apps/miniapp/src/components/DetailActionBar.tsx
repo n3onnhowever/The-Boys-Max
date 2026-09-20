@@ -1,0 +1,27 @@
+import type { DetailPrimaryActionViewModel } from '../view-model/detail.ts';
+import { Icon } from './Icon.tsx';
+
+interface DetailActionBarProps {
+  primary: DetailPrimaryActionViewModel;
+  saved: boolean;
+  busy: boolean;
+  onPrimary: (() => void) | null;
+  onSave: (() => void) | null;
+  onPlan: (() => void) | null;
+}
+
+export function DetailActionBar({ primary, saved, busy, onPrimary, onSave, onPlan }: DetailActionBarProps) {
+  return <section className="detail-action-bar" aria-label="Действия с событием">
+    {primary.kind === 'SOURCE_LINK' && primary.href
+      ? <a className="detail-primary-action" href={primary.href} target="_blank" rel="noopener noreferrer">{primary.label}</a>
+      : <button type="button" className="detail-primary-action" onClick={onPrimary ?? undefined} disabled={busy || primary.kind === 'UNAVAILABLE'}>{primary.label}</button>}
+    <div className="detail-secondary-actions">
+      <button type="button" onClick={onSave ?? undefined} disabled={busy || !onSave} aria-pressed={saved}>
+        <Icon name="bookmark" filled={saved} /><span>{saved ? 'Сохранено' : 'Сохранить'}</span>
+      </button>
+      <button type="button" onClick={onPlan ?? undefined} disabled={busy || !onPlan}>
+        <Icon name="calendar" /><span>Добавить в план</span>
+      </button>
+    </div>
+  </section>;
+}
