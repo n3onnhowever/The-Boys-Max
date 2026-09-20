@@ -18,7 +18,7 @@ export function EventCard({ event, onOpen, disabled }: Props) {
           <p className="muted">{event.sourceLabel} · {event.freshnessLabel}</p>
         </div>
         <button type="button" disabled={disabled} onClick={onOpen}
-          className="block w-full text-center bg-primary text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+          className="block w-full text-center bg-primary text-white py-2 rounded-lg transition-colors font-medium"
         >Подробнее</button>
       </div>
     </article>

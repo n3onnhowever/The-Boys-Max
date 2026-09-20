@@ -19,6 +19,7 @@
     "test:unit": "node --experimental-strip-types --test tests/unit/*.test.ts",
     "test:integration": "node --experimental-strip-types --test --test-concurrency=1 tests/integration/*.test.ts",
     "build": "node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp",
+    "capture:home": "node scripts/capture-povod-home.mjs",
     "migrate": "node --experimental-strip-types scripts/migrate.ts",
     "seed:test": "node --experimental-strip-types scripts/seed-test.ts",
     "openapi": "node --experimental-strip-types scripts/openapi.ts",

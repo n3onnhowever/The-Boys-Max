@@ -1,0 +1,13 @@
+Drizzle 0.45.2: 0 declaration corrections applied; 15 verified
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/miniapp/index.html                              0.60 kB │ gzip:   0.38 kB
+dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+dist/miniapp/assets/index-B7uP3UBw.css              19.77 kB │ gzip:   5.14 kB
+dist/miniapp/assets/leaflet-renderer-C2PEcCND.js   150.63 kB │ gzip:  44.29 kB
+dist/miniapp/assets/index-CbGpb6ZN.js              350.00 kB │ gzip: 107.81 kB
+
+✓ built in 134ms

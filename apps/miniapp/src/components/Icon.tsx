@@ -1,0 +1,23 @@
+import type { SVGProps } from 'react';
+
+export type IconName = 'arrow' | 'bell' | 'calendar' | 'heart' | 'home' | 'people' | 'pin' | 'search' | 'user';
+
+interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
+  name: IconName;
+  filled?: boolean;
+}
+
+export function Icon({ name, filled = false, ...props }: IconProps) {
+  const common = { fill: filled ? 'currentColor' : 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  return <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...props}>
+    {name === 'home' && <path {...common} d="M3.5 10.5 12 3.8l8.5 6.7v9.1a1 1 0 0 1-1 1h-5.2v-6.2H9.7v6.2H4.5a1 1 0 0 1-1-1z" />}
+    {name === 'search' && <><circle {...common} cx="10.7" cy="10.7" r="6.7" /><path {...common} d="m16 16 4.4 4.4" /></>}
+    {name === 'calendar' && <><rect {...common} x="3.5" y="5.3" width="17" height="15" rx="2.5" /><path {...common} d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17" /><path {...common} d="m8.4 14 2.2 2.2 5-5" /></>}
+    {name === 'people' && <><circle {...common} cx="9" cy="8.2" r="3.2" /><path {...common} d="M3.4 20v-1.5c0-3.1 2.4-5.3 5.6-5.3s5.6 2.2 5.6 5.3V20" /><path {...common} d="M16 5.7a3 3 0 0 1 0 5.8M16.3 13.5c2.7.3 4.3 2.2 4.3 4.8V20" /></>}
+    {name === 'user' && <><circle {...common} cx="12" cy="7.7" r="4" /><path {...common} d="M4.5 21v-1.4c0-4.2 3.1-7 7.5-7s7.5 2.8 7.5 7V21" /></>}
+    {name === 'bell' && <><path {...common} d="M5.2 17.5h13.6l-1.5-2.2V9.8c0-3-2.2-5.2-5.3-5.2S6.7 6.8 6.7 9.8v5.5z" /><path {...common} d="M9.5 20a2.8 2.8 0 0 0 5 0" /></>}
+    {name === 'heart' && <path {...common} d="M20.7 8.4c0 5-8.7 10.4-8.7 10.4S3.3 13.4 3.3 8.4A4.7 4.7 0 0 1 12 5.9a4.7 4.7 0 0 1 8.7 2.5Z" />}
+    {name === 'pin' && <><path {...common} d="M19 9.8c0 5-7 10.7-7 10.7S5 14.8 5 9.8a7 7 0 1 1 14 0Z" /><circle {...common} cx="12" cy="9.6" r="2.2" /></>}
+    {name === 'arrow' && <><path {...common} d="M5 12h14M14 7l5 5-5 5" /></>}
+  </svg>;
+}

@@ -6,8 +6,14 @@ import { EventsList } from './components/EventsList.tsx';
 import { EventDetail } from './components/EventDetail.tsx';
 import { PlanPanel } from './components/PlanPanel.tsx';
 import { InvitePanel } from './components/InvitePanel.tsx';
-export interface AppProps { controller: ViewController; origins: readonly string[]; clipboard: ClipboardPort | null; renderMap?: MapRenderer; }
-export function App({controller,origins,clipboard,renderMap}:AppProps) {
+import { HomeScreen } from './components/HomeScreen.tsx';
+import { AppViewport, Screen } from './components/AppShell.tsx';
+import { BrandHeader } from './components/BrandHeader.tsx';
+import { BottomNav } from './components/BottomNav.tsx';
+import { HomeSkeleton } from './components/Skeleton.tsx';
+import type { HomeViewModel } from './view-model/home.ts';
+export interface AppProps { controller: ViewController; origins: readonly string[]; clipboard: ClipboardPort | null; renderMap?: MapRenderer; designPreview?: HomeViewModel; }
+export function App({controller,origins,clipboard,renderMap,designPreview}:AppProps) {
   const state = useSyncExternalStore(controller.subscribe,controller.getSnapshot,controller.getSnapshot);
   const {view} = state;
   const busy = ['loading','submitting','uncertain','offline'].includes(state.phase);
@@ -18,9 +24,16 @@ export function App({controller,origins,clipboard,renderMap}:AppProps) {
     window.history.replaceState(null,'',url);
     document.querySelector<HTMLElement>('main h1')?.focus();
   },[routeKey]);
+  if (designPreview) return <HomeScreen model={designPreview} />;
+  if (view?.kind === 'CATALOG') return <EventsList view={view} controller={controller} state={state} busy={busy} />;
+  if (!view && state.phase === 'loading') return <AppViewport>
+    <a className="skip-link" href="#main">К содержимому</a>
+    <Screen><BrandHeader /><HomeSkeleton /></Screen>
+    <BottomNav active="home" />
+  </AppViewport>;
   return <>
     <a className="skip-link" href="#main">К содержимому</a>
-    <header className="app-header"><span className="brand">Афиша</span><span className="brand-subtitle">The Boys · личный выбор и необязательные совместные планы</span></header>
+    <header className="app-header"><span className="brand">Повод</span><span className="brand-subtitle">Личный выбор и необязательные совместные планы</span></header>
     <main id="main" aria-busy={state.phase === 'loading' || state.phase === 'submitting'}>
       {state.phase === 'loading' && <section className="container px-4 py-8"><p role="status">Загружаем…</p><div className="loading-block" aria-hidden="true" /></section>}
       {state.error && <section className="status-panel" role="alert">
@@ -29,7 +42,6 @@ export function App({controller,origins,clipboard,renderMap}:AppProps) {
       </section>}
       {state.phase === 'submitting' && <p className="operation-status" role="status">Сохраняем. Дождитесь ответа сервера…</p>}
       {state.receipt && !state.error && <p className="operation-status" role="status">{state.receipt === 'NO_CHANGE' ? 'Сервер подтвердил: изменений нет' : 'Сервер подтвердил сохранение'}</p>}
-      {view?.kind === 'CATALOG' && <EventsList view={view} controller={controller} state={state} busy={busy} />}
       {view?.kind === 'EVENT' && <EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} {...(renderMap ? {renderMap} : {})} />}
       {view?.kind === 'PLAN' && <PlanPanel view={view} controller={controller} state={state} busy={busy} origins={origins} clipboard={clipboard} {...(renderMap ? {renderMap} : {})} />}
       {view?.kind === 'INVITE' && <InvitePanel view={view} controller={controller} busy={busy} />}

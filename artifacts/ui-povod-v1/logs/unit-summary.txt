@@ -1,0 +1,2 @@
+COMMAND=node --experimental-strip-types --test tests/unit/*.test.ts
+EXIT=0

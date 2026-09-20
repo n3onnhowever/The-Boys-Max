@@ -10,6 +10,7 @@ import { ViewController } from './core/controller.ts';
 import { HttpVisualPort } from './port/http.ts';
 import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
+import { HOME_DESIGN_DATA } from './design-data/home.ts';
 import './styles.css';
 /** Owner 23 must implement session/CSRF issuance after verified MAX authentication.
  * No token or actor is read from URL/localStorage/initDataUnsafe. This is not an auth implementation. */
@@ -47,4 +48,8 @@ async function start() {
     clipboard={navigator.clipboard ?? null} renderMap={place=>place.geoView?<MapComparison options={[{uiKey:'place',view:place.geoView}]} selectedKey={'place'} onHighlight={()=>{}} onBack={()=>{}} gate="ADMISSION_HOLD" />:<p>Для этого места есть только адрес. Точка не придумана.</p>} /></StrictMode>);
   await controller.load(initialRoute);
 }
-void start();
+if (params.get('design') === 'home') {
+  root.render(<StrictMode><App controller={controller} origins={[]} clipboard={null} designPreview={HOME_DESIGN_DATA} /></StrictMode>);
+} else {
+  void start();
+}
