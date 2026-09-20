@@ -1,1 +1,5 @@
+
+> the-boys-afisha-integration@0.2.0-candidate typecheck
+> node scripts/patch-drizzle-declarations.mjs && tsc --noEmit
+
 Drizzle 0.45.2: 0 declaration corrections applied; 15 verified

@@ -1,5 +1,5 @@
 export const BRAND_ASSETS = {
-  wordmark: '/assets/brand/povod-wordmark.png',
+  wordmark: '/assets/brand/povod-wordmark-home.png',
   squareIcon: '/assets/brand/povod-icon-square.png',
   appIcon: '/assets/brand/povod-icon-app.png',
   circleIcon: '/assets/brand/povod-icon-circle.png',
