@@ -28,3 +28,6 @@ input/official/*.pdf
 
 # Safe release template only; real .env.release remains ignored.
 !.env.release.example
+
+# Local secrets - never commit
+.secrets/
