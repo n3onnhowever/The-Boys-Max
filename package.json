@@ -21,6 +21,8 @@
     "build": "node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp",
     "capture:home": "node scripts/capture-povod-home.mjs",
     "capture:search": "node scripts/capture-povod-home.mjs --design=search --output=artifacts/ui-povod-v1/search --widths=360,390,430",
+    "capture:saved": "node scripts/capture-povod-home.mjs --design=saved --output=artifacts/ui-povod-v1/saved --widths=360,390,430",
+    "verify:saved": "node scripts/verify-povod-saved.mjs",
     "capture:filters": "node scripts/capture-povod-home.mjs --design=filters --output=artifacts/ui-povod-v1/filters --widths=390",
     "capture:detail": "node scripts/capture-povod-home.mjs --design=detail --output=artifacts/ui-povod-v1/detail --widths=360,390,430 && node scripts/capture-povod-home.mjs --design=detail-price-unknown --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-price-unknown && node scripts/capture-povod-home.mjs --design=detail-venue-unknown --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-venue-unknown && node scripts/capture-povod-home.mjs --design=detail-source-unavailable --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-source-unavailable",
     "migrate": "node --experimental-strip-types scripts/migrate.ts",
