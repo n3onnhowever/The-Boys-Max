@@ -22,7 +22,10 @@ artifacts/secrets/
 input/results/*.zip
 input/reviews/*.zip
 input/official/*.pdf
-/artifacts/research/*.zip
+# Raw ZIPs remain local; immutable research originals may be tracked explicitly.
+*.zip
+!/docs/research/**/raw/*.zip
+/artifacts/**/packages/*.zip
 
 # Disposable browser/test output; selected audit evidence is kept explicitly.
 .playwright/
@@ -30,7 +33,7 @@ input/official/*.pdf
 playwright-report/
 blob-report/
 test-results/
-/test-downloads/
+test-downloads/
 /artifacts/screenshots/
 /artifacts/repo-cleanroom/probes/
 /artifacts/repo-cleanroom/install/
@@ -39,6 +42,9 @@ test-results/
 /pgdata/
 /redis-data/
 /storage/
+/*.sqlite
+/*.sqlite3
+/*.db
 *.sqlite-journal
 *.sqlite3-journal
 *.db-journal

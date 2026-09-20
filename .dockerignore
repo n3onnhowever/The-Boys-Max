@@ -16,8 +16,6 @@
 !tests/
 !tests/**
 !scripts/
-!tests/
-!tests/**
 !scripts/**
 !migrations/
 !migrations/**
