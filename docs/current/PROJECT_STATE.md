@@ -1,4 +1,4 @@
-# Current project state — 2026-09-19
+# Current project state — 2026-09-22
 
 **Повод**, team **The Boys**: a solo-first personal event guide inside MAX. [Authority and frozen scope](POVOD_SOURCE_AUTHORITY.md) govern implementation.
 
@@ -10,6 +10,6 @@ T104 is accepted as a failed provider runtime gate, not as provider approval: `D
 
 The next data path is T105 data-safety/normalizer work, followed by a fresh future-dated Moscow Data Gate v2 under [current methodology](PROVIDER_DATA_GATE_GOVERNANCE.md). Only a later passing runtime gate plus legal/manual clearance can support provider/live-ingestion and Moscow activation decisions. T107 is blocked until that readiness exists.
 
-T106 continues independently on `codex/t106-max-runtime` and is not part of this integration. No T105/T107 implementation ticket is active. Follow [ACTIVE_TASK](../tasks/ACTIVE_TASK.md).
+The [product trunk](PRODUCT_TRUNK_STATE.md) integrates the accepted cleanroom, MAX runtime, UI v1 and UI quality source. No T105/T107 implementation ticket is active. Follow [ACTIVE_TASK](../tasks/ACTIVE_TASK.md).
 
 Historical baseline and prior state text remain preserved in repository evidence. Runtime claims require evidence tied to identified source revisions; code presence or old module tests are not acceptance.

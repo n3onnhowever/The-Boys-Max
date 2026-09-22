@@ -1,0 +1,29 @@
+{
+  "label": "exact-image-migrations",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "povod-max-int-7fbe5950",
+    "--mount",
+    "type=bind,source=D:\\Dev\\Repos\\The-Boys-Max-product-trunk\\.runtime\\max-integrated-test.json,target=/runtime/test.json,readonly",
+    "--mount",
+    "type=bind,source=D:\\Dev\\Repos\\The-Boys-Max-product-trunk\\artifacts\\product-trunk\\verification\\compiled-test-harness\\tests,target=/app/tests,readonly",
+    "--mount",
+    "type=bind,source=D:\\Dev\\Repos\\The-Boys-Max-product-trunk\\artifacts\\product-trunk\\verification\\compiled-test-harness\\test-support,target=/app/test-support,readonly",
+    "-e",
+    "RUNTIME_FILE=/runtime/test.json",
+    "-e",
+    "RUN_MAX23_INTEGRATION=1",
+    "sha256:0b0867b31634ae4bc12b4a4fedcc447182c5709fe8a13fe875ce07c56ed1ea4d",
+    "node",
+    "dist/scripts/migrate.js"
+  ],
+  "started": "2026-09-22T19:01:40.146Z",
+  "finished": "2026-09-22T19:01:41.062Z",
+  "exit": 0,
+  "sourceSha": "7fbe5950f41cba4b310f5d1180121e174bd61496",
+  "log": "logs/exact-image-migrations.txt",
+  "logSha256": "e5da4dc24b1ab2591da62b6c7efebc624bc126017e0054d7e1c456e801357ef5"
+}

@@ -1,0 +1,6 @@
+{"label":"integration-network","exit":0}
+{"label":"integration-postgres-start","exit":0}
+{"label":"integration-redis-start","exit":0}
+{"label":"exact-image-migrations","exit":0}
+{"label":"exact-image-transport","exit":0}
+{"label":"exact-image-postgres-integration","exit":0}

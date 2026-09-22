@@ -7,8 +7,9 @@ Current scope: [authority](POVOD_SOURCE_AUTHORITY.md). Execution: [active ticket
 - T105: not started. It must decide safe Event/Occurrence, price, place, transport, sync/reconciliation and provenance behavior using [accepted T104 inputs](../handoffs/T105_INPUTS_FROM_T104.md).
 - Moscow Data Gate v2: not run. It must use fixed archetypes, preselected future dates and a timestamped/hashed frozen matrix before any provider request; no post-result task/date edits.
 - T107: blocked by provider/data readiness. No live ingestion, fallback provider, Timepad or multi-provider implementation is authorized.
-- T106: independent/in progress; not merged by the T103/T104 integration checkpoint. T111 and later MAX/client acceptance remain separate.
-- T108–T110: discovery, Save/basic profile persistence and frozen UI remain separate work. Existing UI branding work remains deferred to T110.
+- T106: accepted MAX runtime source is integrated in the product trunk. T111 and real MAX Web/Android/iOS acceptance remain separate.
+- UI v1 and quality source are integrated. Durable solo Save and basic «Мой Повод» remain unimplemented P0 work; UI screens alone do not close them. Branding work remains governed by T110.
+- Integrated runtime defects still open: catalog LIMIT-before-filter, controller 422 pending-state and destination overwrite race. Production hosting is not done.
 - T112: unresolved donor provenance and final HTTPS/OpenAPI/DATA-API/judge evidence remain submission gates.
 - T113: presentation and user-research claims must follow actual evidence.
 

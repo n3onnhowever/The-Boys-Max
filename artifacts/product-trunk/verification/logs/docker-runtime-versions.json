@@ -1,0 +1,18 @@
+{
+  "label": "docker-runtime-versions",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "sha256:0b0867b31634ae4bc12b4a4fedcc447182c5709fe8a13fe875ce07c56ed1ea4d",
+    "node",
+    "-e",
+    "console.log(JSON.stringify({node:process.version,openssl:process.versions.openssl,platform:process.platform,arch:process.arch}))"
+  ],
+  "started": "2026-09-22T19:01:20.864Z",
+  "finished": "2026-09-22T19:01:21.451Z",
+  "exit": 0,
+  "sourceSha": "7fbe5950f41cba4b310f5d1180121e174bd61496",
+  "log": "logs/docker-runtime-versions.txt",
+  "logSha256": "5defcd9fa481d482d1d9ec4e25a1eaba017b07d0b8645627b2f3e63298eff7f8"
+}

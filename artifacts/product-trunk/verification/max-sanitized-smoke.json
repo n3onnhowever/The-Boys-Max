@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-09-22T19:03:45.810Z",
+  "status": "PASS",
+  "results": [
+    {
+      "name": "official-scoped-trust",
+      "status": 401,
+      "authorized": true,
+      "protocol": "TLSv1.3"
+    },
+    {
+      "name": "required-trust-missing",
+      "error": "UNABLE_TO_GET_ISSUER_CERT_LOCALLY"
+    },
+    {
+      "name": "wrong-hostname",
+      "error": "ERR_TLS_CERT_ALTNAME_INVALID"
+    }
+  ],
+  "unrelated": {
+    "url": "https://example.com",
+    "before": {
+      "status": 200,
+      "authorized": true
+    },
+    "after": {
+      "status": 200,
+      "authorized": true
+    },
+    "globalTrustUnchanged": true
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "openssl": "3.5.7"
+  }
+}

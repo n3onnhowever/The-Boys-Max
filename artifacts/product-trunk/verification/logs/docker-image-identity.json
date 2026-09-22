@@ -1,0 +1,17 @@
+{
+  "label": "docker-image-identity",
+  "command": [
+    "docker",
+    "image",
+    "inspect",
+    "sha256:0b0867b31634ae4bc12b4a4fedcc447182c5709fe8a13fe875ce07c56ed1ea4d",
+    "--format",
+    "{{json .}}"
+  ],
+  "started": "2026-09-22T19:01:20.662Z",
+  "finished": "2026-09-22T19:01:20.831Z",
+  "exit": 0,
+  "sourceSha": "7fbe5950f41cba4b310f5d1180121e174bd61496",
+  "log": "logs/docker-image-identity.txt",
+  "logSha256": "b0e88d056fe3823ec86393db02cc3e291443d0d81066a3bcdf0acb3935b85a5c"
+}

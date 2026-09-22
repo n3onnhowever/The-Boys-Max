@@ -1,0 +1,25 @@
+captured home 390x844
+captured search 390x844
+captured filters 390x844
+captured detail 390x844
+captured saved 390x844
+captured profile 390x844
+captured my-plans 390x844
+captured plan-detail 390x844
+captured loading 390x844
+captured empty 390x844
+captured error 390x844
+captured offline 390x844
+captured detail-price-unknown 390x844
+captured detail-venue-unknown 390x844
+captured detail-source-unavailable 390x844
+captured plan-detail-solo 390x844
+captured plan-detail-empty-discussion 390x844
+PASS Saved segments, remove, undo, empty and selected-event navigation
+PASS Home search, local Save, and navigation availability
+PASS Search sorting, filter reset/apply/close and safe event navigation
+PASS Detail UNKNOWN variants retain facts and safe source actions
+PASS Profile VK+OK placeholders, preference editing and Saved subsection
+PASS Plans RSVP, selected solo plan, empty discussion and local composer
+PASS Loading reduced motion and Offline supplied cache
+PASS Empty, Error and Offline actions reach deterministic destinations

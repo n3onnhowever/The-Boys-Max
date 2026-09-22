@@ -1,0 +1,6 @@
+{"label":"docker-context","exit":0}
+{"label":"docker-release-build","exit":0}
+{"label":"docker-image-identity","exit":0}
+{"label":"docker-runtime-versions","exit":0}
+{"label":"docker-base-identity","exit":0}
+{"status":"BUILT","imageId":"sha256:0b0867b31634ae4bc12b4a4fedcc447182c5709fe8a13fe875ce07c56ed1ea4d"}

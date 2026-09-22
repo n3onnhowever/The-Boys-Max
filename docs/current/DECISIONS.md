@@ -12,7 +12,7 @@ Authority: [POVOD_SOURCE_AUTHORITY](POVOD_SOURCE_AUTHORITY.md), including explic
 - Frozen Moscow Data Gate v1 remains the historical failed run. Its historical dates do not prove permanent lack of coverage and do not permit retroactive reinterpretation.
 - Next data sequence: T105 data-safety/normalizer work, then a newly frozen future-dated **Moscow Data Gate v2**, then and only then a provider/live-ingestion decision. T107 is blocked by provider/data readiness.
 - Unknown fees/prices stay unknown; conditional price and provenance follow Data Safety Patch. AI is optional advice, never authorization or hard facts.
-- T106 remains independent/in progress and is not integrated by this checkpoint. No T105 or T107 implementation is active.
+- The [product trunk](PRODUCT_TRUNK_STATE.md) integrates accepted T106 MAX runtime and UI v1/quality work. No T105 or T107 implementation is active.
 - No new spend, third-party tooling, MCP or hooks in this pass.
 
 Gate v2 methodology is canonical in [PROVIDER_DATA_GATE_GOVERNANCE](PROVIDER_DATA_GATE_GOVERNANCE.md). Earlier decisions and immutable imported ADRs remain preserved as historical authority inputs.

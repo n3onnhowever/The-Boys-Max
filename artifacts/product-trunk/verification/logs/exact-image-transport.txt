@@ -1,0 +1,47 @@
+(node:13) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ desired commands and subscription have only the entry flow (0.878038ms)
+✔ command "/start" (0.091975ms)
+✔ command " /HELP " (0.038602ms)
+✔ command "/app" (0.031652ms)
+✔ command "/start locator" (0.124057ms)
+✔ command "/startle" (0.068104ms)
+✔ command "Привет" (0.110306ms)
+✔ command "" (0.048052ms)
+✔ welcome uses native open_app with bot identity and safe catalog payload (0.314668ms)
+✔ help has recovery, configured URL, published policy/about links (0.158518ms)
+✔ missing Mini App URL suppresses launch and never invents an address (0.17889ms)
+✔ optional policy links are absent until published (0.047253ms)
+✔ URLs are optional but production HTTPS is mandatory (0.508808ms)
+✔ canonical secret config is separate; legacy test config remains compatible (0.597713ms)
+✔ runtime config validates every configured product URL (0.391191ms)
+✔ bot_started accepts current first_name and legacy name without inferring app rights (1.204787ms)
+✔ lossless bot_started IDs and message_created commands retain exact recipient (0.279836ms)
+✔ event identity deduplicates message_created across webhook timestamps (0.338939ms)
+✔ groups, channels and bot echoes do not become personal destinations (0.18122ms)
+✔ malformed supported payloads fail closed; callbacks are unsupported (0.260144ms)
+{"event":"http_end","requestId":"9fe25adf-9d10-4604-b41b-dedb0c9625bf","route":"/api/v1/max/webhook","status":403}
+{"event":"http_end","requestId":"9877f153-6c20-4c1c-9ae2-6ed6cc1c9628","route":"/api/v1/max/webhook","status":403}
+✔ invalid or missing webhook secret returns 403 without a database connection (60.318277ms)
+✔ Mini App URL permits 1024 and rejects 1025 without narrowing unrelated URLs (0.512708ms)
+✔ MAX trust configuration keeps global Node trust unchanged (1.333234ms)
+✔ T106.1 packaged MAX root is the independently sourced pinned public CA (1.850502ms)
+✔ MAX 429 with ordinary error.message maps to safe retry and Retry-After (2.464466ms)
+✔ transport preserves keyboard body and sends only to pinned MAX API2 (2.038212ms)
+✔ HTTP outcome classification keeps ambiguous sends out of retry (0.850447ms)
+✔ network failure after possible submission is UNKNOWN and is not retried (0.587763ms)
+✔ HTTP 400 string message is a definitive response with scoped TLS (0.518988ms)
+✔ HTTP 401 string message is a definitive response with scoped TLS (0.470467ms)
+✔ HTTP 403 string message is a definitive response with scoped TLS (0.310747ms)
+✔ HTTP 404 string message is a definitive response with scoped TLS (0.303987ms)
+✔ HTTP 429 string message is a definitive response with scoped TLS (0.499068ms)
+✔ definitive 401 does not depend on optional error body completion (1.103615ms)
+✔ definitive 429 does not depend on optional error body completion (0.674847ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 518.462961

@@ -1,0 +1,12 @@
+✔ deterministic Home fixture remains explicitly synthetic (0.7104ms)
+✔ catalog adapter preserves server display evidence without changing domain models (0.1379ms)
+✔ catalog adapter does not invent an event when the server returns no events (0.5161ms)
+✔ server catalog adapters do not assign design artwork or design map behavior (0.1875ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81.9707

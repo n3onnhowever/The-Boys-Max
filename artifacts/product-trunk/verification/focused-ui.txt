@@ -1,0 +1,48 @@
+✔ Detail design variants are deterministic and explicitly synthetic (0.7347ms)
+✔ unknown price stays unknown in the deterministic price variant (0.0734ms)
+✔ missing venue stays explicit and is omitted from the hero (0.0522ms)
+✔ unavailable source has no fabricated URL and disables the primary action (0.0815ms)
+✔ runtime adapter preserves supplied start only and does not invent detail facts (0.2186ms)
+✔ runtime source action is exposed only for an allowlisted safe URL (0.0961ms)
+✔ Empty reset action clears user filters while preserving Moscow and timezone context (0.7558ms)
+✔ loading, empty and error system states are explicit and deterministic (1.0401ms)
+✔ retry and reset actions leave a deterministic preview destination (0.103ms)
+✔ offline state contains only explicitly supplied cached content (0.1286ms)
+✔ deterministic Home fixture remains explicitly synthetic (1.0336ms)
+✔ catalog adapter preserves server display evidence without changing domain models (0.1572ms)
+✔ catalog adapter does not invent an event when the server returns no events (0.0749ms)
+✔ My Plans render includes nearest, other plans, status controls and active BottomNav (1994.2732ms)
+✔ Plan Detail render includes event summary, personal plan, participants and lightweight discussion (2.9871ms)
+✔ participant status states render for host, going and thinking fixtures (2.6465ms)
+✔ solo plan fixture renders without a group prerequisite (4.2684ms)
+✔ multi-participant fixture and empty discussion state remain deterministic (2.4525ms)
+WebSocket server error: Port 24678 is already in use
+✔ Profile design render exposes the approved personalization surface (1979.8241ms)
+✔ Profile fixture is deterministic and explicitly non-persistent (0.5491ms)
+✔ Preference chips only change during the local edit state (0.1407ms)
+✔ Notifications control is local UI state only (0.0663ms)
+✔ Profile fixtures show VK and OK as unconnected placeholders (2.6431ms)
+✔ Server Profile renders connected services only from supplied connected records (4.3381ms)
+✔ Saved render model remains explicit, deterministic and close to the approved screen (0.8184ms)
+✔ Saved segmented selection switches the visible deterministic collection (0.1424ms)
+✔ Saved state removes and re-saves an event without changing its event model (0.1007ms)
+✔ Saved screen renders the populated and empty saved states (2011.6709ms)
+✔ Search render model remains explicit, deterministic and map-design-only (0.8109ms)
+✔ filter state selects and deselects a shared category option (0.1887ms)
+✔ removing a selected filter updates applied and draft state (0.1055ms)
+✔ reset clears all structured filters while preserving the query and sort context (0.0688ms)
+✔ apply commits the Filter Sheet draft and closes it (0.5214ms)
+✔ sort switching updates the visible Search sort immediately (0.0754ms)
+✔ Filter Sheet open and close restores the last applied filters (0.0577ms)
+✔ Only explicit allowlisted routes activate design fixtures (0.435ms)
+✔ Shared navigation preserves Profile for Saved and the originating section for Detail (0.0936ms)
+✔ Selected preview events retain identity without inheriting invented Detail facts (0.1228ms)
+✔ Selected solo plan stays solo and has no borrowed discussion (0.3528ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2764.6977

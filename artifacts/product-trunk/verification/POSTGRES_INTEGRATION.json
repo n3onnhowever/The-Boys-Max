@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "imageId": "sha256:0b0867b31634ae4bc12b4a4fedcc447182c5709fe8a13fe875ce07c56ed1ea4d",
+  "sourceSha": "7fbe5950f41cba4b310f5d1180121e174bd61496",
+  "counts": {
+    "tests": 36,
+    "pass": 36,
+    "fail": 0,
+    "skipped": 0
+  },
+  "log": "logs/exact-image-postgres-integration.txt"
+}
