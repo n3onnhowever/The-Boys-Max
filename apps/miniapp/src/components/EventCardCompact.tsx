@@ -4,11 +4,11 @@ import { SaveAction } from './SaveAction.tsx';
 
 export function EventCardCompact({ event, variant = 'compact', onOpen, onSave }: { event: HomeEventViewModel; variant?: 'compact' | 'nearby'; onOpen?: () => void; onSave?: () => void }) {
   return <article className={`event-card-compact event-card-${variant}`}>
-    <div className="event-card-artwork">
+    <div className={event.artwork ? "event-card-artwork" : "event-card-artwork is-no-artwork"}>
       <button type="button" className="event-card-image-button" onClick={onOpen} disabled={!onOpen} aria-label={`Открыть событие «${event.title}»`}>
-        <img src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} />
+        {event.artwork && <img src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} />}
       </button>
-      <SaveAction saved={event.saved} onToggle={onSave} inverse />
+      <SaveAction saved={event.saved} onToggle={onSave} inverse={Boolean(event.artwork)} />
     </div>
     <div className="event-card-body">
       <span className="event-card-date">{event.dateTimeLabel}</span>

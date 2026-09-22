@@ -1,4 +1,3 @@
-import { HOME_ARTWORK } from '../assets.ts';
 import type { CatalogView, EventCardView } from '../port/contracts.ts';
 
 export interface FilterOption<Id extends string = string> {
@@ -77,7 +76,7 @@ export interface SearchEventViewModel {
   dateTimeLabel: string;
   venue: string;
   priceLabel: string;
-  artwork: string;
+  artwork: string | null;
   artworkAlt: string;
   saved: boolean;
 }
@@ -222,7 +221,6 @@ function resultCountLabel(count: number): string {
   return `Найдено ${count} ${word}`;
 }
 
-const artworkCycle = [HOME_ARTWORK.hero, HOME_ARTWORK.club, HOME_ARTWORK.concert, HOME_ARTWORK.dance];
 const categoryMap: Record<string, CategoryFilterId | undefined> = {
   CONCERT: 'concerts', PARTY: 'parties', EXHIBITION: 'exhibitions', THEATRE: 'theatre', CINEMA: 'cinema', FESTIVAL: 'festivals', LECTURE: 'lectures',
 };
@@ -239,14 +237,14 @@ export function catalogToSearchViewModel(view: CatalogView): SearchViewModel {
       query: view.query.text,
       categories: view.query.includedCategories.flatMap(category => categoryMap[category] ? [categoryMap[category]!] : []),
     },
-    events: view.events.map((event, index) => ({
+    events: view.events.map(event => ({
       id: eventId(event),
       title: event.title,
       dateTimeLabel: event.startLabel,
       venue: event.place.address,
       priceLabel: event.price.baseLabel,
-      artwork: artworkCycle[index % artworkCycle.length]!,
-      artworkAlt: `Атмосфера события «${event.title}»`,
+      artwork: null,
+      artworkAlt: '',
       saved: false,
     })),
   };

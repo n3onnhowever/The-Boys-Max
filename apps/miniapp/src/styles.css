@@ -2203,3 +2203,6 @@ details { margin: 16px 0; } summary { min-height: 44px; padding: 10px 0; cursor:
   outline: 2px solid var(--povod-color-action);
   outline-offset: 2px;
 }
+.event-card-artwork.is-no-artwork,
+.event-list-artwork-placeholder { background: #ece9e2; }
+.event-list-artwork-placeholder { display: block; }

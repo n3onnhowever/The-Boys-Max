@@ -40,21 +40,21 @@ export function HomeScreen({ model, searchValue, busy = false, onSearchChange, o
           onSelect={!busy && onCategorySelect ? () => onCategorySelect(category.id) : undefined}
         />)}
       </div>
-      {model.hero ? <HeroEventCard event={model.hero} onOpen={!busy && onEventOpen ? () => onEventOpen(model.hero!.id) : undefined} /> : <section className="home-empty-inline"><h1 tabIndex={-1}>Подборка готовится</h1><p>Новые варианты появятся после обновления источников.</p></section>}
+      {model.hero ? <HeroEventCard event={model.hero} showDesignTagline={model.provenance === 'DESIGN_FIXTURE'} onOpen={!busy && onEventOpen ? () => onEventOpen(model.hero!.id) : undefined} /> : <section className="home-empty-inline"><h1 tabIndex={-1}>Подборка готовится</h1><p>Новые варианты появятся после обновления источников.</p></section>}
       <section className="home-section" aria-labelledby="for-you-heading">
-        <SectionHeader title="Для тебя" />
-        <span id="for-you-heading" className="sr-only">Для тебя</span>
+        <SectionHeader title={model.provenance === 'DESIGN_FIXTURE' ? 'Для тебя' : 'События'} />
+        <span id="for-you-heading" className="sr-only">{model.provenance === 'DESIGN_FIXTURE' ? 'Для тебя' : 'События'}</span>
         <div className="event-card-rail">
           {model.forYou.map(event => <EventCardCompact key={event.id} event={event} onOpen={!busy && onEventOpen ? () => onEventOpen(event.id) : undefined} onSave={onSave ? () => onSave(event.id) : undefined} />)}
         </div>
       </section>
-      <section className="home-section nearby-section" aria-labelledby="nearby-heading">
-        <SectionHeader title="Рядом с тобой" />
-        <span id="nearby-heading" className="sr-only">Рядом с тобой</span>
+      {model.nearby.length > 0 && <section className="home-section nearby-section" aria-labelledby="nearby-heading">
+        <SectionHeader title={model.provenance === 'DESIGN_FIXTURE' ? 'Рядом с тобой' : 'Ещё события'} />
+        <span id="nearby-heading" className="sr-only">{model.provenance === 'DESIGN_FIXTURE' ? 'Рядом с тобой' : 'Ещё события'}</span>
         <div className="event-card-rail nearby-rail">
           {model.nearby.map(event => <EventCardCompact key={event.id} event={event} variant="nearby" onOpen={!busy && onEventOpen ? () => onEventOpen(event.id) : undefined} onSave={onSave ? () => onSave(event.id) : undefined} />)}
         </div>
-      </section>
+      </section>}
     </Screen>
     <BottomNav active="home" onSelect={onNavigate} />
   </AppViewport>;

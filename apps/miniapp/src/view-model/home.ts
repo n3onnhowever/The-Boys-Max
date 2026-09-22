@@ -1,4 +1,3 @@
-import { HOME_ARTWORK } from '../assets.ts';
 import type { CatalogView, EventCardView } from '../port/contracts.ts';
 
 export interface HomeCategoryViewModel {
@@ -14,7 +13,7 @@ export interface HomeEventViewModel {
   distanceLabel: string | null;
   priceLabel: string | null;
   categoryLabels: string[];
-  artwork: string;
+  artwork: string | null;
   artworkAlt: string;
   recommendationLabel: string | null;
   saved: boolean;
@@ -38,13 +37,12 @@ const categories: HomeCategoryViewModel[] = [
   { id: 'CINEMA', label: 'Кино' },
 ];
 
-const artworkCycle = [HOME_ARTWORK.concert, HOME_ARTWORK.gallery, HOME_ARTWORK.club, HOME_ARTWORK.dance];
 
 function eventId(event: EventCardView): string {
   return [event.ref.sourceId, event.ref.externalEventId, event.ref.occurrenceId ?? 'event'].join(':');
 }
 
-function adaptEvent(event: EventCardView, index: number, hero = false): HomeEventViewModel {
+function adaptEvent(event: EventCardView, hero = false): HomeEventViewModel {
   return {
     id: eventId(event),
     title: event.title,
@@ -53,8 +51,8 @@ function adaptEvent(event: EventCardView, index: number, hero = false): HomeEven
     distanceLabel: null,
     priceLabel: event.price.baseLabel || null,
     categoryLabels: [event.categoryLabel],
-    artwork: hero ? HOME_ARTWORK.hero : artworkCycle[index % artworkCycle.length]!,
-    artworkAlt: `Атмосфера события «${event.title}»`,
+    artwork: null,
+    artworkAlt: '',
     recommendationLabel: hero ? event.categoryLabel : null,
     saved: false,
   };
@@ -65,14 +63,14 @@ function adaptEvent(event: EventCardView, index: number, hero = false): HomeEven
  * server-owned event, occurrence, source, price, or authorization contracts.
  */
 export function catalogToHomeViewModel(view: CatalogView): HomeViewModel {
-  const events = view.events.map((event, index) => adaptEvent(event, index));
+  const events = view.events.map(event => adaptEvent(event));
   const selectedCategory = view.query.includedCategories[0] ?? 'all';
   return {
     provenance: 'SERVER_ADAPTER',
     searchPlaceholder: 'Куда идём сегодня?',
     categories,
     activeCategoryId: categories.some(category => category.id === selectedCategory) ? selectedCategory : 'all',
-    hero: view.events[0] ? adaptEvent(view.events[0], 0, true) : null,
+    hero: view.events[0] ? adaptEvent(view.events[0], true) : null,
     forYou: events.slice(0, 6),
     nearby: events.slice(6, 10),
   };

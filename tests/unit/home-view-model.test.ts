@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { HOME_DESIGN_DATA } from '../../apps/miniapp/src/design-data/home.ts';
 import { catalogToHomeViewModel } from '../../apps/miniapp/src/view-model/home.ts';
+import { catalogToSearchViewModel } from '../../apps/miniapp/src/view-model/search.ts';
 import { CONTRACT, type CatalogView } from '../../apps/miniapp/src/port/contracts.ts';
 
 const catalog: CatalogView = {
@@ -58,4 +59,15 @@ test('catalog adapter does not invent an event when the server returns no events
   assert.equal(home.hero, null);
   assert.deepEqual(home.forYou, []);
   assert.deepEqual(home.nearby, []);
+});
+
+test('server catalog adapters do not assign design artwork or design map behavior', () => {
+  const home = catalogToHomeViewModel(catalog);
+  const search = catalogToSearchViewModel(catalog);
+  assert.equal(home.hero?.artwork, null);
+  assert.equal(home.forYou[0]?.artwork, null);
+  assert.equal(search.events[0]?.artwork, null);
+  assert.equal(search.mapAffordance, 'HIDDEN');
+  assert.equal(search.events[0]?.priceLabel, 'UNKNOWN');
+  assert.ok(HOME_DESIGN_DATA.hero?.artwork, 'explicit design preview keeps its accepted artwork');
 });
