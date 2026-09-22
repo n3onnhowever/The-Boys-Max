@@ -15,7 +15,7 @@ export function PlanEventSummary({ event, variant = 'compact', onOpen }: PlanEve
     onClick={onOpen}
     disabled={!onOpen}
   >
-    <img src={event.artwork} alt={event.artworkAlt} />
+    <img src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} />
     <span className="plan-event-copy">
       <span className="plan-event-date">{event.dateTimeLabel}</span>
       <strong>{event.title}</strong>

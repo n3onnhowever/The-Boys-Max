@@ -78,6 +78,9 @@ export function HomeSystemScreen({
         <img
           className={`system-state-art system-state-art-${state.kind}`}
           src={state.kind === 'empty' ? STATE_ASSETS.empty : STATE_ASSETS.error}
+          width={state.kind === 'empty' ? 260 : 300}
+          height={state.kind === 'empty' ? 215 : 180}
+          decoding="async"
           alt=""
           aria-hidden="true"
         />

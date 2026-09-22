@@ -9,6 +9,7 @@ interface ParticipantAvatarProps {
 export function ParticipantAvatar({ participant, size = 'medium', showHostBadge = false }: ParticipantAvatarProps) {
   return <span
     className={`participant-avatar participant-avatar-${size} participant-avatar-${participant.tone}`}
+    role="img"
     aria-label={`${participant.name}: ${participantStatusLabel(participant.status)}`}
     title={participant.name}
   >

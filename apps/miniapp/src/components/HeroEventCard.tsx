@@ -3,7 +3,7 @@ import { Icon } from './Icon.tsx';
 
 export function HeroEventCard({ event, onOpen }: { event: HomeEventViewModel; onOpen?: () => void }) {
   return <article className="hero-event-card">
-    <img src={event.artwork} alt={event.artworkAlt} />
+    <img src={event.artwork} decoding="async" fetchPriority="high" alt={event.artworkAlt} />
     <div className="hero-event-shade" />
     <div className="hero-event-copy">
       {event.recommendationLabel && <span className="hero-event-category">{event.recommendationLabel}</span>}
