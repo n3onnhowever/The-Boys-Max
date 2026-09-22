@@ -1,0 +1,2 @@
+COMMAND=production build pipeline
+EXIT=0

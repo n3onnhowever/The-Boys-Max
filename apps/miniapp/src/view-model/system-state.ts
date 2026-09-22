@@ -1,0 +1,94 @@
+import type { SearchDraft } from '../port/contracts.ts';
+import type { HomeCategoryViewModel } from './home.ts';
+import type { SearchEventViewModel } from './search.ts';
+
+export type HomeSystemStateKind = 'loading' | 'empty' | 'error' | 'offline';
+
+export type HomeSystemState =
+  | { kind: 'loading'; statusLabel: string }
+  | { kind: 'empty'; title: string; description: string }
+  | { kind: 'error'; title: string; description: string }
+  | {
+      kind: 'offline';
+      alertTitle: string;
+      alertDescription: string;
+      sectionTitle: string;
+      explanationTitle: string;
+      explanation: string;
+      cachedEvents: SearchEventViewModel[];
+    };
+
+export type LoadingSystemState = Extract<HomeSystemState, { kind: 'loading' }>;
+export type EmptySystemState = Extract<HomeSystemState, { kind: 'empty' }>;
+export type ErrorSystemState = Extract<HomeSystemState, { kind: 'error' }>;
+export type OfflineSystemState = Extract<HomeSystemState, { kind: 'offline' }>;
+export type HomeSystemAction = 'change-filters' | 'reset-filters' | 'retry' | 'return-home';
+
+export interface HomeSystemChrome {
+  searchPlaceholder: string;
+  activeCategoryId: string;
+  categories: HomeCategoryViewModel[];
+}
+
+export const HOME_SYSTEM_CHROME: HomeSystemChrome = {
+  searchPlaceholder: 'Куда идём сегодня?',
+  activeCategoryId: 'all',
+  categories: [
+    { id: 'all', label: 'Все' },
+    { id: 'CONCERT', label: 'Концерты' },
+    { id: 'PARTY', label: 'Вечеринки' },
+    { id: 'EXHIBITION', label: 'Выставки' },
+    { id: 'CINEMA', label: 'Кино' },
+  ],
+};
+
+export function loadingSystemState(): LoadingSystemState {
+  return { kind: 'loading', statusLabel: 'Загружаем подборку' };
+}
+
+export function emptySystemState(): EmptySystemState {
+  return {
+    kind: 'empty',
+    title: 'Событий пока нет',
+    description: 'По твоим фильтрам ничего\nне нашлось. Попробуй изменить\nпараметры поиска.',
+  };
+}
+
+export function errorSystemState(): ErrorSystemState {
+  return {
+    kind: 'error',
+    title: 'Не удалось загрузить события',
+    description: 'Что-то пошло не так.\nПопробуй ещё раз через пару секунд.',
+  };
+}
+
+export function offlineSystemState(cachedEvents: readonly SearchEventViewModel[]): OfflineSystemState {
+  return {
+    kind: 'offline',
+    alertTitle: 'Нет подключения к интернету',
+    alertDescription: 'Показываем сохранённые события',
+    sectionTitle: 'Доступно без интернета',
+    explanationTitle: 'Новые события появятся после восстановления связи',
+    explanation: 'Мы сохранили часть ранее загруженных событий. Обновим, как только появится интернет.',
+    cachedEvents: cachedEvents.map(event => ({ ...event })),
+  };
+}
+
+export function resetCatalogSearchDraft(current: SearchDraft): SearchDraft {
+  return {
+    ...current,
+    text: '',
+    date: '',
+    startLocal: '',
+    endLocal: '',
+    excludeCategories: [],
+    includedCategories: [],
+    participants: '1',
+    budgetText: '',
+    priceBasis: 'UNKNOWN',
+  };
+}
+
+export function previewDestination(action: HomeSystemAction): 'home' | 'filters' {
+  return action === 'change-filters' ? 'filters' : 'home';
+}

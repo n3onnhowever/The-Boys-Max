@@ -1,18 +1,18 @@
-// Adapted from NekoTheDev/EventHive; MIT © 2026 Neko. See THIRD_PARTY_NOTICES.md.
+// Adapted from NekoTheDev/EventHive; MIT © 2026 Neko. See licenses/module-22-NOTICES.md.
 import { useId } from 'react';
-interface Props { value: string; onChange: (val: string) => void; disabled?: boolean; }
-export function SearchBar({ value, onChange, disabled = false }: Props) {
+import { Icon } from './Icon.tsx';
+interface Props { value: string; onChange: (val: string) => void; placeholder?: string; disabled?: boolean; }
+export function SearchBar({ value, onChange, placeholder = 'Куда идём сегодня?', disabled = false }: Props) {
   const id = useId();
   return (
-    <div className="relative">
+    <div className="search-bar">
       <label htmlFor={id} className="sr-only">Что хочется найти</label>
-      <span className="search-mark" aria-hidden="true">⌕</span>
+      <Icon name="search" className="search-bar-icon" />
       <input
         id={id} type="search" disabled={disabled}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Например, выставка вечером"
-        className="pl-10 pr-10 py-2 border border-gray-200 rounded-lg w-full focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white text-gray-900"
+        placeholder={placeholder}
       />
       {value && (
         <button type="button" disabled={disabled} aria-label="Очистить поисковый текст"

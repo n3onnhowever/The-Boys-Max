@@ -1,0 +1,2 @@
+COMMAND=node scripts/capture-povod-home.mjs
+EXIT=0

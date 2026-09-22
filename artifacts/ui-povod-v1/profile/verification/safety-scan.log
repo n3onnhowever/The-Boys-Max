@@ -1,0 +1,35 @@
+COMMANDS=git diff --cached --name-only; git diff --cached --no-ext-diff -- . :(exclude)*.png :(exclude)*.jpg; Select-String secret patterns
+NOTE=.secrets paths were not read
+PATTERNS=-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY----- | AKIA[0-9A-Z]{16} | sk-[A-Za-z0-9]{20,} | xox[baprs]-[A-Za-z0-9-]+ | (?i)(bot_token|database_url|redis_url)\s*=\s*[^$\s][^\s]+
+STAGED_PATH_COUNT=25
+FORBIDDEN_PATH_MATCHES=0
+SECRET_PATTERN_MATCHES=0
+GIT_NAMES_EXIT=0
+GIT_DIFF_EXIT=0
+STAGED_PATHS:
+apps/miniapp/public/assets/profile/design-avatar.jpg
+apps/miniapp/src/assets.ts
+apps/miniapp/src/components/BottomNav.tsx
+apps/miniapp/src/components/HomeScreen.tsx
+apps/miniapp/src/components/Icon.tsx
+apps/miniapp/src/components/ProfileScreen.tsx
+apps/miniapp/src/components/SearchScreen.tsx
+apps/miniapp/src/design-data/profile.ts
+apps/miniapp/src/main.tsx
+apps/miniapp/src/styles.css
+apps/miniapp/src/view-model/profile.ts
+artifacts/ui-povod-v1/profile/360.png
+artifacts/ui-povod-v1/profile/390.png
+artifacts/ui-povod-v1/profile/430.png
+artifacts/ui-povod-v1/profile/parity-comparison.png
+artifacts/ui-povod-v1/profile/verification/build.log
+artifacts/ui-povod-v1/profile/verification/capture.log
+artifacts/ui-povod-v1/profile/verification/diff-check.log
+artifacts/ui-povod-v1/profile/verification/profile-unit.log
+artifacts/ui-povod-v1/profile/verification/safety-scan.log
+artifacts/ui-povod-v1/profile/verification/typecheck.log
+artifacts/ui-povod-v1/profile/verification/unit.log
+docs/handoffs/ui-v1/UI_PROFILE_HANDOFF.md
+package.json
+tests/unit/profile-ui-state.test.ts
+EXIT_CODE=0

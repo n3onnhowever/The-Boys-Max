@@ -1,0 +1,2 @@
+COMMAND=node scripts/patch-drizzle-declarations.mjs && tsc --noEmit
+EXIT=0

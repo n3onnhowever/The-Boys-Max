@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "implementationSha": "14528e10a9a855fab661bdef23228b1c69903354",
+  "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+  "focused": {
+    "passed": 39,
+    "failed": 0
+  },
+  "unit": {
+    "passed": 154,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "focused",
+      "startedUtc": "2026-09-20T17:05:54.4233148Z",
+      "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+      "exit": 0,
+      "finishedUtc": "2026-09-20T17:05:55.2903555Z",
+      "command": "node --experimental-strip-types --test tests/unit/home-view-model.test.ts tests/unit/search-ui-state.test.ts tests/unit/detail-view-model.test.ts tests/unit/saved-ui-state.test.ts tests/unit/profile-ui-state.test.ts tests/unit/plans-ui.test.ts tests/unit/home-system-state.test.ts tests/unit/home-system-reset.test.ts tests/unit/ui-integration.test.ts"
+    },
+    {
+      "command": "npm.cmd run test:unit",
+      "name": "unit",
+      "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+      "startedUtc": "2026-09-20T17:05:56.2918922Z",
+      "exit": 0,
+      "finishedUtc": "2026-09-20T17:05:57.6768606Z"
+    },
+    {
+      "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+      "name": "typecheck",
+      "finishedUtc": "2026-09-20T17:06:01.7562564Z",
+      "startedUtc": "2026-09-20T17:05:56.5265846Z",
+      "command": "npm.cmd run typecheck",
+      "exit": 0
+    },
+    {
+      "startedUtc": "2026-09-20T17:05:56.6792644Z",
+      "exit": 0,
+      "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+      "name": "typecheck-pure",
+      "command": "npm.cmd run typecheck:pure",
+      "finishedUtc": "2026-09-20T17:05:58.5327187Z"
+    },
+    {
+      "name": "build",
+      "startedUtc": "2026-09-20T17:06:25.4518962Z",
+      "command": "npm.cmd run build",
+      "exit": 0,
+      "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+      "finishedUtc": "2026-09-20T17:06:30.3162243Z"
+    },
+    {
+      "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
+      "command": "git diff --check",
+      "name": "diff-check",
+      "exit": 0
+    }
+  ],
+  "browser": {
+    "status": "PASS",
+    "captures": 37,
+    "interactionGroups": 8,
+    "normalRuntimeNegativeControls": 3,
+    "previewApiRequests": 0,
+    "javascriptErrors": 0,
+    "build": [
+      {
+        "file": "index.html",
+        "sha256": "8abd2487c3049ee2ad235672f57f4ff22b9aa49db2111de9a9943234fe5bdb6d"
+      },
+      {
+        "file": "assets/DesignPreview-JiBrQKSP.js",
+        "sha256": "a5368d372802f701ba1d6fac0f98e5b6b3fc53ac9a50a7790f43e2ae394cacfb"
+      },
+      {
+        "file": "assets/index-BnjkGyCo.js",
+        "sha256": "d11c893bbba9d61ed2d78e5230536056cfdb2d71e542b300a0800aae162f971d"
+      },
+      {
+        "file": "assets/index-DOm5pFPK.css",
+        "sha256": "dbdf4913288a17f3d647603ff41f369d5502dbd0cf4be1092bf1539b0fe529fc"
+      },
+      {
+        "file": "assets/leaflet-renderer-CmLIac3b.js",
+        "sha256": "d6141888a9a0c58ef1a58c5c8f8e96b5ee9fe96b33cdbbb00470e828ecf703c1"
+      },
+      {
+        "file": "assets/leaflet-renderer-vh-t_kPv.css",
+        "sha256": "86d3d093fad979e1d185c8a93258f5f124d863fd13ca894c0b9f50bb68b66997"
+      }
+    ]
+  },
+  "compatibilityCommands": {
+    "captureHelper": "PASS; identical Detail variant PNG",
+    "verifySaved": "PASS",
+    "captureStates": "PASS; four identical state PNGs"
+  },
+  "notRun": [
+    "Docker",
+    "PostgreSQL",
+    "Redis/BullMQ",
+    "MAX runtime/auth",
+    "live providers",
+    "durable Save/profile/social delivery",
+    "deployment"
+  ]
+}

@@ -1,0 +1,44 @@
+:root {
+  --povod-color-background: #fffdf8;
+  --povod-color-surface: #ffffff;
+  --povod-color-text: #0e0e0e;
+  --povod-color-muted: #6f6d68;
+  --povod-color-border: #dedbd3;
+  --povod-color-control: #f2f0eb;
+  --povod-color-action: #c63b2b;
+  --povod-color-social: #6c54ff;
+  --povod-color-dark: #151515;
+
+  --povod-space-1: 2px;
+  --povod-space-2: 4px;
+  --povod-space-3: 8px;
+  --povod-space-4: 12px;
+  --povod-space-5: 16px;
+  --povod-space-6: 20px;
+  --povod-space-7: 24px;
+  --povod-space-8: 32px;
+  --povod-space-9: 40px;
+
+  --povod-radius-small: 8px;
+  --povod-radius-medium: 12px;
+  --povod-radius-large: 16px;
+  --povod-radius-xlarge: 20px;
+  --povod-radius-pill: 999px;
+
+  --povod-font-ui: "Onest", system-ui, sans-serif;
+  --povod-font-metadata: "IBM Plex Mono", ui-monospace, monospace;
+  --povod-border: 1px solid var(--povod-color-border);
+  --povod-shadow-raised: 0 8px 24px rgb(14 14 14 / 8%);
+  --povod-motion-fast: 160ms;
+  --povod-control-height: 44px;
+  --povod-control-height-large: 52px;
+  --povod-icon-small: 18px;
+  --povod-icon-medium: 22px;
+  --povod-icon-large: 28px;
+  --povod-screen-gutter: 12px;
+  --povod-bottom-nav-height: 78px;
+  --povod-safe-top: env(safe-area-inset-top, 0px);
+  --povod-safe-right: env(safe-area-inset-right, 0px);
+  --povod-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --povod-safe-left: env(safe-area-inset-left, 0px);
+}

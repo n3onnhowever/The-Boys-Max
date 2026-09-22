@@ -10,6 +10,7 @@ import { ViewController } from './core/controller.ts';
 import { HttpVisualPort } from './port/http.ts';
 import { codec, routeSchema } from './port/schema.ts';
 import type { Route } from './port/contracts.ts';
+import { resolveDesignPreview } from './view-model/design-preview.ts';
 import './styles.css';
 // Identity, CSRF and permissions come only from the authenticated server response.
 const sessionSchema = z.object({csrfToken:z.string().min(1),externalOrigins:z.array(z.url())}).strict();
@@ -67,4 +68,12 @@ async function start(){
   render({message,retry:()=>void start()});
  }finally{starting=false;}
 }
-void start();
+const designPreview = resolveDesignPreview(params.get('design'));
+if (designPreview) {
+  document.title = 'Повод — дизайн-пример';
+  void import('./DesignPreview.tsx').then(({ DesignPreview }) => {
+    root.render(<StrictMode><DesignPreview route={designPreview} /></StrictMode>);
+  });
+} else {
+  void start();
+}

@@ -1,0 +1,30 @@
+ M apps/miniapp/index.html
+ M apps/miniapp/src/App.tsx
+ M apps/miniapp/src/components/EventCard.tsx
+ M apps/miniapp/src/components/EventsList.tsx
+ M apps/miniapp/src/components/SearchBar.tsx
+ M apps/miniapp/src/main.tsx
+ M apps/miniapp/src/styles.css
+ M licenses/module-22-NOTICES.md
+ M package.json
+?? apps/miniapp/public/
+?? apps/miniapp/src/assets.ts
+?? apps/miniapp/src/components/AppShell.tsx
+?? apps/miniapp/src/components/BottomNav.tsx
+?? apps/miniapp/src/components/BrandHeader.tsx
+?? apps/miniapp/src/components/CategoryChip.tsx
+?? apps/miniapp/src/components/EventCardCompact.tsx
+?? apps/miniapp/src/components/FilterChip.tsx
+?? apps/miniapp/src/components/HeroEventCard.tsx
+?? apps/miniapp/src/components/HomeScreen.tsx
+?? apps/miniapp/src/components/Icon.tsx
+?? apps/miniapp/src/components/SaveAction.tsx
+?? apps/miniapp/src/components/SectionHeader.tsx
+?? apps/miniapp/src/components/Skeleton.tsx
+?? apps/miniapp/src/design-data/
+?? apps/miniapp/src/design/
+?? apps/miniapp/src/view-model/
+?? artifacts/ui-povod-v1/
+?? docs/current/UI_POVOD_V1_STATE.md
+?? scripts/capture-povod-home.mjs
+?? tests/unit/home-view-model.test.ts

@@ -1,0 +1,40 @@
+import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import postcss from 'postcss';
+const base = '84ca97d41dd16991359ccdcf39f7c068cfd566b5';
+const output = 'artifacts/ui-povod-v1/integrated/';
+const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
+const hash = file => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const changed = [...new Set([...git('diff', '--name-only', base).split('\n'), ...git('ls-files', '--others', '--exclude-standard').split('\n')])].filter(Boolean).sort();
+const prohibited = changed.filter(file => /(^|\/)(\.secrets|\.env[^/]*|credentials[^/]*|id_rsa|node_modules)(\/|$)/i.test(file));
+const unexpected = changed.filter(file => !/^(apps\/miniapp\/|tests\/unit\/|scripts\/|artifacts\/ui-povod-v1\/|docs\/handoffs\/|docs\/current\/UI_POVOD_V1_STATE\.md$|package\.json$)/.test(file));
+const findings = [];
+let scanned = 0;
+for (const file of changed) {
+  if (prohibited.includes(file) || !fs.existsSync(file) || !/\.(tsx?|mjs|json|md|txt|css|ps1|log)$/.test(file)) continue;
+  scanned++;
+  const text = fs.readFileSync(file, 'utf8');
+  const patterns = [/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/, /\bAKIA[0-9A-Z]{16}\b/, /\bgh[pousr]_[A-Za-z0-9]{30,}\b/, /\bsk-(?:proj-)?[A-Za-z0-9_-]{32,}\b/];
+  if (patterns.some(pattern => pattern.test(text))) findings.push(file);
+}
+const stylesheet = postcss.parse(fs.readFileSync('apps/miniapp/src/styles.css', 'utf8'));
+const selectors = new Set(); const duplicateSelectors = [];
+stylesheet.walkRules(rule => { let context = ''; let parent = rule.parent; while (parent && parent.type !== 'root') { context = parent.name + ' ' + parent.params + '|' + context; parent = parent.parent; } const key = context + '|' + rule.selector; if (selectors.has(key)) duplicateSelectors.push(key); selectors.add(key); });
+const iconText = fs.readFileSync('apps/miniapp/src/components/Icon.tsx', 'utf8');
+const glyphs = [...iconText.matchAll(/\{name === '([^']+)'/g)].map(match => match[1]);
+const duplicateGlyphs = glyphs.filter((name, index) => glyphs.indexOf(name) !== index);
+const sourceFiles = git('ls-files', '--cached', '--others', '--exclude-standard', 'apps/miniapp/src').split('\n').filter(file => /\.tsx?$/.test(file));
+const missingGlyphs = []; const fixtureImports = []; const telegramFiles = [];
+for (const file of sourceFiles) { const text = fs.readFileSync(file, 'utf8'); for (const match of text.matchAll(/<Icon\b[^>]*name="([^"]+)"/g)) if (!glyphs.includes(match[1])) missingGlyphs.push({ file, glyph: match[1] }); if (/from ['"][^'"]*design-data\//.test(text)) fixtureImports.push(file); if (/telegram|t\.me\//i.test(text)) telegramFiles.push(file); }
+const tokens = hash('apps/miniapp/src/design/tokens.css');
+const lockUnchanged = git('diff', '--name-only', base, '--', 'package-lock.json') === '';
+const assetHashes = ['povod-empty-magnifier.png', 'povod-error-cable.png'].map(file => ({ file, sha256: hash('apps/miniapp/public/assets/states/' + file) }));
+const inputs = git('ls-files', '--cached', '--others', '--exclude-standard', 'apps/miniapp', 'scripts', 'tests', 'package.json', 'package-lock.json', 'tsconfig.json', 'tsconfig.pure.json', 'tsconfig.build.json').split('\n').filter(Boolean).sort();
+const sourceHashes = Object.fromEntries(inputs.map(file => [file, hash(file)]));
+const sourceFingerprint = createHash('sha256').update(JSON.stringify(sourceHashes)).digest('hex');
+const report = { status: prohibited.length || unexpected.length || findings.length || duplicateSelectors.length || duplicateGlyphs.length || missingGlyphs.length || telegramFiles.length || !lockUnchanged ? 'FAIL' : 'PASS', base, sourceFingerprint, scannedTextFiles: scanned, prohibited, unexpected, secretFindings: findings, duplicateSelectors, glyphCount: glyphs.length, duplicateGlyphs, missingGlyphs, telegramFiles, fixtureImports, lockUnchanged, tokenSha256: tokens, assetHashes };
+fs.writeFileSync(output + 'safety-and-residue-audit.json', JSON.stringify(report, null, 2) + '\n');
+fs.writeFileSync(output + 'verification/source-snapshot.json', JSON.stringify({ base, mergeHead: git('rev-parse','HEAD'), sourceFingerprint, node: process.version, files: sourceHashes }, null, 2) + '\n');
+console.log(JSON.stringify(report));
+if (report.status !== 'PASS') process.exitCode = 1;

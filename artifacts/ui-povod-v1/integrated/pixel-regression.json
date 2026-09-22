@@ -1,0 +1,450 @@
+[
+  {
+    "route": "home",
+    "width": 360,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/360/home.png",
+    "original": "artifacts/ui-povod-v1/home/360.png",
+    "changedPixels": 92,
+    "bounds": [
+      12,
+      126,
+      293,
+      633
+    ]
+  },
+  {
+    "route": "search",
+    "width": 360,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/360/search.png",
+    "original": "artifacts/ui-povod-v1/search/360.png",
+    "changedPixels": 0,
+    "bounds": [
+      360,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "detail",
+    "width": 360,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/360/detail.png",
+    "original": "artifacts/ui-povod-v1/detail/360.png",
+    "changedPixels": 595,
+    "bounds": [
+      22,
+      779,
+      63,
+      813
+    ]
+  },
+  {
+    "route": "saved",
+    "width": 360,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/360/saved.png",
+    "original": "artifacts/ui-povod-v1/saved/360.png",
+    "changedPixels": 0,
+    "bounds": [
+      360,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "profile",
+    "width": 360,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/360/profile.png",
+    "original": "artifacts/ui-povod-v1/profile/360.png",
+    "changedPixels": 1801,
+    "bounds": [
+      16,
+      23,
+      171,
+      680
+    ]
+  },
+  {
+    "route": "my-plans",
+    "width": 360,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/360/my-plans.png",
+    "original": "artifacts/ui-povod-v1/plans/my-plans-360.png",
+    "changedPixels": 32,
+    "bounds": [
+      318,
+      25,
+      336,
+      43
+    ]
+  },
+  {
+    "route": "loading",
+    "width": 360,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/360/loading.png",
+    "original": "artifacts/ui-povod-v1/states/loading-360.png",
+    "changedPixels": 0,
+    "bounds": [
+      360,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "empty",
+    "width": 360,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/360/empty.png",
+    "original": "artifacts/ui-povod-v1/states/empty-360.png",
+    "changedPixels": 0,
+    "bounds": [
+      360,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "error",
+    "width": 360,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/360/error.png",
+    "original": "artifacts/ui-povod-v1/states/error-360.png",
+    "changedPixels": 0,
+    "bounds": [
+      360,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "offline",
+    "width": 360,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/360/offline.png",
+    "original": "artifacts/ui-povod-v1/states/offline-360.png",
+    "changedPixels": 0,
+    "bounds": [
+      360,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "home",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/home.png",
+    "original": "artifacts/ui-povod-v1/home/390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "search",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/search.png",
+    "original": "artifacts/ui-povod-v1/search/390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "filters",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/filters.png",
+    "original": "artifacts/ui-povod-v1/filters/390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "detail",
+    "width": 390,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/390/detail.png",
+    "original": "artifacts/ui-povod-v1/detail/390.png",
+    "changedPixels": 595,
+    "bounds": [
+      25,
+      779,
+      66,
+      813
+    ]
+  },
+  {
+    "route": "saved",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/saved.png",
+    "original": "artifacts/ui-povod-v1/saved/390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "profile",
+    "width": 390,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/390/profile.png",
+    "original": "artifacts/ui-povod-v1/profile/390.png",
+    "changedPixels": 1801,
+    "bounds": [
+      16,
+      23,
+      171,
+      680
+    ]
+  },
+  {
+    "route": "my-plans",
+    "width": 390,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/390/my-plans.png",
+    "original": "artifacts/ui-povod-v1/plans/my-plans-390.png",
+    "changedPixels": 32,
+    "bounds": [
+      348,
+      25,
+      366,
+      43
+    ]
+  },
+  {
+    "route": "plan-detail",
+    "width": 390,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/390/plan-detail.png",
+    "original": "artifacts/ui-povod-v1/plans/plan-detail-390.png",
+    "changedPixels": 22,
+    "bounds": [
+      38,
+      382,
+      55,
+      399
+    ]
+  },
+  {
+    "route": "loading",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/loading.png",
+    "original": "artifacts/ui-povod-v1/states/loading-390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "empty",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/empty.png",
+    "original": "artifacts/ui-povod-v1/states/empty-390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "error",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/error.png",
+    "original": "artifacts/ui-povod-v1/states/error-390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "offline",
+    "width": 390,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/390/offline.png",
+    "original": "artifacts/ui-povod-v1/states/offline-390.png",
+    "changedPixels": 0,
+    "bounds": [
+      390,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "home",
+    "width": 430,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/430/home.png",
+    "original": "artifacts/ui-povod-v1/home/430.png",
+    "changedPixels": 26,
+    "bounds": [
+      12,
+      692,
+      380,
+      703
+    ]
+  },
+  {
+    "route": "search",
+    "width": 430,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/430/search.png",
+    "original": "artifacts/ui-povod-v1/search/430.png",
+    "changedPixels": 0,
+    "bounds": [
+      430,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "detail",
+    "width": 430,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/430/detail.png",
+    "original": "artifacts/ui-povod-v1/detail/430.png",
+    "changedPixels": 595,
+    "bounds": [
+      29,
+      779,
+      70,
+      813
+    ]
+  },
+  {
+    "route": "saved",
+    "width": 430,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/430/saved.png",
+    "original": "artifacts/ui-povod-v1/saved/430.png",
+    "changedPixels": 0,
+    "bounds": [
+      430,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "profile",
+    "width": 430,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/430/profile.png",
+    "original": "artifacts/ui-povod-v1/profile/430.png",
+    "changedPixels": 1801,
+    "bounds": [
+      16,
+      23,
+      171,
+      680
+    ]
+  },
+  {
+    "route": "my-plans",
+    "width": 430,
+    "exactMatch": false,
+    "current": "artifacts/ui-povod-v1/integrated/430/my-plans.png",
+    "original": "artifacts/ui-povod-v1/plans/my-plans-430.png",
+    "changedPixels": 32,
+    "bounds": [
+      388,
+      25,
+      406,
+      43
+    ]
+  },
+  {
+    "route": "loading",
+    "width": 430,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/430/loading.png",
+    "original": "artifacts/ui-povod-v1/states/loading-430.png",
+    "changedPixels": 0,
+    "bounds": [
+      430,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "empty",
+    "width": 430,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/430/empty.png",
+    "original": "artifacts/ui-povod-v1/states/empty-430.png",
+    "changedPixels": 0,
+    "bounds": [
+      430,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "error",
+    "width": 430,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/430/error.png",
+    "original": "artifacts/ui-povod-v1/states/error-430.png",
+    "changedPixels": 0,
+    "bounds": [
+      430,
+      844,
+      -1,
+      -1
+    ]
+  },
+  {
+    "route": "offline",
+    "width": 430,
+    "exactMatch": true,
+    "current": "artifacts/ui-povod-v1/integrated/430/offline.png",
+    "original": "artifacts/ui-povod-v1/states/offline-430.png",
+    "changedPixels": 0,
+    "bounds": [
+      430,
+      844,
+      -1,
+      -1
+    ]
+  }
+]

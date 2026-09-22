@@ -19,6 +19,12 @@
     "test:unit": "node --experimental-strip-types --test tests/unit/*.test.ts",
     "test:integration": "node --experimental-strip-types --test --test-concurrency=1 tests/integration/*.test.ts",
     "build": "node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp",
+    "capture:home": "node scripts/capture-povod-home.mjs",
+    "capture:search": "node scripts/capture-povod-home.mjs --design=search --output=artifacts/ui-povod-v1/search --widths=360,390,430",
+    "capture:saved": "node scripts/capture-povod-home.mjs --design=saved --output=artifacts/ui-povod-v1/saved --widths=360,390,430",
+    "verify:saved": "node scripts/verify-povod-saved.mjs",
+    "capture:filters": "node scripts/capture-povod-home.mjs --design=filters --output=artifacts/ui-povod-v1/filters --widths=390",
+    "capture:detail": "node scripts/capture-povod-home.mjs --design=detail --output=artifacts/ui-povod-v1/detail --widths=360,390,430 && node scripts/capture-povod-home.mjs --design=detail-price-unknown --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-price-unknown && node scripts/capture-povod-home.mjs --design=detail-venue-unknown --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-venue-unknown && node scripts/capture-povod-home.mjs --design=detail-source-unavailable --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-source-unavailable",
     "migrate": "node --experimental-strip-types scripts/migrate.ts",
     "seed:test": "node --experimental-strip-types scripts/seed-test.ts",
     "openapi": "node --experimental-strip-types scripts/openapi.ts",
@@ -27,7 +33,11 @@
     "migrate:price": "node --experimental-strip-types scripts/upgrade-price.ts",
     "syntax": "node scripts/check-source-syntax.mjs",
     "test:offline": "node --experimental-strip-types --test tests/unit/*.test.ts",
-    "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json"
+    "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json",
+    "capture:profile": "node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430",
+    "capture:integrated": "node scripts/verify-povod-integrated.mjs",
+    "verify:integrated": "node scripts/verify-povod-integrated.mjs --no-capture",
+    "capture:states": "node scripts/capture-povod-states.mjs"
   },
   "dependencies": {
     "@fastify/cookie": "11.0.2",

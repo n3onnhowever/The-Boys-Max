@@ -1,0 +1,16 @@
+ apps/miniapp/src/components/BottomNav.tsx         |   2 +-
+ apps/miniapp/src/components/EventCardList.tsx     |  28 +++--
+ apps/miniapp/src/components/SavedScreen.tsx       |  69 +++++++++++
+ apps/miniapp/src/design-data/saved.ts             |  63 ++++++++++
+ apps/miniapp/src/main.tsx                         |  14 +++
+ apps/miniapp/src/styles.css                       | 143 +++++++++++++++++++++-
+ apps/miniapp/src/view-model/saved.ts              |  60 +++++++++
+ artifacts/ui-povod-v1/saved/360.png               | Bin 0 -> 119607 bytes
+ artifacts/ui-povod-v1/saved/390.png               | Bin 0 -> 120020 bytes
+ artifacts/ui-povod-v1/saved/430.png               | Bin 0 -> 120401 bytes
+ artifacts/ui-povod-v1/saved/parity-comparison.png | Bin 0 -> 648479 bytes
+ docs/handoffs/ui-v1/UI_SAVED_HANDOFF.md           |  82 +++++++++++++
+ package.json                                      |   2 +
+ scripts/verify-povod-saved.mjs                    | 138 +++++++++++++++++++++
+ tests/unit/saved-ui-state.test.ts                 |  76 ++++++++++++
+ 15 files changed, 664 insertions(+), 13 deletions(-)
