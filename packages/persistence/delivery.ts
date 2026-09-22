@@ -1,5 +1,6 @@
 import {noticeStillCurrent} from '../domain/notices.ts';
 import type {Plan} from '../contracts/domain.ts';
+import {botMessage,type BotConfig,type BotAttachment} from '../platform/bot.ts';
 import {launchLink} from '../platform/links.ts';
 import {randomUUID} from 'node:crypto';
 import type {Pool} from 'pg';
@@ -28,7 +29,7 @@ export async function reconcile(pool:Pool,queue:Queue){
  await pool.query(`UPDATE quarantine SET raw_cipher=NULL WHERE raw_cipher IS NOT NULL AND created_at<clock_timestamp()-interval '72 hours'`);
  await pool.query(`DELETE FROM quarantine WHERE created_at<clock_timestamp()-interval '30 days'`);
 }
-export async function deliver(pool:Pool,outboxId:string,transport:Transport,governor:Governor,mode:'test'|'live',links:{publicOrigin:string;botUsername?:string}={publicOrigin:'http://localhost:3000'}){
+export async function deliver(pool:Pool,outboxId:string,transport:Transport,governor:Governor,mode:'test'|'live',links:BotConfig&{publicOrigin:string}={publicOrigin:'http://localhost:3000'}){
  const lease=randomUUID(),attempt=randomUUID();
  const reservation=await transaction(pool,async c=>{
   const control=await c.query<{hold:boolean}>('SELECT hold FROM outbound_control WHERE id=1');if(control.rows[0]?.hold!==false)return null;
@@ -46,16 +47,21 @@ export async function deliver(pool:Pool,outboxId:string,transport:Transport,gove
     await c.query(`UPDATE outbox SET state='CANCELLED',result_reason='ACL_REVOKED_OR_STALE',lease_until=NULL WHERE id=$1`,[outboxId]);
     await c.query(`UPDATE delivery_attempts SET outcome='CANCELLED',reason='ACL_REVOKED_OR_STALE',finished_at=clock_timestamp() WHERE id=$1`,[attempt]);return null;}
   }
-  const link=launchLink(row.kind==='BOT_WELCOME'?{kind:'PERSONAL'}:{kind:'PLAN',planId:row.plan_id!},{mode,...links});
-  const message=(row.kind==='BOT_WELCOME'?'Личная афиша: выбирайте события без создания группы. Совместный план создаётся отдельно.':row.purpose==='CANCELLATION'?'Совместный план отменён. Проверьте его актуальное состояние.':row.purpose==='REMINDER'?'Напоминание по вашему запросу. Проверьте актуальные условия и срок подтверждения.':'В совместном плане есть изменение. Откройте актуальные условия.')+'\n'+link;
+  let message:string,attachments:BotAttachment[]|undefined;
+  if(row.kind==='BOT_WELCOME'){
+   const reply=botMessage(row.purpose,links);message=reply.text;attachments=reply.attachments;
+  }else{
+   const link=launchLink({kind:'PLAN',planId:row.plan_id!},{mode,...links});
+   message=(row.purpose==='CANCELLATION'?'Совместный план отменён. Проверьте его актуальное состояние.':row.purpose==='REMINDER'?'Напоминание по вашему запросу. Проверьте актуальные условия и срок подтверждения.':'В совместном плане есть изменение. Откройте актуальные условия.')+'\n'+link;
+  }
   // Durable uncertainty fence BEFORE governor. A crash while acquiring may conservatively become UNKNOWN.
   await c.query('UPDATE delivery_attempts SET wire_started_at=clock_timestamp() WHERE id=$1',[attempt]);
-  return {row,message,chatId:d.rows[0].chat_id,attemptCount:row.attempt_count,expiresAt:row.expires_at.getTime()};
+  return {row,message,attachments,chatId:d.rows[0].chat_id,attemptCount:row.attempt_count,expiresAt:row.expires_at.getTime()};
  });
  if(!reservation)return;
  let result:WireOutcome;let invoked=false;
  try{
-  result=await governor.start(reservation.chatId,'BACKGROUND',async()=>{
+  result=await governor.start(reservation.chatId,reservation.row.kind==='BOT_WELCOME'?'INTERACTIVE':'BACKGROUND',async()=>{
    requireThat(Date.now()<reservation.expiresAt,'EXPIRED_BEFORE_WIRE',409);
    const control=await pool.query<{hold:boolean}>('SELECT hold FROM outbound_control WHERE id=1');
    if(control.rows[0]?.hold!==false)return {kind:'DEAD',reason:'OUTBOUND_HOLD_BEFORE_WIRE'} as WireOutcome;
@@ -65,7 +71,7 @@ export async function deliver(pool:Pool,outboxId:string,transport:Transport,gove
     if(!latest.rows[0]||!noticeStillCurrent(latest.rows[0].state,row.purpose,row.expected_selection_revision,row.expected_config_revision))return {kind:'DEAD',reason:'STALE_BEFORE_WIRE'} as WireOutcome;
    }
    // The link resolves against current ACL. Text contains no title, personal responses or old terms.
-   invoked=true;return transport.send(attempt,outboxId,reservation.chatId,reservation.message);
+   invoked=true;return transport.send(attempt,outboxId,reservation.chatId,reservation.message,reservation.attachments);
   });
  }catch{result=invoked?{kind:'UNKNOWN',reason:'TRANSPORT_EXCEPTION'}:{kind:'RETRY_WAIT',retryAfterMs:1000,reason:'GOVERNOR_BEFORE_WIRE'};}
  if(result.kind==='RETRY_WAIT'){

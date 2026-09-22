@@ -18,7 +18,7 @@ import {reconcile,deliver} from '../../packages/persistence/delivery.ts';
 import {digest} from '../../packages/platform/auth.ts';
 import {AppError} from '../../packages/domain/errors.ts';
 import type {Command,Plan,Slot} from '../../packages/contracts/domain.ts';
-import {terms,sign} from '../fixtures.ts';
+import {terms as fixtureTerms,sign} from '../fixtures.ts';
 const c=config();
 assert.equal(process.env.RUN_MAX23_INTEGRATION,'1','Explicit opt-in required');
 assert.equal(c.mode,'test');assert.equal(new URL(c.databaseUrl).pathname,'/max23_test');
@@ -28,6 +28,8 @@ const redis=new Redis(c.redisUrl,{maxRetriesPerRequest:1}),workerRedis=new Redis
 redis.on('error',()=>{});workerRedis.on('error',()=>{});
 const queue=new Queue(queueName,{connection:redis});const gov=new Governor(redis,scope,epoch);
 const users=[randomUUID(),randomUUID(),randomUUID()];const [O,A,B]=users as [string,string,string];
+// Transport integration runs against the real clock; fixed September fixtures eventually expire.
+const terms={...fixtureTerms,startsAt:new Date(Date.now()+3*3600_000).toISOString(),endsAt:new Date(Date.now()+4*3600_000).toISOString()};
 const slotId=randomUUID();const dec=new Date(Date.now()+3600_000).toISOString(),com=new Date(Date.now()+7200_000).toISOString();
 function slot(actorId:string|null):Slot{return {slotId,label:'Synthetic slot',required:true,actorId,state:actorId?'ACTIVE':'UNBOUND'};}
 async function state(planId:string){return (await pool.query<{state:Plan}>('SELECT state FROM plans WHERE id=$1',[planId])).rows[0]!.state;}

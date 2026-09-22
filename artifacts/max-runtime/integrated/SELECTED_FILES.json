@@ -1,0 +1,48 @@
+{
+  "TLS": [
+    "certs/.gitattributes",
+    "certs/README.md",
+    "certs/russian-trusted-root-ca.crt",
+    "packages/platform/max-tls.ts",
+    "packages/platform/transport.ts",
+    "scripts/copy-assets.mjs",
+    "tests/unit/max-tls-scope.test.ts",
+    "tests/unit/max-tls-trust.test.ts"
+  ],
+  "Bot": [
+    ".env.example",
+    ".env.release.example",
+    "apps/worker/main.ts",
+    "packages/persistence/delivery.ts",
+    "packages/platform/bot.ts",
+    "packages/platform/config.ts",
+    "packages/platform/ingress.ts",
+    "packages/platform/transport.ts",
+    "tests/integration/foundation.test.ts",
+    "tests/integration/max-bot.test.ts",
+    "tests/unit/max-bot.test.ts",
+    "tests/unit/max-transport.test.ts"
+  ],
+  "MiniApp": [
+    ".gitattributes",
+    ".gitignore",
+    "apps/api/app.ts",
+    "apps/miniapp/bridge.ts",
+    "apps/miniapp/client.ts",
+    "apps/miniapp/src/App.tsx",
+    "apps/miniapp/src/components/EventDetail.tsx",
+    "apps/miniapp/src/components/ExternalLink.tsx",
+    "apps/miniapp/src/components/PlacePanel.tsx",
+    "apps/miniapp/src/components/PlanPanel.tsx",
+    "apps/miniapp/src/core/launch.ts",
+    "apps/miniapp/src/main.tsx",
+    "apps/miniapp/src/styles.css",
+    "packages/persistence/sessions.ts",
+    "packages/platform/launch.ts",
+    "packages/platform/links.ts",
+    "tests/integration/miniapp-auth.test.ts",
+    "tests/unit/miniapp-bridge.test.ts",
+    "tests/unit/miniapp-client.test.ts",
+    "tests/unit/security.test.ts"
+  ]
+}

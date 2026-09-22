@@ -305,3 +305,9 @@
 /docs/research/2026-09-18/synthesis/PRESENTATION_CONTENT_STATUS.md -text
 /docs/research/2026-09-18/synthesis/RESEARCH_ARCHIVE_INDEX.md -text
 /docs/research/2026-09-18/synthesis/RESEARCH_SYNTHESIS.md -text
+
+# Exact MAX Mini App evidence bytes; retain log/source receipts on checkout.
+/artifacts/max-runtime/miniapp/** -text
+
+# Preserve exact integrated-release receipts and raw verification log bytes.
+/artifacts/max-runtime/integrated/** -text

@@ -61,3 +61,6 @@ test-downloads/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Generated source/evidence packages.
+artifacts/packages/

@@ -1,0 +1,13 @@
+{
+  "status": "RECOVERED_WITH_EXPLICIT_USER_APPROVAL",
+  "initialError": "Docker Desktop failed to open stale IPC reparse sockets",
+  "approvedPaths": [
+    "C:/Users/admin/AppData/Local/Docker/run",
+    "C:/Users/admin/AppData/Local/docker-secrets-engine"
+  ],
+  "action": "Preserved stale IPC directories by sibling rename and restarted Docker Desktop; both paths separately approved after automatic-review rejections",
+  "imagesVolumesSettingsChanged": false,
+  "secretsEngineDataRead": false,
+  "engineVersion": "29.7.2",
+  "scope": "Local verification prerequisite; no reset or deletion of Docker data"
+}

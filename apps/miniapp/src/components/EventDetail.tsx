@@ -1,5 +1,6 @@
 // Two-column detail composition adapted from EventHive/EventDetail.tsx; MIT © 2026 Neko.
 import {useState} from 'react';
+import {ExternalLink} from './ExternalLink.tsx';
 import type { EventView,NewPlan } from '../port/contracts.ts';
 import type { ViewController } from '../core/controller.ts';
 import { safeExternalUrl } from '../core/links.ts';
@@ -25,7 +26,7 @@ export function EventDetail({ view, controller, busy, origins, renderMap }: { vi
             <div><h2 className="text-xl font-bold text-gray-900 mb-3">О событии</h2><p className="text-gray-600 leading-relaxed whitespace-pre-line">{event.description}</p></div>
             <PlacePanel place={event.place} origins={origins} {...(renderMap ? {renderMap} : {})} />
             <p className="muted">{event.sourceLabel} · {event.freshnessLabel}</p>
-            {sourceUrl && <a className="link-button" href={sourceUrl} target="_blank" rel="noopener noreferrer">Проверить у источника</a>}
+            {sourceUrl && <ExternalLink href={sourceUrl}>Проверить у источника</ExternalLink>}
           </div>
           <div className="bg-gray-50 p-6 rounded-xl h-fit border border-gray-200">
             <h2 className="font-semibold text-gray-900 mb-4">Стоимость и участие</h2>

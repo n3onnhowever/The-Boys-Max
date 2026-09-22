@@ -26,6 +26,10 @@
 !licenses/
 !licenses/**
 
+!certs/
+!certs/russian-trusted-root-ca.crt
+!certs/README.md
+
 # Re-exclude local/generated material even inside an allowed source directory.
 **/node_modules
 **/dist

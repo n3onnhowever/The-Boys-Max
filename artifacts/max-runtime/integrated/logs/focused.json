@@ -1,0 +1,28 @@
+{
+  "label": "focused",
+  "command": [
+    "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\24156_1789934492020\\node.exe",
+    "--experimental-strip-types",
+    "--test",
+    "tests/unit/max-bot.test.ts",
+    "tests/unit/max-transport.test.ts",
+    "tests/unit/max-tls-scope.test.ts",
+    "tests/unit/max-tls-trust.test.ts",
+    "tests/unit/miniapp-bridge.test.ts",
+    "tests/unit/miniapp-client.test.ts",
+    "tests/unit/security.test.ts"
+  ],
+  "started": "2026-09-20T20:01:32.255Z",
+  "finished": "2026-09-20T20:01:32.831Z",
+  "exit": 0,
+  "sourceHead": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "sourceHashesSha256": "aa6b1e552da36db65d3e6bfea0c3a4c478c1c54fe29f64d8eb0db3c835fcb36f",
+  "log": "logs/focused.txt",
+  "logSha256": "2ecb2d459b22d58152e4cef81352e1e9bd7a5f67fe32b07e87d3644e1f9b6eec",
+  "counts": {
+    "tests": 125,
+    "pass": 125,
+    "fail": 0,
+    "skipped": 0
+  }
+}

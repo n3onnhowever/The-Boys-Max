@@ -1,0 +1,26 @@
+{
+  "label": "integration-redis-start",
+  "command": [
+    "docker",
+    "run",
+    "-d",
+    "--name",
+    "povod-max-int-6cdd93c3-redis",
+    "--network",
+    "povod-max-int-6cdd93c3",
+    "--network-alias",
+    "redis",
+    "redis:8.2.9",
+    "redis-server",
+    "--save",
+    "",
+    "--appendonly",
+    "no"
+  ],
+  "started": "2026-09-20T20:08:52.664Z",
+  "finished": "2026-09-20T20:08:53.012Z",
+  "exit": 0,
+  "sourceSha": "6cdd93c3f10a9179e2e3edb9ba08b3f300ba043e",
+  "log": "logs/integration-redis-start.txt",
+  "logSha256": "ab4bd2e107536c9c2c977822c6bbd841d55971399792d9abd85ae028b66bf1e5"
+}

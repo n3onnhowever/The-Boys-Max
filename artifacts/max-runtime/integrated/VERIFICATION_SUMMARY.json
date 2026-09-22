@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "sourceSha": "6cdd93c3f10a9179e2e3edb9ba08b3f300ba043e",
+  "imageId": "sha256:c4e7cd181082c611708820895290e29547435222a1457750abe4e0edcc232105",
+  "focused": {
+    "pass": 125,
+    "total": 125
+  },
+  "exactImageTransport": {
+    "pass": 35,
+    "total": 35
+  },
+  "postgresIntegration": {
+    "pass": 36,
+    "total": 36
+  },
+  "unit": {
+    "pass": 203,
+    "total": 203
+  },
+  "typecheck": "PASS",
+  "pureTypecheck": "PASS",
+  "dependencyCheck": "PASS",
+  "build": "PASS",
+  "diffCheck": "PASS",
+  "tls": "PASS",
+  "liveReadOnly": "PASS",
+  "liveMutations": 0,
+  "urlBoundary": {
+    "1024": "ALLOWED",
+    "1025": "REJECTED",
+    "otherUrl1025": "ALLOWED",
+    "startappLimit": 512
+  },
+  "runtimeSourceUnchanged": true,
+  "remainingBlockersWithinScope": [],
+  "outsideScope": [
+    "Moscow provider/data gate",
+    "durable solo Save",
+    "catalog LIMIT-before-filter",
+    "controller 422 pending-state bug",
+    "destination overwrite race",
+    "production hosting",
+    "real MAX device acceptance",
+    "AI",
+    "UI redesign"
+  ],
+  "dockerContext": "PASS",
+  "imageAudit": "PASS_WITH_DOCUMENTED_PUBLIC_SELFTEST_CONSTANTS",
+  "secretScan": "PASS"
+}

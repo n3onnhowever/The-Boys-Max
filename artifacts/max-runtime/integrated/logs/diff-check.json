@@ -1,0 +1,16 @@
+{
+  "label": "diff-check",
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "started": "2026-09-20T20:01:51.801Z",
+  "finished": "2026-09-20T20:01:51.854Z",
+  "exit": 0,
+  "sourceHead": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "sourceHashesSha256": "aa6b1e552da36db65d3e6bfea0c3a4c478c1c54fe29f64d8eb0db3c835fcb36f",
+  "log": "logs/diff-check.txt",
+  "logSha256": "0bc28f661a1fa0ff905bd308eb30b25cf38ce2c273a4d9bf65a8813a40fc4c7d",
+  "counts": {}
+}
