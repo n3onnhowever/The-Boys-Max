@@ -1,0 +1,18 @@
+[
+  {
+    "worktree": "The-Boys-Max",
+    "path": ".run-evidence/e2e-dockerignore-probe/.secrets/synthetic-audit.env",
+    "git_status": "ignored",
+    "classification": "IGNORE",
+    "bytes": 32,
+    "hash_status": "metadata_only"
+  },
+  {
+    "worktree": "The-Boys-Max",
+    "path": ".secrets/max.env",
+    "git_status": "ignored",
+    "classification": "IGNORE",
+    "bytes": 98,
+    "hash_status": "metadata_only"
+  }
+]

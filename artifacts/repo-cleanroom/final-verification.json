@@ -1,0 +1,199 @@
+{
+  "status": "PASS",
+  "source_base": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "cleanup_code_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+  "staged_files_scanned": 105,
+  "decompressed_bytes_scanned": 29468068,
+  "prohibited_paths": [],
+  "strong_secret_matches": [],
+  "limitations": "Strong signatures only for new staged deliverables; broader Git heuristic audit retained separately",
+  "log_hash_checks": [
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-node-version.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-npm-version.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-lock-review.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-lock-tree.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-sbom.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-advisories.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-npm-ci.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-typecheck.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-unit.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-build.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-host-missing-config.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-host-missing-secrets.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-diff-check.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-docker-build.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-docker-missing-config.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-docker-missing-secrets.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-base-image-digest.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "clean-checkout-results.json",
+      "log": "raw/proof-final-status.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "context-proof.json",
+      "log": "raw/docker-context-baseline.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "context-proof.json",
+      "log": "raw/docker-context-hardened.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "image-files-proof.json",
+      "log": "raw/proof-image-files.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-node-version.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-npm-version.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-lock-review.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-lock-tree.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-sbom.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-advisories.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-npm-ci.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-typecheck.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-unit.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-build.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-host-missing-config.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-host-missing-secrets.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-diff-check.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-docker-build.txt.gz",
+      "hashes_match": true
+    },
+    {
+      "receipt": "attempts/c9d7984/clean-checkout-results.json",
+      "log": "attempts/c9d7984/proof-final-status.txt.gz",
+      "hashes_match": true
+    }
+  ],
+  "broken_report_links": [],
+  "code_changed_existing_files": [
+    ".dockerignore",
+    ".gitignore"
+  ],
+  "git_diff_cached_check_exit": 0,
+  "timestamp_utc": "2026-09-20T18:05:11Z"
+}

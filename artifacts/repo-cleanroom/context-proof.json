@@ -1,0 +1,296 @@
+{
+  "synthetic_only": true,
+  "markers": [
+    ".secrets/cleanroom-marker.txt",
+    ".env.cleanroom",
+    "docs/cleanroom-marker.md",
+    "docs/research/cleanroom-marker.txt",
+    "input/cleanroom-marker.txt",
+    "artifacts/raw/cleanroom-marker.txt",
+    "artifacts/research/cleanroom-marker.zip",
+    "input/design/cleanroom-marker.png",
+    ".git/cleanroom-marker",
+    "node_modules/cleanroom-marker.txt",
+    "dist/cleanroom-marker.js",
+    "coverage/cleanroom-marker.txt",
+    "private.log",
+    "apps/api/.secrets/cleanroom-marker",
+    "apps/api/.env.local",
+    "apps/api/node_modules/cleanroom-marker",
+    "apps/miniapp/dist/cleanroom-marker.js",
+    "apps/miniapp/test-results/cleanroom-marker.png",
+    "apps/api/cleanroom-marker.zip",
+    "apps/api/cleanroom-marker.sqlite",
+    "apps/api/cleanroom-marker.tmp"
+  ],
+  "allowed_markers": [
+    "package.json",
+    "package-lock.json",
+    ".npmrc",
+    "tsconfig.json",
+    "tsconfig.build.json",
+    "tsconfig.pure.json",
+    "tests/unit/cleanroom-marker.ts",
+    "apps/api/cleanroom-marker.ts",
+    "packages/platform/cleanroom-marker.lua",
+    "modules/cleanroom-marker.ts",
+    "scripts/cleanroom-marker.mjs",
+    "migrations/cleanroom-marker.sql",
+    "patches/cleanroom-marker.json",
+    "assets/cleanroom-marker.svg",
+    "licenses/cleanroom-marker.txt"
+  ],
+  "results": [
+    {
+      "label": "docker-context-baseline",
+      "command": [
+        "docker",
+        "build",
+        "--no-cache",
+        "--progress=plain",
+        "--output",
+        "type=local,dest=D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom\\artifacts\\repo-cleanroom\\probes\\baseline-export",
+        "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom\\artifacts\\repo-cleanroom\\probes\\baseline"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom",
+      "exit": 0,
+      "started_utc": "2026-09-20T17:42:54Z",
+      "log": "raw/docker-context-baseline.txt.gz",
+      "log_sha256": "816476a832d76a0b1e67274b771a77c3f43325631204b875aa7b82d3304f7f49",
+      "dockerignore_sha256": "a3f1a4e23b416ffbc73e78340647afcadf6ad8631a97c9d3c4cfcbea33956c77",
+      "excluded_marker_paths": [
+        ".env.cleanroom",
+        ".git/cleanroom-marker",
+        "node_modules/cleanroom-marker.txt",
+        "private.log"
+      ],
+      "leaked_marker_paths": [
+        ".secrets/cleanroom-marker.txt",
+        "docs/cleanroom-marker.md",
+        "docs/research/cleanroom-marker.txt",
+        "input/cleanroom-marker.txt",
+        "artifacts/raw/cleanroom-marker.txt",
+        "artifacts/research/cleanroom-marker.zip",
+        "input/design/cleanroom-marker.png",
+        "dist/cleanroom-marker.js",
+        "coverage/cleanroom-marker.txt",
+        "apps/api/.secrets/cleanroom-marker",
+        "apps/api/.env.local",
+        "apps/api/node_modules/cleanroom-marker",
+        "apps/miniapp/dist/cleanroom-marker.js",
+        "apps/miniapp/test-results/cleanroom-marker.png",
+        "apps/api/cleanroom-marker.zip",
+        "apps/api/cleanroom-marker.sqlite",
+        "apps/api/cleanroom-marker.tmp"
+      ],
+      "missing_build_inputs": [],
+      "expected_pass": false,
+      "uncompressed_log_sha256": "9544f102b4d48cb2fd6cb9738c86d2e40d805e95ad230caed6488bc7939aa97e",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "docker-context-hardened",
+      "command": [
+        "docker",
+        "build",
+        "--no-cache",
+        "--progress=plain",
+        "--output",
+        "type=local,dest=D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom\\artifacts\\repo-cleanroom\\probes\\hardened-export",
+        "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom\\artifacts\\repo-cleanroom\\probes\\hardened"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom",
+      "exit": 0,
+      "started_utc": "2026-09-20T17:42:55Z",
+      "log": "raw/docker-context-hardened.txt.gz",
+      "log_sha256": "7f20616e446c668012947d16d845a0e2d42f649cbf1ad330dec4ce76406a258d",
+      "dockerignore_sha256": "2ce993e9a1cc24d3e63ff5324656f3d98fd04336be6417c2583c3eb260ef0994",
+      "excluded_marker_paths": [
+        ".secrets/cleanroom-marker.txt",
+        ".env.cleanroom",
+        "docs/cleanroom-marker.md",
+        "docs/research/cleanroom-marker.txt",
+        "input/cleanroom-marker.txt",
+        "artifacts/raw/cleanroom-marker.txt",
+        "artifacts/research/cleanroom-marker.zip",
+        "input/design/cleanroom-marker.png",
+        ".git/cleanroom-marker",
+        "node_modules/cleanroom-marker.txt",
+        "dist/cleanroom-marker.js",
+        "coverage/cleanroom-marker.txt",
+        "private.log",
+        "apps/api/.secrets/cleanroom-marker",
+        "apps/api/.env.local",
+        "apps/api/node_modules/cleanroom-marker",
+        "apps/miniapp/dist/cleanroom-marker.js",
+        "apps/miniapp/test-results/cleanroom-marker.png",
+        "apps/api/cleanroom-marker.zip",
+        "apps/api/cleanroom-marker.sqlite",
+        "apps/api/cleanroom-marker.tmp"
+      ],
+      "leaked_marker_paths": [],
+      "missing_build_inputs": [],
+      "expected_pass": true,
+      "uncompressed_log_sha256": "87b53a1baadbc77f487125e71572883c541b4ba0644b556ed756edf9ff5fffbd",
+      "log_compression": "gzip"
+    }
+  ],
+  "gitignore_checks": [
+    {
+      "path": ".secrets/cleanroom-marker",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".env",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".env.local",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".env.release",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "node_modules/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "dist/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "coverage/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".playwright/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "playwright-report/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "test-results/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "artifacts/research/probe.zip",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".idea/workspace.xml",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".DS_Store",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "pgdata/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "redis-data/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "storage/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "test-downloads/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "tests/test-downloads/probe",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "runtime.sqlite",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "raw.zip",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": "artifacts/ui-povod-v1/packages/probe.zip",
+      "ignored": true,
+      "expected_ignored": true,
+      "pass": true
+    },
+    {
+      "path": ".env.example",
+      "ignored": false,
+      "expected_ignored": false,
+      "pass": true
+    },
+    {
+      "path": ".env.release.example",
+      "ignored": false,
+      "expected_ignored": false,
+      "pass": true
+    },
+    {
+      "path": "apps/miniapp/src/example.tsx",
+      "ignored": false,
+      "expected_ignored": false,
+      "pass": true
+    },
+    {
+      "path": "input/design/reference.png",
+      "ignored": false,
+      "expected_ignored": false,
+      "pass": true
+    },
+    {
+      "path": "docs/research/2026-09-18/raw/safe-original.zip",
+      "ignored": false,
+      "expected_ignored": false,
+      "pass": true
+    }
+  ]
+}
