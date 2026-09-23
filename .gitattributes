@@ -311,3 +311,6 @@
 
 # Preserve exact integrated-release receipts and raw verification log bytes.
 /artifacts/max-runtime/integrated/** -text
+
+# T105 migration hash must be identical on Windows and Linux checkouts.
+/migrations/0004_t105_catalog.sql text eol=lf
