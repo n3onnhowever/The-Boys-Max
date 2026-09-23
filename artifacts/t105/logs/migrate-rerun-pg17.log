@@ -1,0 +1,4 @@
+
+> the-boys-afisha-integration@0.2.0-candidate migrate
+> node --experimental-strip-types scripts/migrate.ts
+exit=0

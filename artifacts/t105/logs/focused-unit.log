@@ -1,0 +1,29 @@
+✔ Event is conceptual; two sessions yield two distinct occurrence proposals (11.6229ms)
+✔ anonymous aliases ignore array order, title, price and end; duplicate session does not multiply (0.8638ms)
+✔ conflicting duplicate aliases quarantine that identity and preserve siblings (0.7638ms)
+✔ T104 free admission with mandatory 700 RUB deposit is conditional and never free (0.3038ms)
+✔ explicit proven free, claimed free with unknown fees, numeric zero and missing price remain distinct (0.3747ms)
+✔ FROM and RANGE preserve bounds without inventing affordable ceiling (0.0912ms)
+✔ unknown fees and event-level scope cannot prove occurrence budget (0.0655ms)
+✔ null end, null place and venue without coordinates remain honest (0.4645ms)
+✔ invalid end is quarantined as a field, valid start survives (0.3728ms)
+✔ invalid start, timezone, impossible date and source URL isolate records (1.2923ms)
+✔ a malformed record is isolated and no page silently truncates 399 sessions (40.131ms)
+✔ duplicate provider rows dedupe; conflicting rows quarantine both (1.544ms)
+✔ T104 KudaGo null end, null place, 399 dates and actual_since do not create a cursor or fake facts (40.2514ms)
+✔ KudaGo conflicting expanded start quarantines only that date; page size is bounded (0.7543ms)
+✔ presentation exposes unknown/conditional/source-unavailable without fabricated end or venue (1.2661ms)
+✔ malformed nested provider fields are bounded and isolated from valid siblings (0.663ms)
+✔ money overflow and contradictory no-fee evidence cannot enter canonical price (0.156ms)
+✔ malformed coordinate child cannot erase a valid session sibling (0.4627ms)
+✔ ambiguous online place and contradictory venue format stay uncertain (2.1496ms)
+✔ RUB presentation preserves kopecks rather than truncating a known price (0.4402ms)
+✔ live source without explicit policy admission is rejected with a structured reason (0.1132ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 197.2972

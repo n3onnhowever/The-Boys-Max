@@ -1,0 +1,20 @@
+{
+  "base_sha": "fd03d3a15157fcaa59e5574619725f366fd6185d",
+  "implementation_sha": "30a60928c58cd4be208b6ae097250a165de8ee0f",
+  "changed_file_count": 11,
+  "prohibited_paths": [],
+  "high_confidence_secret_hits": [],
+  "source_sha256": {
+    ".gitattributes": "a19948c5b47441fc5e332141c8c9353e412c36369ac3ef2868313f6c4fce9a34",
+    "migrations/0004_t105_catalog.sql": "d14cef7b400fc9eb78fac5f81a2cef8e78519afd448160ec8c0d8e6865cb829e",
+    "modules/search/core/kudago-t105.ts": "bedca66611658a207ca1b2888ad26f3a352fcc0ed4dc311a58b0df0f69614cc5",
+    "packages/domain/event-normalizer.ts": "4469f316c286da8bed0a8b575d1ea3800c2ce40d1a3cb284d95378ff1a853af1",
+    "packages/domain/event.ts": "5876d40bac48d99245ba752b3d365f2e55ae54279279e3ad8d1194d2929086c9",
+    "packages/domain/occurrence-view.ts": "2cee399f99e311b0c99ad551009f6f2330d05444b8ca0a0ea999688861ec4a38",
+    "packages/persistence/canonical-catalog.ts": "a3c0551a5d4f43d26f4cf79028d49d606e6dd5a6679d557d7363b2e468abc8fa",
+    "packages/persistence/schema.ts": "de9d7f0e4ab8c42c5468a04d652f88f8915eafbd92783c9f1596554f9eff5ede",
+    "scripts/t105-upgrade-baseline.mjs": "c3b564ee0b5d3d313838b6889a2cfbd00b853e86770bee10ecd125d11daf89ad",
+    "tests/integration/t105-catalog.test.ts": "511024f878d4ad8a43f3d4e1e53955bcdd42ecba765a368665dc9cbfa53e0df4",
+    "tests/unit/t105-normalizer.test.ts": "141cfb40a3f8d4bd74271de82e9daeecfd5f75a0d290e02120e01d837b20d695"
+  }
+}

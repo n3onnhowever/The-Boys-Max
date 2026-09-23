@@ -1,0 +1,1 @@
+PostgreSQL server_version: 17.10; psql -w -h 127.0.0.1 -p 5433 -U povod_t105 -d povod_t105_fresh_v5_0923 -Atc SHOW server_version; exit=0

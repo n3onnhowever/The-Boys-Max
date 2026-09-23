@@ -1,0 +1,42 @@
+{
+  "ticket": "T105",
+  "assessed_at": "2026-09-23T14:11:22.929965Z",
+  "base_sha": "fd03d3a15157fcaa59e5574619725f366fd6185d",
+  "implementation_sha": "30a60928c58cd4be208b6ae097250a165de8ee0f",
+  "scope": "Moscow Data Gate v2 preparation only",
+  "status": "NOT_READY",
+  "preparation_blockers": [
+    {
+      "code": "BLOCKED_POSTGRES_18_6_RUNTIME",
+      "detail": "Docker daemon unavailable; final 0004 clean/upgrade migration and 11 T105 persistence tests passed on local PostgreSQL 17.10, but were not exercised on the repository target image postgres:18.6.",
+      "reproduce": [
+        "docker info",
+        "docker compose -f compose.yaml up -d init postgres",
+        "docker compose -f compose.yaml exec -T postgres psql -U max23 -d postgres -c \"CREATE DATABASE povod_t105_fresh_18 OWNER max23\"",
+        "docker compose -f compose.yaml exec -T postgres psql -U max23 -d postgres -c \"CREATE DATABASE povod_t105_upgrade_18 OWNER max23\"",
+        "Follow artifacts/t105/POSTGRES_18_6_REPRO.md for the exact fresh and trunk-upgrade migration/integration commands."
+      ]
+    }
+  ],
+  "verified_local": {
+    "postgres_version": "17.10",
+    "fresh_migration": "PASS",
+    "trunk_upgrade_migration": "PASS",
+    "migration_rerun": "PASS",
+    "pg_integration_fresh": "11/11",
+    "pg_integration_upgrade": "11/11",
+    "unit": "264/264",
+    "typecheck": "PASS",
+    "pure_typecheck": "PASS",
+    "build": "PASS"
+  },
+  "independent_admission_gates": {
+    "t104_runtime_gate": "FAIL",
+    "legal_manual_gate": "OPEN",
+    "provider_approval": "NOT_APPROVED",
+    "moscow": "NOT_ACTIVATED",
+    "gate_v2_execution": "NOT_RUN",
+    "live_ingestion": "NOT_ENABLED"
+  },
+  "next_action": "Verify the final migration and persistence tests on PostgreSQL 18.6, then prepare and freeze the future-date Gate v2 matrix before any provider request."
+}
