@@ -1,10 +1,10 @@
 # Active task
 
-**No implementation ticket active. Product trunk integration checkpoint complete.**
+**P0 integration checkpoint complete; no implementation ticket active.** Verified code baseline: 071af4dcace6b55c5b955a914e7bd966341fa06c. See [P0 integration handoff](../handoffs/P0_INTEGRATION_CHECKPOINT.md).
 
-- Canonical product-development branch: codex/product-trunk. Verified application source: 7fbe5950f41cba4b310f5d1180121e174bd61496.
-- Accepted cleanroom, MAX runtime, UI v1 and UI quality source revisions are integrated. See [product trunk state](../current/PRODUCT_TRUNK_STATE.md) and [handoff](../handoffs/PRODUCT_TRUNK_ASSEMBLY.md).
-- T103 remains PASS / KEEP_EXISTING_BULLMQ. T104 DATA_RUNTIME_GATE=FAIL, LEGAL_MANUAL_GATE=OPEN; Moscow is not activated.
-- T105 is the exact next task: data-safety/domain implementation. It is not started by this checkpoint.
-- Durable solo Save/basic «Мой Повод», catalog LIMIT-before-filter, controller 422 pending state, destination overwrite race, Moscow provider/data gate, hosting and real MAX Web/Android/iOS acceptance remain separate blockers.
-- Historical task text and prompts do not activate work.
+- T103 queue decision: **KEEP_EXISTING_BULLMQ**.
+- T105, durable Save, Catalog/422 and MAX destination fencing coexist in the isolated P0 integration branch. Migrations run through forward-only 0006.
+- Moscow Gate v2: DATA_RUNTIME_GATE = FAIL, KudaGo NOT_APPROVED, Moscow NOT_ACTIVATED. No live ingestion is authorized by this checkpoint.
+- One writer/integration owner. Historical prompts do not activate work.
+
+Next action requires a separate provider/data readiness decision. Legacy MAX destination rows with unknown source time need an explicit reconciliation policy; current authenticated delivery does not depend on that follow-up.
