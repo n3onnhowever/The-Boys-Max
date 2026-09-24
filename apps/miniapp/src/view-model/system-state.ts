@@ -62,14 +62,14 @@ export function errorSystemState(message?: string): ErrorSystemState {
   };
 }
 
-export function offlineSystemState(cachedEvents: readonly SearchEventViewModel[]): OfflineSystemState {
+export function offlineSystemState(cachedEvents: readonly SearchEventViewModel[], runtime = false): OfflineSystemState {
   return {
     kind: 'offline',
     alertTitle: 'Нет подключения к интернету',
-    alertDescription: 'Показываем сохранённые события',
-    sectionTitle: 'Доступно без интернета',
+    alertDescription: runtime ? cachedEvents.length ? 'Показываем ранее загруженные события' : 'Для загрузки событий нужно соединение' : 'Показываем сохранённые события',
+    sectionTitle: runtime ? 'Ранее загружено' : 'Доступно без интернета',
     explanationTitle: 'Новые события появятся после восстановления связи',
-    explanation: 'Мы сохранили часть ранее загруженных событий. Обновим, как только появится интернет.',
+    explanation: runtime ? cachedEvents.length ? 'Данные могли измениться. Обновите их после восстановления связи.' : 'Повторите загрузку после восстановления связи.' : 'Мы сохранили часть ранее загруженных событий. Обновим, как только появится интернет.',
     cachedEvents: cachedEvents.map(event => ({ ...event })),
   };
 }

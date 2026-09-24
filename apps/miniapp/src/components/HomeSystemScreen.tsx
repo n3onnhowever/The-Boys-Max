@@ -20,6 +20,7 @@ interface HomeSystemScreenProps {
   onCategorySelect?: (id: string) => void;
   onAction?: (action: HomeSystemAction) => void;
   onNavigate?: (id: string) => void;
+  searchOnlyFilters?: boolean;
 }
 
 function OfflineAlert({ state }: { state: Extract<HomeSystemState, { kind: 'offline' }> }) {
@@ -52,6 +53,7 @@ export function HomeSystemScreen({
   onCategorySelect,
   onAction,
   onNavigate,
+  searchOnlyFilters = false,
 }: HomeSystemScreenProps) {
   const [localSearch, setLocalSearch] = useState('');
   const query = searchValue ?? localSearch;
@@ -63,7 +65,7 @@ export function HomeSystemScreen({
       <BrandHeader />
       {state.kind === 'offline' ? <OfflineAlert state={state} /> : null}
       <form className="home-search" role="search" onSubmit={event => { event.preventDefault(); onSearchSubmit?.(); }}>
-        <SearchBar value={query} onChange={changeSearch} disabled={loading} placeholder={chrome.searchPlaceholder} />
+        <SearchBar value={searchOnlyFilters ? '' : query} onChange={changeSearch} disabled={loading || !onSearchSubmit} readOnly={searchOnlyFilters} onFocus={searchOnlyFilters ? onSearchSubmit : undefined} placeholder={searchOnlyFilters ? 'Выбрать фильтры' : chrome.searchPlaceholder} />
       </form>
       <div className="category-rail" aria-label="Категории">
         {chrome.categories.map(category => <CategoryChip
@@ -96,7 +98,7 @@ export function HomeSystemScreen({
           <span id="offline-events-heading" className="sr-only">{state.sectionTitle}</span>
           {state.cachedEvents.length > 0
             ? <EventCardList events={state.cachedEvents} savedEventIds={[]} />
-            : <p className="offline-no-cache">Сохранённых событий на этом устройстве пока нет.</p>}
+            : <p className="offline-no-cache">Ранее загруженных событий пока нет.</p>}
         </section>
         <section className="offline-explanation" aria-labelledby="offline-explanation-heading">
           <span className="offline-explanation-icon"><Icon name="wifi" /></span>

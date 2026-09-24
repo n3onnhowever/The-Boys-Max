@@ -3,8 +3,11 @@ import {api,savedMutation} from '../../client.ts';
 import {savedOccurrenceToDetail,savedToViewModel,type SavedResponse} from '../view-model/saved-runtime.ts';
 import {SavedScreen} from './SavedScreen.tsx';
 import {DetailScreen} from './DetailScreen.tsx';
+import {attachBack} from '../../bridge.ts';
+import {AppViewport,Screen} from './AppShell.tsx';
+import {BottomNav} from './BottomNav.tsx';
 
-export function SavedRuntime({onHome,origins}:{onHome:()=>void;origins:readonly string[]}){
+export function SavedRuntime({onHome,onNavigate,origins}:{onHome:()=>void;onNavigate:(id:string)=>void;origins:readonly string[]}){
  const [response,setResponse]=useState<SavedResponse|null>(null);
  const [error,setError]=useState<string|null>(null);
  const [selected,setSelected]=useState<string|null>(null);
@@ -12,17 +15,20 @@ export function SavedRuntime({onHome,origins}:{onHome:()=>void;origins:readonly 
  const [pending,setPending]=useState(false);
  const pendingRef=useRef(false);
  const [mutationError,setMutationError]=useState<string|null>(null);
- useEffect(()=>{
-  let active=true;
-  void api<SavedResponse>('/api/v1/me/saved').then(data=>{if(active){setResponse(data);setError(null);}})
-   .catch(()=>{if(active)setError('Не удалось загрузить сохранённое.');});
-  return ()=>{active=false;};
- },[]);
- if(error)return <main className="status-panel" role="alert"><h1>Сохранённое недоступно</h1><p>{error}</p><button onClick={()=>location.reload()}>Повторить</button></main>;
- if(!response)return <main role="status">Загружаем сохранённое…</main>;
+ const load=()=>{
+  setResponse(null);setError(null);
+  void api<SavedResponse>('/api/v1/me/saved').then(data=>{setResponse(data);setError(null);})
+   .catch(()=>setError(navigator.onLine?'Не удалось загрузить сохранённое. Повторите попытку.':'Нет соединения. Сохранённое появится после восстановления связи.'));
+ };
+ useEffect(()=>{load();},[]);
+ useEffect(()=>attachBack(()=>{if(selected){setSelected(null);load();}else onHome();}),[selected,onHome]);
+ if(error||!response)return <AppViewport><Screen className="saved-screen"><header className="saved-page-header"><span aria-hidden="true"/><h1>Сохранённое</h1><span aria-hidden="true"/></header>
+  <section className="saved-runtime-status" role={error?'alert':'status'}><h2>{error?'Сохранённое недоступно':'Загружаем сохранённое…'}</h2>
+   {error&&<><p>{error}</p><button type="button" onClick={load}>Повторить</button><button type="button" onClick={onHome}>На главную</button></>}
+  </section></Screen><BottomNav active="profile" onSelect={onNavigate}/></AppViewport>;
  const chosen=response.items.find(item=>item.occurrence.id===selected)?.occurrence;
  if(chosen)return <DetailScreen model={savedOccurrenceToDetail(chosen,origins)} savedState={detailSaved} saveBusy={pending} saveError={mutationError}
-  activeNav="profile" onBack={()=>{setSelected(null);void api<SavedResponse>('/api/v1/me/saved').then(setResponse).catch(()=>setError('Не удалось загрузить сохранённое.'));}}
+  activeNav="profile" onNavigate={id=>{if(id==='profile'){setSelected(null);load();}else onNavigate(id);}} onBack={()=>{setSelected(null);load();}}
   onSave={()=>{
    if(pendingRef.current)return;
    pendingRef.current=true;
@@ -31,7 +37,7 @@ export function SavedRuntime({onHome,origins}:{onHome:()=>void;origins:readonly 
     .catch(()=>setMutationError('Не удалось изменить сохранение. Повторите попытку.')).finally(()=>{pendingRef.current=false;setPending(false);});
   }}/>
  const model=savedToViewModel(response);
- return <SavedScreen model={model} onNavigate={id=>{if(id==='home')onHome();}}
+ return <SavedScreen model={model} onNavigate={id=>{if(id==='home')onHome();else onNavigate(id);}}
   onEventOpen={id=>{setSelected(id);setDetailSaved(true);setMutationError(null);}}
   onToggleSaved={async(id,saved)=>{
    await savedMutation(id,saved);

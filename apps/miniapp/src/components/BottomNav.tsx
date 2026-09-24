@@ -25,6 +25,7 @@ export function BottomNav({ active = 'home', onSelect, availableIds }: { active?
         key={item.id}
         className={item.id === active ? 'is-active' : ''}
         aria-current={item.id === active ? 'page' : undefined}
+        title={!selectable ? `${item.label}: функция пока недоступна` : undefined}
         onClick={() => select?.(item.id)}
         disabled={!selectable}
       ><Icon name={item.icon} filled={item.id === active && (item.id === 'home' || item.id === 'profile')} /><span>{item.label}</span></button>;

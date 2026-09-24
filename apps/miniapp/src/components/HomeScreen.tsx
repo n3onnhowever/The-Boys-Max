@@ -30,7 +30,7 @@ export function HomeScreen({ model, searchValue, busy = false, onSearchChange, o
     <Screen className="home-screen">
       <BrandHeader />
       <form className="home-search" role="search" onSubmit={event => { event.preventDefault(); onSearchSubmit?.(); }}>
-        <SearchBar value={query} onChange={changeSearch} disabled={busy} placeholder={model.searchPlaceholder} />
+        <SearchBar value={model.provenance === 'SERVER_ADAPTER' ? '' : query} onChange={changeSearch} disabled={busy} readOnly={model.provenance === 'SERVER_ADAPTER'} onFocus={model.provenance === 'SERVER_ADAPTER' ? onSearchSubmit : undefined} placeholder={model.provenance === 'SERVER_ADAPTER' ? 'Выбрать фильтры' : model.searchPlaceholder} />
       </form>
       <div className="category-rail" aria-label="Категории">
         {model.categories.map(category => <CategoryChip

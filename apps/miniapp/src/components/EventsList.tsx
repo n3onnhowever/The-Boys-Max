@@ -6,7 +6,7 @@ import { emptySystemState, errorSystemState, offlineSystemState, resetCatalogSea
 import { HomeScreen } from './HomeScreen.tsx';
 import { HomeSystemScreen } from './HomeSystemScreen.tsx';
 
-export function EventsList({ view, controller, state, busy }: { view: CatalogView; controller: ViewController; state: UiState; busy: boolean }) {
+export function EventsList({ view, controller, state, busy, onSearchOpen }: { view: CatalogView; controller: ViewController; state: UiState; busy: boolean; onSearchOpen: () => void }) {
   if (view.route.kind !== 'CATALOG') return null;
   const scope = view.route.scope;
   const text = state.draft.search ?? view.query.text;
@@ -17,7 +17,7 @@ export function EventsList({ view, controller, state, busy }: { view: CatalogVie
     categories: model.categories,
   };
   const executeSearch = (includedCategories = view.query.includedCategories) => {
-    const draft: SearchDraft = { ...view.query, text, includedCategories };
+    const draft: SearchDraft = { ...view.query, text: '', includedCategories };
     void controller.execute({ type: 'SEARCH', scope, draft });
   };
   const resetFilters = () => {
@@ -37,15 +37,16 @@ export function EventsList({ view, controller, state, busy }: { view: CatalogVie
   };
   const stateChromeProps = {
     chrome,
+    searchOnlyFilters: true,
     searchValue: text,
     onSearchChange: (value: string) => controller.setDraft('search', value),
-    onSearchSubmit: () => executeSearch(),
+    onSearchSubmit: onSearchOpen,
     onCategorySelect: (id: string) => executeSearch(id === 'all' ? [] : [id]),
     onAction: handleStateAction,
   };
   if (state.phase === 'offline') return <HomeSystemScreen
     {...stateChromeProps}
-    state={offlineSystemState(catalogToSearchViewModel(view).events.slice(0, 2))}
+    state={offlineSystemState(catalogToSearchViewModel(view).events.slice(0, 2), true)}
   />;
   if (state.phase === 'error') return <HomeSystemScreen {...stateChromeProps} state={errorSystemState(state.error ?? undefined)} />;
   if (view.events.length === 0) return <HomeSystemScreen {...stateChromeProps} state={emptySystemState()} />;
@@ -54,7 +55,7 @@ export function EventsList({ view, controller, state, busy }: { view: CatalogVie
     searchValue={text}
     busy={busy}
     onSearchChange={value => controller.setDraft('search', value)}
-    onSearchSubmit={() => executeSearch()}
+    onSearchSubmit={onSearchOpen}
     onCategorySelect={id => executeSearch(id === 'all' ? [] : [id])}
     onEventOpen={open}
   />;

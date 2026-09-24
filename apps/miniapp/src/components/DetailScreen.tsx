@@ -45,7 +45,7 @@ export function DetailScreen({ model, busy = false, activeNav = 'home', onBack, 
 
   return <AppViewport>
     <a className="skip-link" href="#main">К содержимому</a>
-    <Screen className="detail-screen">
+    <Screen className={`detail-screen${model.provenance === 'SERVER_ADAPTER' ? ' runtime-detail' : ''}`}>
       <EventHero
         title={model.title}
         dateTimeLabel={model.heroDateTimeLabel}

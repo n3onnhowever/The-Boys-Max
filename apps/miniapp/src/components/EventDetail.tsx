@@ -5,7 +5,7 @@ import type { ViewController } from '../core/controller.ts';
 import { eventToDetailViewModel } from '../view-model/detail.ts';
 import { DetailScreen } from './DetailScreen.tsx';
 
-export function EventDetail({ view, controller, busy, origins }: { view: EventView; controller: ViewController; busy: boolean; origins: readonly string[] }) {
+export function EventDetail({ view, controller, busy, origins, activeNav = 'home' }: { view: EventView; controller: ViewController; busy: boolean; origins: readonly string[]; activeNav?: string }) {
   const [groupOpen, setGroupOpen] = useState(false);
   const [ack, setAck] = useState(false);
   const [saveTarget,setSaveTarget]=useState<string|null>(null);
@@ -66,6 +66,7 @@ export function EventDetail({ view, controller, busy, origins }: { view: EventVi
 
   return <DetailScreen
     model={model}
+    activeNav={activeNav}
     savedState={saved}
     onSave={()=>void toggleSave()}
     saveBusy={saveBusy}

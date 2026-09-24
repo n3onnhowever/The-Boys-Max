@@ -10,6 +10,8 @@ import { InvitePanel } from './components/InvitePanel.tsx';
 import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
 import { NavigationProvider } from './components/BottomNav.tsx';
 import { SavedRuntime } from './components/SavedRuntime.tsx';
+import { RuntimeSearchScreen } from './components/RuntimeSearchScreen.tsx';
+import { keyForEvent } from './view-model/home.ts';
 import { HOME_SYSTEM_CHROME, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
 
 export interface AppProps {
@@ -22,6 +24,7 @@ export interface AppProps {
 
 export function App({ controller, origins, clipboard, renderMap, entry }: AppProps) {
   const [savedPage,setSavedPage]=useState(false);
+  const [searchPage,setSearchPage]=useState(false);
   const state = useSyncExternalStore(controller.subscribe, controller.getSnapshot, controller.getSnapshot);
   const { view } = state;
   const busy = ['loading', 'submitting', 'uncertain', 'offline'].includes(state.phase);
@@ -37,15 +40,18 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
   }, [routeKey, entry]);
 
   useEffect(() => {
-    if (entry || !view || view.kind === 'CATALOG') return;
-    return attachBack(() => void controller.load({ kind: 'CATALOG', scope: { kind: 'PERSONAL' } }));
-  }, [controller, routeKey, entry]);
+    if (entry || savedPage) return;
+    if (view?.kind === 'CATALOG' && searchPage) return attachBack(() => setSearchPage(false));
+    if (!view || view.kind === 'CATALOG') return;
+    return attachBack(() => void controller.load({ kind: 'CATALOG', scope: view.route.kind === 'EVENT' ? view.route.scope : { kind: 'PERSONAL' } }));
+  }, [controller, routeKey, entry, savedPage, searchPage]);
 
   // Login and ambiguous mutation outcomes must remain visible before any retained view.
   const criticalError = state.error && ['auth-failed', 'expired', 'uncertain'].includes(state.phase);
-  const navigation={availableIds:['home','profile'],onSelect:(id:string)=>{
-    if(id==='profile')setSavedPage(true);
-    if(id==='home'){setSavedPage(false);void controller.load({kind:'CATALOG',scope:{kind:'PERSONAL'}});}
+  const navigation={availableIds:['home','search','profile'],onSelect:(id:string)=>{
+    if(id==='profile'){setSavedPage(true);return;}
+    if(id==='search'){setSavedPage(false);setSearchPage(true);if(view?.kind !== 'CATALOG')void controller.load({kind:'CATALOG',scope:{kind:'PERSONAL'}});return;}
+    if(id==='home'){setSavedPage(false);setSearchPage(false);if(view?.kind !== 'CATALOG')void controller.load({kind:'CATALOG',scope:{kind:'PERSONAL'}});}
   }};
   if (entry || criticalError) {
     const title = entry ? 'Не удалось войти'
@@ -58,16 +64,17 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
         <section className="status-panel" role="alert">
           <h1 tabIndex={-1}>{title}</h1>
           <p>{entry?.message ?? state.error}</p>
+          {!entry && (state.phase === 'expired' || state.phase === 'auth-failed') && <p>Откройте приложение заново кнопкой в чате бота MAX, чтобы подтвердить сессию.</p>}
           <button onClick={entry?.retry ?? (() => void controller.retry())}>Повторить проверку</button>
         </section>
       </main>
     </>;
   }
-  if(savedPage)return <NavigationProvider value={navigation}><SavedRuntime onHome={()=>navigation.onSelect('home')} origins={origins} /></NavigationProvider>;
+  if(savedPage)return <NavigationProvider value={navigation}><SavedRuntime onHome={()=>navigation.onSelect('home')} onNavigate={navigation.onSelect} origins={origins} /></NavigationProvider>;
 
   if (!view && state.phase === 'loading') return <HomeSystemScreen state={loadingSystemState()} chrome={HOME_SYSTEM_CHROME} />;
   if (!view && state.phase === 'offline') return <HomeSystemScreen
-    state={offlineSystemState([])}
+    state={offlineSystemState([], true)}
     chrome={HOME_SYSTEM_CHROME}
     onAction={action => { if (action === 'retry') void controller.retry(); }}
   />;
@@ -79,8 +86,14 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
       if (action === 'return-home') void controller.load({ kind: 'CATALOG', scope: { kind: 'PERSONAL' } });
     }}
   />;
-  if (view?.kind === 'CATALOG') return <NavigationProvider value={navigation}><EventsList view={view} controller={controller} state={state} busy={busy} /></NavigationProvider>;
-  if (view?.kind === 'EVENT' && !state.error) return <NavigationProvider value={navigation}><EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} /></NavigationProvider>;
+  if (view?.kind === 'CATALOG' && searchPage) return <NavigationProvider value={navigation}><RuntimeSearchScreen
+    key={JSON.stringify(view.query)} view={view} busy={busy} error={state.error} onRetry={()=>void controller.retry()}
+    onApply={draft => void controller.execute({type:'SEARCH',scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'},draft})}
+    onOpen={id => {const event=view.events.find(candidate=>keyForEvent(candidate)===id);if(event)void controller.load({kind:'EVENT',sourceId:event.ref.sourceId,externalEventId:event.ref.externalEventId,occurrenceId:event.ref.occurrenceId,scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'}});}}
+    onBack={()=>setSearchPage(false)} onNavigate={navigation.onSelect}
+  /></NavigationProvider>;
+  if (view?.kind === 'CATALOG') return <NavigationProvider value={navigation}><EventsList view={view} controller={controller} state={state} busy={busy} onSearchOpen={()=>setSearchPage(true)} /></NavigationProvider>;
+  if (view?.kind === 'EVENT' && !state.error) return <NavigationProvider value={navigation}><EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} activeNav={searchPage?'search':'home'} /></NavigationProvider>;
 
   return <>
     <a className="skip-link" href="#main">К содержимому</a>

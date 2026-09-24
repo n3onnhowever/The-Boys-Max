@@ -48,8 +48,11 @@ export class ViewController {
     }
     const generation = ++this.generation;
     this.abort?.abort(); this.abort = new AbortController(); this.route = structuredClone(route);
-    // Do not retain private content from a different plan while loading.
-    this.emit({ view: null, draft: {}, phase: 'loading', error: null, receipt: null });
+    // A same-route catalog refresh may show previously authenticated cards while
+    // offline. Other navigation clears private content before the new read.
+    const retainedCatalog = this.state.view?.kind === 'CATALOG' && route.kind === 'CATALOG'
+      && JSON.stringify(this.state.view.route) === JSON.stringify(route) ? this.state.view : null;
+    this.emit({ view: retainedCatalog, draft: retainedCatalog ? this.state.draft : {}, phase: 'loading', error: null, receipt: null });
     if (!this.online()) { this.emit({ phase: 'offline', error: 'Нет соединения. Изменения не отправлены.' }); return; }
     try {
       const view = await this.port.read(route, this.abort.signal);
