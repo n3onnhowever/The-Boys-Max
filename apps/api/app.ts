@@ -12,6 +12,7 @@ import type {Config} from '../../packages/platform/config.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
 import {savedService} from '../../packages/persistence/saved.ts';
+import {DEMO_ITEMS,DEMO_NOTICE} from '../../packages/demo/catalog-v1.ts';
 import {planService} from '../../packages/persistence/plans.ts';
 import {ingressService} from '../../packages/platform/ingress.ts';
 import {AppError,requireThat} from '../../packages/domain/errors.ts';
@@ -28,7 +29,7 @@ export async function buildApp(c:Config){
  app.addContentTypeParser('application/json',{parseAs:'buffer'},(req,body,done)=>{try{done(null,strictJson(fatalUtf8(body as Buffer)));}catch(e){done(e as Error,undefined);}});
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
- const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool);
+ const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode);
  const ui=uiService(pool,plans,c);
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};
  const header=(r:FastifyRequest,name:string)=>{const h=r.headers[name];return typeof h==='string'?h:undefined;};
@@ -54,6 +55,11 @@ export async function buildApp(c:Config){
   try{return reply.type(name.endsWith('.js')?'application/javascript':'text/css').send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
+ if(c.mode==='demo')app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>{
+  const item=DEMO_ITEMS.find(x=>x.id===r.params.id);requireThat(item,'NOT_FOUND',404);
+  reply.header('Content-Security-Policy',"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'");
+  return reply.type('text/html; charset=utf-8').send(`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Демонстрационный источник — Повод</title><body style="font:18px system-ui;max-width:42rem;margin:3rem auto;padding:1rem"><h1>${DEMO_NOTICE}</h1><p>${item.title}</p><p>Это подготовленная командой вымышленная запись для показа интерфейса. Место проведения, выступления, билеты и доступность не заявлены.</p><p>Дата в демонстрационном наборе: ${item.start.slice(0,10)} (Москва). Не используйте её для поездки.</p></body></html>`);
+ });
  app.get('/health/ready',{schema:{response:{200:z.strictObject({database:z.literal('UP'),outboundHold:z.boolean()}),...S.errors}}},async()=>{
   const r=await pool.query<{hold:boolean}>('SELECT hold FROM outbound_control WHERE id=1');return {database:'UP' as const,outboundHold:r.rows[0]?.hold!==false};
  });

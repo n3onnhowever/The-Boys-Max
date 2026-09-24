@@ -16,6 +16,7 @@ import {assertRead,current,activeSlot,capabilities,feasibility,confirmation} fro
 import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
 import {CONTRACT} from '../../apps/miniapp/src/port/contracts.ts';
+import {DEMO_NOTICE,DEMO_PROVIDER_ID,demoSourceUrl,DEMO_ITEMS} from '../demo/catalog-v1.ts';
 import type {View,Route,Envelope,Receipt,Revision,EventCardView,PlaceView,PlanView,OptionView} from '../../apps/miniapp/src/port/contracts.ts';
 type Plans=ReturnType<typeof planService>;
 type Mapped={kind:'PLAN';planId:string;command:DomainCommand}|{kind:'INVITE';planId:string;expected:number}|{kind:'JOIN';inviteRef:string};
@@ -24,13 +25,14 @@ export function revision(p:Plan|null,contextRevision:number|null=null):Revision 
  const selected=p?.options.find(o=>o.optionId===p.selectedOptionId),s=selected?current(selected):null;
  return {state_version:p?.stateVersion??contextRevision??1,search_context_revision:contextRevision,config_revision:p?.configRevision??contextRevision??1,electorate_version:p?.electorateVersion??0,selection_revision:p?.selectionRevision??0,snapshot_id:s?.snapshotId??null,terms_revision:s?.termsRevision??null};
 }
-export function eventCard(item:CatalogItem,now:string):EventCardView {
+export function eventCard(item:CatalogItem,now:string,demoOrigin?:string):EventCardView {
  const c=item.candidate,g=geoView(c,context(now)),prepared=preparePlace(g);
+ const demoItem=demoOrigin&&c.ref.provider_id===DEMO_PROVIDER_ID?DEMO_ITEMS.find(x=>`demo-v1-${x.id}`===c.ref.event_id):undefined;
  return {ref:{offerId:item.offerId,contextRevision:item.contextRevision,sourceId:c.ref.provider_id,externalEventId:c.ref.event_id,occurrenceId:c.ref.occurrence_id,observationId:c.provenance.observation_id},
   title:c.untrusted_title,startLabel:c.starts_at?new Date(c.starts_at).toLocaleString('ru-RU',{timeZone:c.city_id?context(now).cities.get(c.city_id)?.timezones[0]??'UTC':'UTC'})+' · '+(c.city_id?context(now).cities.get(c.city_id)?.timezones[0]??'UTC':'UTC'):'Время не подтверждено',
   categoryLabel:c.categories.known.join(', ')||'Категория не подтверждена',price:priceView(c.price),
   place:{address:g.geo.address??'Адрес не указан',coordinates:prepared.marker,navigationUrl:null,attribution:c.provenance.data_mode==='SYNTHETIC'?'Синтетические тестовые данные':c.ref.provider_id,geoView:g},
-  sourceLabel:c.provenance.data_mode==='SYNTHETIC'?'ПОДГОТОВЛЕННЫЙ ТЕСТОВЫЙ ПРИМЕР':c.ref.provider_id,sourceUrl:c.provenance.source_url,
+  sourceLabel:demoItem?'ДЕМОНСТРАЦИОННЫЙ ИСТОЧНИК':c.provenance.data_mode==='SYNTHETIC'?'ПОДГОТОВЛЕННЫЙ ТЕСТОВЫЙ ПРИМЕР':c.ref.provider_id,sourceUrl:demoItem?demoSourceUrl(demoOrigin!,demoItem):c.provenance.source_url,
   freshnessLabel:'Наблюдение '+c.provenance.observed_at,eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description};
 }
 export function uiService(pool:Pool,plans:Plans,cfg:Config){
@@ -74,13 +76,13 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config){
    const row=r.rows[0],state=row?.active?'ACTIVE':!row?.valid?'EXPIRED':row.state==='PENDING'?'PENDING':row.state==='REJECTED'||row.state==='REMOVED'?'REJECTED':'REQUESTABLE';
    return {contract:CONTRACT,actorId:subject.actor_id,kind:'INVITE',route,actions:state==='REQUESTABLE'?['REQUEST_JOIN']:[],revision:null,notice:null,state,inviteRef:route.inviteRef,activePlanId:state==='ACTIVE'?row!.plan_id:null};
   }
-  const b=await catalog.browse(subject,route.scope,route.kind==='EVENT'?{sourceId:route.sourceId,eventId:route.externalEventId,occurrenceId:route.occurrenceId}:undefined),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
+  const b=await catalog.browse(subject,route.scope,route.kind==='EVENT'?{sourceId:route.sourceId,eventId:route.externalEventId,occurrenceId:route.occurrenceId}:undefined),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:cfg.mode==='demo'?DEMO_NOTICE:cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
   if(route.kind==='EVENT'){
    const item=b.items.find(i=>i.candidate.ref.provider_id===route.sourceId&&i.candidate.ref.event_id===route.externalEventId&&i.candidate.ref.occurrence_id===route.occurrenceId);requireThat(item,'EVENT_UNAVAILABLE_OR_STALE',409);
-   return {...base,kind:'EVENT',actions:['ADD_TO_PLAN'],event:eventCard(item,b.now),targetPlanId:route.scope.kind==='PLAN'?route.scope.planId:null,unknownReasons:[...new Set(item.eligibility.checks.filter(c=>c.status==='UNKNOWN').map(c=>c.reason))].sort()};
+   return {...base,kind:'EVENT',actions:['ADD_TO_PLAN'],event:eventCard(item,b.now,cfg.mode==='demo'?cfg.publicOrigin:undefined),targetPlanId:route.scope.kind==='PLAN'?route.scope.planId:null,unknownReasons:[...new Set(item.eligibility.checks.filter(c=>c.status==='UNKNOWN').map(c=>c.reason))].sort()};
   }
   const labels=Object.entries(b.ctx.hard).filter(([,value])=>value!==null&&(!Array.isArray(value)||value.length>0)).map(([key,value])=>key+': '+JSON.stringify(value));
-  return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:b.items.map(i=>eventCard(i,b.now)),aiState:'UNAVAILABLE',aiMessage:'ИИ и внешние модели отключены: допуск не подтверждён. Используйте поля условий; произвольный текст не будет молча проигнорирован.'};
+  return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:b.items.map(i=>eventCard(i,b.now,cfg.mode==='demo'?cfg.publicOrigin:undefined)),aiState:'UNAVAILABLE',aiMessage:'ИИ и внешние модели отключены: допуск не подтверждён. Используйте поля условий; произвольный текст не будет молча проигнорирован.'};
  }
  async function mapped(subject:Subject,envelope:Envelope):Promise<Mapped>{
   const hash=digest(canonical(envelope)),actor=subject.actor_id,key=envelope.idempotencyKey;

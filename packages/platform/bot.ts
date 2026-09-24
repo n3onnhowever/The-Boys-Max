@@ -14,13 +14,13 @@ export type BotButton={type:'open_app';text:string;web_app:string;payload:string
 export interface BotAttachment {type:'inline_keyboard';payload:{buttons:BotButton[][]};}
 export interface BotMessage {text:string;attachments:BotAttachment[];}
 
-export function configuredBotUrl(value:string,mode:'test'|'live',field:string):string|undefined {
+export function configuredBotUrl(value:string,mode:'test'|'demo'|'live',field:string):string|undefined {
  if(!value)return undefined;
  let url:URL;try{url=new URL(value);}catch{requireThat(false,field+'_INVALID');}
  const maxLength=field==='POVOD_MINIAPP_URL'?1024:2048;
  const loopback=['localhost','127.0.0.1','[::1]'].includes(url.hostname)||url.hostname.endsWith('.localhost');
  requireThat(value===value.trim()&&!/\s/.test(value)&&value.length<=maxLength&&!url.username&&!url.password&&!url.hash,field+'_INVALID');
- requireThat(url.protocol==='https:'||mode==='test'&&loopback&&url.protocol==='http:',field+'_HTTPS_REQUIRED');
+ requireThat(url.protocol==='https:'||mode!=='live'&&loopback&&url.protocol==='http:',field+'_HTTPS_REQUIRED');
  requireThat(mode!=='live'||!loopback,field+'_PUBLIC_REQUIRED');
  const normalized=url.toString();
  requireThat(field!=='POVOD_MINIAPP_URL'||normalized.length<=maxLength,field+'_INVALID');

@@ -15,11 +15,12 @@ import {createPlan,apply,assertRead,capabilities} from '../domain/plan.ts';
 import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
 import {digest} from '../platform/auth.ts';
+import {DEMO_ITEMS,demoEventId} from '../demo/catalog-v1.ts';
 interface ContextRow {id:string;actor_id:string;kind:'PERSONAL'|'PLAN_PRIVATE';plan_id:string|null;revision:number;acl_revision:number;draft:SearchDraft;hard:SearchIntent;approval_id:string|null;}
 export interface CatalogItem {candidate:Candidate;eligibility:Eligibility;offerId:string;contextRevision:number}
 export interface CatalogResult {ctx:ContextRow;items:CatalogItem[];plan:Plan|null;now:string}
 const scopeFor=(c:ContextRow):SearchScope=>c.kind==='PERSONAL'?{kind:'PERSONAL',search_context_id:c.id}:{kind:'PLAN_PRIVATE',search_context_id:c.id,plan_id:c.plan_id!};
-export function catalogService(pool:Pool,mode:'test'|'live') {
+export function catalogService(pool:Pool,mode:'test'|'demo'|'live') {
  async function assertSession(db:PoolClient,s:Subject){
   const r=await db.query(`SELECT id FROM app_sessions WHERE id=$1 AND actor_id=$2 AND NOT revoked AND absolute_expires_at>clock_timestamp() AND last_seen_at>clock_timestamp()-interval '15 minutes' FOR SHARE`,[s.session_id,s.actor_id]);
   requireThat(r.rowCount===1,'SESSION_INVALID',401);
@@ -53,10 +54,11 @@ export function catalogService(pool:Pool,mode:'test'|'live') {
     const r:QueryResult<{body:unknown;observation_id:string}>=await db.query<{body:unknown;observation_id:string}>(`SELECT body,observation_id FROM
      (SELECT DISTINCT ON (provider_id,event_id,occurrence_id) body,observation_id
       FROM catalog_occurrences WHERE data_mode=$1
+       AND ($6::boolean=false OR (provider_id='ManualProvider' AND event_id = ANY($7::text[])))
        AND ($2::text IS NULL OR (provider_id=$2 AND event_id=$3 AND occurrence_id IS NOT DISTINCT FROM $4::text))
       ORDER BY provider_id,event_id,occurrence_id,updated_at DESC,observation_id DESC) latest
      WHERE ($5::text IS NULL OR observation_id>$5)
-     ORDER BY observation_id LIMIT 100`,[mode==='test'?'SYNTHETIC':'LIVE',ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor]);
+     ORDER BY observation_id LIMIT 100`,[mode==='live'?'LIVE':'SYNTHETIC',ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor,mode==='demo',DEMO_ITEMS.map(demoEventId)]);
     for(const raw of r.rows){
     const c=parseCandidate(raw.body),e=evaluateEligibility(hard,c,semantic);
     if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||e.status==='FAIL')continue;
@@ -105,8 +107,9 @@ export function catalogService(pool:Pool,mode:'test'|'live') {
    requireThat(ctx.kind==='PERSONAL'||ctx.plan_id===targetPlanId,'CROSS_PLAN_OFFER_FORBIDDEN',403);
    // The provider's current observation must still be the exact receipt observation. No blind client snapshot.
    const source=await db.query<{body:unknown;data_mode:string}>('SELECT body,data_mode FROM catalog_occurrences WHERE observation_id=$1 FOR SHARE',[choice.observation_id]);
-   requireThat(source.rows[0]&&source.rows[0].data_mode===(mode==='test'?'SYNTHETIC':'LIVE'),'SOURCE_UNAVAILABLE',409);
+   requireThat(source.rows[0]&&source.rows[0].data_mode===(mode==='live'?'LIVE':'SYNTHETIC'),'SOURCE_UNAVAILABLE',409);
    const c=parseCandidate(source.rows[0].body),time=await now(db),semantic=context(time);
+   requireThat(mode!=='demo'||c.ref.provider_id==='ManualProvider'&&DEMO_ITEMS.some(item=>demoEventId(item)===c.ref.event_id),'SOURCE_UNAVAILABLE',409);
    const latest=await db.query<{observation_id:string}>('SELECT observation_id FROM catalog_occurrences WHERE provider_id=$1 AND event_id=$2 AND occurrence_id=$3 AND data_mode=$4 ORDER BY updated_at DESC,observation_id DESC LIMIT 1',[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,source.rows[0].data_mode]);
    requireThat(latest.rows[0]?.observation_id===choice.observation_id,'SOURCE_OBSERVATION_SUPERSEDED',409);
    requireThat(c.ref.provider_id===ref.sourceId&&c.ref.event_id===ref.externalEventId&&c.ref.occurrence_id===ref.occurrenceId&&c.provenance.observation_id===ref.observationId,'SOURCE_REF_MISMATCH',409);

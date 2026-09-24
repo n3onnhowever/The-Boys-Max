@@ -13,6 +13,7 @@ import { SavedRuntime } from './components/SavedRuntime.tsx';
 import { RuntimeSearchScreen } from './components/RuntimeSearchScreen.tsx';
 import { keyForEvent } from './view-model/home.ts';
 import { HOME_SYSTEM_CHROME, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
+import {DEMO_NOTICE} from '../../../packages/demo/constants.ts';
 
 export interface AppProps {
   controller: ViewController;
@@ -29,6 +30,7 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
   const { view } = state;
   const busy = ['loading', 'submitting', 'uncertain', 'offline'].includes(state.phase);
   const routeKey = view ? JSON.stringify(view.route) : null;
+  const demoBanner=view?.notice===DEMO_NOTICE?<div className="demo-catalog-notice" role="status">{DEMO_NOTICE}</div>:null;
 
   useEffect(() => {
     if (entry || !routeKey) return;
@@ -70,7 +72,7 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
       </main>
     </>;
   }
-  if(savedPage)return <NavigationProvider value={navigation}><SavedRuntime onHome={()=>navigation.onSelect('home')} onNavigate={navigation.onSelect} origins={origins} /></NavigationProvider>;
+  if(savedPage)return <NavigationProvider value={navigation}>{demoBanner}<SavedRuntime onHome={()=>navigation.onSelect('home')} onNavigate={navigation.onSelect} origins={origins} /></NavigationProvider>;
 
   if (!view && state.phase === 'loading') return <HomeSystemScreen state={loadingSystemState()} chrome={HOME_SYSTEM_CHROME} />;
   if (!view && state.phase === 'offline') return <HomeSystemScreen
@@ -86,14 +88,14 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
       if (action === 'return-home') void controller.load({ kind: 'CATALOG', scope: { kind: 'PERSONAL' } });
     }}
   />;
-  if (view?.kind === 'CATALOG' && searchPage) return <NavigationProvider value={navigation}><RuntimeSearchScreen
+  if (view?.kind === 'CATALOG' && searchPage) return <NavigationProvider value={navigation}>{demoBanner}<RuntimeSearchScreen
     key={JSON.stringify(view.query)} view={view} busy={busy} error={state.error} onRetry={()=>void controller.retry()}
     onApply={draft => void controller.execute({type:'SEARCH',scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'},draft})}
     onOpen={id => {const event=view.events.find(candidate=>keyForEvent(candidate)===id);if(event)void controller.load({kind:'EVENT',sourceId:event.ref.sourceId,externalEventId:event.ref.externalEventId,occurrenceId:event.ref.occurrenceId,scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'}});}}
     onBack={()=>setSearchPage(false)} onNavigate={navigation.onSelect}
   /></NavigationProvider>;
-  if (view?.kind === 'CATALOG') return <NavigationProvider value={navigation}><EventsList view={view} controller={controller} state={state} busy={busy} onSearchOpen={()=>setSearchPage(true)} /></NavigationProvider>;
-  if (view?.kind === 'EVENT' && !state.error) return <NavigationProvider value={navigation}><EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} activeNav={searchPage?'search':'home'} /></NavigationProvider>;
+  if (view?.kind === 'CATALOG') return <NavigationProvider value={navigation}>{demoBanner}<EventsList view={view} controller={controller} state={state} busy={busy} onSearchOpen={()=>setSearchPage(true)} /></NavigationProvider>;
+  if (view?.kind === 'EVENT' && !state.error) return <NavigationProvider value={navigation}>{demoBanner}<EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} activeNav={searchPage?'search':'home'} /></NavigationProvider>;
 
   return <>
     <a className="skip-link" href="#main">К содержимому</a>
