@@ -50,9 +50,12 @@ export async function buildApp(c:Config){
  app.setNotFoundHandler((req,reply)=>reply.code(404).send({error:{code:'NOT_FOUND',requestId:req.id}}));
  // Static harness is not an authentication fallback. It remains usable only with a legitimate session.
  app.get('/',{schema:{hide:true}},async(_r,reply)=>{try{return reply.type('text/html; charset=utf-8').send(await readFile(resolve('dist/miniapp/index.html')));}catch{throw new AppError('MINIAPP_BUILD_REQUIRED',503);}});
- app.get('/assets/:name',{schema:{hide:true}},async(r,reply)=>{
-  const name=(r.params as {name:string}).name;requireThat(/^[A-Za-z0-9_-]+\.(js|css)$/.test(name),'NOT_FOUND',404);
-  try{return reply.type(name.endsWith('.js')?'application/javascript':'text/css').send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
+ app.get('/assets/*',{schema:{hide:true}},async(r,reply)=>{
+  const name=(r.params as {'*':string})['*'];
+  const extension=/^[A-Za-z0-9_/-]+\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf)$/.exec(name)?.[1];
+  if(!extension)throw new AppError('NOT_FOUND',404);
+  const mime:Record<string,string>={js:'application/javascript',css:'text/css',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',webp:'image/webp',gif:'image/gif',svg:'image/svg+xml',ico:'image/x-icon',woff:'font/woff',woff2:'font/woff2',ttf:'font/ttf',otf:'font/otf'};
+  try{return reply.type(mime[extension]!).send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
  if(c.mode==='demo')app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>{

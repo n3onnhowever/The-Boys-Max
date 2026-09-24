@@ -1,0 +1,6 @@
+# Caddy obtains and renews public CA certificates for the supplied hostname.
+# Access logs are intentionally disabled: a request URL can carry sensitive query data.
+{$PUBLIC_HOSTNAME} {
+  encode zstd gzip
+  reverse_proxy api:3000
+}

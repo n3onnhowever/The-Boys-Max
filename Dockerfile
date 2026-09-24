@@ -23,6 +23,7 @@ COPY --from=build --chown=node:node /app/package.json /app/package-lock.json ./
 COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/migrations ./migrations
 COPY --from=build --chown=node:node /app/licenses ./licenses
+COPY --from=build --chown=node:node /app/scripts/health-worker.cjs ./scripts/health-worker.cjs
 USER node
 EXPOSE 3000
 # Migration entry: node dist/scripts/migrate.js (no test seeding in release).
