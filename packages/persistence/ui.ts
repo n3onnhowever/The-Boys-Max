@@ -74,7 +74,7 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config){
    const row=r.rows[0],state=row?.active?'ACTIVE':!row?.valid?'EXPIRED':row.state==='PENDING'?'PENDING':row.state==='REJECTED'||row.state==='REMOVED'?'REJECTED':'REQUESTABLE';
    return {contract:CONTRACT,actorId:subject.actor_id,kind:'INVITE',route,actions:state==='REQUESTABLE'?['REQUEST_JOIN']:[],revision:null,notice:null,state,inviteRef:route.inviteRef,activePlanId:state==='ACTIVE'?row!.plan_id:null};
   }
-  const b=await catalog.browse(subject,route.scope),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
+  const b=await catalog.browse(subject,route.scope,route.kind==='EVENT'?{sourceId:route.sourceId,eventId:route.externalEventId,occurrenceId:route.occurrenceId}:undefined),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
   if(route.kind==='EVENT'){
    const item=b.items.find(i=>i.candidate.ref.provider_id===route.sourceId&&i.candidate.ref.event_id===route.externalEventId&&i.candidate.ref.occurrence_id===route.occurrenceId);requireThat(item,'EVENT_UNAVAILABLE_OR_STALE',409);
    return {...base,kind:'EVENT',actions:['ADD_TO_PLAN'],event:eventCard(item,b.now),targetPlanId:route.scope.kind==='PLAN'?route.scope.planId:null,unknownReasons:[...new Set(item.eligibility.checks.filter(c=>c.status==='UNKNOWN').map(c=>c.reason))].sort()};

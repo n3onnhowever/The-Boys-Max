@@ -1,5 +1,5 @@
 export type ErrorCode = 'OFFLINE' | 'NETWORK' | 'AUTH_FAILED' | 'EXPIRED' | 'FORBIDDEN'
-  | 'CONFLICT' | 'SLOT_TAKEN' | 'INVALID_RESPONSE' | 'UNAVAILABLE' | 'UNCERTAIN';
+  | 'CONFLICT' | 'VALIDATION' | 'SLOT_TAKEN' | 'INVALID_RESPONSE' | 'UNAVAILABLE' | 'UNCERTAIN';
 export class PortError extends Error {
   readonly code: ErrorCode;
   constructor(code: ErrorCode, message: string) { super(message); this.name = 'PortError'; this.code = code; }

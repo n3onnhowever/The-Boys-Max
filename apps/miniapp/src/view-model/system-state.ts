@@ -54,11 +54,11 @@ export function emptySystemState(): EmptySystemState {
   };
 }
 
-export function errorSystemState(): ErrorSystemState {
+export function errorSystemState(message?: string): ErrorSystemState {
   return {
     kind: 'error',
     title: 'Не удалось загрузить события',
-    description: 'Что-то пошло не так.\nПопробуй ещё раз через пару секунд.',
+    description: message ?? 'Что-то пошло не так.\nПопробуй ещё раз через пару секунд.',
   };
 }
 

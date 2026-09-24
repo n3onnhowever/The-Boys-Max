@@ -47,7 +47,7 @@ export function EventsList({ view, controller, state, busy }: { view: CatalogVie
     {...stateChromeProps}
     state={offlineSystemState(catalogToSearchViewModel(view).events.slice(0, 2))}
   />;
-  if (state.phase === 'error') return <HomeSystemScreen {...stateChromeProps} state={errorSystemState()} />;
+  if (state.phase === 'error') return <HomeSystemScreen {...stateChromeProps} state={errorSystemState(state.error ?? undefined)} />;
   if (view.events.length === 0) return <HomeSystemScreen {...stateChromeProps} state={emptySystemState()} />;
   return <HomeScreen
     model={model}

@@ -41,3 +41,22 @@ test('UI26-02 filter fields survive a new read; text rejection does not erase pr
  const bad=envelopeFor(fresh,{type:'SEARCH',scope:{kind:'PERSONAL'},draft:{...fresh.query,text:'without cinema'}},randomUUID());assert.equal((await post(a,bad)).statusCode,422);
  assert.deepEqual((await get(a,{kind:'CATALOG',scope:{kind:'PERSONAL'}}) as CatalogView).query,fresh.query);
 });
+test('catalog finds a matching occurrence after 100 earlier nonmatching rows and opens detail',async()=>{
+ const scope={kind:'PERSONAL' as const}, prefix='catalog-limit-'+randomUUID();
+ const observed=new Date().toISOString();
+ for(let i=0;i<101;i++){
+  const id=prefix+'-'+String(i).padStart(3,'0');
+  const candidate=structuredClone(syntheticCandidate(observed,id));
+  candidate.starts_at='2030-05-05T10:00:00.000Z';candidate.ends_at='2030-05-05T12:00:00.000Z';
+  candidate.categories.known=i===100?['THEATRE']:['CINEMA'];
+  await pool.query("INSERT INTO catalog_occurrences(observation_id,provider_id,event_id,occurrence_id,body,data_mode) VALUES($1,$2,$3,$4,$5,'SYNTHETIC')",[id,candidate.ref.provider_id,candidate.ref.event_id,candidate.ref.occurrence_id,candidate]);
+ }
+ const initial=await get(b,{kind:'CATALOG',scope}) as CatalogView;
+ const searched=await post(b,envelopeFor(initial,{type:'SEARCH',scope,draft:{...initial.query,includedCategories:['THEATRE']}},randomUUID()));
+ assert.equal(searched.statusCode,200,searched.body);
+ const catalog=searched.json<Receipt>().view as CatalogView;
+ const match=catalog.events.find(e=>e.ref.observationId===prefix+'-100');
+ assert.ok(match,'matching occurrence beyond first 100 rows must be returned');
+ const detail=await get(b,{kind:'EVENT',scope,sourceId:match.ref.sourceId,externalEventId:match.ref.externalEventId,occurrenceId:match.ref.occurrenceId}) as EventView;
+ assert.equal(detail.event.ref.observationId,match.ref.observationId);
+});

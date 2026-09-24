@@ -19,6 +19,14 @@ export class HttpVisualPort implements VisualPort {
     if (response.status === 403) throw new PortError('FORBIDDEN', 'Нет доступа к этому плану.');
     if (response.status === 410) throw new PortError('EXPIRED', 'Срок действия ссылки или сессии истёк.');
     if (response.status === 409) throw new PortError('CONFLICT', 'Условия или состав изменились. Обновите данные; введённый текст сохранён.');
+    if (response.status === 422) {
+      let code:string|null=null;
+      try {
+        const body=await response.json() as {error?:{code?:unknown}};
+        if(typeof body.error?.code==='string'&&/^[A-Z][A-Z0-9_]{0,79}$/.test(body.error.code))code=body.error.code;
+      } catch { /* The HTTP status is still a definitive rejection. */ }
+      throw new PortError('VALIDATION',code?`Исправьте запрос (${code}) и повторите.`:'Исправьте данные запроса и повторите.');
+    }
     if (!response.ok) throw new PortError(mutation ? 'UNCERTAIN' : 'UNAVAILABLE', mutation
       ? 'Результат действия пока неизвестен. Проверьте его повторно.' : 'Сервис временно недоступен. Повторите попытку.');
     if (!response.headers.get('content-type')?.toLowerCase().includes('application/json')) throw new PortError(mutation ? 'UNCERTAIN' : 'INVALID_RESPONSE', 'Не удалось прочитать ответ сервера.');

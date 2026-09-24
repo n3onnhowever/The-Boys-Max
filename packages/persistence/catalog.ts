@@ -1,5 +1,5 @@
 import {randomUUID} from 'node:crypto';
-import type {Pool,PoolClient} from 'pg';
+import type {Pool,PoolClient,QueryResult} from 'pg';
 import {transaction} from './sessions.ts';
 import {PgIssuance,searchCapability} from './search-issuance.ts';
 import {confirmSearch} from '../../modules/search/core/authority.ts';
@@ -40,14 +40,24 @@ export function catalogService(pool:Pool,mode:'test'|'live') {
   if(old.rows[0]){requireThat(old.rows[0].payload_hash===hash,'IDEMPOTENCY_CONFLICT',409);return old.rows[0].body;}return null;
  }
  return {
- async browse(subject:Subject,scope:Scope):Promise<CatalogResult>{
+ async browse(subject:Subject,scope:Scope,ref?:{sourceId:string;eventId:string;occurrenceId:string|null}):Promise<CatalogResult>{
   return transaction(pool,async db=>{
    await assertSession(db,subject);const {ctx,plan}=await ensure(db,subject.actor_id,scope),time=await now(db),semantic=context(time);
    // Draft values are actor-private. An obsolete date does not erase the user's stored filters.
    let hard:SearchIntent;try{hard=validateIntent(ctx.hard,semantic);}catch{return {ctx,items:[],plan,now:time};}
-   const r=await db.query<{body:unknown}>('SELECT body FROM (SELECT DISTINCT ON (provider_id,event_id,occurrence_id) body,observation_id FROM catalog_occurrences WHERE data_mode=$1 ORDER BY provider_id,event_id,occurrence_id,updated_at DESC,observation_id DESC) latest ORDER BY observation_id LIMIT 100',[mode==='test'?'SYNTHETIC':'LIVE']);
    const items:CatalogItem[]=[];
-   for(const raw of r.rows){
+   let cursor:string|null=null;
+   // Page latest observations in a stable order. Apply the full domain evaluator before
+   // limiting visible choices, so an early run of ineligible rows cannot hide a match.
+   do {
+    const r:QueryResult<{body:unknown;observation_id:string}>=await db.query<{body:unknown;observation_id:string}>(`SELECT body,observation_id FROM
+     (SELECT DISTINCT ON (provider_id,event_id,occurrence_id) body,observation_id
+      FROM catalog_occurrences WHERE data_mode=$1
+       AND ($2::text IS NULL OR (provider_id=$2 AND event_id=$3 AND occurrence_id IS NOT DISTINCT FROM $4::text))
+      ORDER BY provider_id,event_id,occurrence_id,updated_at DESC,observation_id DESC) latest
+     WHERE ($5::text IS NULL OR observation_id>$5)
+     ORDER BY observation_id LIMIT 100`,[mode==='test'?'SYNTHETIC':'LIVE',ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor]);
+    for(const raw of r.rows){
     const c=parseCandidate(raw.body),e=evaluateEligibility(hard,c,semantic);
     if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||e.status==='FAIL')continue;
     const offer=await db.query<{id:string}>(`INSERT INTO catalog_choices(id,actor_id,session_id,context_id,context_revision,observation_id,expires_at)
@@ -56,7 +66,10 @@ export function catalogService(pool:Pool,mode:'test'|'live') {
       id=CASE WHEN catalog_choices.expires_at<=clock_timestamp() THEN EXCLUDED.id ELSE catalog_choices.id END,
       expires_at=CASE WHEN catalog_choices.expires_at<=clock_timestamp() THEN EXCLUDED.expires_at ELSE catalog_choices.expires_at END RETURNING id`,[randomUUID(),subject.actor_id,subject.session_id,ctx.id,ctx.revision,c.provenance.observation_id]);
     items.push({candidate:c,eligibility:e,offerId:offer.rows[0]!.id,contextRevision:ctx.revision});
-   }
+    }
+    if(ref||r.rows.length<100||items.length>=100)break;
+    cursor=r.rows.at(-1)!.observation_id;
+   }while(true);
    return {ctx,items,plan,now:time};
   });
  },
