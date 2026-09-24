@@ -1,0 +1,325 @@
+ Container p0-integration-accept-postgres-1 Running
+ Container p0-integration-accept-redis-1 Running
+ Container p0-integration-accept-init-1 Starting
+ Container p0-integration-accept-init-1 Started
+ Container p0-integration-accept-postgres-1 Waiting
+ Container p0-integration-accept-init-1 Waiting
+ Container p0-integration-accept-init-1 Exited
+ Container p0-integration-accept-postgres-1 Healthy
+ Container p0-integration-accept-migrate-1 Starting
+ Container p0-integration-accept-migrate-1 Started
+ Container p0-integration-accept-migrate-1 Waiting
+ Container p0-integration-accept-redis-1 Waiting
+ Container p0-integration-accept-redis-1 Healthy
+ Container p0-integration-accept-migrate-1 Exited
+ Container p0-integration-accept-prepare-1 Starting
+ Container p0-integration-accept-prepare-1 Started
+ Container p0-integration-accept-prepare-1 Waiting
+ Container p0-integration-accept-prepare-1 Exited
+ Container p0-integration-accept-checks-run-70fbf3860729 Creating
+ Container p0-integration-accept-checks-run-70fbf3860729 Created
+
+> the-boys-afisha-integration@0.2.0-candidate test:integration
+> node --experimental-strip-types --test --test-concurrency=1 tests/integration/*.test.ts
+
+(node:25) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ IT-01: R5 nonparticipant organizer + invite privacy + R3 version confirmation in PostgreSQL (10152.787979ms)
+✔ IT-02: persisted receipt replay, payload conflict, stale version and ACL-before-replay (29.760792ms)
+✔ IT-03: two admissions race for one slot; only one applies (16.293392ms)
+{"event":"http_end","requestId":"9dc03936-55e5-446a-99c2-9c368a5b0053","route":"/api/v1/session","status":200}
+{"event":"http_end","requestId":"028a9869-f70f-476a-8aa9-ca7a55a081f4","route":"/api/v1/session","status":401}
+{"event":"http_end","requestId":"6c34e65a-5a01-4de7-a0e0-99065aaaa6fb","route":"/api/v1/session/logout","status":403}
+{"event":"http_end","requestId":"b550e91c-1fd2-4800-a15c-f6e2796c4481","route":"/api/v1/session/logout","status":403}
+{"event":"http_end","requestId":"bd88eb48-f397-4dac-a7e9-1695d1aa8287","route":"/api/v1/session/logout","status":200}
+✔ IT-04: bootstrap/session exchange retry, reload, CSRF, logout revokes escrow (27.812519ms)
+{"event":"http_end","requestId":"ff71f282-d1df-4e3d-830c-83d9d61e1064","route":"/api/v1/max/webhook","status":403}
+{"event":"http_end","requestId":"03e89627-4ab4-49d0-9e3c-3b0853e43f40","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"82e5951c-f42b-4177-8dda-df251acc87f7","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"78131d97-8ba3-4491-a4db-f5934a42d3df","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"45122308-52e0-425c-bf7e-4f0da05fde1c","route":"/api/v1/max/webhook","status":413}
+(node:25) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+✔ IT-05: webhook durable ACK, duplicate, quarantine, wrong secret and body limit (12.07375ms)
+{"event":"http_end","requestId":"253efe74-f470-4b4c-beee-44c77e6ce08b","route":"/api/v1/max/webhook","status":503}
+✔ IT-06: database unavailable never acknowledges authenticated webhook (6.633407ms)
+ConnectionClosedError: Connection is closed.
+    at RedisConnection.waitUntilReady (/app/node_modules/bullmq/dist/cjs/classes/redis-connection.js:195:19)
+    at RedisConnection.init (/app/node_modules/bullmq/dist/cjs/classes/redis-connection.js:274:35)
+    at new RedisConnection (/app/node_modules/bullmq/dist/cjs/classes/redis-connection.js:153:34)
+    at Queue.createRedisBackend [as backendFactory] (/app/node_modules/bullmq/dist/cjs/utils/create-backend.js:41:24)
+    at Queue.createBackend (/app/node_modules/bullmq/dist/cjs/classes/queue-base.js:70:29)
+    at new QueueBase (/app/node_modules/bullmq/dist/cjs/classes/queue-base.js:37:14)
+    at new Queue (/app/node_modules/bullmq/dist/cjs/classes/queue.js:39:9)
+    at TestContext.<anonymous> (file:///app/tests/integration/foundation.test.ts:121:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Test.run (node:internal/test_runner/test:1404:7) {
+  cause: undefined
+}
+✔ IT-07: Redis down preserves committed PostgreSQL action; later reconciliation enqueues (48.910795ms)
+✔ IT-08: real BullMQ workers use PostgreSQL outbox + explicit test transport, not MAX (667.498112ms)
+✔ IT-09: scoped Redis key loss fences sends; restore requires an explicit new epoch (0.966056ms)
+✔ IT-10: SIGKILL after test submission becomes UNKNOWN, never blind resend (31613.155884ms)
+{"event":"http_end","requestId":"4a27d02d-ff5f-4b6a-8d02-785fcdf5d620","route":"/api/v1/plans","status":200}
+{"event":"http_end","requestId":"4052d602-0877-4ca8-bee1-5216b5c59b26","route":"/api/v1/plans","status":200}
+{"event":"http_end","requestId":"6726d2ed-15cd-4a59-b9c7-8bfbc674911f","route":"/api/v1/plans/:planId","status":200}
+✔ IT-11: authenticated HTTP plan creation preserves Origin, CSRF and idempotency headers (20.017559ms)
+✔ IT-12 PC002: PG cancellation notice after commitment deadline, before event; no renewed ask (32.735982ms)
+✔ IT-13: invite raw timestamp maps to ISO on create and receipt replay (6.882127ms)
+✔ IT-14: concurrent and sequential SELECT receipt replay creates and delivers one semantic notice (652.373967ms)
+(node:49) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"62e9302c-19f2-444a-a106-3d9731d3a82e","route":"/api/v1/max/webhook","status":200}
+✔ real durable ACK for bot_started; BullMQ delivers current Russian copy and native button (77.346892ms)
+{"event":"http_end","requestId":"783109d0-1f85-4147-87ae-87b09d449737","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"d506b8e3-1cb5-472b-b191-753261f11565","route":"/api/v1/max/webhook","status":200}
+✔ delayed older bot_started cannot replace a newer canonical destination (11.516476ms)
+{"event":"http_end","requestId":"8e0ee88b-cb4e-4f23-945a-0d7433c7b09a","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"14e5fa15-d951-47be-8c53-717436f421bd","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"aa94704c-3c74-4fa7-9f86-6f37949ed957","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"6c6e7c09-284d-4118-9486-013b55df5270","route":"/api/v1/max/webhook","status":200}
+✔ older then newer source event advances destination and exact duplicate is inert (14.160611ms)
+{"event":"http_end","requestId":"747a08e5-4fb1-4306-9795-8796bdf0b194","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"19eea286-d96e-472a-b3f2-0b624f33124c","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"b7a67538-73a5-4d73-8333-726fafa44126","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"e388e5dc-fb7c-45dd-8738-2dfdd59ad372","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"19cefe43-4e93-4fe0-afb9-a762773a64b6","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"734050cf-941c-4554-9b6c-885b9fd64e85","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"061e8d26-c5f1-40fe-a085-9d453341fba4","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"a88673c2-ca66-48dc-9cbb-d26f9d680541","route":"/api/v1/max/webhook","status":200}
+✔ competing destination updates serialize by source time, not commit order (30.858714ms)
+{"event":"http_end","requestId":"efd188f0-a846-461b-8c0f-a081b87278b1","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"3d4291ba-6e42-46b3-8673-529596db4212","route":"/api/v1/max/webhook","status":200}
+✔ equal source time with conflicting chats keeps the first committed destination (9.401161ms)
+{"event":"http_end","requestId":"afb0df5c-9693-4f14-b766-6bf8def3b25e","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"2b390ca1-1643-4112-9d47-e3081e5c37b1","route":"/api/v1/max/webhook","status":200}
+✔ legacy destination holds ambiguous delayed evidence until a post-verification event (9.896143ms)
+{"event":"http_end","requestId":"a066980c-a86f-448d-acc6-161677385055","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"4c92eef3-671a-4d36-bd93-82a5b6c6583a","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"f23a1b92-7725-422c-a0d7-5da56e353791","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"f3650ebf-2f3d-4b7a-bb03-2a75eea7ea2f","route":"/api/v1/max/webhook","status":200}
+✔ message_created routes start/help/app into durable bot replies (3399.850958ms)
+{"event":"http_end","requestId":"560f3d8a-d431-49ba-86a1-664da4a95c34","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"a01acd9f-1ff7-486e-905e-a5f57258be4b","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"16fdc256-163b-4bb3-965e-4aa34ac3e750","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"0492ae9c-d160-4c60-acca-4c20c17ab9f5","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"d28d4687-a08e-4400-b480-60e360f4b9cf","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"5fa073c1-e33b-40dc-84fe-baf4620af66f","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"77477061-5557-4724-be9e-a80ef9c0b178","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"88d57b83-9329-4bd4-93dc-a7bd35a22399","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"e0cdf697-0e79-4c1e-9c65-2d2cd6c746a8","route":"/api/v1/max/webhook","status":200}
+✔ concurrent duplicate webhook and conflicting same-mid body create only one effect (48.483237ms)
+{"event":"http_end","requestId":"6ca9e3a3-f811-4ea4-988e-ca7e3549c5e4","route":"/api/v1/max/webhook","status":403}
+{"event":"http_end","requestId":"07326418-25a1-443a-b624-acebd46480b6","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"b80ad0de-bd18-4440-82dd-d77772997a75","route":"/api/v1/max/webhook","status":413}
+{"event":"http_end","requestId":"a1459c7f-b6f4-4760-9305-2b3b78da7d2e","route":"/api/v1/max/webhook","status":200}
+✔ secret failure, malformed body, oversized body and unsupported callback stay isolated (7.16729ms)
+{"event":"http_end","requestId":"555bdb01-ba14-4c17-a369-c90b97459392","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"6f91174b-1bc5-45fd-8cdc-b89ecc3130e0","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"5ce45e4a-7f35-4af4-95d9-a8c021aaa682","route":"/api/v1/max/webhook","status":200}
+✔ group/channel commands and bot echoes are acknowledged without a destination or reply (8.533873ms)
+{"event":"http_end","requestId":"2984b904-cf2c-4c95-b726-2c48cc4ec312","route":"/api/v1/max/webhook","status":200}
+✔ ambiguous external submission remains UNKNOWN and is not retried by reconciliation (41.630049ms)
+{"event":"http_end","requestId":"19f8bf82-d0c1-4524-b070-d527d07e10ad","route":"/api/v1/max/webhook","status":200}
+✔ 429 string message persists RETRY_WAIT and governor cooldown without immediate resend (40.663604ms)
+(node:61) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"ee9da00f-fa29-435a-ba10-793d0590cf0d","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"837a5d02-ddd6-40ca-8160-8e6d6077e608","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"1767dde5-d2bf-45a4-8063-5dd66188b828","route":"/api/v1/session","status":200}
+✔ MAX-AUTH-01 valid launch preserves signed int64 and issues host-only secure HttpOnly cookie (29.548228ms)
+{"event":"http_end","requestId":"8ed4857d-86ba-4cc1-be79-fae5ea7c093c","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"868b6acb-f938-4f48-beef-9a83d403f1b2","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"ad1a1f42-76ae-4fa9-a643-4480e7c3c0df","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"57a2ed4e-9e98-4484-859a-c742cf3a50c2","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"240fd8ab-d4d8-41c2-b77c-1e895f911763","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"f741cd04-b570-4847-b536-2a7121a18d69","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"b16d2fd2-8908-4df3-b79c-14f13eafca3a","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"af3d811d-ba85-4a65-87ff-bf1800364296","route":"/api/v1/session/max","status":422}
+{"event":"http_end","requestId":"32d0394c-d2d7-4a72-89d2-12a9bb1bf106","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"9bf58ee6-91b1-4796-b269-70377fef1512","route":"/api/v1/session/max","status":422}
+{"event":"http_end","requestId":"65160377-e9f8-470d-8fce-d0f2954b5ca8","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"2410a93f-9c61-490a-bfce-6a191c88f632","route":"/api/v1/session/max","status":422}
+✔ MAX-AUTH-02 tampered hash, stale/future date, duplicates and malformed encoding are rejected (14.159012ms)
+{"event":"http_end","requestId":"5764ce07-6cd7-48fe-a3df-a3fd6887f008","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"61e5a3eb-4da3-4ff7-b05a-36404e529631","route":"/api/v1/session/max","status":403}
+{"event":"http_end","requestId":"7d1d36cb-c98d-4604-8a41-88bf9ae21320","route":"/api/v1/session/max","status":403}
+{"event":"http_end","requestId":"c9820268-3384-4511-92cc-ee2cf430e357","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"26f0d5c3-dd31-472a-9aa9-2322c8e5ec33","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"6b088515-6895-4e51-9a22-8c2b13e54487","route":"/api/v1/session/bootstrap","status":403}
+{"event":"http_end","requestId":"424add48-9a03-4090-80a2-2e7df9189d14","route":"/api/v1/session/bootstrap","status":403}
+{"event":"http_end","requestId":"04d5e7e1-0c16-4869-8877-020c8ef6af21","route":"/api/v1/session/bootstrap","status":403}
+{"event":"http_end","requestId":"cdf5f009-e22d-44fe-9678-c881f6bedc36","route":"/api/v1/session","status":401}
+{"event":"http_end","requestId":"fda80081-a051-45bf-99e9-93d0fa78dba7","route":"/api/ui/v1/session","status":401}
+✔ MAX-AUTH-03 Origin and bootstrap CSRF are required for exchange; foreign bootstrap reads rejected (5.209256ms)
+{"event":"http_end","requestId":"0d7061b3-501c-4f4d-98f5-fc8c8ee8b8aa","route":"/api/v1/plans","status":401}
+{"event":"http_end","requestId":"bf14e654-c50e-4cdb-adb0-2472e530c107","route":"/api/v1/plans/:planId","status":401}
+{"event":"http_end","requestId":"886ede5c-b38a-4ee6-ba42-6ffc03b3a4f9","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"9e228674-6fb0-4229-a65b-33e456fa9498","route":"/api/v1/session/max","status":400}
+✔ MAX-AUTH-04 anonymous access and query/unsafe identities cannot authorize (3.922178ms)
+{"event":"http_end","requestId":"16cf2956-05a1-43a0-94e1-2c456f6c1495","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"4045e29a-e282-45a3-9568-f50a675b7ef7","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"4bbfe102-96c5-4c7a-9d8c-d4f05e1ace78","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"2b331d8d-b028-4bee-adce-f9cbaa7d4e33","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"6263ec96-a727-4852-b74e-4ae227c24131","route":"/api/v1/plans","status":200}
+{"event":"http_end","requestId":"a6509cd1-3fbd-45de-8249-270d74f73b73","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"fa549fe3-7c1f-4f94-8556-ac0c0da07052","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"e2263d5b-06a3-40d7-82e5-55f56c1187a0","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"d17e7a0e-9484-4135-80d3-36238754194f","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"17113cc7-e99e-443a-98b8-d64555eba733","route":"/api/v1/plans/:planId","status":404}
+{"event":"http_end","requestId":"e325426d-a3e1-4508-9fac-4f76a8923d02","route":"/api/v1/plans/:planId/invites","status":404}
+{"event":"http_end","requestId":"7ee76909-401c-4478-ac11-1ee47e1aa4ec","route":"/api/v1/plans/:planId","status":404}
+{"event":"http_end","requestId":"6eeccfd0-bccd-4952-89e2-bc8b6fc251f3","route":"/api/v1/plans/:planId/invites","status":404}
+✔ MAX-AUTH-05 start_param tampering invalidates HMAC; valid context grants no foreign-object ACL (37.099284ms)
+{"event":"http_end","requestId":"faef7d67-f1b7-4116-b459-3f04a5ddddad","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"dd712928-771e-480c-b4f7-afb588b2aa4d","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"be2aba77-8cda-4ab0-a597-7e5732addda3","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"5c263831-f361-4dba-9316-c409470fc3e4","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"facb72ef-f16f-43f0-b8a8-22ba76fb7196","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"bbcc5468-cd71-4f61-9634-b59f3bb62f80","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"0e71f0e7-856a-4119-8cf6-b0a094500659","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"3eb4f7dc-aad6-4b1d-acce-e62438fc4d89","route":"/api/v1/session/max","status":401}
+✔ MAX-AUTH-06 replay same exchange is idempotent; new bootstrap resumes only exact active session (17.64481ms)
+{"event":"http_end","requestId":"039c4214-9def-4acc-ae5b-91b352634bf0","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"c2ad5be3-f5cc-4f9c-bc7f-8663ad2816ab","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"7d23893e-07c9-4ce5-af08-23950bdc9e91","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"3027ef41-e80e-4f73-8f4a-93864df9168e","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"ee297bd6-0a27-4a8c-b8eb-c36029511b90","route":"/api/v1/session","status":401}
+{"event":"http_end","requestId":"3af41c3e-ed5e-453c-a682-c7209034a0c2","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"e668a55e-178d-45df-9bd8-826506b7fa01","route":"/api/v1/session/logout","status":403}
+✔ MAX-AUTH-07 fresh launch rotates token and CSRF; new MAX account cannot inherit old identity (15.275039ms)
+{"event":"http_end","requestId":"a4fdcf0c-97d5-4128-9c6f-5a3ef0ae5bdd","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"88bab6b3-47b4-43d5-b04d-8d198c5620f3","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"4e2c4480-cfca-41c0-881f-a54186a137cc","route":"/api/v1/session/logout","status":403}
+{"event":"http_end","requestId":"5836a661-7e5d-4e51-9f54-5bd310e9bcc4","route":"/api/v1/session/logout","status":403}
+{"event":"http_end","requestId":"6ec57c24-ba8b-4db1-b937-2077627a8ada","route":"/api/v1/session/logout","status":403}
+{"event":"http_end","requestId":"83fb0a80-cd31-4008-9205-95f0fa559efb","route":"/api/v1/session/logout","status":403}
+{"event":"http_end","requestId":"126fa45f-00b6-4b8f-b05d-e90e52ac9ff9","route":"/api/v1/session/logout","status":200}
+{"event":"http_end","requestId":"c7a0ce1b-ffd3-4e4f-961f-f22631c34aee","route":"/api/v1/session","status":401}
+{"event":"http_end","requestId":"b369f7f9-fe84-470c-a0ea-78f6384f47c0","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"353698ef-944f-4201-b055-5c2512a85f69","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"cd288228-43fc-4cc3-839d-7c43f0c31f44","route":"/api/v1/session/max","status":401}
+✔ MAX-AUTH-08 logout revokes session and escrow; missing/wrong Origin and CSRF cannot log out (17.86431ms)
+{"event":"http_end","requestId":"69a4e98c-7f94-4a0f-9b22-66599397327d","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"087e1018-5ecc-46d3-9474-19b93e9f5947","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"92b8ffd7-318c-4c67-ab1a-0c7812df0cdd","route":"/api/v1/session","status":401}
+{"event":"http_end","requestId":"d6245d33-96e5-4f75-affe-9f5ab97d1d81","route":"/api/v1/session/max","status":401}
+{"event":"http_end","requestId":"f175157c-13e4-4503-a12b-bdb0558c4a5c","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"adbb58a6-9e26-4d3f-81ee-7a1184df3ee3","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"f48a7f89-bd3f-45a8-aa09-18f861cafb49","route":"/api/v1/session","status":401}
+{"event":"http_end","requestId":"cc6c29ff-0796-4232-a71d-8cb708a90179","route":"/api/v1/session/max","status":401}
+(node:61) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+✔ MAX-AUTH-09 idle and absolute expiry reject auth and exchange replay (17.274551ms)
+{"event":"http_end","requestId":"1a9e467a-6463-40cb-ae65-ebfd51086f92","route":"/api/v1/session/bootstrap","status":200}
+✔ MAX-AUTH-10 embedded cookie profile uses Secure SameSite=None Partitioned (13.010928ms)
+{"event":"http_end","requestId":"c7813f1f-547c-4e10-9405-90334de89357","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"8e570da9-cf33-4485-afe6-4b3d79826050","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"ec66aa10-42a3-43cc-bbd8-55a29b45a1bf","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"13b7acc2-9adf-41b2-8318-9aa42d9446eb","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"64408ab1-29f9-4ffb-bf2e-2d640542eead","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"911ba392-76f2-439f-ad78-d217c0b5270b","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"9a6dd9b1-f9cf-4dcb-b4f1-6ebffb67d3a6","route":"/api/v1/session/max","status":401}
+✔ MAX-AUTH-11 simultaneous same exchange is idempotent and cross-browser proof replay has one winner (16.152458ms)
+{"event":"http_end","requestId":"da05ea81-fef6-4244-9861-63dba9d7d805","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"3d7c6b28-27f4-4547-a501-9464d3f93747","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"01b0d135-e572-4d0e-b70e-cacd36ff567e","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"9c777edf-ceab-47b9-b24e-c297171a4299","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"b81b0fca-f078-43ba-b4fd-b7227216cb96","route":"/api/v1/session/max","status":401}
+✔ MAX-AUTH-12 same-account fresh launch rotates token; direct session revocation blocks escrow replay (12.825071ms)
+{"event":"http_end","requestId":"c00fd2eb-8f56-4551-a6f5-cbb83db2af1c","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"4f4e25ae-38f6-4860-9bc4-69860bc20168","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"a0ff2632-d4c2-45f8-b9dc-3f563c8c4fc0","route":"/api/v1/session","status":403}
+{"event":"http_end","requestId":"b49b935d-22e1-4b8f-99c7-e340d6b167af","route":"/api/v1/session","status":403}
+{"event":"http_end","requestId":"0e3a49da-8383-4fb1-a99c-caaf36542dff","route":"/api/v1/session","status":403}
+{"event":"http_end","requestId":"f5d8f21c-fd90-42eb-a9ec-869bd8293fb7","route":"/api/v1/session","status":200}
+{"event":"http_end","requestId":"27f36fde-e5c3-4310-9637-ce303ad93b76","route":"/api/ui/v1/session","status":403}
+{"event":"http_end","requestId":"c501952b-0246-4352-80fe-db9322d0c572","route":"/api/ui/v1/session","status":403}
+{"event":"http_end","requestId":"82462929-9dc9-4f5c-bcd7-5e6a2bdedf23","route":"/api/ui/v1/session","status":403}
+{"event":"http_end","requestId":"30b415a0-3c04-4a06-a5be-855dfa23e76c","route":"/api/ui/v1/session","status":200}
+✔ MAX-AUTH-13 authenticated reads retain Origin and fetch-site isolation (9.508104ms)
+(node:73) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"f7cde5bb-626e-4197-9997-d0f7c8fb7936","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"482c92bc-694b-4202-b98f-fc82d42bfbf1","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"76b9c07e-728a-45bb-8e16-7353c504d2a2","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"01431b41-87ed-4f3e-8e87-9282802131b5","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"c50be2bc-b903-437a-a3bb-655d3978dc3b","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"154726e8-98c2-438e-816b-2bb399a3b7b7","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"c467d3c5-d978-4ff4-bc4d-2134dfed636a","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"5f6c725e-7fb9-431e-8ac8-8bbfee25a140","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"1ff1ec82-e821-4e6a-b207-1f780bb5005f","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"4dd93abc-e042-4d27-92b0-8f9444bf1b12","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"9d57e210-2deb-46c4-bfd3-2ab4783ef474","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"ae92bf95-1280-468f-9740-d47546278a01","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"a3191363-eac5-481d-8322-f77e29272406","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"b6e0c727-745b-4d3e-bb00-dd43f4a76101","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"a73b22c7-6dff-424c-b0fa-25c117b8a033","route":"/api/v1/me/saved/resolve","status":200}
+{"event":"http_end","requestId":"1dc6b694-c5a1-436f-811c-060fbfc9265a","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"9e21f1be-9ee4-41df-b867-2922e894a0f4","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"e103f6b8-ddc2-47e1-ac0e-e0eef5b2f6c9","route":"/api/v1/me/saved","status":200}
+✔ Save: idempotent PUT, concurrent duplicates, deterministic list and canonical UNKNOWN facts (114.450729ms)
+{"event":"http_end","requestId":"5ca64ad9-c252-4174-b7be-39748a64cd0d","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"3addbf5b-826b-498e-823c-e444f7e50e1f","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"369904e7-e666-44d5-b55d-03a97c44d116","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"5c2d1663-5431-4124-ac55-3c861b168a72","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"283927a4-aaaf-47de-b379-e8c061fed1f0","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"0459387b-cb31-4cbd-b2f1-a19039b371d8","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"7a6a8bd1-54c3-4f8a-b5d1-3c0d1b5098bf","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"aa9ade5f-d6d9-446e-a640-0490c2e7b07a","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"31ca7554-c4a5-4bdd-9cc4-db26b14f6ae7","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"4f7c75a8-539f-4c2a-a785-4a7c6a9fbc87","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"d25279a2-574d-4640-8172-c67db854c3d8","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"55169693-ffd2-47d5-a85b-c2727bbcb625","route":"/api/v1/me/saved/:occurrenceId","status":404}
+{"event":"http_end","requestId":"aef9c43a-df65-4091-b188-f46b965b8507","route":"/api/v1/me/saved/:occurrenceId","status":400}
+{"event":"http_end","requestId":"684b849d-e8be-4611-84c5-c491ec06debd","route":"/api/v1/me/saved","status":401}
+{"event":"http_end","requestId":"8f9d65b0-9ff5-45fa-9e5b-7bfbc6425015","route":"/api/v1/me/saved/:occurrenceId","status":403}
+{"event":"http_end","requestId":"dd6280b2-e88e-4d66-8945-7cf1de2a6a5f","route":"/api/v1/me/saved/:occurrenceId","status":403}
+{"event":"http_end","requestId":"d38b2dab-009f-4666-874b-889a23f38893","route":"/api/v1/me/saved/:occurrenceId","status":400}
+✔ Save: DELETE converges, actor ownership, validation, session and Origin guards (31.229923ms)
+{"event":"http_end","requestId":"02ce6897-29eb-4d12-b828-d3b0ebe40bee","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"54f1d5d4-5f93-414f-9a94-6d5dc6d4f5cc","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"66d6e307-2780-4e97-b4b3-68ec899c70b0","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"770852e6-f9d2-4836-90fc-79909bc5df6d","route":"/api/v1/me/saved","status":200}
+✔ Save: conditional price stays conditional through persistence and API (10.233149ms)
+✔ T105 PG: Event has two durable occurrences with stable opaque UUID identities (40.553306ms)
+✔ T105 PG: repeated fetch and duplicate row do not multiply occurrences or semantic revisions (16.688105ms)
+✔ T105 PG: price update revises only stable occurrence; anonymous venue change creates new identity (25.411321ms)
+✔ T105 PG: partial and failed pages preserve existing facts; no false cancellation (18.044714ms)
+✔ T105 PG: zero-result run is query evidence and leaves prior occurrences intact (9.52664ms)
+✔ T105 PG: malformed item is quarantined while a valid sibling commits (13.380474ms)
+✔ T105 PG: SQL constraints reject invented end and unsupported FREE shape (22.08652ms)
+✔ T105 PG: verified native session identity survives reschedule and venue change (28.308818ms)
+✔ T105 PG: stale source sequence cannot overwrite newer canonical facts or freshness (21.600546ms)
+✔ T105 PG: 429 and provider 5xx are failed observations, never empty or cancellation (15.646249ms)
+✔ T105 PG: Event-only update has its own provenance and never refreshes an old session (12.30137ms)
+(node:96) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"387d3a23-1682-4d7c-83dc-6d036a53bcb9","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"e505beb4-52a6-4ab0-8c84-1f6199e6e76a","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"4a1daeb1-9b89-4d3a-a4cb-196f76946342","route":"/api/ui/v1/commands","status":409}
+{"event":"http_end","requestId":"c10755c7-4e5e-4ab0-8c4a-7d86da5b9257","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"d8cda0c5-ed27-4f3c-89b7-721d19e6bba0","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"a414401e-2d88-4565-83dd-0fa0b251e48e","route":"/api/v1/plans/:planId","status":200}
+{"event":"http_end","requestId":"dc4e74c7-abbc-429f-aadd-3f2fe4f8b0fa","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"173e7103-ed01-4ff4-8615-5f19f7cf7a97","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"bc6836ff-b148-4fc1-b838-a54423d5207d","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"a698a208-714b-4b21-be9c-49ba3933bdae","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"d176d148-99a6-4cf3-898b-cdef8d17e60f","route":"/api/v1/plans/:planId","status":404}
+✔ UI26-01 actual API personal -> 500+30 -> explicit group -> persisted edit -> replay, no implicit membership (128.154015ms)
+{"event":"http_end","requestId":"99fe0338-e22f-4251-af0d-aa9d429007f7","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"a991a5cb-e51f-4df6-9699-2abb1a80b919","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"50fa58a6-389f-4634-be5c-5849348b4d22","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"984badfd-23b4-4959-bce2-81bcdd2794b1","route":"/api/ui/v1/commands","status":422}
+{"event":"http_end","requestId":"87769dfb-3cce-41e5-bfaa-c5f7068e1496","route":"/api/ui/v1/view","status":200}
+✔ UI26-02 filter fields survive a new read; text rejection does not erase prior successful query (33.668149ms)
+{"event":"http_end","requestId":"b5add621-6949-4e95-bf3b-9385e74aef63","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"ed4b18bd-c734-464c-91b3-ef1d88f47adf","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"4802edaf-f66a-464a-b7e8-6733a7a4b763","route":"/api/ui/v1/view","status":200}
+✔ catalog finds a matching occurrence after 100 earlier nonmatching rows and opens detail (207.673678ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53511.073959

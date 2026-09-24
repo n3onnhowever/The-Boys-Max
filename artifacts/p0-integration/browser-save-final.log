@@ -1,0 +1,34 @@
+(node:21516) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"30760ce1-ce4a-4398-b4ea-d08aba51eb38","route":"/api/v1/session/bootstrap","status":200}
+{"event":"http_end","requestId":"c2648633-89e9-4978-a8e6-577aac5f603d","route":"/api/v1/session/max","status":200}
+{"event":"http_end","requestId":"4df6a066-d53c-4307-a971-1dc6c293204a","route":"/","status":200}
+{"event":"http_end","requestId":"0b7e2919-99a3-4998-967e-ab5d583d82af","route":"/assets/:name","status":200}
+{"event":"http_end","requestId":"806dbb9e-0709-42fc-9165-857e8681434f","route":"/assets/:name","status":200}
+{"event":"http_end","requestId":"92963d83-484d-4a2f-b5b6-da41d8c92970","route":"/api/v1/session","status":200}
+{"event":"http_end","requestId":"0e25b9b0-4cc9-4ccf-953a-8cf37c8c835f","status":404}
+{"event":"http_end","requestId":"2ddc1383-df8b-46ea-8b89-50aaaff4df16","status":404}
+{"event":"http_end","requestId":"748194e7-9172-4f1d-9be9-d90bed967178","status":404}
+{"event":"http_end","requestId":"c02a8b5a-678e-4890-b5cf-732bdfd61af0","route":"/api/ui/v1/session","status":200}
+{"event":"http_end","requestId":"8ed50508-9838-4b9f-a117-c7b30929f969","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"9f808c31-2f3e-40a0-be56-b2c08807542a","status":404}
+{"event":"http_end","requestId":"69a87296-f5f6-459c-941b-5ca0c0247274","status":404}
+{"event":"http_end","requestId":"ed23f006-da93-4857-bc4b-a0d2f61ecccd","status":404}
+{"event":"http_end","requestId":"485645fd-d042-47e4-97f7-fe6c8ca1a35f","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"c90a0b50-9e71-4d50-891b-9c913d35ad5e","route":"/api/v1/me/saved/resolve","status":200}
+{"event":"http_end","requestId":"ee8badc3-9a4e-4b92-978d-733f6f38f63e","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"6f620694-cb9e-490d-9fd2-1a941f523e4f","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"9fe1427f-c685-4f1f-869a-41c4bac9da49","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"659a803e-0505-4240-a854-ab9611f0ed13","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"687c8333-6995-4060-8aa0-080894eede22","route":"/","status":200}
+{"event":"http_end","requestId":"0bf508e7-075c-42b6-99e1-ebb929efdd5c","route":"/assets/:name","status":200}
+{"event":"http_end","requestId":"c66a5635-9097-48a4-9af2-0988da5d8764","route":"/assets/:name","status":200}
+{"event":"http_end","requestId":"c19adebc-0ddb-426d-8591-6af712c6a781","status":404}
+{"event":"http_end","requestId":"47576f1a-1de3-4e49-9dd1-a8d00d17db9a","status":404}
+{"event":"http_end","requestId":"87c82a06-3b77-4d46-92b0-5b6a498ecbd3","route":"/api/v1/session","status":200}
+{"event":"http_end","requestId":"94fc70f0-b7f2-482e-b222-3337cdafef56","route":"/api/ui/v1/session","status":200}
+{"event":"http_end","requestId":"74a8d66e-d56e-4e0c-8fff-7145e0d1bc4e","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"732e84b7-96bf-4bf3-96c3-61a9e1b811a5","status":404}
+{"event":"http_end","requestId":"0dea3a65-95c5-4b54-be5a-cfc8e39325c3","route":"/api/v1/me/saved/resolve","status":200}
+{"event":"http_end","requestId":"31b43a51-0243-46d1-a2bf-4f4d830646ab","route":"/api/v1/me/saved","status":200}
+PASS runtime authenticated Event Detail Save → canonical Saved → unsave/resave → reload → rejected mutation stays saved

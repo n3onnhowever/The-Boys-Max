@@ -1,0 +1,231 @@
+ Image p0-integration-final-migrate Building
+ Image p0-integration-final-prepare Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.10kB 0.0s done
+#1 DONE 0.0s
+
+#2 [migrate internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [migrate internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.1s
+
+#4 [prepare internal] load .dockerignore
+#4 transferring context: 1.20kB done
+#4 DONE 0.0s
+
+#5 [migrate build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [migrate internal] load build context
+#6 transferring context: 39.18kB 0.0s done
+#6 transferring context: 39.18kB 0.0s done
+#6 DONE 0.0s
+
+#7 [prepare build 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [prepare build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 CACHED
+
+#9 [migrate build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#10 [prepare build 5/6] COPY . .
+#10 DONE 0.1s
+
+#10 [migrate build 5/6] COPY . .
+#10 DONE 0.1s
+
+#11 [prepare build 6/6] RUN npm run build
+#11 0.331
+#11 0.331 > the-boys-afisha-integration@0.2.0-candidate build
+#11 0.331 > node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+#11 0.331
+#11 0.373 Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
+#11 5.795 vite v8.2.2 building client environment for production...
+#11 5.801 transforming...
+#11 5.870 ✓ 197 modules transformed.
+#11 5.954 rendering chunks...
+#11 5.997 computing gzip size...
+#11 6.001 dist/miniapp/index.html                              0.60 kB │ gzip:   0.37 kB
+#11 6.001 dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+#11 6.001 dist/miniapp/assets/index-B8-DSzec.css              60.25 kB │ gzip:  11.72 kB
+#11 6.001 dist/miniapp/assets/DesignPreview-Cus2hmGd.js       36.97 kB │ gzip:   9.98 kB
+#11 6.001 dist/miniapp/assets/leaflet-renderer-CT6qfO_N.js   150.63 kB │ gzip:  44.29 kB
+#11 6.001 dist/miniapp/assets/index-D1Un8ASr.js              387.93 kB │ gzip: 117.86 kB
+#11 6.001
+#11 6.001 ✓ built in 205ms
+#11 DONE 6.0s
+
+#12 [migrate] exporting to image
+#12 exporting layers
+#12 exporting layers 0.2s done
+#12 exporting manifest sha256:ea0008b45ac80317cca6a4dbe3bfc91f0288398fe3ca73a7340e29bce926fe3d 0.0s done
+#12 exporting config sha256:64d9c7dd5c3a79f9364e0ea9f6da6fb0b9a88348be13e7738539f55c1c43eece 0.0s done
+#12 exporting attestation manifest sha256:5f3977c19e900783634b9bcb763cb34cdab3ba413dc447b85e9673da3e33a4a4 0.0s done
+#12 exporting manifest list sha256:871b0a91de2fdcf2f461f422f2951e5ce0b333f1791f60dd3e7afd4d66de3a19 0.0s done
+#12 naming to docker.io/library/p0-integration-final-migrate:latest done
+#12 unpacking to docker.io/library/p0-integration-final-migrate:latest
+#12 unpacking to docker.io/library/p0-integration-final-migrate:latest 0.2s done
+#12 DONE 0.5s
+
+#13 [prepare] exporting to image
+#13 exporting layers 0.2s done
+#13 exporting manifest sha256:269af8169ba29c78ad8b3f59b2bd07c2295c6189a615d72d513c520f195f78b2 0.0s done
+#13 exporting config sha256:acb6e48fed58fbb798fbb43a38a4cdf92432a295a91d7839c6faca9f207be41e 0.0s done
+#13 exporting attestation manifest sha256:7294390fc268aaff3efd829778d3058e774c82b012b92a638f414f217230c6af 0.0s done
+#13 exporting manifest list sha256:fe39b9d25b787cc2197401af5569d509d0dc7bf9adb07da2ef08270806d86b0d 0.0s done
+#13 naming to docker.io/library/p0-integration-final-prepare:latest done
+#13 unpacking to docker.io/library/p0-integration-final-prepare:latest 0.2s done
+#13 DONE 0.5s
+
+#14 [prepare] resolving provenance for metadata file
+#14 DONE 0.0s
+
+#15 [migrate] resolving provenance for metadata file
+#15 DONE 0.0s
+ Image p0-integration-final-migrate Built
+ Image p0-integration-final-prepare Built
+ Container p0-integration-final-redis-1 Running
+ Container p0-integration-final-postgres-1 Running
+ Container p0-integration-final-migrate-1 Recreate
+ Container p0-integration-final-migrate-1 Recreated
+ Container p0-integration-final-prepare-1 Recreate
+ Container p0-integration-final-prepare-1 Recreated
+ Container p0-integration-final-init-1 Starting
+ Container p0-integration-final-init-1 Started
+ Container p0-integration-final-init-1 Waiting
+ Container p0-integration-final-postgres-1 Waiting
+ Container p0-integration-final-init-1 Exited
+ Container p0-integration-final-postgres-1 Healthy
+ Container p0-integration-final-migrate-1 Starting
+ Container p0-integration-final-migrate-1 Started
+ Container p0-integration-final-redis-1 Waiting
+ Container p0-integration-final-migrate-1 Waiting
+ Container p0-integration-final-redis-1 Healthy
+ Container p0-integration-final-migrate-1 Exited
+ Container p0-integration-final-prepare-1 Starting
+ Container p0-integration-final-prepare-1 Started
+ Image p0-integration-final-checks Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.56kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 1.20kB done
+#4 DONE 0.0s
+
+#5 [build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 15.79kB 0.0s done
+#6 DONE 0.0s
+
+#7 [build 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#8 CACHED
+
+#9 [build 3/6] COPY package.json package-lock.json .npmrc ./
+#9 CACHED
+
+#10 [build 5/6] COPY . .
+#10 CACHED
+
+#11 [build 6/6] RUN npm run build
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:fb79fff30e7f45aae7169526fc74278f02514dc9fe71a7a6011ecf48b0625ba5 done
+#12 exporting config sha256:ea6f8e8d238db5ca69a5c3f2c3cc77a4f415afa12e07a31a7925b073052d865c
+#12 exporting config sha256:ea6f8e8d238db5ca69a5c3f2c3cc77a4f415afa12e07a31a7925b073052d865c done
+#12 exporting attestation manifest sha256:5297d7b91fc4412e7e43d802be6c45f8b7e7932633edba499b5eb8f0270c047f done
+#12 exporting manifest list sha256:109eac4c4ab18f3fa5b59c0b39dbe58788581fd39b04ad934b6559827bf105b7 done
+#12 naming to docker.io/library/p0-integration-final-checks:latest done
+#12 unpacking to docker.io/library/p0-integration-final-checks:latest 0.0s done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ Image p0-integration-final-checks Built
+ Container p0-integration-final-prepare-1 Waiting
+ Container p0-integration-final-prepare-1 Exited
+ Container p0-integration-final-checks-run-e349e744f8d0 Creating
+ Container p0-integration-final-checks-run-e349e744f8d0 Created
+(node:13) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ desired commands and subscription have only the entry flow (1.897102ms)
+✔ command "/start" (0.184682ms)
+✔ command " /HELP " (0.101697ms)
+✔ command "/app" (0.091577ms)
+✔ command "/start locator" (0.29382ms)
+✔ command "/startle" (0.137209ms)
+✔ command "Привет" (0.224606ms)
+✔ command "" (0.125228ms)
+✔ welcome uses native open_app with bot identity and safe catalog payload (0.658716ms)
+✔ help has recovery, configured URL, published policy/about links (0.476153ms)
+✔ missing Mini App URL suppresses launch and never invents an address (0.398228ms)
+✔ optional policy links are absent until published (0.114558ms)
+✔ URLs are optional but production HTTPS is mandatory (0.966607ms)
+✔ canonical secret config is separate; legacy test config remains compatible (1.096045ms)
+✔ runtime config validates every configured product URL (0.740471ms)
+✔ bot_started accepts current first_name and legacy name without inferring app rights (1.624712ms)
+✔ lossless bot_started IDs and message_created commands retain exact recipient (0.644465ms)
+✔ event identity deduplicates message_created across webhook timestamps (0.58938ms)
+✔ destination fencing uses the source update time, not nested message or receipt time (0.354054ms)
+✔ groups, channels and bot echoes do not become personal destinations (0.381366ms)
+✔ malformed supported payloads fail closed; callbacks are unsupported (0.357284ms)
+{"event":"http_end","requestId":"d58301e5-3ad2-46f6-8250-b3840f413fa8","route":"/api/v1/max/webhook","status":403}
+{"event":"http_end","requestId":"f4f573db-aa43-401c-ba0e-0e32f23d2515","route":"/api/v1/max/webhook","status":403}
+✔ invalid or missing webhook secret returns 403 without a database connection (104.358492ms)
+✔ Mini App URL permits 1024 and rejects 1025 without narrowing unrelated URLs (0.322352ms)
+✔ runtime Detail exposes Save and reports rejected mutation without false success (208.272178ms)
+✔ runtime Saved model uses only server occurrences and preserves unknown facts (1.039212ms)
+✔ Saved render model remains explicit, deterministic and close to the approved screen (0.863119ms)
+✔ Saved segmented selection switches the visible deterministic collection (0.190013ms)
+✔ Saved state removes and re-saves an event without changing its event model (0.110517ms)
+✔ Saved screen renders the populated and empty saved states (261.414105ms)
+✔ Event is conceptual; two sessions yield two distinct occurrence proposals (12.347807ms)
+✔ anonymous aliases ignore array order, title, price and end; duplicate session does not multiply (1.039542ms)
+✔ conflicting duplicate aliases quarantine that identity and preserve siblings (1.004239ms)
+✔ T104 free admission with mandatory 700 RUB deposit is conditional and never free (0.468242ms)
+✔ explicit proven free, claimed free with unknown fees, numeric zero and missing price remain distinct (0.647024ms)
+✔ FROM and RANGE preserve bounds without inventing affordable ceiling (0.29036ms)
+✔ unknown fees and event-level scope cannot prove occurrence budget (0.214545ms)
+✔ null end, null place and venue without coordinates remain honest (0.974688ms)
+✔ invalid end is quarantined as a field, valid start survives (0.935304ms)
+✔ invalid start, timezone, impossible date and source URL isolate records (2.702026ms)
+✔ a malformed record is isolated and no page silently truncates 399 sessions (79.667353ms)
+✔ duplicate provider rows dedupe; conflicting rows quarantine both (2.720803ms)
+✔ T104 KudaGo null end, null place, 399 dates and actual_since do not create a cursor or fake facts (79.878487ms)
+✔ KudaGo conflicting expanded start quarantines only that date; page size is bounded (1.745045ms)
+✔ presentation exposes unknown/conditional/source-unavailable without fabricated end or venue (1.710928ms)
+✔ malformed nested provider fields are bounded and isolated from valid siblings (4.932515ms)
+✔ money overflow and contradictory no-fee evidence cannot enter canonical price (0.186533ms)
+✔ malformed coordinate child cannot erase a valid session sibling (0.43584ms)
+✔ ambiguous online place and contradictory venue format stay uncertain (0.600862ms)
+✔ RUB presentation preserves kopecks rather than truncating a known price (0.451501ms)
+✔ live source without explicit policy admission is rejected with a structured reason (0.089526ms)
+✔ invalid search HTTP 422 clears pending and corrected search succeeds without reload (15.168742ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 680.859285

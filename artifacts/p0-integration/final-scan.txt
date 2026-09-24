@@ -1,0 +1,1 @@
+PASS prohibited_paths=0 high_confidence_secret_hits=0 staged_files=31

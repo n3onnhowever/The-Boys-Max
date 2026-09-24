@@ -33,6 +33,8 @@ function start(actor=id()){return {actor,raw:`{"update_type":"bot_started","time
 function message(text:string,actor=id(),chatType='dialog',isBot=false){return {actor,raw:`{"update_type":"message_created","timestamp":${Date.now()},"message":{"timestamp":${Date.now()},"sender":{"user_id":${actor},"first_name":"SYNTHETIC","is_bot":${isBot}},"recipient":{"chat_id":${actor},"chat_type":"${chatType}"},"body":{"mid":"${randomUUID()}","text":${JSON.stringify(text)}}}}`};}
 const send=(raw:string,secret=c.webhookSecret)=>app.inject({method:'POST',url:'/api/v1/max/webhook',headers:{'content-type':'application/json','x-max-bot-api-secret':secret},payload:raw});
 async function rows(actor:string){return (await pool.query("SELECT o.* FROM outbox o JOIN actors a ON a.id=o.actor_id WHERE a.external_id=$1",[actor])).rows;}
+async function destination(actor:string){return (await pool.query<{chat_id:string;source_timestamp_ms:string;source_digest:string;verified_at:Date}>("SELECT d.chat_id,d.source_timestamp_ms,d.source_digest,d.verified_at FROM destinations d JOIN actors a ON a.id=d.actor_id WHERE a.external_id=$1",[actor])).rows[0];}
+function started(actor:string,chat:string,timestamp:number){return `{"update_type":"bot_started","timestamp":${timestamp},"chat_id":${chat},"user":{"user_id":${actor},"first_name":"SYNTHETIC","is_bot":false}}`;}
 async function delivered(actor:string){await reconcile(pool,queue);await until(async()=>(await rows(actor)).every(r=>r.state==='SUCCEEDED'));}
 
 before(async()=>{
@@ -54,6 +56,54 @@ test('real durable ACK for bot_started; BullMQ delivers current Russian copy and
  assert.equal(calls.filter(r=>r.chatId===x.actor).length,0);
  await delivered(x.actor);const sent=calls.find(r=>r.chatId===x.actor)!;
  assert.match(sent.text,/Повод/);assert.equal(sent.attachments?.[0]?.payload.buttons[0]?.[0]?.type,'open_app');
+});
+test('delayed older bot_started cannot replace a newer canonical destination',async()=>{
+ const actor=id(),newer=id(),older=id(),now=Date.now();
+ assert.equal((await send(started(actor,newer,now))).statusCode,200);
+ const first=await destination(actor);assert.equal(first?.chat_id,newer);assert.equal(first?.source_timestamp_ms,String(now));
+ assert.equal((await send(started(actor,older,now-1000))).statusCode,200);
+ assert.deepEqual(await destination(actor),first);
+ assert.equal((await rows(actor)).length,1,'stale chat cannot enqueue a welcome to the canonical chat');
+});
+test('older then newer source event advances destination and exact duplicate is inert',async()=>{
+ const actor=id(),older=id(),newer=id(),now=Date.now();
+ const oldRaw=started(actor,older,now-1000),newRaw=started(actor,newer,now);
+ assert.equal((await send(oldRaw)).json().duplicate,false);
+ assert.equal((await destination(actor))?.chat_id,older);
+ assert.equal((await send(newRaw)).json().duplicate,false);
+ const final=await destination(actor);assert.equal(final?.chat_id,newer);assert.equal(final?.source_timestamp_ms,String(now));
+ assert.equal((await send(oldRaw)).json().duplicate,true);
+ assert.equal((await send(newRaw)).json().duplicate,true);
+ assert.deepEqual(await destination(actor),final);
+ assert.equal((await rows(actor)).length,2);
+});
+test('competing destination updates serialize by source time, not commit order',async()=>{
+ const actor=id(),chats=Array.from({length:8},()=>id()),base=Date.now();
+ const responses=await Promise.all(chats.map((chat,i)=>send(started(actor,chat,base+i))));
+ assert.ok(responses.every(r=>r.statusCode===200));
+ assert.equal((await destination(actor))?.chat_id,chats.at(-1));
+ assert.equal((await destination(actor))?.source_timestamp_ms,String(base+7));
+});
+test('equal source time with conflicting chats keeps the first committed destination',async()=>{
+ const actor=id(),first=id(),other=id(),now=Date.now();
+ await send(started(actor,first,now));const saved=await destination(actor);
+ assert.equal((await send(started(actor,other,now))).statusCode,200);
+ assert.deepEqual(await destination(actor),saved);
+ assert.equal((await rows(actor)).length,1);
+ assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_TIMESTAMP_COLLISION' AND payload_hash=$1",[digest(Buffer.from(started(actor,other,now)).toString('base64'))])).rowCount,1);
+});
+test('legacy destination holds ambiguous delayed evidence until a post-verification event',async()=>{
+ const actor=id(),current=id(),delayed=id(),fresh=id(),now=Date.now();
+ const actorId=randomUUID();
+ await pool.query('INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3)',[actorId,actor,'SYNTHETIC']);
+ await pool.query('INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest) VALUES($1,$2,clock_timestamp(),$3)',[actorId,current,'SYNTHETIC_LEGACY']);
+ assert.equal((await send(started(actor,delayed,now-1000))).statusCode,200);
+ assert.equal((await destination(actor))?.chat_id,current);
+ assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_LEGACY_ORDER_UNKNOWN' AND payload_hash=$1",[digest(Buffer.from(started(actor,delayed,now-1000)).toString('base64'))])).rowCount,1);
+ assert.equal((await send(started(actor,fresh,now+60000))).statusCode,200);
+ assert.equal((await destination(actor))?.chat_id,fresh);
+ assert.equal((await destination(actor))?.source_timestamp_ms,String(now+60000));
+ assert.equal((await rows(actor)).length,1);
 });
 test('message_created routes start/help/app into durable bot replies',async()=>{
  for(const [text,purpose] of [['/start','WELCOME'],['/help','HELP'],['/app','APP'],['Привет','FALLBACK']]){

@@ -314,3 +314,7 @@
 
 # T105 migration hash must be identical on Windows and Linux checkouts.
 /migrations/0004_t105_catalog.sql text eol=lf
+
+# Preserve accepted Save and integrated MAX migration hashes across Windows/Linux.
+/migrations/0005_saved_occurrences.sql text eol=lf
+/migrations/0006_max_destination_fencing.sql text eol=lf

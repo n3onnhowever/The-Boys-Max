@@ -52,7 +52,7 @@ export function botMessage(purpose:string,config:BotConfig):BotMessage {
 }
 
 export interface BotReply {actorId:string;name:string;chatId:string;purpose:BotPurpose;}
-export interface BotUpdate {kind:string;key:string;reply:BotReply|null;}
+export interface BotUpdate {kind:string;key:string;sourceTimestampMs:string;reply:BotReply|null;}
 function userName(user:Record<string,unknown>):string {
  // Current schema uses first_name; older official start examples still contain deprecated name.
  return boundedText(user.first_name??user.name);
@@ -65,7 +65,7 @@ export function parseBotUpdate(wire:Record<string,unknown>):BotUpdate|undefined 
   const user=obj(wire.user),actorId=int64(user.user_id,true),chatId=int64(wire.chat_id);
   requireThat(user.is_bot===undefined||typeof user.is_bot==='boolean','BOT_FLAG_INVALID');
   if(wire.payload!==undefined&&wire.payload!==null)requireThat(typeof wire.payload==='string'&&wire.payload.length<=512,'START_PAYLOAD_INVALID');
-  return {kind,key:digest(`${kind}:${actorId}:${chatId}:${timestamp}`),reply:user.is_bot===true?null:{actorId,name:userName(user),chatId,purpose:'WELCOME'}};
+  return {kind,key:digest(`${kind}:${actorId}:${chatId}:${timestamp}`),sourceTimestampMs:timestamp,reply:user.is_bot===true?null:{actorId,name:userName(user),chatId,purpose:'WELCOME'}};
  }
  const message=obj(wire.message),recipient=obj(message.recipient),body=obj(message.body);
  const chatId=int64(recipient.chat_id),mid=boundedText(body.mid,256);
@@ -73,10 +73,10 @@ export function parseBotUpdate(wire:Record<string,unknown>):BotUpdate|undefined 
  requireThat(['dialog','chat','channel'].includes(String(recipient.chat_type)),'CHAT_TYPE_INVALID');
  const key=digest(`${kind}:${chatId}:${mid}`);
  // A group/channel is never a verified personal destination. Bot echoes never trigger another reply.
- if(recipient.chat_type!=='dialog')return {kind,key,reply:null};
+ if(recipient.chat_type!=='dialog')return {kind,key,sourceTimestampMs:timestamp,reply:null};
  const sender=obj(message.sender),actorId=int64(sender.user_id,true);
  requireThat(typeof sender.is_bot==='boolean','BOT_FLAG_INVALID');
- if(sender.is_bot)return {kind,key,reply:null};
+ if(sender.is_bot)return {kind,key,sourceTimestampMs:timestamp,reply:null};
  requireThat(body.text===null||body.text===undefined||typeof body.text==='string'&&body.text.length<=4000,'MESSAGE_TEXT_INVALID');
- return {kind,key,reply:{actorId,name:userName(sender),chatId,purpose:botPurpose(body.text as string|null|undefined)}};
+ return {kind,key,sourceTimestampMs:timestamp,reply:{actorId,name:userName(sender),chatId,purpose:botPurpose(body.text as string|null|undefined)}};
 }

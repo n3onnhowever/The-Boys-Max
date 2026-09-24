@@ -1,0 +1,196 @@
+ Image p0-integration-accept-migrate Building
+ Image p0-integration-accept-prepare Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.10kB 0.0s done
+#1 DONE 0.0s
+
+#2 [prepare internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [prepare internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.1s
+
+#4 [migrate internal] load .dockerignore
+#4 transferring context:
+#4 transferring context: 1.20kB done
+#4 DONE 0.1s
+
+#5 [migrate build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [prepare internal] load build context
+#6 transferring context: 23.95kB 0.0s done
+#6 DONE 0.0s
+
+#7 [migrate build 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [migrate build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 CACHED
+
+#9 [migrate build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#10 [migrate build 5/6] COPY . .
+#10 DONE 0.2s
+
+#10 [migrate build 5/6] COPY . .
+#10 DONE 0.2s
+
+#11 [migrate build 6/6] RUN npm run build
+#11 0.382
+#11 0.382 > the-boys-afisha-integration@0.2.0-candidate build
+#11 0.382 > node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+#11 0.382
+#11 0.430 Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
+#11 6.046 vite v8.2.2 building client environment for production...
+#11 6.052 transforming...
+#11 6.125 ✓ 197 modules transformed.
+#11 6.209 rendering chunks...
+#11 6.254 computing gzip size...
+#11 6.257 dist/miniapp/index.html                              0.60 kB │ gzip:   0.37 kB
+#11 6.257 dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+#11 6.257 dist/miniapp/assets/index-B8-DSzec.css              60.25 kB │ gzip:  11.72 kB
+#11 6.257 dist/miniapp/assets/DesignPreview-Cus2hmGd.js       36.97 kB │ gzip:   9.98 kB
+#11 6.257 dist/miniapp/assets/leaflet-renderer-CT6qfO_N.js   150.63 kB │ gzip:  44.29 kB
+#11 6.257 dist/miniapp/assets/index-D1Un8ASr.js              387.93 kB │ gzip: 117.86 kB
+#11 6.257
+#11 6.258 ✓ built in 211ms
+#11 DONE 6.3s
+
+#12 [prepare] exporting to image
+#12 exporting layers
+#12 exporting layers 0.2s done
+#12 exporting manifest sha256:22d9a4e55797696c3345a222a1da9e99691aa4ad04bbd6ace4b564d14004aba1 done
+#12 exporting config sha256:86866f8ac88b9aa6f0e193066ff43f124130f9afdd8f632cef6bc50c5f6f0e22 0.0s done
+#12 exporting attestation manifest sha256:5cb902645f970b7bf866dd56452813279cdc95cee422bca32f0431a57084a05d 0.0s done
+#12 exporting manifest list sha256:52bd90601fcd622b7df21f6589bf334f1012c11bbeae4488b1b8d209df81c6b2 0.0s done
+#12 naming to docker.io/library/p0-integration-accept-prepare:latest done
+#12 unpacking to docker.io/library/p0-integration-accept-prepare:latest
+#12 unpacking to docker.io/library/p0-integration-accept-prepare:latest 0.2s done
+#12 DONE 0.5s
+
+#13 [migrate] exporting to image
+#13 exporting layers 0.2s done
+#13 exporting manifest sha256:6bf03dcc5cac68fbde920d1918da4180c3c97493e5fca56db5b870aac5f21763 0.0s done
+#13 exporting config sha256:e9fb7d8b322bbdc8661ecae1de090890bdd0ee526d02163df0751e1606de8e94 0.0s done
+#13 exporting attestation manifest sha256:2e5db67fef271cac9df8abd935cdabcb0438c78006e070ed3e441ccc22ea6598 0.0s done
+#13 exporting manifest list sha256:ee22836036f7645cb352782281418fcbdb74ec7dabe9cc6559947c637e8edb81 0.0s done
+#13 naming to docker.io/library/p0-integration-accept-migrate:latest done
+#13 unpacking to docker.io/library/p0-integration-accept-migrate:latest 0.2s done
+#13 DONE 0.5s
+
+#14 [migrate] resolving provenance for metadata file
+#14 DONE 0.0s
+
+#15 [prepare] resolving provenance for metadata file
+#15 DONE 0.0s
+ Image p0-integration-accept-migrate Built
+ Image p0-integration-accept-prepare Built
+ Volume p0-integration-accept_runtime Creating
+ Volume p0-integration-accept_redisdata Creating
+ Volume p0-integration-accept_runtime Creating
+ Volume p0-integration-accept_pgdata Creating
+ Network p0-integration-accept_test Creating
+ Volume p0-integration-accept_pgdata Creating
+ Volume p0-integration-accept_redisdata Creating
+ Network p0-integration-accept_test Creating
+ Volume p0-integration-accept_pgdata Created
+ Volume p0-integration-accept_pgdata Created
+ Volume p0-integration-accept_runtime Created
+ Volume p0-integration-accept_runtime Created
+ Volume p0-integration-accept_redisdata Created
+ Volume p0-integration-accept_redisdata Created
+ Network p0-integration-accept_test Created
+ Network p0-integration-accept_test Created
+ Container p0-integration-accept-init-1 Creating
+ Container p0-integration-accept-redis-1 Creating
+ Container p0-integration-accept-postgres-1 Creating
+ Container p0-integration-accept-init-1 Created
+ Container p0-integration-accept-postgres-1 Created
+ Container p0-integration-accept-migrate-1 Creating
+ Container p0-integration-accept-redis-1 Created
+ Container p0-integration-accept-migrate-1 Created
+ Container p0-integration-accept-prepare-1 Creating
+ Container p0-integration-accept-prepare-1 Created
+ Container p0-integration-accept-redis-1 Starting
+ Container p0-integration-accept-postgres-1 Starting
+ Container p0-integration-accept-init-1 Starting
+ Container p0-integration-accept-redis-1 Started
+ Container p0-integration-accept-postgres-1 Started
+ Container p0-integration-accept-init-1 Started
+ Container p0-integration-accept-init-1 Waiting
+ Container p0-integration-accept-postgres-1 Waiting
+ Container p0-integration-accept-init-1 Exited
+ Container p0-integration-accept-postgres-1 Healthy
+ Container p0-integration-accept-migrate-1 Starting
+ Container p0-integration-accept-migrate-1 Started
+ Container p0-integration-accept-redis-1 Waiting
+ Container p0-integration-accept-migrate-1 Waiting
+ Container p0-integration-accept-redis-1 Healthy
+ Container p0-integration-accept-migrate-1 Exited
+ Container p0-integration-accept-prepare-1 Starting
+ Container p0-integration-accept-prepare-1 Started
+ Image p0-integration-accept-checks Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.57kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 1.20kB done
+#4 DONE 0.0s
+
+#5 [build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 15.79kB 0.0s done
+#6 DONE 0.0s
+
+#7 [build 3/6] COPY package.json package-lock.json .npmrc ./
+#7 CACHED
+
+#8 [build 2/6] WORKDIR /app
+#8 CACHED
+
+#9 [build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#10 [build 5/6] COPY . .
+#10 CACHED
+
+#11 [build 6/6] RUN npm run build
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:56cdbd7829d020031fdaad333a499f66af468aa5b0bfe787743e1bec187c4fda done
+#12 exporting config sha256:f2a4e50dd0710cf01ba20a6b2f95a3e5508e842e077a15955251fb4247104ee7
+#12 exporting config sha256:f2a4e50dd0710cf01ba20a6b2f95a3e5508e842e077a15955251fb4247104ee7 done
+#12 exporting attestation manifest sha256:bd0d169142012df93f1219be7dffc2ce99741d5b78e2453f0aeae69f7a6ee36d 0.0s done
+#12 exporting manifest list sha256:3360fc4daebcdc8c171ae905a10a9f0a450f5195f476dc63d928ea02833a9a3d done
+#12 naming to docker.io/library/p0-integration-accept-checks:latest done
+#12 unpacking to docker.io/library/p0-integration-accept-checks:latest 0.0s done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ Image p0-integration-accept-checks Built
+ Container p0-integration-accept-prepare-1 Waiting
+ Container p0-integration-accept-prepare-1 Exited
+ Container p0-integration-accept-checks-run-a49eb99766bc Creating
+ Container p0-integration-accept-checks-run-a49eb99766bc Created
+{"postgresql":"18.6 (Debian 18.6-1.pgdg13+2)","migrations":["0001_foundation.sql","0002_integration.sql","0003_ui_journal.sql","0004_t105_catalog.sql","0005_saved_occurrences.sql","0006_max_destination_fencing.sql"]}
+{"scenario":"fresh","dbName":"povod_int_fresh_ce65a53e","applied":["0001","0002","0003","0004","0005","0006"],"rerunApplied":0,"ledger":[{"id":"0001","sha256":"ac3786d17bc26c236a3758581ec8eceb0702d664fdec62c855d50e4ce932690a"},{"id":"0002","sha256":"aa8b9463feb1fa89a439554d471cc997d2a4848f61840bd90ac883cd3bc34131"},{"id":"0003","sha256":"8921707da9b6bdd96c816adb17d46dfa7668b25ea9af620afea8c3910f31cbf3"},{"id":"0004","sha256":"d14cef7b400fc9eb78fac5f81a2cef8e78519afd448160ec8c0d8e6865cb829e"},{"id":"0005","sha256":"d8ee7951ff03e719e06516fe43e992d9141b962897ba1b601b565acd700cc337"},{"id":"0006","sha256":"75769aec2b34f4e937aa9cdab3b177a3177c0ebbdb530a9fec8de66fa899d8fc"}],"sourceTimestampColumns":2}
+{"scenario":"t105_upgrade","dbName":"povod_int_t105_upgrade_69e095d6","applied":["0005","0006"],"rerunApplied":0,"ledger":[{"id":"0001","sha256":"ac3786d17bc26c236a3758581ec8eceb0702d664fdec62c855d50e4ce932690a"},{"id":"0002","sha256":"aa8b9463feb1fa89a439554d471cc997d2a4848f61840bd90ac883cd3bc34131"},{"id":"0003","sha256":"8921707da9b6bdd96c816adb17d46dfa7668b25ea9af620afea8c3910f31cbf3"},{"id":"0004","sha256":"d14cef7b400fc9eb78fac5f81a2cef8e78519afd448160ec8c0d8e6865cb829e"},{"id":"0005","sha256":"d8ee7951ff03e719e06516fe43e992d9141b962897ba1b601b565acd700cc337"},{"id":"0006","sha256":"75769aec2b34f4e937aa9cdab3b177a3177c0ebbdb530a9fec8de66fa899d8fc"}],"sourceTimestampColumns":2}
+{"scenario":"save_upgrade","dbName":"povod_int_save_upgrade_c5a2b418","applied":["0006"],"rerunApplied":0,"ledger":[{"id":"0001","sha256":"ac3786d17bc26c236a3758581ec8eceb0702d664fdec62c855d50e4ce932690a"},{"id":"0002","sha256":"aa8b9463feb1fa89a439554d471cc997d2a4848f61840bd90ac883cd3bc34131"},{"id":"0003","sha256":"8921707da9b6bdd96c816adb17d46dfa7668b25ea9af620afea8c3910f31cbf3"},{"id":"0004","sha256":"d14cef7b400fc9eb78fac5f81a2cef8e78519afd448160ec8c0d8e6865cb829e"},{"id":"0005","sha256":"d8ee7951ff03e719e06516fe43e992d9141b962897ba1b601b565acd700cc337"},{"id":"0006","sha256":"75769aec2b34f4e937aa9cdab3b177a3177c0ebbdb530a9fec8de66fa899d8fc"}],"sourceTimestampColumns":2}

@@ -82,6 +82,10 @@ test('event identity deduplicates message_created across webhook timestamps',()=
  assert.equal(decode(created)?.key,decode({...created,timestamp:1800000000999})?.key);
  assert.notEqual(decode(created)?.key,decode({...created,message:{...created.message,body:{mid:'next-mid',text:'/start'}}})?.key);
 });
+test('destination fencing uses the source update time, not nested message or receipt time',()=>{
+ assert.equal(decode(started)?.sourceTimestampMs,'1800000000000');
+ assert.equal(decode({...created,timestamp:1800000000999})?.sourceTimestampMs,'1800000000999');
+});
 test('groups, channels and bot echoes do not become personal destinations',()=>{
  for(const chat_type of ['chat','channel'])
   assert.equal(decode({...created,message:{...created.message,sender:undefined,recipient:{chat_id:123,chat_type}}})?.reply,null);

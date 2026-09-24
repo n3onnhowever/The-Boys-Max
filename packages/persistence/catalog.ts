@@ -66,6 +66,7 @@ export function catalogService(pool:Pool,mode:'test'|'live') {
       id=CASE WHEN catalog_choices.expires_at<=clock_timestamp() THEN EXCLUDED.id ELSE catalog_choices.id END,
       expires_at=CASE WHEN catalog_choices.expires_at<=clock_timestamp() THEN EXCLUDED.expires_at ELSE catalog_choices.expires_at END RETURNING id`,[randomUUID(),subject.actor_id,subject.session_id,ctx.id,ctx.revision,c.provenance.observation_id]);
     items.push({candidate:c,eligibility:e,offerId:offer.rows[0]!.id,contextRevision:ctx.revision});
+    if(items.length>=100)break;
     }
     if(ref||r.rows.length<100||items.length>=100)break;
     cursor=r.rows.at(-1)!.observation_id;

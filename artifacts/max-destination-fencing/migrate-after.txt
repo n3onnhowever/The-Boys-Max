@@ -1,0 +1,86 @@
+ Container max-destination-fencing-postgres-1 Running
+ Container max-destination-fencing-init-1 Starting
+ Container max-destination-fencing-init-1 Started
+ Image max-destination-fencing-migrate Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 610B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 1.20kB done
+#4 DONE 0.0s
+
+#5 [build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 36.70kB 0.0s done
+#6 DONE 0.0s
+
+#7 [build 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 CACHED
+
+#9 [build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#10 [build 5/6] COPY . .
+#10 DONE 0.1s
+
+#11 [build 6/6] RUN npm run build
+#11 0.308
+#11 0.308 > the-boys-afisha-integration@0.2.0-candidate build
+#11 0.308 > node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+#11 0.308
+#11 0.350 Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
+#11 5.693 vite v8.2.2 building client environment for production...
+#11 5.703 transforming...
+#11 5.776 ✓ 195 modules transformed.
+#11 5.863 rendering chunks...
+#11 5.906 computing gzip size...
+#11 5.910 dist/miniapp/index.html                              0.60 kB │ gzip:   0.37 kB
+#11 5.910 dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+#11 5.910 dist/miniapp/assets/index-B8-DSzec.css              60.25 kB │ gzip:  11.72 kB
+#11 5.910 dist/miniapp/assets/DesignPreview-D0ql-iiw.js       39.64 kB │ gzip:  10.56 kB
+#11 5.910 dist/miniapp/assets/leaflet-renderer-Nh_jUyXD.js   150.63 kB │ gzip:  44.29 kB
+#11 5.910 dist/miniapp/assets/index-CQ2337fU.js              379.20 kB │ gzip: 115.53 kB
+#11 5.910
+#11 5.910 ✓ built in 216ms
+#11 DONE 5.9s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 0.2s done
+#12 exporting manifest sha256:8065df92c7fade48e782201b21cbdd84293dcab0f8e68b21be24c016cdec3787 done
+#12 exporting config sha256:021335b46b2af4a85eee0526bf99b717724a8d5a80332d5d8cdea609e38dc961 done
+#12 exporting attestation manifest sha256:a7c99627570183f2cd20416a858676258f34111bd7bc23c49c6d8097b25dd27b done
+#12 exporting manifest list sha256:0894555d202a316ee0d2cd1ffcbb367154d13c5bdf1adeb5d947c12b959ca637 done
+#12 naming to docker.io/library/max-destination-fencing-migrate:latest done
+#12 unpacking to docker.io/library/max-destination-fencing-migrate:latest
+#12 unpacking to docker.io/library/max-destination-fencing-migrate:latest 0.2s done
+#12 DONE 0.5s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ Image max-destination-fencing-migrate Built
+ Container max-destination-fencing-postgres-1 Waiting
+ Container max-destination-fencing-init-1 Waiting
+ Container max-destination-fencing-postgres-1 Healthy
+ Container max-destination-fencing-init-1 Exited
+ Container max-destination-fencing-migrate-run-ce6de30a6401 Creating
+ Container max-destination-fencing-migrate-run-ce6de30a6401 Created
+
+> the-boys-afisha-integration@0.2.0-candidate migrate
+> node --experimental-strip-types scripts/migrate.ts
+
+{"migration":"0004","status":"APPLIED","sha256":"75769aec2b34f4e937aa9cdab3b177a3177c0ebbdb530a9fec8de66fa899d8fc"}

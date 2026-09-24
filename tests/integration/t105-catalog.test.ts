@@ -6,7 +6,7 @@ import {hash,type SourceRecord,type SourcePrice,type SourceSession} from '../../
 import {canonicalCatalog} from '../../packages/persistence/canonical-catalog.ts';
 
 const url=process.env.T105_TEST_DATABASE_URL;
-assert.ok(url&&['127.0.0.1','postgres'].includes(new URL(url).hostname)&&new URL(url).pathname.startsWith('/povod_t105_'),'T105 isolated PostgreSQL test URL required');
+assert.ok(url&&['127.0.0.1','postgres'].includes(new URL(url).hostname)&&(new URL(url).pathname.startsWith('/povod_t105_')||new URL(url).pathname.startsWith('/povod_int_t105_upgrade_')),'T105 isolated PostgreSQL test URL required');
 const pool=new pg.Pool({connectionString:url,max:3});
 const repo=canonicalCatalog(pool),sourceId='synthetic:t105:'+randomUUID(),scope=hash('synthetic scope');
 const policy={allowedHosts:['example.org'],allowLive:false};
