@@ -1,0 +1,19 @@
+✔ T105 PG: Event has two durable occurrences with stable opaque UUID identities (60.1169ms)
+✔ T105 PG: repeated fetch and duplicate row do not multiply occurrences or semantic revisions (32.6815ms)
+✔ T105 PG: price update revises only stable occurrence; anonymous venue change creates new identity (52.6435ms)
+✔ T105 PG: partial and failed pages preserve existing facts; no false cancellation (39.7311ms)
+✔ T105 PG: zero-result run is query evidence and leaves prior occurrences intact (22.5558ms)
+✔ T105 PG: malformed item is quarantined while a valid sibling commits (26.3848ms)
+✔ T105 PG: SQL constraints reject invented end and unsupported FREE shape (26.1978ms)
+✔ T105 PG: verified native session identity survives reschedule and venue change (61.2931ms)
+✔ T105 PG: stale source sequence cannot overwrite newer canonical facts or freshness (49.5702ms)
+✔ T105 PG: 429 and provider 5xx are failed observations, never empty or cancellation (32.6594ms)
+✔ T105 PG: Event-only update has its own provenance and never refreshes an old session (26.7247ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 541.4663

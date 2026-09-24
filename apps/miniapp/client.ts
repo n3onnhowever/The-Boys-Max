@@ -12,6 +12,13 @@ export async function api<T>(path:string,body?:unknown,key?:string):Promise<T>{
  if(!path.startsWith('/api/')||path.startsWith('//'))throw new Error('SAME_ORIGIN_REQUIRED');
  return data<T>(await fetch(path,{...options(),method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json','X-CSRF-Token':csrf,...(key?{'Idempotency-Key':key}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})}));
 }
+export async function savedMutation(occurrenceId:string,saved:boolean):Promise<{saved:boolean}>{
+ if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(occurrenceId))throw new Error('OCCURRENCE_ID_INVALID');
+ return data(await fetch('/api/v1/me/saved/'+encodeURIComponent(occurrenceId),{
+  ...options(),method:saved?'PUT':'DELETE',
+  headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:'{}'
+ }));
+}
 export async function initialize(raw:string|null=launchData()):Promise<Session>{
  csrf='';
  // A fresh MAX launch must bind the cookie to its verified identity, including after account switching.

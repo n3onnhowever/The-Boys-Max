@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import type { SavedSegment, SavedViewModel } from '../view-model/saved.ts';
 import { createSavedUiState, savedEventById, savedEventsForSegment, savedUiReducer } from '../view-model/saved.ts';
 import { AppViewport, Screen } from './AppShell.tsx';
@@ -12,10 +12,23 @@ interface SavedScreenProps {
   onEventOpen?: (eventId: string) => void;
   onNavigate?: (id: string) => void;
   onNotifications?: () => void;
+  onToggleSaved?: (eventId:string,saved:boolean)=>Promise<void>;
 }
 
-export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, onNavigate, onNotifications }: SavedScreenProps) {
+export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, onNavigate, onNotifications, onToggleSaved }: SavedScreenProps) {
   const [state, dispatch] = useReducer(savedUiReducer, undefined, () => createSavedUiState(model, initialSegment));
+  const [pending,setPending]=useState<string|null>(null);
+  const pendingRef=useRef(false);
+  const [error,setError]=useState<string|null>(null);
+  const toggle=(eventId:string)=>{
+    if(!onToggleSaved){dispatch({type:'TOGGLE_SAVED',eventId});return;}
+    if(pendingRef.current)return;
+    pendingRef.current=true;
+    setPending(eventId);setError(null);
+    void onToggleSaved(eventId,!state.savedEventIds.includes(eventId)).then(()=>dispatch({type:'TOGGLE_SAVED',eventId}))
+      .catch(()=>setError('Не удалось изменить сохранение. Повторите попытку.'))
+      .finally(()=>{pendingRef.current=false;setPending(null);});
+  };
   const events = savedEventsForSegment(model, state);
   const removedEvent = savedEventById(model, state.lastRemovedEventId);
   return <AppViewport>
@@ -50,7 +63,7 @@ export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, o
           savedEventIds={state.savedEventIds}
           ariaLabel="Сохранённые события"
           onOpen={onEventOpen}
-          onSave={eventId => dispatch({ type: 'TOGGLE_SAVED', eventId })}
+          onSave={pending ? undefined : toggle}
         /> : <div className="saved-empty" role="status">
           <Icon name="heart" />
           <h2>Пока ничего нет</h2>
@@ -59,8 +72,9 @@ export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, o
       </section>
       {removedEvent ? <div className="saved-undo" role="status" aria-live="polite">
         <span>«{removedEvent.title}» убрано</span>
-        <button type="button" onClick={() => dispatch({ type: 'TOGGLE_SAVED', eventId: removedEvent.id })}>Вернуть</button>
+        <button type="button" disabled={Boolean(pending)} onClick={() => toggle(removedEvent.id)}>Вернуть</button>
       </div> : null}
+      {error && <p role="alert">{error}</p>}
     </Screen>
     <BottomNav active="profile" onSelect={onNavigate} />
   </AppViewport>;

@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { attachBack } from '../bridge.ts';
 import type { ViewController } from './core/controller.ts';
 import type { ClipboardPort } from './core/links.ts';
@@ -8,6 +8,8 @@ import { EventDetail } from './components/EventDetail.tsx';
 import { PlanPanel } from './components/PlanPanel.tsx';
 import { InvitePanel } from './components/InvitePanel.tsx';
 import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
+import { NavigationProvider } from './components/BottomNav.tsx';
+import { SavedRuntime } from './components/SavedRuntime.tsx';
 import { HOME_SYSTEM_CHROME, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
 
 export interface AppProps {
@@ -19,6 +21,7 @@ export interface AppProps {
 }
 
 export function App({ controller, origins, clipboard, renderMap, entry }: AppProps) {
+  const [savedPage,setSavedPage]=useState(false);
   const state = useSyncExternalStore(controller.subscribe, controller.getSnapshot, controller.getSnapshot);
   const { view } = state;
   const busy = ['loading', 'submitting', 'uncertain', 'offline'].includes(state.phase);
@@ -40,6 +43,10 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
 
   // Login and ambiguous mutation outcomes must remain visible before any retained view.
   const criticalError = state.error && ['auth-failed', 'expired', 'uncertain'].includes(state.phase);
+  const navigation={availableIds:['home','profile'],onSelect:(id:string)=>{
+    if(id==='profile')setSavedPage(true);
+    if(id==='home'){setSavedPage(false);void controller.load({kind:'CATALOG',scope:{kind:'PERSONAL'}});}
+  }};
   if (entry || criticalError) {
     const title = entry ? 'Не удалось войти'
       : state.phase === 'auth-failed' ? 'Нужно войти снова'
@@ -56,6 +63,7 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
       </main>
     </>;
   }
+  if(savedPage)return <NavigationProvider value={navigation}><SavedRuntime onHome={()=>navigation.onSelect('home')} origins={origins} /></NavigationProvider>;
 
   if (!view && state.phase === 'loading') return <HomeSystemScreen state={loadingSystemState()} chrome={HOME_SYSTEM_CHROME} />;
   if (!view && state.phase === 'offline') return <HomeSystemScreen
@@ -71,8 +79,8 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
       if (action === 'return-home') void controller.load({ kind: 'CATALOG', scope: { kind: 'PERSONAL' } });
     }}
   />;
-  if (view?.kind === 'CATALOG') return <EventsList view={view} controller={controller} state={state} busy={busy} />;
-  if (view?.kind === 'EVENT' && !state.error) return <EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} />;
+  if (view?.kind === 'CATALOG') return <NavigationProvider value={navigation}><EventsList view={view} controller={controller} state={state} busy={busy} /></NavigationProvider>;
+  if (view?.kind === 'EVENT' && !state.error) return <NavigationProvider value={navigation}><EventDetail key={view.event.ref.offerId} view={view} controller={controller} busy={busy} origins={origins} /></NavigationProvider>;
 
   return <>
     <a className="skip-link" href="#main">К содержимому</a>

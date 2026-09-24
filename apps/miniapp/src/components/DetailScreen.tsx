@@ -19,13 +19,18 @@ interface DetailScreenProps {
   onPlan?: () => void;
   onNavigate?: (target: string) => void;
   planPanel?: ReactNode;
+  savedState?: boolean;
+  onSave?: () => void;
+  saveBusy?: boolean;
+  saveError?: string | null;
 }
 
-export function DetailScreen({ model, busy = false, activeNav = 'home', onBack, onPlan, onNavigate, planPanel }: DetailScreenProps) {
+export function DetailScreen({ model, busy = false, activeNav = 'home', onBack, onPlan, onNavigate, planPanel, savedState, onSave, saveBusy = false, saveError }: DetailScreenProps) {
   const [saved, setSaved] = useState(model.saved);
   const [announcement, setAnnouncement] = useState('');
   const designNotice = (message: string) => setAnnouncement(`Дизайн-пример: ${message}`);
-  const saveAction = model.saveCapability === 'DESIGN_ONLY'
+  const currentSaved=savedState??saved;
+  const saveAction = model.saveCapability === 'AVAILABLE' ? onSave??null : model.saveCapability === 'DESIGN_ONLY'
     ? () => { setSaved(value => !value); designNotice(saved ? 'событие убрано из сохранённых' : 'событие сохранено локально только для предпросмотра'); }
     : null;
   const shareAction = model.shareCapability === 'DESIGN_ONLY'
@@ -47,20 +52,21 @@ export function DetailScreen({ model, busy = false, activeNav = 'home', onBack, 
         venueLabel={model.heroVenueLabel}
         artwork={model.heroArtwork}
         artworkAlt={model.heroArtworkAlt}
-        saved={saved}
+        saved={currentSaved}
         onBack={busy ? null : onBack ?? null}
         onShare={busy ? null : shareAction}
-        onSave={busy ? null : saveAction}
+        onSave={busy || saveBusy ? null : saveAction}
       />
       <EventDetailSurface tags={model.tags} description={model.description}>
         <OccurrenceTimeRow occurrence={model.occurrence} />
         <VenueRow venue={model.venue} />
         <PriceRow price={model.price} />
         <SourceRow source={model.source} />
-        <DetailActionBar primary={model.primaryAction} saved={saved} busy={busy} onPrimary={primaryAction} onSave={saveAction} onPlan={planAction} />
+        <DetailActionBar primary={model.primaryAction} saved={currentSaved} busy={busy || saveBusy} onPrimary={primaryAction} onSave={saveAction} onPlan={planAction} />
         {model.attendance && <AvatarStack attendance={model.attendance} />}
         {planPanel}
         <output className="sr-only" aria-live="polite">{announcement}</output>
+        {saveError && <p role="alert">{saveError}</p>}
       </EventDetailSurface>
     </Screen>
     {onNavigate ? <BottomNav active={activeNav} onSelect={onNavigate} /> : <BottomNav active={activeNav} />}

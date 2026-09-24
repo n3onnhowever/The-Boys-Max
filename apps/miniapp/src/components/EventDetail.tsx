@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { api, savedMutation } from '../../client.ts';
 import type { EventView, NewPlan } from '../port/contracts.ts';
 import type { ViewController } from '../core/controller.ts';
 import { eventToDetailViewModel } from '../view-model/detail.ts';
@@ -7,6 +8,11 @@ import { DetailScreen } from './DetailScreen.tsx';
 export function EventDetail({ view, controller, busy, origins }: { view: EventView; controller: ViewController; busy: boolean; origins: readonly string[] }) {
   const [groupOpen, setGroupOpen] = useState(false);
   const [ack, setAck] = useState(false);
+  const [saveTarget,setSaveTarget]=useState<string|null>(null);
+  const [saved,setSaved]=useState(false);
+  const [saveBusy,setSaveBusy]=useState(false);
+  const savePending=useRef(false);
+  const [saveError,setSaveError]=useState<string|null>(null);
   const [group, setGroup] = useState<NewPlan>({
     title: 'Совместный план', participantSlots: 2, organizerParticipates: false,
     decisionLocal: '', commitmentLocal: '', timeZone: 'Europe/Moscow',
@@ -14,6 +20,25 @@ export function EventDetail({ view, controller, busy, origins }: { view: EventVi
   if (view.route.kind !== 'EVENT') return null;
   const scope = view.route.scope;
   const model = eventToDetailViewModel(view, origins);
+  useEffect(()=>{
+   let active=true;
+   const ref=view.event.ref;
+   if(!ref.occurrenceId)return;
+   const query=new URLSearchParams({sourceId:ref.sourceId,externalEventId:ref.externalEventId,occurrenceRef:ref.occurrenceId});
+   void api<{occurrenceId:string|null;saved:boolean}>('/api/v1/me/saved/resolve?'+query).then(result=>{
+    if(active){setSaveTarget(result.occurrenceId);setSaved(result.saved);}
+   }).catch(()=>{if(active)setSaveError('Не удалось проверить сохранение. Повторите открытие события.');});
+   return ()=>{active=false;};
+  },[view.event.ref.sourceId,view.event.ref.externalEventId,view.event.ref.occurrenceId]);
+  if(saveTarget)model.saveCapability='AVAILABLE';
+  const toggleSave=async()=>{
+   if(!saveTarget||savePending.current)return;
+   savePending.current=true;
+   setSaveBusy(true);setSaveError(null);
+   try{const result=await savedMutation(saveTarget,!saved);setSaved(result.saved);}
+   catch{setSaveError('Не удалось изменить сохранение. Повторите попытку.');}
+   finally{savePending.current=false;setSaveBusy(false);}
+  };
 
   const planPanel = groupOpen ? <form className="detail-plan-panel" onSubmit={event => {
     event.preventDefault();
@@ -41,6 +66,10 @@ export function EventDetail({ view, controller, busy, origins }: { view: EventVi
 
   return <DetailScreen
     model={model}
+    savedState={saved}
+    onSave={()=>void toggleSave()}
+    saveBusy={saveBusy}
+    saveError={saveError}
     busy={busy}
     onBack={() => void controller.load({ kind: 'CATALOG', scope })}
     onPlan={() => setGroupOpen(true)}

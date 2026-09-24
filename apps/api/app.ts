@@ -11,6 +11,7 @@ import {resolve} from 'node:path';
 import type {Config} from '../../packages/platform/config.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
+import {savedService} from '../../packages/persistence/saved.ts';
 import {planService} from '../../packages/persistence/plans.ts';
 import {ingressService} from '../../packages/platform/ingress.ts';
 import {AppError,requireThat} from '../../packages/domain/errors.ts';
@@ -27,7 +28,7 @@ export async function buildApp(c:Config){
  app.addContentTypeParser('application/json',{parseAs:'buffer'},(req,body,done)=>{try{done(null,strictJson(fatalUtf8(body as Buffer)));}catch(e){done(e as Error,undefined);}});
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
- const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode});
+ const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool);
  const ui=uiService(pool,plans,c);
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};
  const header=(r:FastifyRequest,name:string)=>{const h=r.headers[name];return typeof h==='string'?h:undefined;};
@@ -77,6 +78,20 @@ export async function buildApp(c:Config){
  app.get('/api/v1/session',{schema:{response:{200:S.sessionSchema,...S.errors},security:[{sessionCookie:[]}]}},async r=>{const x=await auth(r);return {actor:x.actor,csrfToken:x.csrfToken,absoluteExpiresAt:x.absoluteExpiresAt,idleTtlSeconds:x.idleTtlSeconds};});
  app.post('/api/v1/session/logout',{schema:{body:z.strictObject({}),response:{200:z.strictObject({loggedOut:z.literal(true)}),...S.errors},security:[{sessionCookie:[]}]}},async(r,reply)=>{
   const s=await auth(r,true);await sessions.logout(s.familyId);reply.clearCookie('__Host-max_session',attrs);reply.clearCookie('__Host-max_bootstrap',attrs);return {loggedOut:true as const};
+ });
+ const savedParams=z.strictObject({occurrenceId:z.uuid()});
+ const savedResult=z.strictObject({saved:z.boolean()});
+ app.get('/api/v1/me/saved',{schema:{response:{200:z.object({items:z.array(z.any())}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{
+  const s=await auth(r);return saved.list(s.actor.id);
+ });
+ app.get('/api/v1/me/saved/resolve',{schema:{querystring:z.strictObject({sourceId:z.string().min(1).max(256),externalEventId:z.string().min(1).max(256),occurrenceRef:z.string().min(1).max(256)}),response:{200:z.strictObject({occurrenceId:z.uuid().nullable(),saved:z.boolean()}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{
+  const s=await auth(r);return saved.resolve(s.actor.id,r.query.sourceId,r.query.externalEventId,r.query.occurrenceRef);
+ });
+ app.put('/api/v1/me/saved/:occurrenceId',{schema:{params:savedParams,body:z.strictObject({}),response:{200:savedResult,...S.errors},security:[{sessionCookie:[]}]}},async r=>{
+  const s=await auth(r,true);return saved.put(s.actor.id,r.params.occurrenceId);
+ });
+ app.delete('/api/v1/me/saved/:occurrenceId',{schema:{params:savedParams,body:z.strictObject({}),response:{200:savedResult,...S.errors},security:[{sessionCookie:[]}]}},async r=>{
+  const s=await auth(r,true);return saved.remove(s.actor.id,r.params.occurrenceId);
  });
  app.post('/api/v1/plans',{schema:{body:S.createSchema,headers:S.idHeaders,response:{200:S.receiptSchema,...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r,true);return plans.create(s.actor.id,r.headers['idempotency-key'],r.body);});
  app.get('/api/v1/plans',{schema:{querystring:z.strictObject({cursor:z.uuid().optional(),limit:z.string().regex(/^[1-9][0-9]?$/).optional()}),response:{200:z.strictObject({items:z.array(z.strictObject({id:z.uuid(),title:z.string(),state_version:z.number().int()})),nextCursor:z.uuid().nullable()}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r);return plans.list(s.actor.id,r.query.cursor,Math.min(50,Number(r.query.limit??20)));});
