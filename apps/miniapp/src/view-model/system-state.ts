@@ -36,9 +36,11 @@ export const HOME_SYSTEM_CHROME: HomeSystemChrome = {
   categories: [
     { id: 'all', label: 'Все' },
     { id: 'CONCERT', label: 'Концерты' },
-    { id: 'PARTY', label: 'Вечеринки' },
-    { id: 'EXHIBITION', label: 'Выставки' },
+    { id: 'THEATRE', label: 'Театр' },
     { id: 'CINEMA', label: 'Кино' },
+    { id: 'MUSEUM', label: 'Выставки' },
+    { id: 'SPORT', label: 'Спорт' },
+    { id: 'OUTDOOR', label: 'Прогулки' },
   ],
 };
 
@@ -87,6 +89,11 @@ export function resetCatalogSearchDraft(current: SearchDraft): SearchDraft {
     budgetText: '',
     priceBasis: 'UNKNOWN',
   };
+}
+
+/** The P0 catalog is Moscow-only; an untouched server draft may omit this required context. */
+export function completeMoscowSearchDraft(draft: SearchDraft): SearchDraft {
+  return { ...draft, city: draft.city || 'Москва', timeZone: draft.timeZone || 'Europe/Moscow', text: '' };
 }
 
 export function previewDestination(action: HomeSystemAction): 'home' | 'filters' {

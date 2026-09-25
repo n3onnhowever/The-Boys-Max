@@ -121,3 +121,7 @@ T102 завершён: компилятор, Docker runtime и host-доступ
 - [EventHive notice](licenses/module-22-NOTICES.md) и [MIT licence](licenses/EventHive-LICENSE) сохранены. Указанный в старом notice `analysis/REUSE_AND_LICENSES.csv` отсутствует. Восстановление точных copied/adapted paths/hashes — blocker T112; donor runtime acceptance не выдумывается.
 - Lock/registry metadata фиксируют версии и заявленные licences, но не заменяют полный third-party notice/donor audit.
 - Текущие evidence: [T101](docs/handoffs/T101_SCOPE_GOVERNANCE.md), [T102](docs/handoffs/T102_DEPENDENCY_BUILD_BASELINE.md), [known gaps](docs/current/KNOWN_GAPS.md). Исторические импорты сохранены неизменными.
+
+## Демо-каталог
+
+Режим `APP_MODE=demo` с `DEMO_CATALOG_VERSION=v1` использует шесть подготовленных командой вымышленных событий. Их даты, места, цены и источники служат только для показа интерфейса и сценария сохранения; это не подтверждённая живая афиша, не предложение билетов и не основание для поездки. Демо-записи остаются отделены от live-режима.

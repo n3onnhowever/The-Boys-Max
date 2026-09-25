@@ -32,9 +32,11 @@ export interface HomeViewModel {
 const categories: HomeCategoryViewModel[] = [
   { id: 'all', label: 'Все' },
   { id: 'CONCERT', label: 'Концерты' },
-  { id: 'PARTY', label: 'Вечеринки' },
-  { id: 'EXHIBITION', label: 'Выставки' },
+  { id: 'THEATRE', label: 'Театр' },
   { id: 'CINEMA', label: 'Кино' },
+  { id: 'MUSEUM', label: 'Выставки' },
+  { id: 'SPORT', label: 'Спорт' },
+  { id: 'OUTDOOR', label: 'Прогулки' },
 ];
 
 

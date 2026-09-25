@@ -20,7 +20,7 @@ try{
  browser=await launchPovodBrowser();
  await browser.send('Storage.setCookies',{cookies:[{name:'__Host-max_session',value:exchange.token,url:origin,secure:true,httpOnly:true,sameSite:'Lax'}]});
  const page=await browser.open(origin+'/');
- await browser.until(page,'document.querySelector(".demo-catalog-notice")?.textContent==='+JSON.stringify(DEMO_NOTICE));
+ await browser.until(page,'document.querySelector(".demo-catalog-notice")?.getAttribute("aria-label")==='+JSON.stringify(DEMO_NOTICE));
  await browser.until(page,'[...document.querySelectorAll(".event-card-compact")].some(x=>x.textContent.includes("Вымышленный бумажный театр"))');
  assert.equal(await browser.evaluate(page,'(()=>{const card=[...document.querySelectorAll(".event-card-compact")].find(x=>x.textContent.includes("Вымышленный бумажный театр"));const button=card?.querySelector("button:not(.save-action)");if(!button||button.disabled)return false;button.click();return true})()'),true);
  await browser.until(page,'Boolean(document.querySelector(".detail-screen .detail-secondary-actions button:first-child:not(:disabled)"))');
@@ -30,7 +30,7 @@ try{
  await browser.until(page,'document.querySelector('+JSON.stringify(saveButton)+').getAttribute("aria-pressed")==="true"');
  await browser.evaluate(page,'document.querySelector(".bottom-nav button:nth-child(5)").click()');
  await browser.until(page,'[...document.querySelectorAll(".saved-screen .event-list-card")].some(x=>x.textContent.includes("Вымышленный бумажный театр"))');
- assert.equal(await browser.evaluate(page,'document.querySelector(".demo-catalog-notice")?.textContent'),DEMO_NOTICE);
+ assert.equal(await browser.evaluate(page,'document.querySelector(".demo-catalog-notice")?.textContent'),'Демо-каталог');
  await browser.send('Page.reload',{},page.sessionId);
  await browser.until(page,'Boolean(document.querySelector(".bottom-nav button:nth-child(5):not(:disabled)"))');
  await browser.evaluate(page,'document.querySelector(".bottom-nav button:nth-child(5)").click()');

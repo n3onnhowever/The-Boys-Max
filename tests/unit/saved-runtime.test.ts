@@ -34,11 +34,12 @@ test('runtime Saved model uses only server occurrences and preserves unknown fac
  assert.equal(model.provenance,'SERVER_ADAPTER');
  assert.deepEqual(model.events.upcoming.map(e=>e.id),['near']);assert.deepEqual(model.events.later.map(e=>e.id),['later']);
  assert.equal(model.events.upcoming[0]!.priceLabel,'Цена не указана');assert.equal(model.events.upcoming[0]!.venue,'Место уточняется');
- assert.equal(model.events.later[0]!.priceLabel,'Условия: требуется подтверждение');
+ assert.equal(model.events.later[0]!.priceLabel,'Цена с условиями');
  assert.equal(model.events.upcoming[0]!.artwork,null);
  assert.deepEqual(savedToViewModel({items:[]}).events,{upcoming:[],later:[]});
  const detail=savedOccurrenceToDetail(response.items[0]!.occurrence,[]);
  assert.equal(detail.saveCapability,'AVAILABLE');assert.equal(detail.saved,true);
  assert.equal(detail.price.displayLabel,'Цена не указана');assert.equal(detail.venue.displayLabel,'Место уточняется');
  assert.equal(detail.occurrence.endLabel,null);assert.equal(detail.source.url,null);assert.equal(detail.primaryAction.kind,'UNAVAILABLE');
+ assert.equal(savedOccurrenceToDetail(response.items[1]!.occurrence,[]).price.displayLabel,'Условия: требуется подтверждение');
 });

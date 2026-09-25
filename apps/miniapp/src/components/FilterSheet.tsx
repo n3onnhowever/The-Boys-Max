@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { SearchFilterState, SearchUiAction } from '../view-model/search.ts';
-import { SEARCH_FILTER_OPTIONS } from '../view-model/search.ts';
+import type { SearchDraft } from '../port/contracts.ts';
+import { RUNTIME_CATEGORY_OPTIONS, SEARCH_FILTER_OPTIONS } from '../view-model/search.ts';
 import { FilterChip } from './FilterChip.tsx';
 import { FilterSection } from './FilterSection.tsx';
 import { Icon } from './Icon.tsx';
@@ -9,13 +10,14 @@ interface FilterSheetProps {
   open: boolean;
   filters: SearchFilterState;
   onAction: (action: SearchUiAction) => void;
+  runtime?: { draft: SearchDraft; busy: boolean; onChange: (draft: SearchDraft) => void; onClose: () => void; onReset: () => void; onApply: () => void };
 }
 
 function choiceLabel(label: string, selected: boolean, removable: boolean) {
   return <>{label}{selected && removable ? <span className="filter-choice-remove" aria-hidden="true">×</span> : null}</>;
 }
 
-export function FilterSheet({ open, filters, onAction }: FilterSheetProps) {
+export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetProps) {
   const dialogRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open || !dialogRef.current) return;
@@ -26,36 +28,53 @@ export function FilterSheet({ open, filters, onAction }: FilterSheetProps) {
       .filter((element): element is HTMLElement => element instanceof HTMLElement && element !== layer)
       .map(element => ({ element, inert: element.inert }));
     background.forEach(({ element }) => { element.inert = true; });
-    const focusFrame = requestAnimationFrame(() => {
-      dialog.querySelector<HTMLButtonElement>('.filter-sheet-close')?.focus({ preventScroll: true });
-    });
+    const focusFrame = requestAnimationFrame(() => dialog.focus({ preventScroll: true }));
     return () => {
       cancelAnimationFrame(focusFrame);
       background.forEach(({ element, inert }) => { element.inert = inert; });
       if (opener?.isConnected && opener !== document.body) opener.focus({ preventScroll: true });
     };
   }, [open]);
+  const close = () => runtime ? runtime.onClose() : onAction({ type: 'CLOSE_FILTERS' });
   return <div className={`filter-sheet-layer${open ? ' is-open' : ''}`} aria-hidden={!open} inert={!open}>
-    <button className="filter-sheet-backdrop" type="button" tabIndex={-1} aria-label="Закрыть фильтры" onClick={() => onAction({ type: 'CLOSE_FILTERS' })} />
-    <aside ref={dialogRef} id="filter-sheet-dialog" className="filter-sheet" role="dialog" aria-modal="true" aria-labelledby="filter-sheet-title" onKeyDown={event => {
+    <button className="filter-sheet-backdrop" type="button" tabIndex={-1} aria-label="Закрыть фильтры" onClick={close} />
+    <aside ref={dialogRef} id="filter-sheet-dialog" className="filter-sheet" role="dialog" tabIndex={-1} aria-modal="true" aria-labelledby="filter-sheet-title" onKeyDown={event => {
       if (event.key === 'Escape') {
         event.preventDefault();
-        onAction({ type: 'CLOSE_FILTERS' });
+        close();
       }
       if (event.key === 'Tab') {
         const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), [tabindex="0"]'));
         const first = controls[0];
         const last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        if (event.shiftKey && (document.activeElement === first || document.activeElement === event.currentTarget)) { event.preventDefault(); last?.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
       }
     }}>
       <span className="filter-sheet-handle" aria-hidden="true" />
       <header className="filter-sheet-header">
         <h1 id="filter-sheet-title">Фильтры</h1>
-        <button type="button" className="filter-sheet-close" aria-label="Закрыть фильтры" onClick={() => onAction({ type: 'CLOSE_FILTERS' })}><Icon name="close" /></button>
+        <button type="button" className="filter-sheet-close" aria-label="Закрыть фильтры" onClick={close}><Icon name="close" /></button>
       </header>
       <div className="filter-sheet-scroll">
+        {runtime ? <>
+          <section className="filter-sheet-section">
+            <h2><label htmlFor="runtime-filter-date">Дата</label></h2>
+            <input id="runtime-filter-date" className="runtime-filter-date" type="date" value={runtime.draft.date}
+              onChange={event => runtime.onChange({ ...runtime.draft, date: event.target.value })} />
+          </section>
+          <FilterSection title="Категории">
+            {RUNTIME_CATEGORY_OPTIONS.map(option => {
+              const selected = runtime.draft.includedCategories.includes(option.id);
+              return <FilterChip key={option.id} className={`sheet-filter-chip${selected ? ' is-selected' : ''}`}
+                aria-pressed={selected} onClick={() => runtime.onChange({ ...runtime.draft,
+                  includedCategories: selected ? runtime.draft.includedCategories.filter(id => id !== option.id) : [...runtime.draft.includedCategories, option.id] })}>
+                {choiceLabel(option.label, selected, true)}
+              </FilterChip>;
+            })}
+          </FilterSection>
+          <p className="runtime-filter-note">Поиск по словам и другие условия пока недоступны.</p>
+        </> : <>
         <FilterSection title="Дата">
           {SEARCH_FILTER_OPTIONS.dates.map(option => {
             const selected = filters.date === option.id;
@@ -99,10 +118,11 @@ export function FilterSheet({ open, filters, onAction }: FilterSheetProps) {
         <div className="filter-map-row" aria-disabled="true">
           <Icon name="pin" /><span>Показать события на карте</span><span className="filter-map-switch" aria-hidden="true" />
         </div>
+        </>}
       </div>
       <footer className="filter-sheet-footer">
-        <button type="button" className="filter-reset" onClick={() => onAction({ type: 'RESET_FILTERS' })}>Сбросить все</button>
-        <button type="button" className="filter-apply" onClick={() => onAction({ type: 'APPLY_FILTERS' })}>Показать события</button>
+        <button type="button" className="filter-reset" onClick={() => runtime ? runtime.onReset() : onAction({ type: 'RESET_FILTERS' })}>Сбросить все</button>
+        <button type="button" className="filter-apply" disabled={runtime?.busy} onClick={() => runtime ? runtime.onApply() : onAction({ type: 'APPLY_FILTERS' })}>Показать события</button>
       </footer>
     </aside>
   </div>;

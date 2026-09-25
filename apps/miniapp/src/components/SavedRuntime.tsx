@@ -6,6 +6,8 @@ import {DetailScreen} from './DetailScreen.tsx';
 import {attachBack} from '../../bridge.ts';
 import {AppViewport,Screen} from './AppShell.tsx';
 import {BottomNav} from './BottomNav.tsx';
+import {STATE_ASSETS} from '../assets.ts';
+import {Icon} from './Icon.tsx';
 
 export function SavedRuntime({onHome,onNavigate,origins}:{onHome:()=>void;onNavigate:(id:string)=>void;origins:readonly string[]}){
  const [response,setResponse]=useState<SavedResponse|null>(null);
@@ -23,8 +25,10 @@ export function SavedRuntime({onHome,onNavigate,origins}:{onHome:()=>void;onNavi
  useEffect(()=>{load();},[]);
  useEffect(()=>attachBack(()=>{if(selected){setSelected(null);load();}else onHome();}),[selected,onHome]);
  if(error||!response)return <AppViewport><Screen className="saved-screen"><header className="saved-page-header"><span aria-hidden="true"/><h1>Сохранённое</h1><span aria-hidden="true"/></header>
-  <section className="saved-runtime-status" role={error?'alert':'status'}><h2>{error?'Сохранённое недоступно':'Загружаем сохранённое…'}</h2>
-   {error&&<><p>{error}</p><button type="button" onClick={load}>Повторить</button><button type="button" onClick={onHome}>На главную</button></>}
+  <section className="saved-empty saved-runtime-state" role={error?'alert':'status'}>
+   {error?<img className="system-state-art system-state-art-error" src={STATE_ASSETS.error} width="300" height="180" decoding="async" alt="" aria-hidden="true"/>:<Icon name="heart"/>}
+   <h2>{error?'Сохранённое недоступно':'Загружаем сохранённое…'}</h2>
+   {error&&<><p>{error}</p><div className="system-state-actions"><button className="system-state-primary" type="button" onClick={load}>Повторить</button><button className="system-state-secondary" type="button" onClick={onHome}>На главную</button></div></>}
   </section></Screen><BottomNav active="profile" onSelect={onNavigate}/></AppViewport>;
  const chosen=response.items.find(item=>item.occurrence.id===selected)?.occurrence;
  if(chosen)return <DetailScreen model={savedOccurrenceToDetail(chosen,origins)} savedState={detailSaved} saveBusy={pending} saveError={mutationError}

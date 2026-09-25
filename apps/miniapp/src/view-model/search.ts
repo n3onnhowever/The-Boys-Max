@@ -1,4 +1,25 @@
-import type { CatalogView, EventCardView } from '../port/contracts.ts';
+import type { CatalogView, EventCardView, SearchDraft } from '../port/contracts.ts';
+
+export const RUNTIME_CATEGORY_OPTIONS = [
+  { id: 'CONCERT', label: 'Концерты' }, { id: 'THEATRE', label: 'Театр' },
+  { id: 'CINEMA', label: 'Кино' }, { id: 'MUSEUM', label: 'Музеи и выставки' },
+  { id: 'SPORT', label: 'Спорт' }, { id: 'OUTDOOR', label: 'На воздухе' },
+  { id: 'VOLUNTEER', label: 'Волонтёрство' }, { id: 'OTHER', label: 'Другое' },
+] as const;
+
+export function runtimeSelectedFilterChips(query: SearchDraft): SelectedFilterViewModel[] {
+  const selected: SelectedFilterViewModel[] = [];
+  if (query.date) {
+    const date = new Date(`${query.date}T12:00:00Z`);
+    selected.push({ id: `date:${query.date}`, key: 'date', value: query.date,
+      label: Number.isNaN(date.getTime()) ? query.date : new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(date), icon: 'calendar' });
+  }
+  for (const category of query.includedCategories) {
+    selected.push({ id: `category:${category}`, key: 'category', value: category,
+      label: RUNTIME_CATEGORY_OPTIONS.find(option => option.id === category)?.label ?? 'Категория', icon: 'music' });
+  }
+  return selected;
+}
 
 export interface FilterOption<Id extends string = string> {
   id: Id;

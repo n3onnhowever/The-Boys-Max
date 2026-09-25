@@ -7,6 +7,16 @@ export function safeExternalUrl(value: string | null, origins: readonly string[]
     return url.href;
   } catch { return null; }
 }
+/** Demo source pages are first-party explanatory pages, never a live provider link. */
+export function safeDemoSourceUrl(value: string | null, currentOrigin: string | null): string | null {
+  if (!value || !currentOrigin || value !== value.trim() || /[\u0000-\u0020\\]/u.test(value)) return null;
+  try {
+    const url = new URL(value);
+    if (url.origin !== currentOrigin || !/^\/demo\/source\/[a-z0-9-]+$/.test(url.pathname) || url.search || url.hash || url.username || url.password) return null;
+    if (url.protocol !== 'https:' && !(url.protocol === 'http:' && ['127.0.0.1', 'localhost'].includes(url.hostname))) return null;
+    return url.href;
+  } catch { return null; }
+}
 export interface ClipboardPort { writeText(text: string): Promise<void>; }
 export type CopyResult = { status: 'COPIED'; url: string } | { status: 'MANUAL'; url: string; message: string };
 export async function copyInvitation(url: string, clipboard: ClipboardPort | null, origins: readonly string[]): Promise<CopyResult> {

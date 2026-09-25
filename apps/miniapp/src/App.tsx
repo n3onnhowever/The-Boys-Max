@@ -11,8 +11,9 @@ import { HomeSystemScreen } from './components/HomeSystemScreen.tsx';
 import { NavigationProvider } from './components/BottomNav.tsx';
 import { SavedRuntime } from './components/SavedRuntime.tsx';
 import { RuntimeSearchScreen } from './components/RuntimeSearchScreen.tsx';
+import { LaunchStateScreen } from './components/LaunchStateScreen.tsx';
 import { keyForEvent } from './view-model/home.ts';
-import { HOME_SYSTEM_CHROME, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
+import { HOME_SYSTEM_CHROME, completeMoscowSearchDraft, errorSystemState, loadingSystemState, offlineSystemState } from './view-model/system-state.ts';
 import {DEMO_NOTICE} from '../../../packages/demo/constants.ts';
 
 export interface AppProps {
@@ -30,7 +31,7 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
   const { view } = state;
   const busy = ['loading', 'submitting', 'uncertain', 'offline'].includes(state.phase);
   const routeKey = view ? JSON.stringify(view.route) : null;
-  const demoBanner=view?.notice===DEMO_NOTICE?<div className="demo-catalog-notice" role="status">{DEMO_NOTICE}</div>:null;
+  const demoBanner=view?.notice===DEMO_NOTICE?<span className="demo-catalog-notice" role="status" aria-label={DEMO_NOTICE} title={DEMO_NOTICE}>Демо-каталог</span>:null;
 
   useEffect(() => {
     if (entry || !routeKey) return;
@@ -59,18 +60,9 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
     const title = entry ? 'Не удалось войти'
       : state.phase === 'auth-failed' ? 'Нужно войти снова'
       : state.phase === 'expired' ? 'Срок действия истёк' : 'Проверяем результат';
-    return <>
-      <a className="skip-link" href="#main">К содержимому</a>
-      <header className="app-header"><span className="brand">Повод</span></header>
-      <main id="main">
-        <section className="status-panel" role="alert">
-          <h1 tabIndex={-1}>{title}</h1>
-          <p>{entry?.message ?? state.error}</p>
-          {!entry && (state.phase === 'expired' || state.phase === 'auth-failed') && <p>Откройте приложение заново кнопкой в чате бота MAX, чтобы подтвердить сессию.</p>}
-          <button onClick={entry?.retry ?? (() => void controller.retry())}>Повторить проверку</button>
-        </section>
-      </main>
-    </>;
+    return <LaunchStateScreen title={title} message={entry?.message ?? state.error ?? ''}
+      relaunch={Boolean(entry || state.phase === 'expired' || state.phase === 'auth-failed')}
+      onRetry={entry?.retry ?? (() => void controller.retry())} />;
   }
   if(savedPage)return <NavigationProvider value={navigation}>{demoBanner}<SavedRuntime onHome={()=>navigation.onSelect('home')} onNavigate={navigation.onSelect} origins={origins} /></NavigationProvider>;
 
@@ -90,7 +82,7 @@ export function App({ controller, origins, clipboard, renderMap, entry }: AppPro
   />;
   if (view?.kind === 'CATALOG' && searchPage) return <NavigationProvider value={navigation}>{demoBanner}<RuntimeSearchScreen
     key={JSON.stringify(view.query)} view={view} busy={busy} error={state.error} onRetry={()=>void controller.retry()}
-    onApply={draft => void controller.execute({type:'SEARCH',scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'},draft})}
+    onApply={draft => void controller.execute({type:'SEARCH',scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'},draft:completeMoscowSearchDraft(draft)})}
     onOpen={id => {const event=view.events.find(candidate=>keyForEvent(candidate)===id);if(event)void controller.load({kind:'EVENT',sourceId:event.ref.sourceId,externalEventId:event.ref.externalEventId,occurrenceId:event.ref.occurrenceId,scope:view.route.kind === 'CATALOG' ? view.route.scope : {kind:'PERSONAL'}});}}
     onBack={()=>setSearchPage(false)} onNavigate={navigation.onSelect}
   /></NavigationProvider>;

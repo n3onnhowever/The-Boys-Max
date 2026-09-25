@@ -1,4 +1,4 @@
-import { safeExternalUrl } from '../core/links.ts';
+import { safeDemoSourceUrl, safeExternalUrl } from '../core/links.ts';
 import type { EventView } from '../port/contracts.ts';
 
 export type DetailCapability = 'AVAILABLE' | 'DESIGN_ONLY' | 'UNAVAILABLE';
@@ -93,7 +93,9 @@ export function eventToDetailViewModel(view: EventView, origins: readonly string
   const venueAddress = knownText(event.place.address);
   const priceLabel = knownText(event.price.baseLabel);
   const sourceLabel = knownText(event.sourceLabel) ?? 'Источник не указан';
-  const sourceUrl = safeExternalUrl(event.sourceUrl, origins);
+  const sourceUrl = event.sourceLabel === 'Демо-каталог'
+    ? safeDemoSourceUrl(event.sourceUrl, typeof window === 'undefined' ? null : window.location.origin)
+    : safeExternalUrl(event.sourceUrl, origins);
   const freshnessLabel = knownText(event.freshnessLabel);
 
   return {

@@ -1,0 +1,29 @@
+(node:16560) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"330cec21-29fa-4d5d-9a6e-c78533a4c1fe","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"1da43a02-e048-4949-9a49-6cbd156e7fd0","route":"/api/v1/me/saved","status":200}
+✔ fresh PostgreSQL demo seed and rerun preserve canonical identities, Save and uncertainty (93.2023ms)
+{"event":"http_end","requestId":"c872b98d-0320-40c8-8124-a4d5598526fc","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"a1b1c241-2187-4a61-9aa5-90ae59834d38","route":"/api/ui/v1/commands","status":200}
+{"event":"http_end","requestId":"8f151d95-439a-44d5-84d3-51d668b57569","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"5da04e26-5483-49b1-8b16-5ff09c67b390","route":"/api/v1/me/saved/resolve","status":200}
+{"event":"http_end","requestId":"8f2eedae-babe-4145-9603-2d6113363cb9","route":"/api/v1/me/saved/:occurrenceId","status":200}
+{"event":"http_end","requestId":"c771d1e5-cdca-40a1-80c8-f353076bf67d","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"8c0c8479-82c7-45aa-b5b0-e940f96d0ee5","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"9860c830-d229-4883-863f-ab78af0277c1","route":"/api/ui/v1/view","status":200}
+{"event":"http_end","requestId":"b8ee971e-84b8-44e9-93ea-6fbb67d93c9e","route":"/demo/source/:id","status":200}
+{"event":"http_end","requestId":"7397bf0d-6f74-4617-b72e-47b300751212","route":"/api/ui/v1/view","status":401}
+(node:16560) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+✔ authenticated search → Detail → Save → Saved → reload, with cross-user isolation (111.4777ms)
+{"event":"http_end","requestId":"41d92991-0901-4ee0-9fc6-5f885e548c93","route":"/api/v1/me/saved","status":200}
+{"event":"http_end","requestId":"f5c53068-0ebd-46ac-ad8f-4940050260df","route":"/api/v1/me/saved/:occurrenceId","status":404}
+{"event":"http_end","requestId":"7fb00bd8-a1de-4459-8f09-18bda547f9ac","status":404}
+✔ live-mode negative control has no synthetic catalog or demo source page (29.9678ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 756.3184

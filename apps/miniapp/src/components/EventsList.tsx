@@ -2,7 +2,7 @@ import type { CatalogView, SearchDraft } from '../port/contracts.ts';
 import type { UiState, ViewController } from '../core/controller.ts';
 import { catalogToHomeViewModel, keyForEvent } from '../view-model/home.ts';
 import { catalogToSearchViewModel } from '../view-model/search.ts';
-import { emptySystemState, errorSystemState, offlineSystemState, resetCatalogSearchDraft, type HomeSystemAction } from '../view-model/system-state.ts';
+import { completeMoscowSearchDraft, emptySystemState, errorSystemState, offlineSystemState, resetCatalogSearchDraft, type HomeSystemAction } from '../view-model/system-state.ts';
 import { HomeScreen } from './HomeScreen.tsx';
 import { HomeSystemScreen } from './HomeSystemScreen.tsx';
 
@@ -18,11 +18,11 @@ export function EventsList({ view, controller, state, busy, onSearchOpen }: { vi
   };
   const executeSearch = (includedCategories = view.query.includedCategories) => {
     const draft: SearchDraft = { ...view.query, text: '', includedCategories };
-    void controller.execute({ type: 'SEARCH', scope, draft });
+    void controller.execute({ type: 'SEARCH', scope, draft: completeMoscowSearchDraft(draft) });
   };
   const resetFilters = () => {
     const draft = resetCatalogSearchDraft(view.query);
-    void controller.execute({ type: 'SEARCH', scope, draft });
+    void controller.execute({ type: 'SEARCH', scope, draft: completeMoscowSearchDraft(draft) });
   };
   const open = (id: string) => {
     const event = view.events.find(candidate => keyForEvent(candidate) === id);
