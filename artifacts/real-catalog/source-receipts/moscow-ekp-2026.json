@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.mos.ru/upload/documents/files/1077/EKP_2026_24042026.pdf",
+  "document_revision": "EKP_2026_24042026",
+  "retrieved_on": "2026-09-26",
+  "reviewed_at": "2026-09-26T14:14:00.000Z",
+  "reviewed_page_rendered_at": "2026-09-26T14:06:45.000Z",
+  "http_status": 200,
+  "bytes": 11623426,
+  "sha256": "91b9d5d809f998b087437752dfa9f72413b77b8cfb19df2e34e97dae6b29b303",
+  "reviewed_page": 1092,
+  "reviewed_page_image": "ekp-page-1092.png",
+  "limitation": "Registry calendar gives date ranges, not exact public sessions or admission terms. Three rows below are event-level facts only."
+}

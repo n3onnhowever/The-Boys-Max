@@ -1,0 +1,162 @@
+{
+  "name": "places",
+  "url": "https://kudago.com/public-api/v1.4/places/?location=msk&page_size=20&fields=id%2Ctitle%2Csite_url%2Caddress%2Cis_closed",
+  "started": "2026-09-26T13:52:59.352Z",
+  "status": 200,
+  "bytes": 4847,
+  "sha256": "c2fd1fcb1193f72cbf3eddaf2c1a53470c7b908043196df6159796dfbf60f5de",
+  "count": 794,
+  "next": "https://kudago.com/public-api/v1.4/places/?fields=id%2Ctitle%2Csite_url%2Caddress%2Cis_closed&location=msk&page=2&page_size=20",
+  "sample": [
+    {
+      "id": 34245,
+      "title": "клуб виртуальной реальности «Нереальное место»",
+      "site_url": "https://kudago.com/msk/place/attraktsion-nerealnoe-mesto/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 33485,
+      "title": "«Москвариум»",
+      "site_url": "https://kudago.com/msk/place/interesnoe-mesto-moskvarium/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 531,
+      "title": "Музей-заповедник «Царицыно»",
+      "site_url": "https://kudago.com/msk/place/caricyno/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 13356,
+      "title": "комплекс водных развлечений «Мореон»",
+      "site_url": "https://kudago.com/msk/place/akvapark-moreon/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 34744,
+      "title": "Пространство Yauza Place",
+      "site_url": "https://kudago.com/msk/place/kovorking-yauza/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 33913,
+      "title": "«Праздник НА КРЫШЕ | ROOFTOP» — купольные беседки и лофты на крыше для мероприятий и праздников",
+      "site_url": "https://kudago.com/msk/place/attraktsion-roof-top/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 3691,
+      "title": "стрелковый клуб «Лабиринт»",
+      "site_url": "https://kudago.com/msk/place/strelkovyj-klub-labirint/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 34612,
+      "title": "эко-отель «Плавное течение»",
+      "site_url": "https://kudago.com/msk/place/prigorod-plavnoe-techenie/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 35857,
+      "title": "GREMM-курорт",
+      "site_url": "https://kudago.com/msk/place/attraktsion-gremm-kurort/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 36325,
+      "title": "стендап-клуб STILL",
+      "site_url": "https://kudago.com/msk/place/restoran-still/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    }
+  ]
+}

@@ -28,6 +28,8 @@
     "migrate": "node --experimental-strip-types scripts/migrate.ts",
     "seed:test": "node --experimental-strip-types scripts/seed-test.ts",
     "seed:demo": "node --experimental-strip-types scripts/seed-demo.ts",
+    "import:curated-official": "node --experimental-strip-types scripts/import-curated-official.ts",
+    "import:moscow-sport": "node --experimental-strip-types scripts/import-moscow-sport.ts",
     "openapi": "node --experimental-strip-types scripts/openapi.ts",
     "start:api": "node dist/apps/api/main.js",
     "start:worker": "node dist/apps/worker/main.js",

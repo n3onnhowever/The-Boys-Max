@@ -54,6 +54,19 @@ async function upsertOccurrence(c:PoolClient,eventId:string,sourceId:string,obse
 }
 export function canonicalCatalog(pool:Pool){
   return {
+    /** Admission is scoped to manually reviewed first-party factual records, not a provider-wide gate. */
+    async registerCuratedOfficialSource(){
+      const id='real:curated-official:v1',provider='ManualProvider',rights='factual-primary/v1';
+      await pool.query("INSERT INTO catalog_sources(id,provider_id,data_mode,admission_state,rights_revision) VALUES($1,$2,'LIVE','APPROVED',$3) ON CONFLICT(id) DO NOTHING",[id,provider,rights]);
+      const row=(await pool.query<SourceRow>('SELECT * FROM catalog_sources WHERE id=$1',[id])).rows[0];
+      if(row?.provider_id!==provider||row.data_mode!=='LIVE'||row.admission_state!=='APPROVED'||row.rights_revision!==rights)fail('CURATED_SOURCE_CONFLICT');
+    },
+    async registerMoscowSportRangeSource(){
+      const id='real:moscow-sport-ekp:2026',provider='ManualProvider',rights='official-facts/v1';
+      await pool.query("INSERT INTO catalog_sources(id,provider_id,data_mode,admission_state,rights_revision) VALUES($1,$2,'LIVE','APPROVED',$3) ON CONFLICT(id) DO NOTHING",[id,provider,rights]);
+      const row=(await pool.query<SourceRow>('SELECT * FROM catalog_sources WHERE id=$1',[id])).rows[0];
+      if(row?.provider_id!==provider||row.data_mode!=='LIVE'||row.admission_state!=='APPROVED'||row.rights_revision!==rights)fail('SPORT_SOURCE_CONFLICT');
+    },
     async registerSyntheticSource(sourceId:string,providerId:string,rightsRevision:string){
       if(!sourceId.startsWith('synthetic:')||sourceId.length>256||!providerId||!rightsRevision)fail('SYNTHETIC_SOURCE_INVALID');
       await pool.query("INSERT INTO catalog_sources(id,provider_id,data_mode,admission_state,rights_revision) VALUES($1,$2,'SYNTHETIC','SYNTHETIC',$3) ON CONFLICT(id) DO NOTHING",

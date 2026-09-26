@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-09-26",
+  "official_url": "https://docs.kudago.com/api/",
+  "api_public_keyless_get": true,
+  "basis": "Official public-api v1.4 GET documentation and HTTP 200 read-only unauthenticated probes recorded alongside this receipt.",
+  "open_license": true,
+  "required_attribution": "Every reused datum or part must include a direct indexable link to its exact kudago.com source, without nofollow or noindex.",
+  "advertising_restriction": "Some site materials are marked advertising; reuse with tokens obtained without the user is prohibited. Responsibility for advertising compliance rests with the user of the material.",
+  "machine_readable_advertising_discriminator": "NOT_ESTABLISHED",
+  "admission_decision": "STAGING_ONLY; KudaGo provider-wide Gate v2 stays FAIL / NOT_APPROVED. No absence-of-field inference.",
+  "documented_entities_checked": ["events", "event detail", "places", "movies", "movie-showings"],
+  "no_trademark_reuse": true
+}

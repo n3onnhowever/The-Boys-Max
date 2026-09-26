@@ -1,0 +1,9 @@
+{
+  "id": 5430,
+  "url": "https://kudago.com/public-api/v1.4/movies/5430/?fields=id,title,site_url",
+  "status": 200,
+  "bytes": 77,
+  "sha256": "fc33286942dd5c3dc529a7067c18b548e71ac70d3657a23ddb7fa9b9ce65496e",
+  "title": "Драйв",
+  "site_url": "https://kudago.com/movie/drajv/"
+}

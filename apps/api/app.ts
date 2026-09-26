@@ -58,7 +58,7 @@ export async function buildApp(c:Config){
   try{return reply.type(mime[extension]!).send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
- if(c.mode==='demo')app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>{
+ if(c.mode==='demo'||c.mode==='hybrid')app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>{
   const item=DEMO_ITEMS.find(x=>x.id===r.params.id);requireThat(item,'NOT_FOUND',404);
   reply.header('Content-Security-Policy',"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'");
   return reply.type('text/html; charset=utf-8').send(`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Демонстрационный источник — Повод</title><body style="font:18px system-ui;max-width:42rem;margin:3rem auto;padding:1rem"><h1>${DEMO_NOTICE}</h1><p>${item.title}</p><p>Это подготовленная командой вымышленная запись для показа интерфейса. Место проведения, выступления, билеты и доступность не заявлены.</p><p>Дата в демонстрационном наборе: ${item.start.slice(0,10)} (Москва). Не используйте её для поездки.</p></body></html>`);

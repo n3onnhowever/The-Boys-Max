@@ -29,7 +29,7 @@ export async function reconcile(pool:Pool,queue:Queue){
  await pool.query(`UPDATE quarantine SET raw_cipher=NULL WHERE raw_cipher IS NOT NULL AND created_at<clock_timestamp()-interval '72 hours'`);
  await pool.query(`DELETE FROM quarantine WHERE created_at<clock_timestamp()-interval '30 days'`);
 }
-export async function deliver(pool:Pool,outboxId:string,transport:Transport,governor:Governor,mode:'test'|'demo'|'live',links:BotConfig&{publicOrigin:string}={publicOrigin:'http://localhost:3000'}){
+export async function deliver(pool:Pool,outboxId:string,transport:Transport,governor:Governor,mode:'test'|'demo'|'live'|'hybrid',links:BotConfig&{publicOrigin:string}={publicOrigin:'http://localhost:3000'}){
  const lease=randomUUID(),attempt=randomUUID();
  const reservation=await transaction(pool,async c=>{
   const control=await c.query<{hold:boolean}>('SELECT hold FROM outbound_control WHERE id=1');if(control.rows[0]?.hold!==false)return null;

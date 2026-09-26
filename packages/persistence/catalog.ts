@@ -20,7 +20,7 @@ interface ContextRow {id:string;actor_id:string;kind:'PERSONAL'|'PLAN_PRIVATE';p
 export interface CatalogItem {candidate:Candidate;eligibility:Eligibility;offerId:string;contextRevision:number}
 export interface CatalogResult {ctx:ContextRow;items:CatalogItem[];plan:Plan|null;now:string}
 const scopeFor=(c:ContextRow):SearchScope=>c.kind==='PERSONAL'?{kind:'PERSONAL',search_context_id:c.id}:{kind:'PLAN_PRIVATE',search_context_id:c.id,plan_id:c.plan_id!};
-export function catalogService(pool:Pool,mode:'test'|'demo'|'live') {
+export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
  async function assertSession(db:PoolClient,s:Subject){
   const r=await db.query(`SELECT id FROM app_sessions WHERE id=$1 AND actor_id=$2 AND NOT revoked AND absolute_expires_at>clock_timestamp() AND last_seen_at>clock_timestamp()-interval '15 minutes' FOR SHARE`,[s.session_id,s.actor_id]);
   requireThat(r.rowCount===1,'SESSION_INVALID',401);
@@ -47,6 +47,9 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live') {
    // Draft values are actor-private. An obsolete date does not erase the user's stored filters.
    let hard:SearchIntent;try{hard=validateIntent(ctx.hard,semantic);}catch{return {ctx,items:[],plan,now:time};}
    const items:CatalogItem[]=[];
+   const lanes=mode==='hybrid'?(['LIVE','SYNTHETIC'] as const):([mode==='live'?'LIVE':'SYNTHETIC'] as const);
+   for(const lane of lanes){
+   if(lane==='SYNTHETIC'&&mode==='hybrid'&&items.length>=6&&!ref)break;
    let cursor:string|null=null;
    // Page latest observations in a stable order. Apply the full domain evaluator before
    // limiting visible choices, so an early run of ineligible rows cannot hide a match.
@@ -58,9 +61,16 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live') {
        AND ($2::text IS NULL OR (provider_id=$2 AND event_id=$3 AND occurrence_id IS NOT DISTINCT FROM $4::text))
       ORDER BY provider_id,event_id,occurrence_id,updated_at DESC,observation_id DESC) latest
      WHERE ($5::text IS NULL OR observation_id>$5)
-     ORDER BY observation_id LIMIT 100`,[mode==='live'?'LIVE':'SYNTHETIC',ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor,mode==='demo',DEMO_ITEMS.map(demoEventId)]);
+     ORDER BY observation_id LIMIT 100`,[lane,ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor,lane==='SYNTHETIC'&&mode!=='test',DEMO_ITEMS.map(demoEventId)]);
     for(const raw of r.rows){
     const c=parseCandidate(raw.body),e=evaluateEligibility(hard,c,semantic);
+    if(lane==='LIVE'){
+     const admitted=await db.query(`SELECT 1 FROM canonical_occurrences o JOIN canonical_events ce ON ce.id=o.event_id JOIN catalog_sources s ON s.id=ce.source_id
+      LEFT JOIN occurrence_aliases a ON a.occurrence_id=o.id
+      WHERE s.data_mode='LIVE' AND s.admission_state='APPROVED' AND s.provider_id=$1 AND ce.provider_event_id=$2
+      AND (o.native_session_id=$3 OR a.alias_value=$3) AND o.source_url=$4 LIMIT 1`,[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,c.provenance.source_url]);
+     if(!admitted.rowCount)continue;
+    }
     if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||e.status==='FAIL')continue;
     const offer=await db.query<{id:string}>(`INSERT INTO catalog_choices(id,actor_id,session_id,context_id,context_revision,observation_id,expires_at)
      VALUES($1,$2,$3,$4,$5,$6,clock_timestamp()+interval '15 minutes')
@@ -73,6 +83,7 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live') {
     if(ref||r.rows.length<100||items.length>=100)break;
     cursor=r.rows.at(-1)!.observation_id;
    }while(true);
+   }
    return {ctx,items,plan,now:time};
   });
  },
@@ -107,9 +118,16 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live') {
    requireThat(ctx.kind==='PERSONAL'||ctx.plan_id===targetPlanId,'CROSS_PLAN_OFFER_FORBIDDEN',403);
    // The provider's current observation must still be the exact receipt observation. No blind client snapshot.
    const source=await db.query<{body:unknown;data_mode:string}>('SELECT body,data_mode FROM catalog_occurrences WHERE observation_id=$1 FOR SHARE',[choice.observation_id]);
-   requireThat(source.rows[0]&&source.rows[0].data_mode===(mode==='live'?'LIVE':'SYNTHETIC'),'SOURCE_UNAVAILABLE',409);
+   requireThat(source.rows[0]&&(mode==='hybrid'?['LIVE','SYNTHETIC'].includes(source.rows[0].data_mode):source.rows[0].data_mode===(mode==='live'?'LIVE':'SYNTHETIC')),'SOURCE_UNAVAILABLE',409);
    const c=parseCandidate(source.rows[0].body),time=await now(db),semantic=context(time);
-   requireThat(mode!=='demo'||c.ref.provider_id==='ManualProvider'&&DEMO_ITEMS.some(item=>demoEventId(item)===c.ref.event_id),'SOURCE_UNAVAILABLE',409);
+   if(source.rows[0].data_mode==='LIVE'){
+    const admitted=await db.query(`SELECT 1 FROM canonical_occurrences o JOIN canonical_events ce ON ce.id=o.event_id JOIN catalog_sources s ON s.id=ce.source_id
+     LEFT JOIN occurrence_aliases a ON a.occurrence_id=o.id
+     WHERE s.data_mode='LIVE' AND s.admission_state='APPROVED' AND s.provider_id=$1 AND ce.provider_event_id=$2
+     AND (o.native_session_id=$3 OR a.alias_value=$3) AND o.source_url=$4 LIMIT 1`,[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,c.provenance.source_url]);
+    requireThat(admitted.rowCount===1,'SOURCE_NOT_ADMITTED',409);
+   }
+   requireThat(source.rows[0].data_mode!=='SYNTHETIC'||mode==='test'||c.ref.provider_id==='ManualProvider'&&DEMO_ITEMS.some(item=>demoEventId(item)===c.ref.event_id),'SOURCE_UNAVAILABLE',409);
    const latest=await db.query<{observation_id:string}>('SELECT observation_id FROM catalog_occurrences WHERE provider_id=$1 AND event_id=$2 AND occurrence_id=$3 AND data_mode=$4 ORDER BY updated_at DESC,observation_id DESC LIMIT 1',[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,source.rows[0].data_mode]);
    requireThat(latest.rows[0]?.observation_id===choice.observation_id,'SOURCE_OBSERVATION_SUPERSEDED',409);
    requireThat(c.ref.provider_id===ref.sourceId&&c.ref.event_id===ref.externalEventId&&c.ref.occurrence_id===ref.occurrenceId&&c.provenance.observation_id===ref.observationId,'SOURCE_REF_MISMATCH',409);

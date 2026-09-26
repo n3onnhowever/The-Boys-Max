@@ -43,7 +43,7 @@ export function utc(v:unknown,field='instant'):number {
 export function sourceLink(v:unknown,provider:'KudaGo'|'Timepad'|'ManualProvider'):string|null {
  if(v===null)return null;const s=text(v,'source_url',2048);let u:URL;try{u=new URL(s);}catch{fail('INVALID_SOURCE_URL');}
  const host=u.hostname.toLowerCase();
- const allowed=provider==='KudaGo'?host==='kudago.com':provider==='Timepad'?(host==='timepad.ru'||/^[a-z0-9-]+\.timepad\.ru$/.test(host)):false;
+ const allowed=provider==='KudaGo'?host==='kudago.com':provider==='Timepad'?(host==='timepad.ru'||/^[a-z0-9-]+\.timepad\.ru$/.test(host)):provider==='ManualProvider'&&u.protocol==='https:';
  if(!allowed||!['https:','http:'].includes(u.protocol)||u.username||u.password||u.port||u.hash||/[\u0000-\u0020\\]/.test(s))fail('SOURCE_URL_NOT_ALLOWED');
  // Link retained exactly for attribution. No insecure HTTP request is made by this module.
  return s;

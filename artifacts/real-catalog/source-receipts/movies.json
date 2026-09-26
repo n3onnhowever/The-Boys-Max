@@ -1,0 +1,162 @@
+{
+  "name": "movies",
+  "url": "https://kudago.com/public-api/v1.4/movies/?location=msk&page_size=20&fields=id%2Ctitle%2Csite_url",
+  "started": "2026-09-26T13:53:00.503Z",
+  "status": 200,
+  "bytes": 2492,
+  "sha256": "482058c623516a5474e55c437a66f1bd04744ad609f9c726e4653465018d78e6",
+  "count": 1612,
+  "next": "https://kudago.com/public-api/v1.4/movies/?fields=id%2Ctitle%2Csite_url&location=msk&page=2&page_size=20",
+  "sample": [
+    {
+      "id": 2981,
+      "title": "Москва слезам не верит",
+      "site_url": "https://kudago.com/movie/moskva-slezam-ne-verit/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 970,
+      "title": "Бассейн",
+      "site_url": "https://kudago.com/movie/basseyn/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 4524,
+      "title": "Мы призываем тьму",
+      "site_url": "https://kudago.com/movie/myi-prizyivaem-tmu/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 4519,
+      "title": "Капоне. Лицо со шрамом",
+      "site_url": "https://kudago.com/movie/kapone-litso-so-shramom/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 4045,
+      "title": "До скорой встречи",
+      "site_url": "https://kudago.com/movie/do-skoroj-vstrechi/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 3868,
+      "title": "Последствия",
+      "site_url": "https://kudago.com/movie/posledstviya-31-03-2019/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 3704,
+      "title": "Человек-паук: Вдали от дома",
+      "site_url": "https://kudago.com/movie/chelovek-pauk-vdali-ot-doma/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 4293,
+      "title": "Ржев",
+      "site_url": "https://kudago.com/movie/rzhev5209/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 4068,
+      "title": "Гемини",
+      "site_url": "https://kudago.com/movie/gemini/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    },
+    {
+      "id": 3957,
+      "title": "История игрушек 4",
+      "site_url": "https://kudago.com/movie/istoriya-igrushek-4/",
+      "dates": null,
+      "datetime": null,
+      "place": null,
+      "price": null,
+      "is_free": null,
+      "movie": null,
+      "missing": [
+        "price",
+        "place"
+      ]
+    }
+  ]
+}

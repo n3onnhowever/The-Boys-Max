@@ -12,9 +12,10 @@ function priceLabel(price:Price):string {
   if(price.kind==='UNKNOWN')return 'Цена не указана';
   if(price.kind==='FREE')return 'Бесплатно';
   if(price.kind==='CONDITIONAL')return price.conditions.length?'Условия: '+price.conditions.join('; '):'Цена с условиями';
-  if(price.kind==='FROM')return 'От '+money(price.quoteMinMinor!,price.currency);
-  if(price.kind==='RANGE')return money(price.quoteMinMinor!,price.currency)+'–'+money(price.quoteMaxMinor!,price.currency);
-  return money(price.quoteMinMinor!,price.currency);
+  if(price.kind==='FROM')return 'От '+money(price.quoteMinMinor!,price.currency)+(price.feesKnown?'':' (итог не подтверждён)');
+  if(price.kind==='RANGE')return money(price.quoteMinMinor!,price.currency)+'–'+money(price.quoteMaxMinor!,price.currency)+(price.feesKnown?'':' (итог не подтверждён)');
+  const quote=money(price.quoteMinMinor!,price.currency);
+  return price.feesKnown?quote:quote+' (итог не подтверждён)';
 }
 export function toOccurrenceView(event:Event,occurrence:Occurrence,asOf:string):OccurrenceView {
   if(occurrence.eventId!==event.id)throw Error('EVENT_OCCURRENCE_MISMATCH');

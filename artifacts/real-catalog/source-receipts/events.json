@@ -1,0 +1,266 @@
+{
+  "name": "events",
+  "url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=1790370000&actual_until=1792961999&page_size=30&fields=id%2Ctitle%2Csite_url%2Cdates%2Cplace%2Cprice%2Cis_free%2Ccategories",
+  "started": "2026-09-26T13:52:56.153Z",
+  "status": 200,
+  "bytes": 297062,
+  "sha256": "99e9df235b550cde3a132f05d702908d2f4f931c3ee6e4c8e3e30434dbf74242",
+  "count": 590,
+  "next": "https://kudago.com/public-api/v1.4/events/?actual_since=1790370000&actual_until=1792961999&fields=id%2Ctitle%2Csite_url%2Cdates%2Cplace%2Cprice%2Cis_free%2Ccategories&location=msk&page=2&page_size=30",
+  "sample": [
+    {
+      "id": 172178,
+      "title": "большой стендап-концерт",
+      "site_url": "https://kudago.com/msk/event/comedy-club-stand-up-shou/",
+      "dates": [
+        {
+          "start": 1534266000,
+          "end": 1534266000
+        },
+        {
+          "start": 1534870800,
+          "end": 1534870800
+        },
+        {
+          "start": 1535133600,
+          "end": 1535133600
+        }
+      ],
+      "datetime": null,
+      "place": null,
+      "price": "от 990 рублей",
+      "is_free": false,
+      "movie": null,
+      "missing": [
+        "place"
+      ]
+    },
+    {
+      "id": 193208,
+      "title": "конные прогулки по национальному парку «Лосиный остров»",
+      "site_url": "https://kudago.com/msk/event/recreation-konnyie-progulki-po-losinomu-ostrovu/",
+      "dates": [
+        {
+          "start": 1625173200,
+          "end": 1627938000
+        },
+        {
+          "start": 1627970400,
+          "end": 1630692000
+        },
+        {
+          "start": 1633586400,
+          "end": 1636308000
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 33778
+      },
+      "price": "индивидуальная прогулка — 4500 рублей",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 190707,
+      "title": "cтендап-шоу от Stand Up Afisha с бесплатным входом",
+      "site_url": "https://kudago.com/msk/event/entertainment-stendap-shou-s-besplatnyim-vhodom/",
+      "dates": [
+        {
+          "start": 1612198800,
+          "end": 1612198800
+        },
+        {
+          "start": 1612371600,
+          "end": 1612371600
+        },
+        {
+          "start": 1612458000,
+          "end": 1612458000
+        }
+      ],
+      "datetime": null,
+      "place": null,
+      "price": "вход бесплатный, депозит на еду — 700 рублей",
+      "is_free": true,
+      "movie": null,
+      "missing": [
+        "place"
+      ]
+    },
+    {
+      "id": 220731,
+      "title": "Гастрономический мюзикл «Москва от заката до рассвета»",
+      "site_url": "https://kudago.com/msk/event/teatr-moskva-ot-zakata-do-rassveta/",
+      "dates": [
+        {
+          "start": 1761944400,
+          "end": 1770757200
+        },
+        {
+          "start": -62135433000,
+          "end": 1770930000
+        },
+        {
+          "start": -62135433000,
+          "end": 1794517200
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 24871
+      },
+      "price": "от 5500 руб. Количество мест ограничено. Уточняйте информацию на сайте организатора.",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 202729,
+      "title": "мастер-класс по скульптуре в студии «Объём»",
+      "site_url": "https://kudago.com/msk/event/obuchenie-master-klass-po-skulpture/",
+      "dates": [
+        {
+          "start": 1704351600,
+          "end": 1706727600
+        },
+        {
+          "start": 1722495600,
+          "end": 1725217200
+        },
+        {
+          "start": 1740726000,
+          "end": 1743447600
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 34888
+      },
+      "price": "1990 рублей",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 190908,
+      "title": "подарочные сертификаты в стрелковый клуб «Лабиринт»",
+      "site_url": "https://kudago.com/msk/event/recreation-podarochnyie-sertifikatyi/",
+      "dates": [
+        {
+          "start": 1612731600,
+          "end": 1614114000
+        },
+        {
+          "start": -62135433000,
+          "end": 1685480400
+        },
+        {
+          "start": -62135433000,
+          "end": 253370754000
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 3691
+      },
+      "price": "от 3000 рублей",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 226831,
+      "title": "ХОРАОКЕ «Голос улиц» от хора ReVoice",
+      "site_url": "https://kudago.com/msk/event/vecherinka-golos-ulits-horaoke/",
+      "dates": [
+        {
+          "start": 1790434800,
+          "end": 1790456340
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 34838
+      },
+      "price": "от 700 до 1400 руб.",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 213192,
+      "title": "арт-шоу «Тайны самоцветов: чудеса природы + искусство ювелира»",
+      "site_url": "https://kudago.com/msk/event/vyistavka-tajnyi-samotsvetov-chudesa-prirodyi--iskusstvo-yuvelira/",
+      "dates": [
+        {
+          "start": 1733000400,
+          "end": 1735592400
+        },
+        {
+          "start": -62135433000,
+          "end": 1747342800
+        },
+        {
+          "start": -62135433000,
+          "end": 1792098000
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 35808
+      },
+      "price": "",
+      "is_free": true,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 226684,
+      "title": "мюзикл «Плакса»",
+      "site_url": "https://kudago.com/msk/event/teatr-plaksa/",
+      "dates": [
+        {
+          "start": 1788987600,
+          "end": 1794690000
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 10428
+      },
+      "price": "от 1000 руб.",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    },
+    {
+      "id": 209939,
+      "title": "мастер-класс по озвучиванию фильма, мультфильма или аниме в академии «Амфитеатр»",
+      "site_url": "https://kudago.com/msk/event/obuchenie-master-klass-po-ozvuchivaniyu-filma-ili-anime/",
+      "dates": [
+        {
+          "start": 1716238800,
+          "end": 1721854800
+        },
+        {
+          "start": 1724187600,
+          "end": 1726866000
+        },
+        {
+          "start": -62135433000,
+          "end": 1793476800
+        }
+      ],
+      "datetime": null,
+      "place": {
+        "id": 35583
+      },
+      "price": "4700 рублей",
+      "is_free": false,
+      "movie": null,
+      "missing": []
+    }
+  ]
+}
