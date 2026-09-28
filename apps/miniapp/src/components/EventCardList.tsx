@@ -1,20 +1,22 @@
 import type { SearchEventViewModel } from '../view-model/search.ts';
 import { Icon } from './Icon.tsx';
 import { SaveAction } from './SaveAction.tsx';
+import {categoryTone} from './categoryTone.ts';
 
 interface EventCardListProps {
   events: readonly SearchEventViewModel[];
   savedEventIds: readonly string[];
   onSave?: (eventId: string) => void;
+  canSave?: (eventId: string) => boolean;
   onOpen?: (eventId: string) => void;
   ariaLabel?: string;
 }
 
-export function EventCardList({ events, savedEventIds, onSave, onOpen, ariaLabel = 'Результаты поиска' }: EventCardListProps) {
+export function EventCardList({ events, savedEventIds, onSave, canSave, onOpen, ariaLabel = 'Результаты поиска' }: EventCardListProps) {
   return <div className="event-list" aria-label={ariaLabel}>
     {events.map(event => <article className="event-list-card" key={event.id}>
       <button className="event-list-open" type="button" onClick={() => onOpen?.(event.id)} disabled={!onOpen} aria-label={`Открыть событие «${event.title}»`}>
-        {event.artwork ? <img className="event-list-artwork" src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} /> : <span className="event-list-artwork event-list-artwork-placeholder" role="img" aria-label="Фото события не предоставлено" />}
+        {event.artwork ? <img className="event-list-artwork" src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} /> : <span className={`event-list-artwork event-list-artwork-placeholder category-${categoryTone(event.categoryLabel)}`} role="img" aria-label="Иллюстрация категории; фото события не предоставлено" />}
         <span className="event-list-copy">
           <span className="event-list-date">{event.dateTimeLabel}</span>
           <span className="event-list-title">{event.title}</span>
@@ -22,7 +24,7 @@ export function EventCardList({ events, savedEventIds, onSave, onOpen, ariaLabel
           <strong className="event-list-price">{event.priceLabel}</strong>
         </span>
       </button>
-      <SaveAction saved={savedEventIds.includes(event.id)} onToggle={onSave ? () => onSave(event.id) : undefined} />
+      {onSave&&<SaveAction saved={savedEventIds.includes(event.id)} onToggle={!canSave||canSave(event.id)?()=>onSave(event.id):undefined} />}
     </article>)}
   </div>;
 }

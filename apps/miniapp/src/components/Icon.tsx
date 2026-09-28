@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'arrow' | 'back' | 'bell' | 'bookmark' | 'calendar' | 'chevronDown' | 'chevronRight' | 'clock' | 'close' | 'coins' | 'external' | 'heart' | 'home' | 'map' | 'more' | 'music' | 'ok' | 'people' | 'pin' | 'plus' | 'search' | 'send' | 'settings' | 'share' | 'ticket' | 'user' | 'wallet' | 'wifi';
+export type IconName = 'arrow' | 'back' | 'bell' | 'bookmark' | 'calendar' | 'chevronDown' | 'chevronRight' | 'clock' | 'close' | 'coins' | 'copy' | 'edit' | 'external' | 'heart' | 'home' | 'map' | 'more' | 'music' | 'ok' | 'people' | 'pin' | 'plus' | 'search' | 'send' | 'settings' | 'share' | 'ticket' | 'user' | 'wallet' | 'wifi';
 
 interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
@@ -27,6 +27,8 @@ export function Icon({ name, filled = false, ...props }: IconProps) {
     {name === 'music' && <><path {...common} d="M9 17.5V6l10-2v11.5" /><circle {...common} cx="6.5" cy="17.5" r="2.5" /><circle {...common} cx="16.5" cy="15.5" r="2.5" /></>}
     {name === 'coins' && <><ellipse {...common} cx="12" cy="6" rx="7" ry="3" /><path {...common} d="M5 6v5c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 11v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5" /></>}
     {name === 'share' && <><path {...common} d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5" /><path {...common} d="M6 10H4.8A1.8 1.8 0 0 0 3 11.8v7.4A1.8 1.8 0 0 0 4.8 21h14.4a1.8 1.8 0 0 0 1.8-1.8v-7.4a1.8 1.8 0 0 0-1.8-1.8H18" /></>}
+    {name === 'copy' && <><rect {...common} x="8" y="8" width="12" height="12" rx="2" /><path {...common} d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></>}
+    {name === 'edit' && <><path {...common} d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5" /><path {...common} d="m12 12 7.1-7.1a2 2 0 0 1 2.8 2.8L14.8 14.8 11 16z" /></>}
     {name === 'ticket' && <><path {...common} d="M4 7.2h16v3a2.2 2.2 0 0 0 0 4.4v2.2H4v-2.2a2.2 2.2 0 0 0 0-4.4z" /><path {...common} d="M9 7.2v9.6" strokeDasharray="2.2 2.2" /></>}
     {name === 'external' && <><path {...common} d="M14 4h6v6M20 4l-9 9" /><path {...common} d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6" /></>}
     {name === 'chevronRight' && <path {...common} d="m9 5 7 7-7 7" />}

@@ -9,9 +9,11 @@ interface ProfileScreenProps {
   model: ProfileViewModel;
   onNavigate?: (id: string) => void;
   onSavedOpen?: () => void;
+  onSettings?: () => void;
+  onNotifications?: () => void;
 }
 
-export function ProfileScreen({ model, onNavigate, onSavedOpen }: ProfileScreenProps) {
+export function ProfileScreen({ model, onNavigate, onSavedOpen, onSettings, onNotifications }: ProfileScreenProps) {
   const [state, dispatch] = useReducer(profileUiReducer, model, createProfileUiState);
   const designOnly = model.provenance === 'DESIGN_FIXTURE';
   return <AppViewport>
@@ -20,13 +22,13 @@ export function ProfileScreen({ model, onNavigate, onSavedOpen }: ProfileScreenP
       <header className="profile-header">
         <button type="button" className="profile-settings-action" aria-label="Сохранённое" onClick={onSavedOpen} disabled={!onSavedOpen}><Icon name="bookmark" /></button>
         <h1>{model.title}</h1>
-        <button type="button" className="profile-settings-action" aria-label="Настройки" disabled>
+        <button type="button" className="profile-settings-action" aria-label="Настройки" onClick={onSettings} disabled={!onSettings}>
           <Icon name="settings" />
         </button>
       </header>
 
-      <button type="button" className="profile-identity-card" aria-label={model.name + ', ' + model.city + '. Редактирование профиля недоступно'} disabled>
-        <img src={model.avatar} alt={model.avatarAlt} />
+      <button type="button" className="profile-identity-card" aria-label={model.name + ', ' + model.city} onClick={onSettings} disabled={!onSettings}>
+        {model.avatar ? <img src={model.avatar} alt={model.avatarAlt} /> : <span className="profile-avatar-initial" aria-hidden="true">{model.name.slice(0,1)}</span>}
         <span className="profile-identity-copy"><strong>{model.name}</strong><span>{model.city}</span></span>
         <Icon name="chevronRight" />
       </button>
@@ -37,7 +39,7 @@ export function ProfileScreen({ model, onNavigate, onSavedOpen }: ProfileScreenP
         return <section className={'profile-preference-section' + (editing ? ' is-editing' : '')} aria-labelledby={'profile-' + section.id} key={section.id}>
           <div className="profile-section-heading">
             <h2 id={'profile-' + section.id}>{section.title}</h2>
-            <button type="button" disabled={!designOnly} aria-expanded={editing} onClick={() => dispatch({ type: 'TOGGLE_EDIT', sectionId: section.id })}>
+            <button type="button" disabled={!designOnly&&!onSettings} aria-expanded={editing} onClick={() => designOnly ? dispatch({ type: 'TOGGLE_EDIT', sectionId: section.id }) : onSettings?.()}>
               {editing ? 'Готово' : 'Изменить'}
             </button>
           </div>
@@ -62,8 +64,8 @@ export function ProfileScreen({ model, onNavigate, onSavedOpen }: ProfileScreenP
           type="button"
           className={'profile-preference-row profile-preference-row-' + row.id}
           key={row.id}
-          onClick={row.id === 'notifications' ? () => dispatch({ type: 'TOGGLE_NOTIFICATIONS' }) : undefined}
-          disabled={!designOnly || row.id !== 'notifications'}
+          onClick={designOnly ? row.id === 'notifications' ? () => dispatch({ type: 'TOGGLE_NOTIFICATIONS' }) : undefined : row.id === 'notifications' ? onNotifications : onSettings}
+          disabled={designOnly ? row.id !== 'notifications' : !(row.id === 'notifications' ? onNotifications : onSettings)}
         >
           <Icon name={row.icon} />
           <span><strong>{row.label}</strong><small>{row.id === 'notifications' && !state.notificationsEnabled ? 'Выключены' : row.value}</small></span>
@@ -84,7 +86,7 @@ export function ProfileScreen({ model, onNavigate, onSavedOpen }: ProfileScreenP
         </div>
       </section>
 
-      <button type="button" className="profile-settings-row" disabled>
+      <button type="button" className="profile-settings-row" onClick={onSettings} disabled={!onSettings}>
         <Icon name="settings" /><span>Настройки</span><Icon name="chevronRight" />
       </button>
     </Screen>

@@ -59,6 +59,7 @@ export interface EventView extends BaseView {
 export interface InviteView extends BaseView {
   kind: 'INVITE'; state: 'REQUESTABLE' | 'PENDING' | 'ACTIVE' | 'EXPIRED' | 'REJECTED';
   inviteRef: string; activePlanId: string | null;
+  context?:{organizerName:string;planTitle:string;eventTitle:string|null;startsAt:string|null;venue:string|null}|null;
 }
 export interface OptionView {
   optionId: string; snapshotId: string; termsRevision: number; presentationRevision: number;

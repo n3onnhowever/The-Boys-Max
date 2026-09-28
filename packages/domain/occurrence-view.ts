@@ -1,10 +1,10 @@
 import type {Event,Occurrence,Price} from './event.ts';
 export type OccurrenceView={
-  id:string;eventId:string;title:string;categories:string[];categoriesComplete:boolean;categoryMappingVerified:boolean;
+  id:string;eventId:string;occurrenceRef?:string;title:string;categories:string[];categoriesComplete:boolean;categoryMappingVerified:boolean;
   startsAt:string;endsAt:string|null;timeZone:string;timeState:'UPCOMING'|'ENDED'|'IN_PROGRESS'|'STARTED_END_UNKNOWN';
   venue:{state:'VENUE'|'PARTIAL_ADDRESS'|'ONLINE'|'UNKNOWN';name:string|null;address:string|null;coordinates:{lat:number;lon:number}|null};
   price:{kind:Price['kind'];label:string;conditions:string[];totalMinMinor:string|null;totalMaxMinor:string|null;currency:string|null;basis:Price['basis'];evidenceScope:Price['evidenceScope']};
-  source:{providerId:string;providerEventId:string;url:string|null;canOpen:boolean;fetchedAt:string};
+  source:{sourceId?:string;providerId:string;providerEventId:string;url:string|null;canOpen:boolean;fetchedAt:string};
   lifecycle:Occurrence['lifecycle'];confirmation:Occurrence['confirmation'];warnings:string[];
 };
 function money(minor:string,currency:string|null){if(currency!=='RUB')return minor+' '+(currency??'');const value=BigInt(minor),kopecks=value%100n;return String(value/100n)+(kopecks===0n?'':','+String(kopecks).padStart(2,'0'))+' \u20bd';}
@@ -35,13 +35,13 @@ export function toOccurrenceView(event:Event,occurrence:Occurrence,asOf:string):
   if(occurrence.lifecycle==='UNKNOWN')warnings.push('LIFECYCLE_UNKNOWN');
   if(!canOpen)warnings.push('SOURCE_UNAVAILABLE');
   return {
-    id:occurrence.id,eventId:event.id,title:event.title,categories:event.categories,categoriesComplete:event.categoriesComplete,categoryMappingVerified:event.categoryMappingVerified,
+    id:occurrence.id,eventId:event.id,occurrenceRef:occurrence.aliasValue,title:event.title,categories:event.categories,categoriesComplete:event.categoriesComplete,categoryMappingVerified:event.categoryMappingVerified,
     startsAt:occurrence.startsAt,endsAt:occurrence.endsAt,timeZone:occurrence.timeZone,timeState,
     venue:{state:occurrence.place.kind,name:occurrence.place.venueName,address:occurrence.place.address,coordinates:occurrence.place.coordinates},
     price:{kind:occurrence.price.kind,label:priceLabel(occurrence.price),conditions:occurrence.price.conditions,
       totalMinMinor:occurrence.price.totalMinMinor,totalMaxMinor:occurrence.price.totalMaxMinor,
       currency:occurrence.price.currency,basis:occurrence.price.basis,evidenceScope:occurrence.price.evidenceScope},
-    source:{providerId:occurrence.provenance.providerId,providerEventId:occurrence.provenance.providerEventId,
+    source:{sourceId:occurrence.provenance.sourceId,providerId:occurrence.provenance.providerId,providerEventId:occurrence.provenance.providerEventId,
       url:canOpen?sourceUrl:null,canOpen,fetchedAt:occurrence.provenance.fetchedAt},
     lifecycle:occurrence.lifecycle,confirmation:occurrence.confirmation,warnings,
   };

@@ -22,7 +22,7 @@ export type LoadingSystemState = Extract<HomeSystemState, { kind: 'loading' }>;
 export type EmptySystemState = Extract<HomeSystemState, { kind: 'empty' }>;
 export type ErrorSystemState = Extract<HomeSystemState, { kind: 'error' }>;
 export type OfflineSystemState = Extract<HomeSystemState, { kind: 'offline' }>;
-export type HomeSystemAction = 'change-filters' | 'reset-filters' | 'retry' | 'return-home';
+export type HomeSystemAction = 'change-filters' | 'reset-filters' | 'change-city' | 'retry' | 'return-home';
 
 export interface HomeSystemChrome {
   searchPlaceholder: string;

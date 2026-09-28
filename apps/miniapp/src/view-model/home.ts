@@ -44,13 +44,13 @@ function eventId(event: EventCardView): string {
   return [event.ref.sourceId, event.ref.externalEventId, event.ref.occurrenceId ?? 'event'].join(':');
 }
 
-function adaptEvent(event: EventCardView, hero = false): HomeEventViewModel {
+function adaptEvent(event: EventCardView, hero = false, distanceKm:number|null=null): HomeEventViewModel {
   return {
     id: eventId(event),
     title: event.title,
     dateTimeLabel: event.startLabel,
     venue: event.place.address,
-    distanceLabel: null,
+    distanceLabel: distanceKm===null?null:`${distanceKm.toFixed(1)} км`,
     priceLabel: event.price.baseLabel || null,
     categoryLabels: [event.categoryLabel],
     artwork: null,
@@ -64,17 +64,25 @@ function adaptEvent(event: EventCardView, hero = false): HomeEventViewModel {
  * Presentation-only adapter. It neither evaluates eligibility nor replaces the
  * server-owned event, occurrence, source, price, or authorization contracts.
  */
-export function catalogToHomeViewModel(view: CatalogView): HomeViewModel {
-  const events = view.events.map(event => adaptEvent(event));
+export function catalogToHomeViewModel(view: CatalogView, location?:{lat:number;lon:number;radiusKm:number}, interests:readonly string[]=[]): HomeViewModel {
+  const relevance=(event:EventCardView)=>interests.some(x=>x.trim()&&`${event.title} ${event.categoryLabel}`.toLocaleLowerCase('ru-RU').includes(x.toLocaleLowerCase('ru-RU')))?1:0;
+  const ranked=[...view.events].sort((a,b)=>relevance(b)-relevance(a));
+  const events = ranked.map(event => adaptEvent(event));
   const selectedCategory = view.query.includedCategories[0] ?? 'all';
   return {
     provenance: 'SERVER_ADAPTER',
     searchPlaceholder: 'Куда идём сегодня?',
     categories,
     activeCategoryId: categories.some(category => category.id === selectedCategory) ? selectedCategory : 'all',
-    hero: view.events[0] ? adaptEvent(view.events[0], true) : null,
+    hero: ranked[0] ? adaptEvent(ranked[0], true) : null,
     forYou: events.slice(0, 6),
-    nearby: events.slice(6, 10),
+    nearby: location?view.events.flatMap(event=>{
+      const point=event.place.coordinates;if(!point)return [];
+      const radians=Math.PI/180,dLat=(point.lat-location.lat)*radians,dLon=(point.lon-location.lon)*radians;
+      const a=Math.sin(dLat/2)**2+Math.cos(location.lat*radians)*Math.cos(point.lat*radians)*Math.sin(dLon/2)**2;
+      const km=6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+      return km<=location.radiusKm?[{event:adaptEvent(event,false,km),km}]:[];
+    }).sort((a,b)=>a.km-b.km).slice(0,4).map(x=>x.event):[],
   };
 }
 

@@ -1,14 +1,6 @@
-import { BRAND_ASSETS } from '../assets.ts';
-import { Icon } from './Icon.tsx';
+import { AppHeader, useUnreadCount } from './PovodUI.tsx';
 
-export function BrandHeader() {
-  return <header className="brand-header">
-    <div className="brand-wordmark" aria-label="Повод">
-      <img src={BRAND_ASSETS.wordmark} alt="Повод" />
-    </div>
-    <button className="notification-action" type="button" aria-label="Уведомления" disabled>
-      <Icon name="bell" />
-      <span className="notification-dot" />
-    </button>
-  </header>;
+export function BrandHeader({onNotifications,onCity,city}:{onNotifications?:()=>void;onCity?:()=>void;city?:string}) {
+  const unreadCount=useUnreadCount();
+  return <AppHeader onNotifications={onNotifications} unreadCount={unreadCount} onCity={onCity} city={city}/>;
 }

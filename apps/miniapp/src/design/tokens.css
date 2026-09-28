@@ -35,7 +35,7 @@
   --povod-icon-small: 18px;
   --povod-icon-medium: 22px;
   --povod-icon-large: 28px;
-  --povod-screen-gutter: 12px;
+  --povod-screen-gutter: var(--povod-space-6);
   --povod-bottom-nav-height: 78px;
   --povod-safe-top: env(safe-area-inset-top, 0px);
   --povod-safe-right: env(safe-area-inset-right, 0px);

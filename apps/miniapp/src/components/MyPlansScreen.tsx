@@ -29,7 +29,7 @@ function ParticipantStack({ participants, additionalCount, limit }: {
 }
 
 export function MyPlansScreen({ model, onAddPlan, onPlanOpen, onNavigate }: MyPlansScreenProps) {
-  const { nearest, others } = splitPlans(model);
+  const { nearest, others } = model.plans.length ? splitPlans(model) : {nearest:null,others:[] as readonly typeof model.plans[number][]};
   const [rsvpByPlan, setRsvpByPlan] = useState<Record<string, PlanRsvpState>>(
     () => Object.fromEntries(model.plans.map(plan => [plan.id, plan.rsvp])),
   );
@@ -45,13 +45,15 @@ export function MyPlansScreen({ model, onAddPlan, onPlanOpen, onNavigate }: MyPl
         <button type="button" aria-label="Добавить план" onClick={onAddPlan} disabled={!onAddPlan}><Icon name="plus" /></button>
       </header>
       <div className="plans-page-content" data-provenance={model.provenance}>
+        {!nearest && <section className="saved-empty" role="status"><Icon name="calendar" /><h2>Планов пока нет</h2><p>Выберите событие и добавьте его в план.</p><button type="button" onClick={onAddPlan}>Найти событие</button></section>}
+        {nearest && <>
         <section className="plans-nearest-section" aria-labelledby="nearest-plan-heading">
           <h2 id="nearest-plan-heading">Ближайший план</h2>
           <article className="nearest-plan-card" data-rsvp-state={rsvpByPlan[nearest.id]}>
-            <PlanEventSummary event={nearest.event} variant="nearest" onOpen={onPlanOpen ? () => onPlanOpen(nearest.id) : undefined} />
+            <PlanEventSummary event={nearest.event} variant="nearest" actionLabel="план" onOpen={onPlanOpen ? () => onPlanOpen(nearest.id) : undefined} />
             <div className="nearest-plan-social">
               <ParticipantStack participants={nearest.participants} additionalCount={nearest.additionalParticipantCount} limit={3} />
-              <RsvpPill state={rsvpByPlan[nearest.id] ?? nearest.rsvp} onChange={state => updateRsvp(nearest.id, state)} />
+              <RsvpPill state={rsvpByPlan[nearest.id] ?? nearest.rsvp} onChange={model.provenance==='DESIGN_FIXTURE'?state => updateRsvp(nearest.id, state):undefined} />
             </div>
           </article>
         </section>
@@ -59,14 +61,15 @@ export function MyPlansScreen({ model, onAddPlan, onPlanOpen, onNavigate }: MyPl
           <h2 id="other-plans-heading">Другие планы</h2>
           <div className="plans-list">
             {others.map(plan => <article className="plan-list-card" key={plan.id} data-rsvp-state={rsvpByPlan[plan.id]}>
-              <PlanEventSummary event={plan.event} onOpen={onPlanOpen ? () => onPlanOpen(plan.id) : undefined} />
+              <PlanEventSummary event={plan.event} actionLabel="план" onOpen={onPlanOpen ? () => onPlanOpen(plan.id) : undefined} />
               <div className="plan-list-social">
                 <ParticipantStack participants={plan.participants} additionalCount={plan.additionalParticipantCount} limit={2} />
-                <RsvpPill compact state={rsvpByPlan[plan.id] ?? plan.rsvp} onChange={state => updateRsvp(plan.id, state)} />
+                <RsvpPill compact state={rsvpByPlan[plan.id] ?? plan.rsvp} onChange={model.provenance==='DESIGN_FIXTURE'?state => updateRsvp(plan.id, state):undefined} />
               </div>
             </article>)}
           </div>
         </section>
+        </>}
       </div>
     </Screen>
     <BottomNav active="plan" onSelect={onNavigate} />

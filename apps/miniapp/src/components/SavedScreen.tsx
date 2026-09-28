@@ -5,17 +5,20 @@ import { AppViewport, Screen } from './AppShell.tsx';
 import { BottomNav } from './BottomNav.tsx';
 import { EventCardList } from './EventCardList.tsx';
 import { Icon } from './Icon.tsx';
+import { BackHeader, useUnreadCount } from './PovodUI.tsx';
 
 interface SavedScreenProps {
   model: SavedViewModel;
   initialSegment?: SavedSegment;
   onEventOpen?: (eventId: string) => void;
   onNavigate?: (id: string) => void;
+  onBack?: () => void;
   onNotifications?: () => void;
   onToggleSaved?: (eventId:string,saved:boolean)=>Promise<void>;
 }
 
-export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, onNavigate, onNotifications, onToggleSaved }: SavedScreenProps) {
+export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, onNavigate, onBack, onNotifications, onToggleSaved }: SavedScreenProps) {
+  const unreadCount=useUnreadCount();
   const [state, dispatch] = useReducer(savedUiReducer, undefined, () => createSavedUiState(model, initialSegment));
   const [pending,setPending]=useState<string|null>(null);
   const pendingRef=useRef(false);
@@ -34,14 +37,14 @@ export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, o
   return <AppViewport>
     <a className="skip-link" href="#main">К содержимому</a>
     <Screen className="saved-screen">
-      <header className="saved-page-header">
+      {onBack?<BackHeader title={model.title} onBack={onBack} action={<button className="notification-action" type="button" aria-label="Уведомления" onClick={onNotifications} disabled={!onNotifications}><Icon name="bell" />{unreadCount>0&&<span className="v2-unread" aria-label={`Непрочитанных: ${unreadCount}`}>{unreadCount>9?'9+':unreadCount}</span>}</button>}/>:<header className="saved-page-header">
         <span aria-hidden="true" />
         <h1>{model.title}</h1>
         <button className="notification-action" type="button" aria-label="Уведомления" onClick={onNotifications} disabled={!onNotifications}>
           <Icon name="bell" />
-          <span className="notification-dot" aria-hidden="true" />
+          {unreadCount>0&&<span className="v2-unread" aria-label={`Непрочитанных: ${unreadCount}`}>{unreadCount>9?'9+':unreadCount}</span>}
         </button>
-      </header>
+      </header>}
       <div className="saved-segmented" role="group" aria-label="Период сохранённых событий">
         {model.segments.map(segment => <button
           key={segment.id}
@@ -76,6 +79,6 @@ export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, o
       </div> : null}
       {error && <p role="alert">{error}</p>}
     </Screen>
-    <BottomNav active="profile" onSelect={onNavigate} />
+    {!onBack&&<BottomNav active="profile" onSelect={onNavigate} />}
   </AppViewport>;
 }

@@ -5,6 +5,7 @@ const NEXT_RSVP: Record<PlanRsvpState, PlanRsvpState> = {
   GOING: 'THINKING',
   THINKING: 'SOLO',
   SOLO: 'GOING',
+  PENDING: 'GOING',
 };
 
 interface RsvpPillProps {

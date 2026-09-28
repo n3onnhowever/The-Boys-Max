@@ -18,6 +18,7 @@ export function runtimeSelectedFilterChips(query: SearchDraft): SelectedFilterVi
     selected.push({ id: `category:${category}`, key: 'category', value: category,
       label: RUNTIME_CATEGORY_OPTIONS.find(option => option.id === category)?.label ?? 'Категория', icon: 'music' });
   }
+  if(query.budgetText)selected.push({id:`price:${query.budgetText}`,key:'price',value:query.budgetText,label:`До ${query.budgetText} ₽`,icon:'coins'});
   return selected;
 }
 
@@ -100,6 +101,7 @@ export interface SearchEventViewModel {
   artwork: string | null;
   artworkAlt: string;
   saved: boolean;
+  categoryLabel?:string;
 }
 
 export interface SearchViewModel {
@@ -237,7 +239,7 @@ function eventId(event: EventCardView): string {
   return [event.ref.sourceId, event.ref.externalEventId, event.ref.occurrenceId ?? 'event'].join(':');
 }
 
-function resultCountLabel(count: number): string {
+export function resultCountLabel(count: number): string {
   const word = count % 10 === 1 && count % 100 !== 11 ? 'событие' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14) ? 'события' : 'событий';
   return `Найдено ${count} ${word}`;
 }
@@ -267,6 +269,7 @@ export function catalogToSearchViewModel(view: CatalogView): SearchViewModel {
       artwork: null,
       artworkAlt: '',
       saved: false,
+      categoryLabel:event.categoryLabel,
     })),
   };
 }

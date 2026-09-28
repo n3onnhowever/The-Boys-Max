@@ -13,6 +13,16 @@ type SessionRow={id:string;actor_id:string;family_id:string;csrf_generation:numb
 export function sessionService(pool:Pool,config:SessionConfig){
  const csrf=(id:string,gen:number)=>keyed(config.sessionKey,`csrf:${id}:${gen}`);
  return {
+ async ownerPreview(persona:'owner'|'friend'='owner'){
+  const externalId=persona==='owner'?'9223372036854775807':'9223372036854775806';
+  const name=persona==='owner'?'Владелец · предпросмотр':'Друг · предпросмотр';
+  const actor=await pool.query<{id:string;display_name:string}>(`INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3)
+   ON CONFLICT(external_id) DO UPDATE SET display_name=EXCLUDED.display_name RETURNING id,display_name`,[randomUUID(),externalId,name]);
+  const token=randomBytes(32).toString('base64url'),id=randomUUID(),family=randomUUID();
+  const expires=new Date(Date.now()+3600_000);
+  await pool.query(`INSERT INTO app_sessions(id,actor_id,family_id,token_hash,issued_at,absolute_expires_at,last_seen_at) VALUES($1,$2,$3,$4,clock_timestamp(),$5,clock_timestamp())`,[id,actor.rows[0]!.id,family,keyed(config.sessionKey,token),expires]);
+  return {token,actor:actor.rows[0]!.id,expiresAt:expires.toISOString()};
+ },
  async bootstrap(){
   const binding=randomBytes(32).toString('base64url'),csrfToken=randomBytes(32).toString('base64url'),id=randomUUID();
   const r=await pool.query<{expires_at:Date}>('INSERT INTO session_bootstraps(id,binding_hash,csrf_hash,expires_at) VALUES($1,$2,$3,clock_timestamp()+interval \'120 seconds\') RETURNING expires_at',[id,keyed(config.sessionKey,binding),keyed(config.sessionKey,csrfToken)]);

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import {createPortal} from 'react-dom';
 import type { SearchFilterState, SearchUiAction } from '../view-model/search.ts';
 import type { SearchDraft } from '../port/contracts.ts';
 import { RUNTIME_CATEGORY_OPTIONS, SEARCH_FILTER_OPTIONS } from '../view-model/search.ts';
@@ -23,6 +24,8 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
     if (!open || !dialogRef.current) return;
     const dialog = dialogRef.current;
     const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow=document.body.style.overflow;
+    document.body.style.overflow='hidden';
     const layer = dialog.parentElement;
     const background = Array.from(layer?.parentElement?.children ?? [])
       .filter((element): element is HTMLElement => element instanceof HTMLElement && element !== layer)
@@ -32,11 +35,12 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
     return () => {
       cancelAnimationFrame(focusFrame);
       background.forEach(({ element, inert }) => { element.inert = inert; });
+      document.body.style.overflow=previousOverflow;
       if (opener?.isConnected && opener !== document.body) opener.focus({ preventScroll: true });
     };
   }, [open]);
   const close = () => runtime ? runtime.onClose() : onAction({ type: 'CLOSE_FILTERS' });
-  return <div className={`filter-sheet-layer${open ? ' is-open' : ''}`} aria-hidden={!open} inert={!open}>
+  const layer=<div className={`filter-sheet-layer${open ? ' is-open' : ''}`} aria-hidden={!open} inert={!open}>
     <button className="filter-sheet-backdrop" type="button" tabIndex={-1} aria-label="Закрыть фильтры" onClick={close} />
     <aside ref={dialogRef} id="filter-sheet-dialog" className="filter-sheet" role="dialog" tabIndex={-1} aria-modal="true" aria-labelledby="filter-sheet-title" onKeyDown={event => {
       if (event.key === 'Escape') {
@@ -59,8 +63,10 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
       <div className="filter-sheet-scroll">
         {runtime ? <>
           <section className="filter-sheet-section">
-            <h2><label htmlFor="runtime-filter-date">Дата</label></h2>
-            <input id="runtime-filter-date" className="runtime-filter-date" type="date" value={runtime.draft.date}
+            <h2>Дата</h2>
+            <div className="v2-chip-row">{[{label:'Любая',value:''},{label:'Сегодня',value:new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'})},{label:'Завтра',value:new Date(Date.now()+86400000).toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'})}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.date===x.value?' is-selected':''}`} aria-pressed={runtime.draft.date===x.value} onClick={()=>runtime.onChange({...runtime.draft,date:x.value})}>{x.label}</FilterChip>)}</div>
+            <label htmlFor="runtime-filter-date">Выбрать дату</label>
+            <input id="runtime-filter-date" className="v2-input runtime-filter-date" type="date" value={runtime.draft.date}
               onChange={event => runtime.onChange({ ...runtime.draft, date: event.target.value })} />
           </section>
           <FilterSection title="Категории">
@@ -73,7 +79,8 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
               </FilterChip>;
             })}
           </FilterSection>
-          <p className="runtime-filter-note">Поиск по словам и другие условия пока недоступны.</p>
+          <section className="filter-sheet-section"><h2>Бюджет на человека</h2><div className="v2-chip-row">{[{label:'Любой',value:''},{label:'До 1 000 ₽',value:'1000'},{label:'До 1 500 ₽',value:'1500'},{label:'До 3 000 ₽',value:'3000'},{label:'До 5 000 ₽',value:'5000'}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.budgetText===x.value?' is-selected':''}`} aria-pressed={runtime.draft.budgetText===x.value} onClick={()=>runtime.onChange({...runtime.draft,budgetText:x.value,priceBasis:x.value?'PER_PERSON':'UNKNOWN'})}>{x.label}</FilterChip>)}</div></section>
+          <div className="filter-map-row" aria-disabled="true"><Icon name="map"/><span>Показать на карте · Скоро</span></div>
         </> : <>
         <FilterSection title="Дата">
           {SEARCH_FILTER_OPTIONS.dates.map(option => {
@@ -126,4 +133,5 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
       </footer>
     </aside>
   </div>;
+  return open?createPortal(layer,document.body):layer;
 }

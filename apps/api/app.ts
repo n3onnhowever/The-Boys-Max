@@ -8,10 +8,11 @@ import {z} from 'zod';
 import {randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import type {Config} from '../../packages/platform/config.ts';
+import {ownerPreviewAllowed,type Config} from '../../packages/platform/config.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
 import {savedService} from '../../packages/persistence/saved.ts';
+import {socialService} from '../../packages/persistence/social.ts';
 import {DEMO_ITEMS,DEMO_NOTICE} from '../../packages/demo/catalog-v1.ts';
 import {planService} from '../../packages/persistence/plans.ts';
 import {ingressService} from '../../packages/platform/ingress.ts';
@@ -29,7 +30,7 @@ export async function buildApp(c:Config){
  app.addContentTypeParser('application/json',{parseAs:'buffer'},(req,body,done)=>{try{done(null,strictJson(fatalUtf8(body as Buffer)));}catch(e){done(e as Error,undefined);}});
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
- const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode);
+ const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode),social=socialService(pool);
  const ui=uiService(pool,plans,c);
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};
  const header=(r:FastifyRequest,name:string)=>{const h=r.headers[name];return typeof h==='string'?h:undefined;};
@@ -58,6 +59,10 @@ export async function buildApp(c:Config){
   try{return reply.type(mime[extension]!).send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
+ const ownerPreview=ownerPreviewAllowed(process.env,c.mode,c.publicOrigin);
+ if(ownerPreview)app.post('/dev/owner-session',{schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
+  origin(r);json(r);const session=await sessions.ownerPreview(r.body.persona);reply.setCookie('__Host-max_session',session.token,{...attrs,maxAge:3600});return {ready:true};
+ });
  if(c.mode==='demo'||c.mode==='hybrid')app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>{
   const item=DEMO_ITEMS.find(x=>x.id===r.params.id);requireThat(item,'NOT_FOUND',404);
   reply.header('Content-Security-Policy',"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'");
@@ -85,6 +90,32 @@ export async function buildApp(c:Config){
   reply.setCookie('__Host-max_session',x.token,{...attrs,maxAge:Math.max(0,Math.floor((Date.parse(x.body.absoluteExpiresAt)-Date.now())/1000))});return x.body;
  });
  app.get('/api/v1/session',{schema:{response:{200:S.sessionSchema,...S.errors},security:[{sessionCookie:[]}]}},async r=>{const x=await auth(r);return {actor:x.actor,csrfToken:x.csrfToken,absoluteExpiresAt:x.absoluteExpiresAt,idleTtlSeconds:x.idleTtlSeconds};});
+ const preferenceSchema=z.strictObject({city:z.string().min(1).max(80),interests:z.array(z.string().min(1).max(80)).max(20),budgetRub:z.number().int().min(0).max(1000000).nullable(),radiusKm:z.number().int().min(1).max(100),notificationsEnabled:z.boolean(),preferredTime:z.enum(['ANY','MORNING','DAY','EVENING','NIGHT'])});
+ const idParam=z.strictObject({id:z.uuid()});
+ app.get('/api/v1/me/preferences',{schema:{response:{200:preferenceSchema,...S.errors}}},async r=>social.settings((await auth(r)).actor.id));
+ app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema,response:{200:preferenceSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
+ app.get('/api/v1/me/friends',async r=>social.friends((await auth(r)).actor.id));
+ app.post('/api/v1/me/friend-links',{schema:{body:z.strictObject({})}},async r=>social.createFriendLink((await auth(r,true)).actor.id));
+ app.post('/api/v1/friend-links/:token/request',{schema:{params:z.strictObject({token:z.string().regex(/^[a-f0-9]{64}$/)}),body:z.strictObject({})}},async r=>social.requestFromFriendLink((await auth(r,true)).actor.id,r.params.token));
+ app.get('/api/v1/friend-links/:token/status',{schema:{params:z.strictObject({token:z.string().regex(/^[a-f0-9]{64}$/)})}},async r=>social.friendLinkStatus((await auth(r)).actor.id,r.params.token));
+ app.post('/api/v1/me/friends',{schema:{body:z.strictObject({actorId:z.uuid()})}},async r=>social.requestFriend((await auth(r,true)).actor.id,r.body.actorId));
+ app.post('/api/v1/me/friends/:id/accept',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.acceptFriend((await auth(r,true)).actor.id,r.params.id));
+ app.post('/api/v1/me/friends/:id/reject',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.rejectFriend((await auth(r,true)).actor.id,r.params.id));
+ app.get('/api/v1/me/notifications',async r=>social.notifications((await auth(r)).actor.id));
+ app.post('/api/v1/me/notifications/:id/read',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.readNotification((await auth(r,true)).actor.id,r.params.id));
+ const planPresentationSchema=z.strictObject({title:z.string().trim().min(1).max(160),meetingTime:z.iso.datetime().nullable(),meetingPoint:z.string().max(200).nullable(),note:z.string().max(2000).nullable(),participantLimit:z.number().int().min(1).max(50).nullable(),expectedVersion:z.number().int().min(0)});
+ app.get('/api/v1/plans/:planId/presentation',{schema:{params:S.planParams}},async r=>social.planPresentation((await auth(r)).actor.id,r.params.planId));
+ app.put('/api/v1/plans/:planId/presentation',{schema:{params:S.planParams,body:planPresentationSchema}},async r=>social.savePlanPresentation((await auth(r,true)).actor.id,r.params.planId,r.body));
+ app.post('/api/v1/plans/:planId/presentation/seen',{schema:{params:S.planParams,body:z.strictObject({})}},async r=>social.acknowledgePlanPresentation((await auth(r,true)).actor.id,r.params.planId));
+ app.get('/api/v1/plans/:planId/rsvps',{schema:{params:S.planParams}},async r=>social.planRsvps((await auth(r)).actor.id,r.params.planId));
+ app.put('/api/v1/plans/:planId/rsvps/me',{schema:{params:S.planParams,body:z.strictObject({state:z.enum(['YES','MAYBE','NO']),expectedReconfirmVersion:z.number().int().min(0).optional()})}},async r=>social.setPlanRsvp((await auth(r,true)).actor.id,r.params.planId,r.body.state,r.body.expectedReconfirmVersion));
+ app.get('/api/v1/plans/:planId/messages',{schema:{params:S.planParams}},async r=>social.messages((await auth(r)).actor.id,r.params.planId));
+ app.post('/api/v1/plans/:planId/messages',{schema:{params:S.planParams,body:z.strictObject({text:z.string().trim().min(1).max(2000)})}},async r=>social.sendMessage((await auth(r,true)).actor.id,r.params.planId,r.body.text));
+ app.post('/api/v1/plans/:planId/invite-friend',{schema:{params:S.planParams,body:z.strictObject({friendId:z.uuid(),expectedStateVersion:z.number().int().positive()})}},async r=>{
+  const actor=(await auth(r,true)).actor.id;await social.ensureFriend(actor,r.body.friendId);const invite=await plans.invite(actor,r.params.planId,randomUUID(),r.body.expectedStateVersion);
+  return social.inviteFriend(actor,r.body.friendId,r.params.planId,invite.inviteRef);
+ });
+ app.get('/api/v1/plans/:planId/invite-statuses',{schema:{params:S.planParams}},async r=>social.planInviteStatuses((await auth(r)).actor.id,r.params.planId));
  app.post('/api/v1/session/logout',{schema:{body:z.strictObject({}),response:{200:z.strictObject({loggedOut:z.literal(true)}),...S.errors},security:[{sessionCookie:[]}]}},async(r,reply)=>{
   const s=await auth(r,true);await sessions.logout(s.familyId);reply.clearCookie('__Host-max_session',attrs);reply.clearCookie('__Host-max_bootstrap',attrs);return {loggedOut:true as const};
  });
@@ -108,6 +139,8 @@ export async function buildApp(c:Config){
  app.post('/api/v1/plans/:planId/commands',{schema:{params:S.planParams,headers:S.idHeaders,body:S.commandSchema,response:{200:S.receiptSchema,...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r,true);return plans.command(s.actor.id,r.params.planId,r.headers['idempotency-key'],r.body,r.id);});
  app.post('/api/v1/plans/:planId/invites',{schema:{params:S.planParams,headers:S.idHeaders,body:z.strictObject({expectedStateVersion:z.number().int().positive()}),response:{200:z.strictObject({inviteRef:z.string(),expiresAt:z.string()}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r,true);return plans.invite(s.actor.id,r.params.planId,r.headers['idempotency-key'],r.body.expectedStateVersion);});
  app.get('/api/v1/plans/:planId/joins',{schema:{params:S.planParams,response:{200:z.array(z.strictObject({planId:z.uuid(),actorId:z.uuid(),state:z.string()})),...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r);return plans.pending(s.actor.id,r.params.planId);});
+ app.get('/api/v1/plans/:planId/join-requests',{schema:{params:S.planParams}},async r=>social.joinRequests((await auth(r)).actor.id,r.params.planId));
+ app.post('/api/v1/plans/:planId/joins/:id/reject',{schema:{params:z.strictObject({planId:z.uuid(),id:z.uuid()}),body:z.strictObject({})}},async r=>social.rejectJoin((await auth(r,true)).actor.id,r.params.planId,r.params.id));
  const inviteParams=z.strictObject({ref:z.string().regex(/^[a-f0-9]{64}$/)});
  app.get('/api/v1/invites/:ref',{schema:{params:inviteParams,response:{200:z.strictObject({state:z.string()}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r);return plans.ownJoin(s.actor.id,r.params.ref);});
  app.post('/api/v1/invites/:ref/join',{schema:{params:inviteParams,body:z.strictObject({}),response:{200:z.strictObject({state:z.string()}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r,true);return plans.requestJoin(s.actor.id,r.params.ref);});

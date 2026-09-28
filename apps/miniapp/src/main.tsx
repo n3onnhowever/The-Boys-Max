@@ -9,6 +9,7 @@ import { App } from './App.tsx';
 import { ViewController } from './core/controller.ts';
 import { HttpVisualPort } from './port/http.ts';
 import { codec, routeSchema } from './port/schema.ts';
+import {eventRouteFromToken} from './core/event-link.ts';
 import type { Route } from './port/contracts.ts';
 import { resolveDesignPreview } from './view-model/design-preview.ts';
 import './styles.css';
@@ -26,13 +27,14 @@ let initialRoute:Route={kind:'CATALOG',scope:{kind:'PERSONAL'}};
 const params=new URLSearchParams(location.search);
 try{const serialized=params.get('route');if(serialized&&params.getAll('route').length===1)initialRoute=routeSchema.parse(JSON.parse(serialized));}
 catch{/* Malformed navigation never grants access. */}
+if(!params.has('route')&&params.getAll('event').length===1){const shared=eventRouteFromToken(params.get('event'));if(shared)initialRoute=shared;}
 const invite=params.get('invite');
 if(invite&&params.getAll('invite').length===1&&/^[a-f0-9]{64}$/.test(invite))initialRoute={kind:'INVITE',inviteRef:invite};
 let raw:string|null=null,launchError:unknown=null;
 try{
  raw=launchData();
  const context=startParam(raw,location.search);
- if(!params.has('route')&&!params.has('invite')&&context)initialRoute=decodeLaunch(context);
+ if(!params.has('route')&&!params.has('event')&&!params.has('invite')&&context)initialRoute=decodeLaunch(context);
 }catch(error){launchError=error;}
 finally{
  // Remove launch material before any private view or external navigation; keep it only in memory.
@@ -57,11 +59,16 @@ async function start(){
  if(starting)return;starting=true;render();
  try{
   if(launchError)throw launchError;
+  if(['1','friend'].includes(params.get('owner-preview')??'')&&raw===null){
+   const preview=await fetch('/dev/owner-session',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({persona:params.get('owner-preview')==='friend'?'friend':'owner'})});
+   if(!preview.ok)throw new Error('OWNER_PREVIEW_UNAVAILABLE');
+  }
   await initialize(raw);await readSession();render();await controller.load(initialRoute);
  }catch(error){
   session=null;
   const code=error instanceof Error?error.message:'';
-  const message=code==='SESSION_STORAGE_UNSUPPORTED'
+  const message=code==='OWNER_PREVIEW_UNAVAILABLE'?'Локальный предпросмотр не включён. Запустите API с POVOD_OWNER_PREVIEW=1 в demo/test режиме на localhost.'
+   :code==='SESSION_STORAGE_UNSUPPORTED'
    ?'Клиент не сохраняет защищённую сессию. Откройте приложение из чата бота в MAX; если ошибка повторится, обновите клиент MAX.'
    :raw||launchError?'Не удалось подтвердить запуск. Повторите проверку или заново откройте приложение из чата бота в MAX.'
    :'Откройте приложение кнопкой в чате бота MAX. В обычном браузере доступна только уже подтверждённая сессия.';

@@ -21,6 +21,8 @@ interface HomeSystemScreenProps {
   onAction?: (action: HomeSystemAction) => void;
   onNavigate?: (id: string) => void;
   searchOnlyFilters?: boolean;
+  coverageCity?:string;
+  onCity?:()=>void;
 }
 
 function OfflineAlert({ state }: { state: Extract<HomeSystemState, { kind: 'offline' }> }) {
@@ -31,7 +33,8 @@ function OfflineAlert({ state }: { state: Extract<HomeSystemState, { kind: 'offl
   </div>;
 }
 
-function StateActions({ state, onAction }: { state: Extract<HomeSystemState, { kind: 'empty' | 'error' }>; onAction?: (action: HomeSystemAction) => void }) {
+function StateActions({ state, onAction, coverageCity }: { state: Extract<HomeSystemState, { kind: 'empty' | 'error' }>; onAction?: (action: HomeSystemAction) => void;coverageCity?:string }) {
+  if(coverageCity)return <div className="system-state-actions"><button type="button" className="system-state-primary" onClick={()=>onAction?.('change-city')}>Выбрать Москву</button></div>;
   const primaryAction = state.kind === 'empty' ? 'change-filters' : 'retry';
   const secondaryAction = state.kind === 'empty' ? 'reset-filters' : 'return-home';
   return <div className="system-state-actions">
@@ -54,6 +57,8 @@ export function HomeSystemScreen({
   onAction,
   onNavigate,
   searchOnlyFilters = false,
+  coverageCity,
+  onCity,
 }: HomeSystemScreenProps) {
   const [localSearch, setLocalSearch] = useState('');
   const query = searchValue ?? localSearch;
@@ -62,7 +67,7 @@ export function HomeSystemScreen({
   return <AppViewport>
     <a className="skip-link" href="#main">К содержимому</a>
     <Screen className={`system-state-screen system-state-${state.kind}`}>
-      <BrandHeader />
+      <BrandHeader onCity={onCity} city={coverageCity??'Москва'}/>
       {state.kind === 'offline' ? <OfflineAlert state={state} /> : null}
       <form className="home-search" role="search" onSubmit={event => { event.preventDefault(); onSearchSubmit?.(); }}>
         <SearchBar value={searchOnlyFilters ? '' : query} onChange={changeSearch} disabled={loading || !onSearchSubmit} readOnly={searchOnlyFilters} onFocus={searchOnlyFilters ? onSearchSubmit : undefined} placeholder={searchOnlyFilters ? 'Выбрать фильтры' : chrome.searchPlaceholder} />
@@ -90,7 +95,7 @@ export function HomeSystemScreen({
           <h1 tabIndex={-1}>{state.title}</h1>
           <p>{state.description}</p>
         </div>
-        <StateActions state={state} onAction={onAction} />
+        <StateActions state={state} onAction={onAction} coverageCity={coverageCity}/>
       </section> : null}
       {state.kind === 'offline' ? <div className="offline-content">
         <section aria-labelledby="offline-events-heading">

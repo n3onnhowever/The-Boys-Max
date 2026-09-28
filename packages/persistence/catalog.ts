@@ -45,7 +45,9 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
   return transaction(pool,async db=>{
    await assertSession(db,subject);const {ctx,plan}=await ensure(db,subject.actor_id,scope),time=await now(db),semantic=context(time);
    // Draft values are actor-private. An obsolete date does not erase the user's stored filters.
-   let hard:SearchIntent;try{hard=validateIntent(ctx.hard,semantic);}catch{return {ctx,items:[],plan,now:time};}
+   // Opening a known occurrence is independent of the viewer's current Search filters.
+   // The source reference still selects the exact canonical occurrence below.
+   let hard:SearchIntent;try{hard=validateIntent(ref?defaultIntent():ctx.hard,semantic);}catch{return {ctx,items:[],plan,now:time};}
    const items:CatalogItem[]=[];
    const lanes=mode==='hybrid'?(['LIVE','SYNTHETIC'] as const):([mode==='live'?'LIVE':'SYNTHETIC'] as const);
    for(const lane of lanes){
@@ -132,7 +134,10 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
    requireThat(latest.rows[0]?.observation_id===choice.observation_id,'SOURCE_OBSERVATION_SUPERSEDED',409);
    requireThat(c.ref.provider_id===ref.sourceId&&c.ref.event_id===ref.externalEventId&&c.ref.occurrence_id===ref.occurrenceId&&c.provenance.observation_id===ref.observationId,'SOURCE_REF_MISMATCH',409);
    requireThat(['display_facts','display_text','persist_minimal'].every(op=>rightsCheck(c.rights,op as 'display_facts'|'display_text'|'persist_minimal',time).status==='PASS'),'RIGHTS_UNVERIFIED',409);
-   const e=evaluateEligibility(ctx.hard,c,semantic);requireThat(e.status!=='FAIL','INELIGIBLE_OFFER',409);
+   // A personal Search draft selects discovery results; it is not an admission
+   // rule for an explicitly selected occurrence. Private plan Search keeps its
+   // own hard constraints. The evaluator still checks lifecycle and rights.
+   const e=evaluateEligibility(ctx.kind==='PLAN_PRIVATE'?ctx.hard:defaultIntent(),c,semantic);requireThat(e.status!=='FAIL','INELIGIBLE_OFFER',409);
    const required=[...new Set(e.checks.filter(v=>v.status==='UNKNOWN').map(v=>v.reason))].sort();
    requireThat(canonical([...new Set(ackUnknownReasons)].sort())===canonical(required),'UNKNOWN_ACK_REQUIRED',422);
    let p:Plan;

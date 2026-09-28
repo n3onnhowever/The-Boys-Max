@@ -4,7 +4,7 @@ import { Icon, type IconName } from './Icon.tsx';
 const items: { id: string; label: string; icon: IconName }[] = [
   { id: 'home', label: 'Главная', icon: 'home' },
   { id: 'search', label: 'Поиск', icon: 'search' },
-  { id: 'plan', label: 'План', icon: 'calendar' },
+  { id: 'plan', label: 'Планы', icon: 'calendar' },
   { id: 'friends', label: 'Друзья', icon: 'people' },
   { id: 'profile', label: 'Профиль', icon: 'user' },
 ];

@@ -30,7 +30,7 @@ export const querySchema = z.object({ text, city:text, date:text, startLocal:tex
 export const viewSchema: z.ZodType<View> = z.discriminatedUnion('kind', [
   z.object({...base,kind:z.literal('CATALOG'),query:querySchema,approvedFilterLabels:z.array(text),events:z.array(event),aiState:z.enum(['AVAILABLE','UNAVAILABLE']),aiMessage:text}).strict(),
   z.object({...base,kind:z.literal('EVENT'),event,targetPlanId:id.nullable(),unknownReasons:z.array(text)}).strict(),
-  z.object({...base,kind:z.literal('INVITE'),state:z.enum(['REQUESTABLE','PENDING','ACTIVE','EXPIRED','REJECTED']),inviteRef:id,activePlanId:id.nullable()}).strict(),
+  z.object({...base,kind:z.literal('INVITE'),state:z.enum(['REQUESTABLE','PENDING','ACTIVE','EXPIRED','REJECTED']),inviteRef:id,activePlanId:id.nullable(),context:z.object({organizerName:text,planTitle:text,eventTitle:text.nullable(),startsAt:text.nullable(),venue:text.nullable()}).strict().nullable().optional()}).strict(),
   z.object({...base,kind:z.literal('PLAN'),planId:id,title:text,phase:z.enum(['DRAFT','COLLECTING','SELECTED','CLOSED','CANCELLED']),role:z.enum(['ORGANIZER','PARTICIPANT']),organizerParticipates:z.boolean(),organizer:organizer.nullable(),options:z.array(option),selectedOptionId:id.nullable(),ruleLabel:text,resultLabel:text,decisionMessage:text,expectedCount:count,unboundCount:count,selfCommitment:z.enum(['CONFIRMED','DECLINED','MISSING','STALE','NOT_PARTICIPATING']),inviteUrl:text.nullable()}).strict(),
 ]).superRefine((view, context) => {
   if (view.kind === 'PLAN' && view.route.kind === 'PLAN' && view.planId !== view.route.planId) context.addIssue({code:'custom',message:'Plan id mismatch'});

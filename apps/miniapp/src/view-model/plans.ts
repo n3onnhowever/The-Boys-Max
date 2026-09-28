@@ -1,5 +1,5 @@
-export type PlanRsvpState = 'GOING' | 'THINKING' | 'SOLO';
-export type ParticipantStatus = 'HOST' | 'GOING' | 'THINKING';
+export type PlanRsvpState = 'GOING' | 'THINKING' | 'SOLO' | 'PENDING';
+export type ParticipantStatus = 'HOST' | 'GOING' | 'THINKING' | 'ACTIVE';
 export type AvatarTone = 'ember' | 'ink' | 'ocean' | 'sage' | 'sand';
 
 export interface ParticipantViewModel {
@@ -29,7 +29,7 @@ export interface PlanListItemViewModel {
 }
 
 export interface MyPlansViewModel {
-  provenance: 'DESIGN_FIXTURE';
+  provenance: 'DESIGN_FIXTURE' | 'SERVER_ADAPTER';
   title: string;
   nearestPlanId: string;
   plans: readonly PlanListItemViewModel[];
@@ -43,7 +43,7 @@ export interface DiscussionMessageViewModel {
 }
 
 export interface PlanDetailViewModel {
-  provenance: 'DESIGN_FIXTURE';
+  provenance: 'DESIGN_FIXTURE' | 'SERVER_ADAPTER';
   title: string;
   event: PlanEventViewModel;
   personalPlan: {
@@ -54,18 +54,21 @@ export interface PlanDetailViewModel {
   };
   participants: readonly ParticipantViewModel[];
   discussion: readonly DiscussionMessageViewModel[];
+  statusLabel?: string;
 }
 
 const RSVP_LABELS: Record<PlanRsvpState, string> = {
   GOING: 'Иду',
   THINKING: 'Думаю',
   SOLO: 'Пойду один',
+  PENDING: 'Не ответил',
 };
 
 const PARTICIPANT_STATUS_LABELS: Record<ParticipantStatus, string> = {
   HOST: 'Организатор',
   GOING: 'Идёт',
   THINKING: 'Думает',
+  ACTIVE: 'Участник',
 };
 
 export function planRsvpLabel(state: PlanRsvpState): string {

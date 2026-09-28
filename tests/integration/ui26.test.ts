@@ -8,6 +8,7 @@ import {syntheticCandidate} from '../catalog-fixtures.ts';
 import {sign} from '../fixtures.ts';
 import {wallTime} from '../../modules/integration/projections.ts';
 import {envelopeFor} from '../../apps/miniapp/src/core/commands.ts';
+import {socialService} from '../../packages/persistence/social.ts';
 import type {Route,View,PlanView,CatalogView,EventView,Command,Envelope,Receipt} from '../../apps/miniapp/src/port/contracts.ts';
 const cfg=config();assert.equal(process.env.RUN_MAX23_INTEGRATION,'1');assert.equal(cfg.mode,'test');assert.equal(new URL(cfg.databaseUrl).pathname,'/max23_test');
 const {app,pool,sessions}=await buildApp(cfg);
@@ -60,4 +61,54 @@ test('catalog finds a matching occurrence after 100 earlier nonmatching rows and
  assert.ok(match,'matching occurrence beyond first 100 rows must be returned');
  const detail=await get(b,{kind:'EVENT',scope,sourceId:match.ref.sourceId,externalEventId:match.ref.externalEventId,occurrenceId:match.ref.occurrenceId}) as EventView;
  assert.equal(detail.event.ref.observationId,match.ref.observationId);
+});
+test('known occurrence detail remains available behind an incompatible Search filter',async()=>{
+ const actor=await session(),scope={kind:'PERSONAL' as const};
+ const initial=await get(actor,{kind:'CATALOG',scope}) as CatalogView;
+ const filtered=await post(actor,envelopeFor(initial,{type:'SEARCH',scope,draft:{...initial.query,includedCategories:['CINEMA']}},randomUUID()));
+ assert.equal(filtered.statusCode,200,filtered.body);
+ assert.ok(!(filtered.json<Receipt>().view as CatalogView).events.some(e=>e.ref.observationId===observation));
+ const detail=await get(actor,{kind:'EVENT',scope,sourceId:seeded.ref.provider_id,externalEventId:seeded.ref.event_id,occurrenceId:seeded.ref.occurrence_id}) as EventView;
+ assert.equal(detail.event.ref.observationId,observation);
+});
+test('exact occurrence creates one plan behind unrelated category and budget filters without changing Search',async()=>{
+ const actor=await session(),scope={kind:'PERSONAL' as const};
+ const initial=await get(actor,{kind:'CATALOG',scope}) as CatalogView;
+ const draft={...initial.query,includedCategories:['CINEMA'],budgetText:'1000',priceBasis:'PER_PERSON' as const};
+ const filtered=await post(actor,envelopeFor(initial,{type:'SEARCH',scope,draft},randomUUID()));
+ assert.equal(filtered.statusCode,200,filtered.body);
+ const detail=await get(actor,{kind:'EVENT',scope,sourceId:seeded.ref.provider_id,externalEventId:seeded.ref.event_id,occurrenceId:seeded.ref.occurrence_id}) as EventView;
+ assert.equal(detail.event.ref.observationId,observation);
+ const before=Number((await pool.query<{count:string}>('SELECT count(*) FROM plans WHERE organizer_id=$1',[actor.body.actor.id])).rows[0]!.count);
+ const command:Command={type:'ADD_TO_PLAN',eventRef:detail.event.ref,targetPlanId:null,newPlan:{title:'SYNTHETIC FILTER-INDEPENDENT PLAN',participantSlots:1,organizerParticipates:true,decisionLocal:wallTime(new Date(Date.now()+3600000).toISOString(),'Europe/Moscow'),commitmentLocal:wallTime(new Date(Date.now()+7200000).toISOString(),'Europe/Moscow'),timeZone:'Europe/Moscow'},ackUnknownReasons:detail.unknownReasons};
+ const envelope=envelopeFor(detail,command,randomUUID());
+ const added=await post(actor,envelope);assert.equal(added.statusCode,200,added.body);
+ assert.equal(added.json<Receipt>().outcome,'APPLIED');
+ const replay=await post(actor,envelope);assert.equal(replay.statusCode,200,replay.body);assert.equal(replay.json<Receipt>().outcome,'REPLAYED');
+ assert.equal(Number((await pool.query<{count:string}>('SELECT count(*) FROM plans WHERE organizer_id=$1',[actor.body.actor.id])).rows[0]!.count),before+1);
+ const after=await get(actor,{kind:'CATALOG',scope}) as CatalogView;
+ assert.deepEqual(after.query,draft);
+});
+test('friendship has one persisted state per unordered actor pair',async()=>{
+ const left=await session(),right=await session(),social=socialService(pool);
+ assert.deepEqual(await social.requestFriend(left.body.actor.id,right.body.actor.id),{requested:true,state:'PENDING'});
+ assert.deepEqual(await social.requestFriend(right.body.actor.id,left.body.actor.id),{requested:false,state:'PENDING'});
+ await social.acceptFriend(right.body.actor.id,left.body.actor.id);
+ assert.deepEqual(await social.requestFriend(right.body.actor.id,left.body.actor.id),{requested:false,state:'ACCEPTED'});
+ const rows=await pool.query<{state:string}>(`SELECT state FROM friendships WHERE (requester_id=$1 AND recipient_id=$2) OR (requester_id=$2 AND recipient_id=$1)`,[left.body.actor.id,right.body.actor.id]);
+ assert.deepEqual(rows.rows.map(x=>x.state),['ACCEPTED']);
+ await assert.rejects(pool.query(`INSERT INTO friendships(requester_id,recipient_id,state) VALUES($1,$2,'PENDING')`,[right.body.actor.id,left.body.actor.id]));
+});
+
+test('visible budget results require a verified payable total within the cap',async()=>{
+ const actor=await session(),scope={kind:'PERSONAL' as const};
+ const initial=await get(actor,{kind:'CATALOG',scope}) as CatalogView;
+ const low=await post(actor,envelopeFor(initial,{type:'SEARCH',scope,draft:{...initial.query,includedCategories:['THEATRE'],budgetText:'500',priceBasis:'PER_PERSON'}},randomUUID()));
+ assert.equal(low.statusCode,200,low.body);
+ const lowView=low.json<Receipt>().view as CatalogView;
+ assert.ok(!lowView.events.some(e=>e.ref.observationId===observation),'530 RUB payable total must not match a 500 RUB chip');
+ const high=await post(actor,envelopeFor(lowView,{type:'SEARCH',scope,draft:{...lowView.query,budgetText:'600',priceBasis:'PER_PERSON'}},randomUUID()));
+ assert.equal(high.statusCode,200,high.body);
+ const highView=high.json<Receipt>().view as CatalogView;
+ assert.ok(highView.events.some(e=>e.ref.observationId===observation),'verified 530 RUB total must match a 600 RUB chip');
 });

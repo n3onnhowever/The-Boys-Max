@@ -5,17 +5,18 @@ interface PlanEventSummaryProps {
   event: PlanEventViewModel;
   variant?: 'nearest' | 'compact' | 'detail';
   onOpen?: () => void;
+  actionLabel?: 'событие'|'план';
 }
 
-export function PlanEventSummary({ event, variant = 'compact', onOpen }: PlanEventSummaryProps) {
+export function PlanEventSummary({ event, variant = 'compact', onOpen, actionLabel='событие' }: PlanEventSummaryProps) {
   return <button
     type="button"
     className={`plan-event-summary plan-event-${variant}`}
-    aria-label={`Открыть событие ${event.title}`}
+    aria-label={`Открыть ${actionLabel} ${event.title}`}
     onClick={onOpen}
     disabled={!onOpen}
   >
-    <img src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} />
+    {event.artwork ? <img src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} /> : <span className="plan-event-no-art" aria-hidden="true"><Icon name="calendar" /></span>}
     <span className="plan-event-copy">
       <span className="plan-event-date">{event.dateTimeLabel}</span>
       <strong>{event.title}</strong>

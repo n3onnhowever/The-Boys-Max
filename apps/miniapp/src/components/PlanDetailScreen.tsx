@@ -14,16 +14,22 @@ interface PlanDetailScreenProps {
   onEventOpen?: () => void;
   onInvite?: () => void;
   onNavigate?: (id: string) => void;
+  runtimeMessages?: readonly DiscussionMessageViewModel[];
+  onSendMessage?: (text:string)=>Promise<void>;
+  onRefreshMessages?: ()=>void;
+  onShare?: ()=>void;
 }
 
-export function PlanDetailScreen({ model, onBack, onEventOpen, onInvite, onNavigate }: PlanDetailScreenProps) {
+export function PlanDetailScreen({ model, onBack, onEventOpen, onInvite, onNavigate, runtimeMessages, onSendMessage, onRefreshMessages, onShare }: PlanDetailScreenProps) {
   const [messages, setMessages] = useState<readonly DiscussionMessageViewModel[]>(model.discussion);
   const [draft, setDraft] = useState('');
+  const [messageError,setMessageError]=useState('');
   const currentUser = model.participants.find(participant => participant.isCurrentUser) ?? model.participants[0];
   const submitMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const text = draft.trim();
     if (!text || !currentUser) return;
+    if(onSendMessage){setMessageError('');void onSendMessage(text).then(()=>setDraft('')).catch(()=>setMessageError('Не удалось отправить сообщение. Повторите попытку.'));return;}
     setMessages(current => [...current, {
       id: `design:message:local:${current.length}`,
       author: currentUser,
@@ -38,9 +44,10 @@ export function PlanDetailScreen({ model, onBack, onEventOpen, onInvite, onNavig
       <header className="plan-detail-header">
         <button type="button" aria-label="Назад к моим планам" onClick={onBack} disabled={!onBack}><Icon name="back" /></button>
         <h1>{model.title}</h1>
-        <button type="button" aria-label="Дополнительные действия недоступны в дизайн-превью" disabled><Icon name="more" /></button>
+        <button type="button" aria-label="Поделиться планом" onClick={onShare} disabled={!onShare}><Icon name="more" /></button>
       </header>
       <div className="plan-detail-content" data-provenance={model.provenance}>
+        {model.statusLabel&&<p role="status">Статус плана: {model.statusLabel}</p>}
         <PlanEventSummary event={model.event} variant="detail" onOpen={onEventOpen} />
 
         <section className="plan-detail-section personal-plan-section" aria-labelledby="personal-plan-heading">
@@ -82,8 +89,9 @@ export function PlanDetailScreen({ model, onBack, onEventOpen, onInvite, onNavig
 
         <section className="plan-detail-section discussion-section" aria-labelledby="discussion-heading">
           <div className="plan-section-heading"><h2 id="discussion-heading">Обсуждение</h2></div>
-          {messages.length > 0 ? <div className="discussion-list" aria-live="polite">
-            {messages.map(message => <article className="discussion-message" key={message.id}>
+          {onRefreshMessages && <button type="button" onClick={onRefreshMessages}>Обновить сообщения</button>}
+          {(runtimeMessages??messages).length > 0 ? <div className="discussion-list" aria-live="polite">
+            {(runtimeMessages??messages).map(message => <article className="discussion-message" key={message.id}>
               <ParticipantAvatar participant={message.author} size="medium" />
               <div>
                 <p className="discussion-message-meta"><strong>{message.author.name}</strong><span>{message.timeLabel}</span></p>
@@ -96,6 +104,7 @@ export function PlanDetailScreen({ model, onBack, onEventOpen, onInvite, onNavig
             <input value={draft} onChange={event => setDraft(event.target.value)} placeholder="Написать сообщение…" aria-label="Сообщение" />
             <button type="submit" aria-label="Отправить сообщение" disabled={!draft.trim()}><Icon name="send" /></button>
           </form>
+          {messageError&&<p role="alert">{messageError}</p>}
         </section>
       </div>
     </Screen>
