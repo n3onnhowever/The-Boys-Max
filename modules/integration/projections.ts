@@ -9,6 +9,7 @@ import type {ParseContext} from '../ai/provider/types.ts';
 import type {SearchDraft as UiDraft,PriceView} from '../../apps/miniapp/src/port/contracts.ts';
 import type {SourceSnapshot,Terms} from '../../packages/contracts/domain.ts';
 import {requireThat} from '../../packages/domain/errors.ts';
+import {searchWords} from './text-search.ts';
 export const cities=new Map([
  ['msk',{label:'Москва',timezones:['Europe/Moscow']}],
  ['spb',{label:'Санкт-Петербург',timezones:['Europe/Moscow']}]
@@ -17,7 +18,7 @@ export function context(now=new Date().toISOString()):SemanticContext {return {n
 export const blankDraft=():UiDraft=>({text:'',city:'',date:'',startLocal:'',endLocal:'',timeZone:'',excludeCategories:[],includedCategories:[],participants:'',budgetText:'',budgetCurrency:'RUB',priceBasis:'UNKNOWN'});
 export const defaultIntent=():SearchIntent=>({city:null,date:null,timezone:null,time_window:null,included_categories:[],excluded_categories:[],interested_count:null,inventory_requirement:{kind:'NOT_REQUESTED'},budget:null,indoor:null,wheelchair_required:null});
 export function fromUiDraft(d:UiDraft,ctx:SemanticContext):SearchIntent {
- requireThat(!d.text.trim(),'AI_ADMISSION_HOLD_USE_FIELDS',422); // never silently discard free-text hard constraints
+ searchWords(d.text); // Literal catalog text is applied in browse; structured terms remain hard constraints.
  const i=defaultIntent(),city=[...ctx.cities].find(([id,c])=>id===d.city.trim()||c.label.toLocaleLowerCase('ru')===d.city.trim().toLocaleLowerCase('ru'));
  if(d.city.trim()){requireThat(city,'CITY_NEEDS_RESOLUTION',422);i.city={id:city[0],label:city[1].label};}
  i.timezone=d.timeZone.trim()||null;

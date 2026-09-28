@@ -40,6 +40,7 @@ export interface EventCardView {
   ref: ExternalRef; title: string; startLabel: string; categoryLabel: string;
   place: PlaceView; price: PriceView; sourceLabel: string; sourceUrl: string | null;
   freshnessLabel: string; eligibilityLabel: string; description: string;
+  recommendation?: {score:number;reasons:('INTEREST'|'BUDGET'|'TIME')[];interest:string|null};
 }
 export type Feasibility = 'CAN' | 'CANNOT' | 'UNKNOWN';
 export type ActionName = 'SEARCH' | 'ADD_TO_PLAN' | 'CREATE_OWNED_OPTION' | 'CREATE_INVITE'

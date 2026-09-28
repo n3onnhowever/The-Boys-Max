@@ -36,12 +36,13 @@ test('UI26-01 actual API personal -> 500+30 -> explicit group -> persisted edit 
  const editReplay=await post(a,edit);assert.equal(editReplay.statusCode,200,editReplay.body);assert.equal(editReplay.json<Receipt>().outcome,'REPLAYED');assert.equal((await get(a,{kind:'PLAN',planId:p.planId}) as PlanView).options[0]!.snapshotId,refreshed.options[0]!.snapshotId);
  const forbidden=await app.inject({url:'/api/v1/plans/'+p.planId,headers:headers(b)});assert.equal(forbidden.statusCode,404);
 });
-test('UI26-02 filter fields survive a new read; text rejection does not erase prior successful query',async()=>{
+test('UI26-02 filter fields survive a new read and literal text search preserves structured filters',async()=>{
  const v=await get(a,{kind:'CATALOG',scope:{kind:'PERSONAL'}}) as CatalogView;
  const good=envelopeFor(v,{type:'SEARCH',scope:{kind:'PERSONAL'},draft:{...v.query,participants:'4',excludeCategories:['CINEMA']}},randomUUID());const saved=await post(a,good);assert.equal(saved.statusCode,200,saved.body);
  const fresh=await get(a,{kind:'CATALOG',scope:{kind:'PERSONAL'}}) as CatalogView;assert.equal(fresh.query.participants,'4');assert.deepEqual(fresh.query.excludeCategories,['CINEMA']);
- const bad=envelopeFor(fresh,{type:'SEARCH',scope:{kind:'PERSONAL'},draft:{...fresh.query,text:'without cinema'}},randomUUID());assert.equal((await post(a,bad)).statusCode,422);
- assert.deepEqual((await get(a,{kind:'CATALOG',scope:{kind:'PERSONAL'}}) as CatalogView).query,fresh.query);
+ const search=envelopeFor(fresh,{type:'SEARCH',scope:{kind:'PERSONAL'},draft:{...fresh.query,text:'without cinema'}},randomUUID());const found=await post(a,search);assert.equal(found.statusCode,200,found.body);
+ const next=await get(a,{kind:'CATALOG',scope:{kind:'PERSONAL'}}) as CatalogView;
+ assert.equal(next.query.text,'without cinema');assert.equal(next.query.participants,'4');assert.deepEqual(next.query.excludeCategories,['CINEMA']);assert.deepEqual(next.events,[]);
 });
 test('catalog finds a matching occurrence after 100 earlier nonmatching rows and opens detail',async()=>{
  const scope={kind:'PERSONAL' as const}, prefix='catalog-limit-'+randomUUID();

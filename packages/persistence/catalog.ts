@@ -16,6 +16,7 @@ import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
 import {digest} from '../platform/auth.ts';
 import {DEMO_ITEMS,demoEventId} from '../demo/catalog-v1.ts';
+import {matchesCandidateText,searchWords} from '../../modules/integration/text-search.ts';
 interface ContextRow {id:string;actor_id:string;kind:'PERSONAL'|'PLAN_PRIVATE';plan_id:string|null;revision:number;acl_revision:number;draft:SearchDraft;hard:SearchIntent;approval_id:string|null;}
 export interface CatalogItem {candidate:Candidate;eligibility:Eligibility;offerId:string;contextRevision:number}
 export interface CatalogResult {ctx:ContextRow;items:CatalogItem[];plan:Plan|null;now:string}
@@ -48,6 +49,10 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
    // Opening a known occurrence is independent of the viewer's current Search filters.
    // The source reference still selects the exact canonical occurrence below.
    let hard:SearchIntent;try{hard=validateIntent(ref?defaultIntent():ctx.hard,semantic);}catch{return {ctx,items:[],plan,now:time};}
+   const words=ref?[]:searchWords(ctx.draft.text);
+   const verifiedFields=ref?[]:[ctx.draft.city?'city':null,ctx.draft.date||ctx.draft.startLocal||ctx.draft.endLocal?'time':null,
+    ctx.draft.includedCategories.length?'included_categories':null,ctx.draft.excludeCategories.length?'excluded_categories':null,
+    ctx.draft.budgetText?'budget':null].filter((field):field is string=>field!==null);
    const items:CatalogItem[]=[];
    const lanes=mode==='hybrid'?(['LIVE','SYNTHETIC'] as const):([mode==='live'?'LIVE':'SYNTHETIC'] as const);
    for(const lane of lanes){
@@ -74,6 +79,8 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
      if(!admitted.rowCount)continue;
     }
     if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||e.status==='FAIL')continue;
+    if(!matchesCandidateText(c,words))continue;
+    if(!verifiedFields.every(field=>e.checks.some(check=>check.field===field&&check.status==='PASS')))continue;
     const offer=await db.query<{id:string}>(`INSERT INTO catalog_choices(id,actor_id,session_id,context_id,context_revision,observation_id,expires_at)
      VALUES($1,$2,$3,$4,$5,$6,clock_timestamp()+interval '15 minutes')
      ON CONFLICT(actor_id,session_id,context_id,context_revision,observation_id) DO UPDATE SET

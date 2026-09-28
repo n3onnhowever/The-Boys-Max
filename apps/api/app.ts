@@ -91,9 +91,10 @@ export async function buildApp(c:Config){
  });
  app.get('/api/v1/session',{schema:{response:{200:S.sessionSchema,...S.errors},security:[{sessionCookie:[]}]}},async r=>{const x=await auth(r);return {actor:x.actor,csrfToken:x.csrfToken,absoluteExpiresAt:x.absoluteExpiresAt,idleTtlSeconds:x.idleTtlSeconds};});
  const preferenceSchema=z.strictObject({city:z.string().min(1).max(80),interests:z.array(z.string().min(1).max(80)).max(20),budgetRub:z.number().int().min(0).max(1000000).nullable(),radiusKm:z.number().int().min(1).max(100),notificationsEnabled:z.boolean(),preferredTime:z.enum(['ANY','MORNING','DAY','EVENING','NIGHT'])});
+ const preferenceResponseSchema=preferenceSchema.extend({catalogCoverage:z.enum(['SUPPORTED','UNSUPPORTED'])});
  const idParam=z.strictObject({id:z.uuid()});
- app.get('/api/v1/me/preferences',{schema:{response:{200:preferenceSchema,...S.errors}}},async r=>social.settings((await auth(r)).actor.id));
- app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema,response:{200:preferenceSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
+ app.get('/api/v1/me/preferences',{schema:{response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.settings((await auth(r)).actor.id));
+ app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema,response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
  app.get('/api/v1/me/friends',async r=>social.friends((await auth(r)).actor.id));
  app.post('/api/v1/me/friend-links',{schema:{body:z.strictObject({})}},async r=>social.createFriendLink((await auth(r,true)).actor.id));
  app.post('/api/v1/friend-links/:token/request',{schema:{params:z.strictObject({token:z.string().regex(/^[a-f0-9]{64}$/)}),body:z.strictObject({})}},async r=>social.requestFromFriendLink((await auth(r,true)).actor.id,r.params.token));
@@ -102,18 +103,18 @@ export async function buildApp(c:Config){
  app.post('/api/v1/me/friends/:id/accept',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.acceptFriend((await auth(r,true)).actor.id,r.params.id));
  app.post('/api/v1/me/friends/:id/reject',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.rejectFriend((await auth(r,true)).actor.id,r.params.id));
  app.get('/api/v1/me/notifications',async r=>social.notifications((await auth(r)).actor.id));
+ app.get('/api/v1/me/notifications/count',async r=>social.unreadCount((await auth(r)).actor.id));
  app.post('/api/v1/me/notifications/:id/read',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.readNotification((await auth(r,true)).actor.id,r.params.id));
  const planPresentationSchema=z.strictObject({title:z.string().trim().min(1).max(160),meetingTime:z.iso.datetime().nullable(),meetingPoint:z.string().max(200).nullable(),note:z.string().max(2000).nullable(),participantLimit:z.number().int().min(1).max(50).nullable(),expectedVersion:z.number().int().min(0)});
  app.get('/api/v1/plans/:planId/presentation',{schema:{params:S.planParams}},async r=>social.planPresentation((await auth(r)).actor.id,r.params.planId));
  app.put('/api/v1/plans/:planId/presentation',{schema:{params:S.planParams,body:planPresentationSchema}},async r=>social.savePlanPresentation((await auth(r,true)).actor.id,r.params.planId,r.body));
- app.post('/api/v1/plans/:planId/presentation/seen',{schema:{params:S.planParams,body:z.strictObject({})}},async r=>social.acknowledgePlanPresentation((await auth(r,true)).actor.id,r.params.planId));
+ app.post('/api/v1/plans/:planId/presentation/seen',{schema:{params:S.planParams,body:z.strictObject({expectedVersion:z.number().int().min(0)})}},async r=>social.acknowledgePlanPresentation((await auth(r,true)).actor.id,r.params.planId,r.body.expectedVersion));
  app.get('/api/v1/plans/:planId/rsvps',{schema:{params:S.planParams}},async r=>social.planRsvps((await auth(r)).actor.id,r.params.planId));
- app.put('/api/v1/plans/:planId/rsvps/me',{schema:{params:S.planParams,body:z.strictObject({state:z.enum(['YES','MAYBE','NO']),expectedReconfirmVersion:z.number().int().min(0).optional()})}},async r=>social.setPlanRsvp((await auth(r,true)).actor.id,r.params.planId,r.body.state,r.body.expectedReconfirmVersion));
+ app.put('/api/v1/plans/:planId/rsvps/me',{schema:{params:S.planParams,body:z.strictObject({state:z.enum(['YES','MAYBE','NO']),expectedReconfirmVersion:z.number().int().min(0)})}},async r=>social.setPlanRsvp((await auth(r,true)).actor.id,r.params.planId,r.body.state,r.body.expectedReconfirmVersion));
  app.get('/api/v1/plans/:planId/messages',{schema:{params:S.planParams}},async r=>social.messages((await auth(r)).actor.id,r.params.planId));
  app.post('/api/v1/plans/:planId/messages',{schema:{params:S.planParams,body:z.strictObject({text:z.string().trim().min(1).max(2000)})}},async r=>social.sendMessage((await auth(r,true)).actor.id,r.params.planId,r.body.text));
  app.post('/api/v1/plans/:planId/invite-friend',{schema:{params:S.planParams,body:z.strictObject({friendId:z.uuid(),expectedStateVersion:z.number().int().positive()})}},async r=>{
-  const actor=(await auth(r,true)).actor.id;await social.ensureFriend(actor,r.body.friendId);const invite=await plans.invite(actor,r.params.planId,randomUUID(),r.body.expectedStateVersion);
-  return social.inviteFriend(actor,r.body.friendId,r.params.planId,invite.inviteRef);
+  const actor=(await auth(r,true)).actor.id;return plans.inviteFriend(actor,r.body.friendId,r.params.planId,r.body.expectedStateVersion);
  });
  app.get('/api/v1/plans/:planId/invite-statuses',{schema:{params:S.planParams}},async r=>social.planInviteStatuses((await auth(r)).actor.id,r.params.planId));
  app.post('/api/v1/session/logout',{schema:{body:z.strictObject({}),response:{200:z.strictObject({loggedOut:z.literal(true)}),...S.errors},security:[{sessionCookie:[]}]}},async(r,reply)=>{

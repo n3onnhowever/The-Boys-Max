@@ -43,6 +43,13 @@ export function planService(db:Database,inviteSecret:string) {
    const scope=planId,hash=digest(canonicalJson(c));
    const [old]=await tx.select().from(receipts).where(and(eq(receipts.scope,scope),eq(receipts.actorId,actor),eq(receipts.key,key)));
    if(old){requireThat(old.payloadHash===hash,'IDEMPOTENCY_CONFLICT',409);return old.body;}
+   if(c.kind==='ROSTER'&&canonicalJson(c.slots)===canonicalJson(row.state.slots)&&canonicalJson(c.rule)===canonicalJson(row.state.rule)&&c.decisionDeadline===row.state.decisionDeadline){
+    const prior=await tx.execute<{id:string}>(sql`SELECT id FROM command_audit WHERE plan_id=${planId} AND actor_id=${actor} AND kind='ROSTER' ORDER BY accepted_at DESC LIMIT 1`);
+    if(prior.rows[0]){
+     const result={planId,stateVersion:row.stateVersion,status:'APPLIED' as const,commandId:prior.rows[0].id};
+     await tx.insert(receipts).values({scope,actorId:actor,key,payloadHash:hash,body:result});return result;
+    }
+   }
    if(c.kind==='ROSTER'){
     // A bind requires a real request. Never take actor IDs from a MAX chat roster or a display label.
     const approved=await tx.select().from(joins).where(eq(joins.planId,planId));
@@ -60,6 +67,10 @@ export function planService(db:Database,inviteSecret:string) {
    for(const o of q.options)for(const snapshot of o.snapshots) if(!row.state.options.flatMap(o=>o.snapshots).some(s=>s.snapshotId===snapshot.snapshotId))
     await tx.insert(snapshots).values({id:snapshot.snapshotId,planId,optionId:o.optionId,body:snapshot});
    if(c.kind==='ROSTER')for(const s of c.slots.filter(s=>s.state==='ACTIVE'))await tx.update(joins).set({state:'APPROVED'}).where(and(eq(joins.planId,planId),eq(joins.actorId,s.actorId!)));
+   if(c.kind==='ROSTER')for(const s of c.slots.filter(s=>s.state==='ACTIVE'&&s.actorId!==actor&&!row.state.slots.some(a=>a.state==='ACTIVE'&&a.actorId===s.actorId)))
+    await tx.execute(sql`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id,actor_context_id)
+     SELECT ${randomUUID()},${s.actorId},'JOIN_APPROVED','Заявка на участие одобрена',${planId},${actor}
+     WHERE COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=${s.actorId}),true)`);
    if(c.kind==='ROSTER')for(const s of row.state.slots.filter(s=>s.state==='ACTIVE'&&!q.slots.some(a=>a.state==='ACTIVE'&&a.actorId===s.actorId))) await tx.update(joins).set({state:'REMOVED'}).where(and(eq(joins.planId,planId),eq(joins.actorId,s.actorId!)));
    const result={planId,stateVersion:q.stateVersion,status:'APPLIED' as const,commandId};
    await tx.insert(receipts).values({scope,actorId:actor,key,payloadHash:hash,body:result});
@@ -85,11 +96,38 @@ export function planService(db:Database,inviteSecret:string) {
    return {inviteRef:token,expiresAt:new Date(created.rows[0]!.expires_at).toISOString()};
   });
  },
+ async inviteFriend(actor:string,friend:string,planId:string,expectedStateVersion:number){
+  return db.transaction(async tx=>{
+   const [row]=await tx.select().from(plans).where(eq(plans.id,planId)).for('update');requireThat(row,'NOT_FOUND',404);assertRead(row.state,actor);
+   requireThat(row.organizerId===actor&&!['CLOSED','CANCELLED'].includes(row.state.phase),'FORBIDDEN',403);
+   const accepted=await tx.execute(sql`SELECT 1 FROM friendships WHERE state='ACCEPTED' AND ((requester_id=${actor} AND recipient_id=${friend}) OR (requester_id=${friend} AND recipient_id=${actor}))`);
+   requireThat(accepted.rows.length===1,'FRIEND_REQUIRED',403);
+   const member=await tx.execute(sql`SELECT 1 FROM plan_slots WHERE plan_id=${planId} AND actor_id=${friend} AND state='ACTIVE'`);
+   if(member.rows.length)return {inviteRef:null,state:'PARTICIPATING' as const};
+   const pending=await tx.execute<{id:string;invite_ref:string|null}>(sql`SELECT id,invite_ref FROM in_app_notifications WHERE plan_id=${planId} AND actor_id=${friend} AND kind='PLAN_INVITE' ORDER BY created_at,id LIMIT 1 FOR UPDATE`);
+   if(pending.rows[0]?.invite_ref){
+    const live=await tx.execute(sql`SELECT 1 FROM invites WHERE plan_id=${planId} AND token_hash=${digest(pending.rows[0].invite_ref)} AND NOT revoked AND expires_at>clock_timestamp()`);
+    if(live.rows.length)return {inviteRef:pending.rows[0].invite_ref,state:'PENDING' as const};
+   }
+   requireThat(row.stateVersion===expectedStateVersion,'VERSION_CONFLICT',409);
+   const hex=digest('FRIEND_INVITE:'+planId+':'+friend),key=pending.rows.length?randomUUID():`${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20,32)}`;
+   const token=keyed(inviteSecret,`invite:${planId}:${actor}:${key}`);
+   await tx.execute(sql`INSERT INTO invites(id,plan_id,token_hash,create_key,expected_revision,expires_at) VALUES(${randomUUID()},${planId},${digest(token)},${key},${expectedStateVersion},clock_timestamp()+interval '7 days')`);
+   if(pending.rows.length)await tx.execute(sql`UPDATE in_app_notifications SET invite_ref=${token},actor_context_id=${actor},read_at=NULL,created_at=clock_timestamp() WHERE id=${pending.rows[0]!.id}`);
+   else await tx.execute(sql`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id,invite_ref,actor_context_id) VALUES(${randomUUID()},${friend},'PLAN_INVITE','Приглашение в план',${planId},${token},${actor})`);
+   return {inviteRef:token,state:'SENT' as const};
+  });
+ },
  async requestJoin(actor:string,token:string){
   return db.transaction(async tx=>{
    const found=await tx.execute<{plan_id:string}>(sql`SELECT i.plan_id FROM invites i JOIN plans p ON p.id=i.plan_id WHERE token_hash=${digest(token)} AND NOT revoked AND expires_at>clock_timestamp() AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') FOR SHARE OF p,i`);
    const planId=found.rows[0]?.plan_id;requireThat(planId,'INVITE_INVALID',404);
-   await tx.insert(joins).values({planId,actorId:actor,state:'PENDING'}).onConflictDoNothing();
+   const active=await tx.execute(sql`SELECT 1 FROM plan_slots WHERE plan_id=${planId} AND actor_id=${actor} AND state='ACTIVE'`);
+   if(active.rows.length)return {state:'APPROVED' as const};
+   const inserted=await tx.execute<{actor_id:string}>(sql`INSERT INTO join_requests(plan_id,actor_id,state) VALUES(${planId},${actor},'PENDING') ON CONFLICT DO NOTHING RETURNING actor_id`);
+   if(inserted.rows.length)await tx.execute(sql`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id,actor_context_id)
+    SELECT ${randomUUID()},p.organizer_id,'JOIN_REQUEST','Новая заявка на участие',${planId},${actor}
+    FROM plans p WHERE p.id=${planId} AND COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=p.organizer_id),true)`);
    const [j]=await tx.select().from(joins).where(and(eq(joins.planId,planId),eq(joins.actorId,actor)));
    return {state:j!.state};
   });

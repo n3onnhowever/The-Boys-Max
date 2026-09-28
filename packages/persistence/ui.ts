@@ -2,6 +2,8 @@ import type {Pool} from 'pg';
 import {randomUUID} from 'node:crypto';
 import {transaction} from './sessions.ts';
 import {catalogService} from './catalog.ts';
+import {socialService} from './social.ts';
+import {rankRecommendations,type Recommendation} from '../../modules/integration/recommendations.ts';
 import type {CatalogItem,CatalogResult} from './catalog.ts';
 import type {planService} from './plans.ts';
 import type {Config} from '../platform/config.ts';
@@ -33,7 +35,7 @@ export function revision(p:Plan|null,contextRevision:number|null=null):Revision 
  const selected=p?.options.find(o=>o.optionId===p.selectedOptionId),s=selected?current(selected):null;
  return {state_version:p?.stateVersion??contextRevision??1,search_context_revision:contextRevision,config_revision:p?.configRevision??contextRevision??1,electorate_version:p?.electorateVersion??0,selection_revision:p?.selectionRevision??0,snapshot_id:s?.snapshotId??null,terms_revision:s?.termsRevision??null};
 }
-export function eventCard(item:CatalogItem,now:string,demoOrigin?:string):EventCardView {
+export function eventCard(item:CatalogItem,now:string,demoOrigin?:string,recommendation?:Recommendation):EventCardView {
  const c=item.candidate,g=geoView(c,context(now)),prepared=preparePlace(g);
  const demoItem=demoOrigin&&c.ref.provider_id===DEMO_PROVIDER_ID?DEMO_ITEMS.find(x=>`demo-v1-${x.id}`===c.ref.event_id):undefined;
  return {ref:{offerId:item.offerId,contextRevision:item.contextRevision,sourceId:c.ref.provider_id,externalEventId:c.ref.event_id,occurrenceId:c.ref.occurrence_id,observationId:c.provenance.observation_id},
@@ -41,10 +43,11 @@ export function eventCard(item:CatalogItem,now:string,demoOrigin?:string):EventC
   categoryLabel:c.categories.known.map(category=>CATEGORY_LABELS[category]??'Категория уточняется').join(', ')||'Категория не подтверждена',price:priceView(c.price),
   place:{address:g.geo.address??'Место уточняется',coordinates:prepared.marker,navigationUrl:null,attribution:c.provenance.data_mode==='SYNTHETIC'?'Демо-каталог':c.ref.provider_id==='ManualProvider'?'Официальный источник':c.ref.provider_id,geoView:g},
   sourceLabel:demoItem?'Демо-каталог':c.provenance.data_mode==='SYNTHETIC'?'Подготовленный пример':c.ref.provider_id==='ManualProvider'?'Официальный источник':c.ref.provider_id,sourceUrl:demoItem?demoSourceUrl(demoOrigin!,demoItem):c.provenance.source_url,
-  freshnessLabel:observationTime(c.provenance.observed_at),eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description};
+  freshnessLabel:observationTime(c.provenance.observed_at),eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description,...(recommendation?{recommendation}:{})};
 }
 export function uiService(pool:Pool,plans:Plans,cfg:Config){
  const catalog=catalogService(pool,cfg.mode);
+ const social=socialService(pool);
  async function readPlan(actor:string,id:string):Promise<Plan>{const r=await pool.query<{state:Plan}>('SELECT state FROM plans WHERE id=$1',[id]);requireThat(r.rows[0],'NOT_FOUND',404);assertRead(r.rows[0].state,actor);requireCanonicalPlan(r.rows[0].state);return r.rows[0].state;}
  async function planView(actor:string,p:Plan,inviteUrl:string|null=null):Promise<PlanView>{
   const cap=capabilities(p,actor),slot=activeSlot(p,actor),now=new Date().toISOString();
@@ -100,7 +103,10 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config){
   // UNKNOWN candidates, but those must not appear as matches to selected chips.
   const selectedFields=[b.ctx.draft.date?'time':null,b.ctx.draft.includedCategories.length?'included_categories':null,b.ctx.draft.budgetText?'budget':null].filter((field):field is string=>field!==null);
   const visibleItems=b.items.filter(item=>selectedFields.every(field=>item.eligibility.checks.some(check=>check.field===field&&check.status==='PASS')));
-  return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:visibleItems.map(i=>eventCard(i,b.now,['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined)),aiState:'UNAVAILABLE',aiMessage:'ИИ и внешние модели отключены: допуск не подтверждён. Используйте поля условий; произвольный текст не будет молча проигнорирован.'};
+  const prefs=route.scope.kind==='PERSONAL'?await social.settings(subject.actor_id):null;
+  const ranked=prefs?.city==='Москва'?rankRecommendations(visibleItems,prefs,item=>item.candidate)
+   :prefs?[]:visibleItems.map(item=>({item,recommendation:undefined}));
+  return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:ranked.map(({item,recommendation})=>eventCard(item,b.now,['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined,recommendation)),aiState:'UNAVAILABLE',aiMessage:'Текстовый поиск выполняется по проверенному каталогу. ИИ и внешние модели отключены.'};
  }
  async function mapped(subject:Subject,envelope:Envelope):Promise<Mapped>{
   const hash=digest(canonical(envelope)),actor=subject.actor_id,key=envelope.idempotencyKey;

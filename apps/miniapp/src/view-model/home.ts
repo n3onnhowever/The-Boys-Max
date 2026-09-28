@@ -65,8 +65,8 @@ function adaptEvent(event: EventCardView, hero = false, distanceKm:number|null=n
  * server-owned event, occurrence, source, price, or authorization contracts.
  */
 export function catalogToHomeViewModel(view: CatalogView, location?:{lat:number;lon:number;radiusKm:number}, interests:readonly string[]=[]): HomeViewModel {
-  const relevance=(event:EventCardView)=>interests.some(x=>x.trim()&&`${event.title} ${event.categoryLabel}`.toLocaleLowerCase('ru-RU').includes(x.toLocaleLowerCase('ru-RU')))?1:0;
-  const ranked=[...view.events].sort((a,b)=>relevance(b)-relevance(a));
+  // The API ranks admitted occurrences using persisted preferences and keeps real entries first.
+  const ranked=view.events;
   const events = ranked.map(event => adaptEvent(event));
   const selectedCategory = view.query.includedCategories[0] ?? 'all';
   return {

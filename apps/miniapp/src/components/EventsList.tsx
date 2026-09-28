@@ -30,7 +30,7 @@ export function EventsList({ view, controller, state, busy, onSearchOpen, onNoti
   const originalModel = catalogToHomeViewModel(view,location,interests);
   const decorate=(event:typeof originalModel.forYou[number])=>({...event,saved:cardSave.savedIds.includes(event.id)});
   const model={...originalModel,hero:originalModel.hero?decorate(originalModel.hero):null,forYou:originalModel.forYou.map(decorate),nearby:originalModel.nearby.map(decorate)};
-  const matchedInterest=interests.find(interest=>view.events.some(event=>`${event.title} ${event.categoryLabel}`.toLocaleLowerCase('ru-RU').includes(interest.toLocaleLowerCase('ru-RU'))))??null;
+  const matchedInterest=view.events.find(event=>event.recommendation?.reasons.includes('INTEREST'))?.recommendation?.interest??null;
   const chrome = {
     searchPlaceholder: model.searchPlaceholder,
     activeCategoryId: model.activeCategoryId,

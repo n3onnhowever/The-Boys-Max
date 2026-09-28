@@ -21,7 +21,7 @@ export function useUnreadCount() {
   const [count,setCount]=useState(0);
   useEffect(()=>{
     let active=true;
-    const refresh=()=>{void api<{items:{read:boolean;kind:string}[]}>('/api/v1/me/notifications').then(x=>{if(active)setCount(x.items.filter(n=>!n.read&&n.kind!=='PLAN_CHAT').length)}).catch(()=>{})};
+    const refresh=()=>{void api<{unreadCount:number}>('/api/v1/me/notifications/count').then(x=>{if(active)setCount(x.unreadCount)}).catch(()=>{})};
     refresh();const interval=window.setInterval(refresh,30000);window.addEventListener('focus',refresh);window.addEventListener('povod:notifications-read',refresh);
     return()=>{active=false;window.clearInterval(interval);window.removeEventListener('focus',refresh);window.removeEventListener('povod:notifications-read',refresh)};
   },[]);
