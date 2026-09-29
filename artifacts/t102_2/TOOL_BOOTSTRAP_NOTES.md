@@ -1,0 +1,3 @@
+# Tool bootstrap limitations
+
+Initial sandboxed exec_command attempts (default shell and explicit Windows PowerShell) failed before process creation: helper_unknown_error: setup refresh had errors. Node fallback kernel failed with the same Windows sandbox setup error. These have no process exit code or command runtime. Escalated read-only git rev-parse HEAD ran but exited 1 due to dubious ownership; subsequent git commands use per-invocation -c safe.directory=D:/Dev/Repos/The-Boys-Max. No global config change or automatic approval rejection occurred. A read attempt at scripts/init-test.ts found no file; the actual scripts/init-test.mjs was then inspected. Acceptance command receipts begin after this tool recovery.

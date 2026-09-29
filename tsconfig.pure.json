@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "modules/search/core/**/*.ts",
+    "modules/ai/provider/*.ts",
+    "modules/maps/component/core/**/*.ts",
+    "modules/integration/projections.ts",
+    "packages/domain/**/*.ts",
+    "packages/contracts/domain.ts",
+    "packages/platform/links.ts",
+    "tests/catalog-fixtures.ts",
+    "tests/unit/integration26.test.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

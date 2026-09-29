@@ -1,0 +1,7 @@
+{
+  "sampled": 14,
+  "counts": {
+    "AD_STATUS_UNPROVEN": 14
+  },
+  "method": "Offline classification of bounded factual samples only; no advertising-clearance inference"
+}

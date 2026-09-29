@@ -1,0 +1,211 @@
+{
+  "baseline_sha": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "api_version": "v1.4",
+  "verifier": "t104-probe/1",
+  "probe_timestamp": "2026-09-19T07:56:23.699105+00:00",
+  "receipts": {
+    "actual_after_end.json": {
+      "file_sha256": "1119902fa3efba2a5a81ad075badfaf8a959047a6f8c0d56368540bd900a4aa1",
+      "response_hash": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+      "queried_at_utc": "2026-09-19T07:36:28.474983+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?ids=210582&actual_since=2026-10-01T00%3A00%3A00%2B03%3A00&actual_until=2026-10-01T23%3A59%3A59%2B03%3A00&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation"
+    },
+    "actual_overlap.json": {
+      "file_sha256": "8c975b8fd89ebe19b5a7514ea65ce24d99966b3291106f3a4e3a324184d6808f",
+      "response_hash": "4451b77f53ad18b7f96e86db9333f91d65c89e94938ef8d2c6a5366e7982bb5a",
+      "queried_at_utc": "2026-09-19T07:36:27.047028+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?ids=210582&actual_since=2026-09-19T18%3A00%3A00%2B03%3A00&actual_until=2026-09-19T18%3A01%3A00%2B03%3A00&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation"
+    },
+    "categories.json": {
+      "file_sha256": "b404ff48af073b8d769f62c8f7e9985e72376f38cc8db029421428504e303b25",
+      "response_hash": "ef5cc4fbb461d89e1cfe08dbf36d3dc9658295102f2a259d2fdd5afc3f506664",
+      "queried_at_utc": "2026-09-19T07:32:05.613939+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/event-categories/?lang=ru"
+    },
+    "detail_190707.json": {
+      "file_sha256": "22b922c3dc771904456291c6db6db85ef7c13a027d4cb00772ae7f3abefaad86",
+      "response_hash": "acbecc87f83a98bcb0d206b8ab17dc9716136fc354485ef5f27175f45f67ef94",
+      "queried_at_utc": "2026-09-19T07:36:35.472632+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/190707/?fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&text_format=text"
+    },
+    "detail_202293.json": {
+      "file_sha256": "6e0e371911c803b9b8ee7e085b377cc29421388174ca69844b4e72eb7f32244e",
+      "response_hash": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+      "queried_at_utc": "2026-09-19T07:36:33.581759+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/202293/?fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&text_format=text"
+    },
+    "detail_202293_repeat.json": {
+      "file_sha256": "3330a98ac675c5d5a21bd68bf4e0575ad796d171734ada8dc5c11bd5490e18e5",
+      "response_hash": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+      "queried_at_utc": "2026-09-19T07:36:39.009173+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/202293/?fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&text_format=text"
+    },
+    "detail_210889.json": {
+      "file_sha256": "93e38e95851b2516ad23a6d67c2b646e7e8272b2daa1e04b3a60c4ffda8dd13b",
+      "response_hash": "494513f254544b239f3a085d90f42b6f4898fb8e3260d5d4665b61208b0f2535",
+      "queried_at_utc": "2026-09-19T07:36:37.492183+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/210889/?fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&text_format=text"
+    },
+    "detail_default_fields.json": {
+      "file_sha256": "fa9b424f1a0fe5e171d9cbc2c1efc0211204cc88dd0ab68adcb1b03789f39f0a",
+      "response_hash": "33fcd96fd6131398b871e5cb1c24de040ddfaa1c835b5553e800df0e585439a7",
+      "queried_at_utc": "2026-09-19T07:43:09.112800+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/210889/"
+    },
+    "DG-01_page_1.json": {
+      "file_sha256": "538872b38279df68e8f984e2d630590cae56969dc8705d3fe23838e76b011e6c",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "queried_at_utc": "2026-09-19T07:33:05.372767+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-17T00%3A00%3A00%2B03%3A00&actual_until=2026-09-17T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=education&page=1"
+    },
+    "DG-02_page_1.json": {
+      "file_sha256": "f06dfd2fe7632b8d4c57cad811dd949af3d7494170d3cefff2d8ddb3ce69076a",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "queried_at_utc": "2026-09-19T07:33:08.671902+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-17T00%3A00%3A00%2B03%3A00&actual_until=2026-09-17T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=theater&page=1"
+    },
+    "DG-03_page_1.json": {
+      "file_sha256": "104100db31b7a6eee3f4939903637017fdbb127a92a4b758cdee32eafd6dbba1",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "queried_at_utc": "2026-09-19T07:33:11.654915+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-17T00%3A00%3A00%2B03%3A00&actual_until=2026-09-17T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=entertainment&page=1"
+    },
+    "DG-04_page_1.json": {
+      "file_sha256": "38a6288095d55529c77743822645d9e0d7e78248a265e20e6adf178639e1149e",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "queried_at_utc": "2026-09-19T07:33:26.219665+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=education&page=1"
+    },
+    "DG-05_page_1.json": {
+      "file_sha256": "e905a68176fd1e509e1a0959d094889a5b9554bb92921ef4f4d9223e97fe5f34",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "queried_at_utc": "2026-09-19T07:33:35.826560+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=theater&page=1"
+    },
+    "DG-06_page_1.json": {
+      "file_sha256": "573bcce09405f55a7154291be893b34dc39946e167a7787102ada767795ae877",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "queried_at_utc": "2026-09-19T07:33:38.739819+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=entertainment&page=1"
+    },
+    "DG-07_page_1.json": {
+      "file_sha256": "0171ba01fedc7dbf9d68a0c6b6a2f373437590c00a08a08dfac22f9730d5134c",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "queried_at_utc": "2026-09-19T07:34:02.298066+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&is_free=true&page=1"
+    },
+    "DG-08_page_1.json": {
+      "file_sha256": "8dc50ddf5b8ba9ae78701516ddac922241bb928788fe3a7114255c4592e61f62",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "queried_at_utc": "2026-09-19T07:34:06.037947+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-20T00%3A00%3A00%2B03%3A00&actual_until=2026-09-20T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=theater&page=1"
+    },
+    "DG-09_page_1.json": {
+      "file_sha256": "621e9590d8055eb6e5222beb12e78ed75ecdf26e40c21eacc56f81ce70320b20",
+      "response_hash": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+      "queried_at_utc": "2026-09-19T07:34:09.969463+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-20T00%3A00%3A00%2B03%3A00&actual_until=2026-09-20T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=entertainment&page=1"
+    },
+    "DG-10_11_page_1.json": {
+      "file_sha256": "ccd130754b7f66dc4036b16d10775bf96f526cbd4ae3a1744e4d0182c719774d",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "queried_at_utc": "2026-09-19T07:34:33.761665+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=-publication_date&text_format=text&page=1"
+    },
+    "DG-12_page_1.json": {
+      "file_sha256": "e375da1b74e9edd344f1ec6957edf65c8e30fb18409b567829623493de325239",
+      "response_hash": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+      "queried_at_utc": "2026-09-19T07:34:32.313293+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-20T00%3A00%3A00%2B03%3A00&actual_until=2026-09-20T23%3A59%3A59%2B03%3A00&page_size=100&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text&categories=theater&is_free=true&page=1"
+    },
+    "first_moscow.json": {
+      "file_sha256": "fa74121f9f88a5bd1d0870d0b31fb6ae9239133a72ee71335100871c17c1b957",
+      "response_hash": "b194978e066ee59df43382f95471a2a43d3ec49d8182c374638b83cf03d6726f",
+      "queried_at_utc": "2026-09-19T07:32:08.397823+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-20T00%3A00%3A00%2B03%3A00&page_size=10&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&text_format=text"
+    },
+    "invalid_category.json": {
+      "file_sha256": "6d2a09adf1b350ac00433d52cc59408e83466ef635000dcda6b2460a0025dc1c",
+      "response_hash": "2699e68e69690f2c600a1b32d3424e1006e63ffadbd6f15d1057c3e0517e728d",
+      "queried_at_utc": "2026-09-19T07:36:29.887528+00:00",
+      "http_status": 400,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&categories=t104-nonexistent-category&page_size=1&fields=id"
+    },
+    "missing_event.json": {
+      "file_sha256": "855b597c0d02b56a1987bcdda1bcb516f3f316e7b9fb32bcc07cc06a91fbe149",
+      "response_hash": "a385c4d973c4669d07fd72df009418484f242e635a6e3e6f8771d28b150fc4a9",
+      "queried_at_utc": "2026-09-19T07:36:31.261231+00:00",
+      "http_status": 404,
+      "request_url": "https://kudago.com/public-api/v1.4/events/0/?fields=id%2Cdates%2Csite_url"
+    },
+    "moscow.json": {
+      "file_sha256": "53ec52d6a8db0485260e9620db67e7c82fee4c958f39b6d17c00138349e97c7a",
+      "response_hash": "7b00a9042d07c7e468c71ec1e2d4f6dd1c22aec58e748319a7920273505ede5e",
+      "queried_at_utc": "2026-09-19T07:32:07.063349+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/locations/msk/?fields=slug%2Cname%2Ctimezone%2Ccurrency"
+    },
+    "official_docs.json": {
+      "file_sha256": "bf7f487f245f11fd4adbb8a9502fc5f7cd6cc0105a639e8034e55f660723004f",
+      "response_hash": "ce43106fdc1e2c1db4a95546b963ff77fdd4367f414dbbd36b95a398252e06be",
+      "queried_at_utc": "2026-09-19T07:32:11.425438+00:00",
+      "http_status": 200,
+      "request_url": "https://docs.kudago.com/api/"
+    },
+    "pagination_1.json": {
+      "file_sha256": "c57cfcdc8b38c2a3c1a019bb82ba0d807d9a90f8403cc447ee538376348e21fc",
+      "response_hash": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+      "queried_at_utc": "2026-09-19T07:36:19.344199+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&categories=education&page_size=2&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&page=1"
+    },
+    "pagination_1_repeat.json": {
+      "file_sha256": "7dad85047894f803659f4e4487a7a1f7b86e087eda54a2d4e8052c0b368b0988",
+      "response_hash": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+      "queried_at_utc": "2026-09-19T07:36:24.302220+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&categories=education&page_size=2&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&page=1"
+    },
+    "pagination_2.json": {
+      "file_sha256": "fc459aa79c76a343d03dc0327df85201687209b0d41258fcc4acfcdaad13e980",
+      "response_hash": "07a5cddef02fd9fb156049643671ffb17086533d15e7e2ecb3d655181cc20cd5",
+      "queried_at_utc": "2026-09-19T07:36:22.390358+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/public-api/v1.4/events/?location=msk&actual_since=2026-09-19T00%3A00%3A00%2B03%3A00&actual_until=2026-09-19T23%3A59%3A59%2B03%3A00&categories=education&page_size=2&fields=id%2Ctitle%2Cdates%2Cplace%2Clocation%2Ccategories%2Cprice%2Cis_free%2Csite_url%2Cpublication_date&expand=dates%2Cplace%2Clocation&order_by=id&page=2"
+    },
+    "secondary_202293.json": {
+      "file_sha256": "3d62f0aaf85b6de91b5f9f9066e769f34d186f2e2d09f55a4ef51d3ca03e34ea",
+      "response_hash": "c558dd0549de5c7f5876b4a7e07e57b69c2c75eeda2deec53ae1b046dbbca4a3",
+      "queried_at_utc": "2026-09-19T07:36:41.211281+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/msk/event/obuchenie-byistryij-rezultat/"
+    },
+    "secondary_210889.json": {
+      "file_sha256": "2f50fe45244b5faab0224db706d4cd4bb7260456060fb5b51ee206a79136c68a",
+      "response_hash": "262688ab1cefa4d21605d3e1cd9da8cd03abaf0afe24496fc26b8f2a3587d732",
+      "queried_at_utc": "2026-09-19T07:36:43.628644+00:00",
+      "http_status": 200,
+      "request_url": "https://kudago.com/msk/event/yarmarka-ceramania/"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "starting_sha": "4f9a198d4fa2b18686efa19a59b6ac78281d341d",
+  "sha256": "1fa85552dd5227742fed4564e2ccf0ad2cbd33ed8f11da15100bb38e558fb828",
+  "lockfile_version": 3,
+  "root_manifest_matches": true,
+  "all_direct_versions_preserved": true,
+  "registry": "https://registry.npmjs.org/",
+  "node_modules_absent_before_ci": true,
+  "package_entries": 150,
+  "install_script_packages": [
+    {
+      "path": "node_modules/fsevents",
+      "version": "2.3.3",
+      "install_script": true,
+      "license": "MIT"
+    },
+    {
+      "path": "node_modules/msgpackr-extract",
+      "version": "3.0.4",
+      "install_script": true,
+      "license": "MIT"
+    }
+  ],
+  "lifecycle_policy": "npm ci --ignore-scripts; no lifecycle scripts enabled; existing root scripts inspected",
+  "limitations": "Lock generation and metadata do not prove typecheck/build/runtime."
+}

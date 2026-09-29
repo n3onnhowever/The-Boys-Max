@@ -1,0 +1,231 @@
+ Image max-destination-fencing-prepare Building
+ Image max-destination-fencing-migrate Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.13kB 0.0s done
+#1 DONE 0.0s
+
+#2 [prepare internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [migrate internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.0s
+
+#4 [prepare internal] load .dockerignore
+#4 transferring context: 1.20kB done
+#4 DONE 0.0s
+
+#5 [migrate build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [migrate internal] load build context
+#6 transferring context: 23.53kB 0.0s done
+#6 DONE 0.0s
+
+#7 [prepare build 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [prepare build 3/6] COPY package.json package-lock.json .npmrc ./
+#8 CACHED
+
+#9 [migrate build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#9 CACHED
+
+#10 [prepare build 5/6] COPY . .
+#10 DONE 0.1s
+
+#10 [migrate build 5/6] COPY . .
+#10 DONE 0.1s
+
+#11 [migrate build 6/6] RUN npm run build
+#11 0.230
+#11 0.230 > the-boys-afisha-integration@0.2.0-candidate build
+#11 0.230 > node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
+#11 0.230
+#11 0.272 Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
+#11 5.622 vite v8.2.2 building client environment for production...
+#11 5.628 transforming...
+#11 5.690 ✓ 195 modules transformed.
+#11 5.773 rendering chunks...
+#11 5.818 computing gzip size...
+#11 5.822 dist/miniapp/index.html                              0.60 kB │ gzip:   0.37 kB
+#11 5.822 dist/miniapp/assets/leaflet-renderer-vh-t_kPv.css   15.09 kB │ gzip:   6.36 kB
+#11 5.822 dist/miniapp/assets/index-B8-DSzec.css              60.25 kB │ gzip:  11.72 kB
+#11 5.822 dist/miniapp/assets/DesignPreview-D0ql-iiw.js       39.64 kB │ gzip:  10.56 kB
+#11 5.822 dist/miniapp/assets/leaflet-renderer-Nh_jUyXD.js   150.63 kB │ gzip:  44.29 kB
+#11 5.822 dist/miniapp/assets/index-CQ2337fU.js              379.20 kB │ gzip: 115.53 kB
+#11 5.822
+#11 5.823 ✓ built in 200ms
+#11 DONE 5.9s
+
+#12 [prepare] exporting to image
+#12 exporting layers
+#12 exporting layers 0.2s done
+#12 exporting manifest sha256:e3982abf31992128858cd3e5db09264dfda1670cc10af895a524dd2017af8bb4 0.0s done
+#12 exporting config sha256:bbb0581852517705f57ca1f2497b3ab15e5fc52ed005f3916f81673ddb006426 0.0s done
+#12 exporting attestation manifest sha256:37bbca89a86ccddd234715f88071a2f751361ba9cf43906c842d2012146c83d2 0.0s done
+#12 exporting manifest list sha256:c17fb378d8aa54f9783a6b73678e5fd839efdfc3da00033352160af4192f9538 0.0s done
+#12 naming to docker.io/library/max-destination-fencing-prepare:latest done
+#12 unpacking to docker.io/library/max-destination-fencing-prepare:latest
+#12 unpacking to docker.io/library/max-destination-fencing-prepare:latest 0.2s done
+#12 DONE 0.5s
+
+#13 [migrate] exporting to image
+#13 exporting layers 0.2s done
+#13 exporting manifest sha256:eb1b7ac0224485b93ce6c246cb62cec7001efd668563320c9aeb2002c951aec3 0.0s done
+#13 exporting config sha256:b0a12df193e07c0346d82147167dee870b7e3ae75ac2f814c7d1c2fe70fe43d3 0.0s done
+#13 exporting attestation manifest sha256:b9b2f7245be30e98bd7280413041a70835776c13b47accba9824176bc9ce42fc 0.0s done
+#13 exporting manifest list sha256:edf530cc4a7f9978561409b447edd2b8b698b493a4ff360a08c6d6bbf97a9159 0.0s done
+#13 naming to docker.io/library/max-destination-fencing-migrate:latest done
+#13 unpacking to docker.io/library/max-destination-fencing-migrate:latest 0.2s done
+#13 DONE 0.5s
+
+#14 [prepare] resolving provenance for metadata file
+#14 DONE 0.0s
+
+#15 [migrate] resolving provenance for metadata file
+#15 DONE 0.0s
+ Image max-destination-fencing-migrate Built
+ Image max-destination-fencing-prepare Built
+ Container max-destination-fencing-postgres-1 Running
+ Container max-destination-fencing-redis-1 Running
+ Container max-destination-fencing-migrate-1 Recreate
+ Container max-destination-fencing-migrate-1 Recreated
+ Container max-destination-fencing-prepare-1 Recreate
+ Container max-destination-fencing-prepare-1 Recreated
+ Container max-destination-fencing-init-1 Starting
+ Container max-destination-fencing-init-1 Started
+ Container max-destination-fencing-init-1 Waiting
+ Container max-destination-fencing-postgres-1 Waiting
+ Container max-destination-fencing-init-1 Exited
+ Container max-destination-fencing-postgres-1 Healthy
+ Container max-destination-fencing-migrate-1 Starting
+ Container max-destination-fencing-migrate-1 Started
+ Container max-destination-fencing-migrate-1 Waiting
+ Container max-destination-fencing-redis-1 Waiting
+ Container max-destination-fencing-redis-1 Healthy
+ Container max-destination-fencing-migrate-1 Exited
+ Container max-destination-fencing-prepare-1 Starting
+ Container max-destination-fencing-prepare-1 Started
+ Image max-destination-fencing-checks Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.61kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.36kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 1.20kB done
+#4 DONE 0.0s
+
+#5 [build 1/6] FROM docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+#5 resolve docker.io/library/node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 14.74kB 0.0s done
+#6 DONE 0.0s
+
+#7 [build 3/6] COPY package.json package-lock.json .npmrc ./
+#7 CACHED
+
+#8 [build 4/6] RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+#8 CACHED
+
+#9 [build 5/6] COPY . .
+#9 CACHED
+
+#10 [build 2/6] WORKDIR /app
+#10 CACHED
+
+#11 [build 6/6] RUN npm run build
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:6d5aac97a27c4b21c3fc4f42d4c20630872b643d2db4de488c6e2388224cfbb7 done
+#12 exporting config sha256:cd796733266e38e977dd685ca6788de9d9ec5dfc4b8eb4bbe9f0cc75b217e56b done
+#12 exporting attestation manifest sha256:c2c52ed1afb735c1aa67c0645e5e2db24208a839e7d76079c2f8e6d20395d132 0.0s done
+#12 exporting manifest list sha256:2678cde6972f1bd1fc91a03f26f25dbf56d0dab46f87be8ed9f932ac1666afb8 done
+#12 naming to docker.io/library/max-destination-fencing-checks:latest done
+#12 unpacking to docker.io/library/max-destination-fencing-checks:latest 0.0s done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ Image max-destination-fencing-checks Built
+ Container max-destination-fencing-prepare-1 Waiting
+ Container max-destination-fencing-prepare-1 Exited
+ Container max-destination-fencing-checks-run-43bf55541aaf Creating
+ Container max-destination-fencing-checks-run-43bf55541aaf Created
+(node:13) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"http_end","requestId":"377ea483-8941-453c-a45a-800acbd7e410","route":"/api/v1/max/webhook","status":200}
+✔ real durable ACK for bot_started; BullMQ delivers current Russian copy and native button (54.710033ms)
+{"event":"http_end","requestId":"8aba192c-1d0f-4ef6-8a04-1981b4795411","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"4ab4cec2-8f61-43e6-b7b9-bd7fbd0334f1","route":"/api/v1/max/webhook","status":200}
+✖ delayed older bot_started cannot replace a newer canonical destination (11.169291ms)
+{"event":"http_end","requestId":"3332779e-7a70-4c11-9b94-d4e3c110047f","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"10291945-ac8a-4c97-bf0b-42603022acde","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"b5a515cd-318c-47a4-8863-40dc40c9127b","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"85f05e40-a2be-4225-88b4-e2f86c65d72e","route":"/api/v1/max/webhook","status":200}
+✔ message_created routes start/help/app into durable bot replies (314.186052ms)
+{"event":"http_end","requestId":"2fc766d1-c8cf-4260-849b-160c45be0793","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"f53e8695-28fc-430e-8175-7d3a6dd7103a","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"8b53d0f4-151d-4b81-963e-27eaf24172a3","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"c0fa3030-badd-4481-be41-a6b8d24b42e4","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"e04687e0-83ce-4158-9496-7253fd630e9f","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"95850a80-e40e-4ef7-8942-24e3ba51442a","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"2501ae31-7501-44bd-b9ba-3a96e8d31528","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"0e832a9d-5289-4fb7-b00c-f4cadf0e5564","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"273ff447-3390-44f1-9926-6ee340c88eb8","route":"/api/v1/max/webhook","status":200}
+✔ concurrent duplicate webhook and conflicting same-mid body create only one effect (58.657788ms)
+{"event":"http_end","requestId":"c452da07-02e8-4119-80ac-5e97050d5478","route":"/api/v1/max/webhook","status":403}
+{"event":"http_end","requestId":"9b958165-38e4-4829-9638-0be96bc66592","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"1a3cc149-2c77-4d8c-8176-0bc2e315c772","route":"/api/v1/max/webhook","status":413}
+{"event":"http_end","requestId":"90ebad9f-3d88-4b7c-855b-fad1213118e0","route":"/api/v1/max/webhook","status":200}
+✔ secret failure, malformed body, oversized body and unsupported callback stay isolated (8.373551ms)
+{"event":"http_end","requestId":"9d1b8a6a-aa9e-4366-9b88-ca8dba0bf8b4","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"b3717e4f-36c6-4024-afe5-865bef04fce0","route":"/api/v1/max/webhook","status":200}
+{"event":"http_end","requestId":"c7bb2b9c-3d12-406b-9469-5357408c4b18","route":"/api/v1/max/webhook","status":200}
+✔ group/channel commands and bot echoes are acknowledged without a destination or reply (9.347415ms)
+{"event":"http_end","requestId":"fd1495e4-927d-48c2-b3df-a3d2ba03c9b8","route":"/api/v1/max/webhook","status":200}
+✔ ambiguous external submission remains UNKNOWN and is not retried by reconciliation (43.156125ms)
+{"event":"http_end","requestId":"4587c896-4139-437c-91e7-4b35a1f351c5","route":"/api/v1/max/webhook","status":200}
+✔ 429 string message persists RETRY_WAIT and governor cooldown without immediate resend (41.684215ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4072.627706
+
+✖ failing tests:
+
+test at tests/integration/max-bot.test.ts:60:1
+✖ delayed older bot_started cannot replace a newer canonical destination (11.169291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '2644177211483673'
+  - '67494833405519411'
+
+      at TestContext.<anonymous> (file:///app/tests/integration/max-bot.test.ts:65:9)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2644177211483673',
+    expected: '67494833405519411',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

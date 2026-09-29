@@ -1,0 +1,2759 @@
+{
+  "baseline_sha": "5e4973f24fb74489387b3c29313cfcd1e8401ca7",
+  "api_version": "v1.4",
+  "probe_timestamp": "2026-09-19T07:50:50.097Z",
+  "verifier": "t104-baseline-normalizer-replay/1",
+  "normalizer_source": "modules/search/core/normalizers.ts",
+  "response_hashes": {
+    "actual_after_end.json": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+    "actual_overlap.json": "4451b77f53ad18b7f96e86db9333f91d65c89e94938ef8d2c6a5366e7982bb5a",
+    "categories.json": "ef5cc4fbb461d89e1cfe08dbf36d3dc9658295102f2a259d2fdd5afc3f506664",
+    "detail_190707.json": "acbecc87f83a98bcb0d206b8ab17dc9716136fc354485ef5f27175f45f67ef94",
+    "detail_202293.json": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+    "detail_202293_repeat.json": "35cfa5426832aeeac0d70e63570de06379e47b29326cba0ef78bfd47a6a1fe60",
+    "detail_210889.json": "494513f254544b239f3a085d90f42b6f4898fb8e3260d5d4665b61208b0f2535",
+    "detail_default_fields.json": "33fcd96fd6131398b871e5cb1c24de040ddfaa1c835b5553e800df0e585439a7",
+    "DG-01_page_1.json": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+    "DG-02_page_1.json": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+    "DG-03_page_1.json": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+    "DG-04_page_1.json": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+    "DG-05_page_1.json": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+    "DG-06_page_1.json": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+    "DG-07_page_1.json": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+    "DG-08_page_1.json": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+    "DG-09_page_1.json": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+    "DG-10_11_page_1.json": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+    "DG-12_page_1.json": "0595424161ea863805d9b92c0e52d7aa1e3c46ec58cd8f0d6933759006a5fb74",
+    "first_moscow.json": "b194978e066ee59df43382f95471a2a43d3ec49d8182c374638b83cf03d6726f",
+    "invalid_category.json": "2699e68e69690f2c600a1b32d3424e1006e63ffadbd6f15d1057c3e0517e728d",
+    "missing_event.json": "a385c4d973c4669d07fd72df009418484f242e635a6e3e6f8771d28b150fc4a9",
+    "moscow.json": "7b00a9042d07c7e468c71ec1e2d4f6dd1c22aec58e748319a7920273505ede5e",
+    "official_docs.json": "ce43106fdc1e2c1db4a95546b963ff77fdd4367f414dbbd36b95a398252e06be",
+    "pagination_1.json": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+    "pagination_1_repeat.json": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+    "pagination_2.json": "07a5cddef02fd9fb156049643671ffb17086533d15e7e2ecb3d655181cc20cd5",
+    "secondary_202293.json": "c558dd0549de5c7f5876b4a7e07e57b69c2c75eeda2deec53ae1b046dbbca4a3",
+    "secondary_210889.json": "262688ab1cefa4d21605d3e1cd9da8cd03abaf0afe24496fc26b8f2a3587d732"
+  },
+  "full_record_summary": {
+    "events": 205,
+    "normalized": 79,
+    "quarantined": 126,
+    "errors": {
+      "INTEGER_REQUIRED:integer": 84,
+      "ARRAY_REQUIRED:dates": 35,
+      "NATIVE_TIME_CONFLICT:payload": 7
+    }
+  },
+  "full_records": [
+    {
+      "source_event_id": 174060,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 6,
+      "normalized_count": 6,
+      "exact_count": 6,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 193208,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 14,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 193232,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 14,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 193233,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 14,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 193234,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 14,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 193235,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 15,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 196162,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 12,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 197937,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 9,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 198938,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 12,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 201736,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 10,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 202293,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 399,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 202729,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 9,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 203456,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 11,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 206156,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 9,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 208496,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 8,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 209939,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 3,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 211447,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 60,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 214368,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 3,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224443,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 4,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226194,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 19,
+      "normalized_count": 19,
+      "exact_count": 19,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226465,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 4,
+      "normalized_count": 4,
+      "exact_count": 4,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226476,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226477,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 188886,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 79,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 199924,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 194,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 208098,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 187,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 210582,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 10,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 211710,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 4,
+      "normalized_count": 4,
+      "exact_count": 3,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 215803,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 14,
+      "normalized_count": 14,
+      "exact_count": 14,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 220731,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 3,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226684,
+      "receipt": "receipts/DG-02_page_1.json",
+      "response_hash": "2e8d3ac4319501a92b90dd65b6d4f528034527a838a4faa1ae2c12120ceee232",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 51836,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 183,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 141623,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 17,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 152478,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 2776,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 152484,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1875,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 170226,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 7,
+      "normalized_count": 7,
+      "exact_count": 6,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 172178,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1880,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 173602,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 9,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 180571,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 70,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 180918,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 191267,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 494,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 196050,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 10,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 197552,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 6,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 205600,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 24,
+      "normalized_count": 24,
+      "exact_count": 24,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 216921,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 6,
+      "normalized_count": 6,
+      "exact_count": 4,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 218134,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 3,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218372,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 35,
+      "normalized_count": 35,
+      "exact_count": 35,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 221053,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 221447,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226251,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 2,
+      "normalized_count": 2,
+      "exact_count": 2,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226760,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226762,
+      "receipt": "receipts/DG-03_page_1.json",
+      "response_hash": "4f4eb0f581a6db97159ff837f0a5d9b96bb550702bc876ad5310f93d147586e0",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 73961,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 497,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 162669,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 7,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 162670,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 7,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 162671,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 7,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 172345,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 175330,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1728,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 183448,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 188304,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 7,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 189702,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 529,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 194707,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1018,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 195494,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 164,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 195994,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 151,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 202139,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 12,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 208419,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 4,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 210753,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 225,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 218978,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218979,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218980,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218981,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218982,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218983,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 218984,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 223455,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 7,
+      "normalized_count": 7,
+      "exact_count": 7,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224445,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226614,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 8,
+      "normalized_count": 8,
+      "exact_count": 8,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226757,
+      "receipt": "receipts/DG-04_page_1.json",
+      "response_hash": "328181143303bbcc1273b79315ca4a43416534f269cdf16dee6956cacfbceef1",
+      "date_count": 8,
+      "normalized_count": 8,
+      "exact_count": 8,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 191873,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 37,
+      "normalized_count": 37,
+      "exact_count": 37,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 194524,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 6,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 199235,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 36,
+      "normalized_count": 36,
+      "exact_count": 36,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 202207,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 7,
+      "normalized_count": 7,
+      "exact_count": 7,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 203229,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 78,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 206553,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 26,
+      "normalized_count": 26,
+      "exact_count": 26,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 220494,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 9,
+      "normalized_count": 9,
+      "exact_count": 9,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226633,
+      "receipt": "receipts/DG-05_page_1.json",
+      "response_hash": "ead7345fb4a187abb8964e3441968951650d96db80819983f3665045ce53c601",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 8752,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 603,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 90408,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 129998,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 263,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 152485,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 528,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 153122,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 166140,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 76,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 168691,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 189503,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 189703,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 289,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 190707,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 316,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 190908,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 3,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 201660,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 6,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 205150,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 35,
+      "normalized_count": 35,
+      "exact_count": 35,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 206107,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 33,
+      "normalized_count": 33,
+      "exact_count": 33,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 206401,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 207826,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 208396,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 209577,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 9,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 209874,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 210105,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 12,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216625,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216632,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216633,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216634,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216645,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216646,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216649,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 216650,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 217150,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 25,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 219655,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 219736,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 14,
+      "normalized_count": 14,
+      "exact_count": 14,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 220093,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 223264,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 4,
+      "normalized_count": 4,
+      "exact_count": 3,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225105,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 13,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 225848,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 5,
+      "normalized_count": 5,
+      "exact_count": 5,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226074,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226169,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 2,
+      "normalized_count": 2,
+      "exact_count": 2,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226611,
+      "receipt": "receipts/DG-06_page_1.json",
+      "response_hash": "443ba96cf73096497158bdee7997408e4c4c8cd6efb5c44e78ee012870162a42",
+      "date_count": 3,
+      "normalized_count": 3,
+      "exact_count": 3,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 25325,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 110,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 49143,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 70395,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 102661,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 190223,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 12,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 210889,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 5,
+      "normalized_count": 5,
+      "exact_count": 5,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 213192,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 3,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 222740,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224494,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 2,
+      "normalized_count": 2,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225187,
+      "receipt": "receipts/DG-07_page_1.json",
+      "response_hash": "3abb1059069de4c07bd5472baa142fb4a78776d254f5a83c941f0e035137425a",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload"
+    },
+    {
+      "source_event_id": 12934,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 213,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 65687,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 264,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 203209,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 181,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 206947,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 74,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 207643,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 24,
+      "normalized_count": 24,
+      "exact_count": 24,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 208571,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 50,
+      "normalized_count": 50,
+      "exact_count": 50,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225450,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 32,
+      "normalized_count": 32,
+      "exact_count": 32,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225830,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 3,
+      "normalized_count": 3,
+      "exact_count": 3,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226283,
+      "receipt": "receipts/DG-08_page_1.json",
+      "response_hash": "310c710a49159c37dc9c69e87f7cc2950606ed5c8cc372a7bf13c65a2b000130",
+      "date_count": 2,
+      "normalized_count": 2,
+      "exact_count": 2,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 195206,
+      "receipt": "receipts/DG-09_page_1.json",
+      "response_hash": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+      "date_count": 54,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 223423,
+      "receipt": "receipts/DG-09_page_1.json",
+      "response_hash": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+      "date_count": 16,
+      "normalized_count": 16,
+      "exact_count": 16,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 223480,
+      "receipt": "receipts/DG-09_page_1.json",
+      "response_hash": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+      "date_count": 26,
+      "normalized_count": 26,
+      "exact_count": 26,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 211504,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 260,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 223403,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 23,
+      "normalized_count": 23,
+      "exact_count": 23,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224793,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226352,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225958,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225512,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225951,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225952,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225510,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225946,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224013,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 126052,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 5,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226569,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 7,
+      "normalized_count": 7,
+      "exact_count": 7,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 194706,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 269,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 160082,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 58,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 208080,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 109,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 224770,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226764,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225945,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225943,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226346,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226339,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226341,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225522,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 223566,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 213188,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 49,
+      "normalized_count": 49,
+      "exact_count": 49,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225342,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 12,
+      "normalized_count": 12,
+      "exact_count": 12,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226649,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226648,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226647,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 1,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224453,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 5,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 225717,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224452,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 4,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224455,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 5,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224462,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 6,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224535,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "normalized_count": 2,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 225923,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "normalized_count": 2,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224457,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 5,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226362,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226350,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226351,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226361,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226578,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226571,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226570,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 226568,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226269,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226238,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226235,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226232,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224450,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 4,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224451,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 7,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 224792,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 2,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 209653,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 22,
+      "normalized_count": 22,
+      "exact_count": 22,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224536,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224767,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    },
+    {
+      "source_event_id": 224461,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 12,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226154,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer"
+    },
+    {
+      "source_event_id": 226157,
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "date_count": 1,
+      "normalized_count": 1,
+      "exact_count": 0,
+      "status": "NORMALIZED"
+    }
+  ],
+  "reproducible_defects": [
+    {
+      "source_event_id": 202293,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 399,
+      "status": "QUARANTINED",
+      "error": "ARRAY_REQUIRED:dates",
+      "raw_input_ref": "receipts/DG-01_page_1.json#/payload/results[id=202293]",
+      "baseline_output": "ARRAY_REQUIRED:dates"
+    },
+    {
+      "source_event_id": 193208,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 14,
+      "status": "QUARANTINED",
+      "error": "INTEGER_REQUIRED:integer",
+      "raw_input_ref": "receipts/DG-01_page_1.json#/payload/results[id=193208]",
+      "baseline_output": "INTEGER_REQUIRED:integer",
+      "first_failing_date_index": 7,
+      "raw_date": {
+        "start_date": null,
+        "start_time": "09:00:00",
+        "start": -62135433000,
+        "end_date": "2022-07-31",
+        "end_time": "21:00:00",
+        "end": 1659290400,
+        "is_continuous": false,
+        "is_endless": false,
+        "is_startless": true,
+        "schedules": [],
+        "use_place_schedule": false
+      }
+    },
+    {
+      "source_event_id": 203456,
+      "receipt": "receipts/DG-01_page_1.json",
+      "response_hash": "fe1f4e4a40451f812c632d9af16d92385e36119ed53322c1087c202716a108b3",
+      "date_count": 11,
+      "status": "QUARANTINED",
+      "error": "NATIVE_TIME_CONFLICT:payload",
+      "raw_input_ref": "receipts/DG-01_page_1.json#/payload/results[id=203456]",
+      "baseline_output": "NATIVE_TIME_CONFLICT:payload",
+      "first_failing_date_index": 0,
+      "raw_date": {
+        "start_date": "2023-03-14",
+        "start_time": "00:00:00",
+        "start": 1678741200,
+        "end_date": "2023-06-15",
+        "end_time": "00:00:00",
+        "end": 1686862800,
+        "is_continuous": false,
+        "is_endless": false,
+        "is_startless": false,
+        "schedules": [],
+        "use_place_schedule": false
+      }
+    }
+  ],
+  "single_date_experiments": [
+    {
+      "task_id": "DG-09",
+      "source_event_id": 190707,
+      "response_hash": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+      "receipt": "receipts/DG-09_page_1.json",
+      "mode": "EXPERIMENT_SINGLE_RAW_DATE; NOT FULL RECORD ACCEPTANCE",
+      "raw_date": {
+        "start_date": "2021-02-01",
+        "start_time": "20:00:00",
+        "start": 1612198800,
+        "end_date": null,
+        "end_time": null,
+        "end": 1612198800,
+        "is_continuous": false,
+        "is_endless": false,
+        "is_startless": false,
+        "schedules": [],
+        "use_place_schedule": false
+      },
+      "normalized_candidate": {
+        "schema_version": "max.event-occurrence/3-candidate",
+        "ref": {
+          "kind": "EXTERNAL",
+          "provider_id": "KudaGo",
+          "event_id": "190707",
+          "occurrence_id": "start:1612198800",
+          "native_occurrence_id": null
+        },
+        "untrusted_title": "cтендап-шоу от Stand Up Afisha с бесплатным входом",
+        "untrusted_description": "",
+        "city_id": "moscow",
+        "starts_at": "2021-02-01T17:00:00.000Z",
+        "ends_at": null,
+        "time_precision": "EXACT_OCCURRENCE",
+        "categories": {
+          "known": [],
+          "complete": false,
+          "mapping_verified": false
+        },
+        "price": {
+          "schema_version": "max.price/3-candidate",
+          "source_quote": {
+            "kind": "TEXT",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "raw_label": "вход бесплатный, депозит на еду — 700 рублей",
+            "source_field": "price,is_free",
+            "fees_known": false,
+            "fee_mode": "UNKNOWN",
+            "fee_evidence_ref": null,
+            "extras": [],
+            "warnings": [
+              {
+                "code": "FREE_LABEL_CONFLICT",
+                "field": "price",
+                "message": "Флаг бесплатности не согласован с текстом условий; требуется проверка."
+              }
+            ]
+          },
+          "quoted_amount_role": "BASE",
+          "base_price": {
+            "knownness": "UNKNOWN",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "amount": null
+          },
+          "fees_known": false,
+          "mandatory_fees": {
+            "mode": "UNKNOWN",
+            "items": [],
+            "evidence_ref": null
+          },
+          "total_price": {
+            "knownness": "UNKNOWN",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "amount": null
+          },
+          "warnings": [
+            {
+              "code": "FREE_LABEL_CONFLICT",
+              "field": "price",
+              "message": "Флаг бесплатности не согласован с текстом условий; требуется проверка."
+            },
+            {
+              "code": "BASE_PRICE_UNKNOWN",
+              "field": "price.base_price",
+              "message": "Полная базовая цена не подтверждена."
+            },
+            {
+              "code": "MANDATORY_FEES_UNKNOWN",
+              "field": "price.mandatory_fees",
+              "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+            },
+            {
+              "code": "PAYABLE_TOTAL_UNKNOWN",
+              "field": "price.total_price",
+              "message": "Итог к оплате неизвестен."
+            },
+            {
+              "code": "PRICE_BASIS_UNKNOWN",
+              "field": "price.base_price.basis",
+              "message": "Неизвестно, указана цена за человека или за группу."
+            }
+          ],
+          "provenance": {
+            "observation_id": "t104:KudaGo:190707:0",
+            "group_size_at_quote": null
+          }
+        },
+        "inventory": {
+          "remaining": null,
+          "observed_at": null
+        },
+        "indoor": null,
+        "wheelchair_accessible": null,
+        "status": "UNKNOWN",
+        "listing_state": "PRESENT",
+        "provider_health": "OK",
+        "venue": {
+          "id": null,
+          "address": null,
+          "coordinates": null,
+          "coordinate_meaning": "UNKNOWN"
+        },
+        "provenance": {
+          "observation_id": "t104:KudaGo:190707:0",
+          "observed_at": "2026-09-19T07:34:09.969Z",
+          "fetched_at": "2026-09-19T07:34:09.969Z",
+          "provider_updated_at": null,
+          "source_url": "https://kudago.com/msk/event/entertainment-stendap-shou-s-besplatnyim-vhodom/",
+          "payload_sha256": "12058e07ff930326cf654a197f3b10e76de75333b9981f06ab3b11d6de0cbf17",
+          "transform_version": "source-normalizer.3-candidate",
+          "field_sources": {
+            "identity": [
+              "id"
+            ],
+            "time": [
+              "dates[0]"
+            ],
+            "price": [
+              "price,is_free"
+            ],
+            "categories": [
+              "categories"
+            ],
+            "city": [
+              "location"
+            ]
+          },
+          "data_mode": "LIVE"
+        },
+        "rights": {
+          "policy_id": "t104-open",
+          "policy_revision": "1",
+          "reviewed_at": "2026-09-19T00:00:00Z",
+          "review_due_at": "2026-09-20T00:00:00Z",
+          "revoked_at": null,
+          "display_facts": "UNKNOWN",
+          "display_text": "UNKNOWN",
+          "display_images": "UNKNOWN",
+          "persist_minimal": "UNKNOWN",
+          "ad_clearance": "UNKNOWN",
+          "evidence_refs": []
+        },
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          }
+        ]
+      },
+      "eligibility": {
+        "schema_version": "max.eligibility/3-candidate",
+        "policy_version": "eligibility-policy/3-candidate",
+        "status": "UNKNOWN",
+        "checks": [
+          {
+            "field": "lifecycle",
+            "status": "UNKNOWN",
+            "reason": "EVENT_STATUS_UNKNOWN"
+          },
+          {
+            "field": "occurrence_lifecycle",
+            "status": "UNKNOWN",
+            "reason": "START_PASSED_END_UNKNOWN"
+          },
+          {
+            "field": "freshness",
+            "status": "PASS",
+            "reason": "SOURCE_FRESH"
+          },
+          {
+            "field": "listing",
+            "status": "PASS",
+            "reason": "LISTING_OBSERVED"
+          },
+          {
+            "field": "provider_health",
+            "status": "PASS",
+            "reason": "PROVIDER_OK"
+          },
+          {
+            "field": "provenance",
+            "status": "PASS",
+            "reason": "SOURCE_REFERENCED"
+          },
+          {
+            "field": "rights.display_facts",
+            "status": "UNKNOWN",
+            "reason": "RIGHTS_UNVERIFIED"
+          },
+          {
+            "field": "city",
+            "status": "PASS",
+            "reason": "CITY_MATCH"
+          },
+          {
+            "field": "interested_count",
+            "status": "PASS",
+            "reason": "COUNT_CONTEXT_ONLY"
+          },
+          {
+            "field": "budget",
+            "status": "UNKNOWN",
+            "reason": "PAYABLE_TOTAL_UNKNOWN"
+          }
+        ],
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          },
+          {
+            "code": "FREE_LABEL_CONFLICT",
+            "field": "price",
+            "message": "Флаг бесплатности не согласован с текстом условий; требуется проверка."
+          },
+          {
+            "code": "BASE_PRICE_UNKNOWN",
+            "field": "price.base_price",
+            "message": "Полная базовая цена не подтверждена."
+          },
+          {
+            "code": "MANDATORY_FEES_UNKNOWN",
+            "field": "price.mandatory_fees",
+            "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+          },
+          {
+            "code": "PAYABLE_TOTAL_UNKNOWN",
+            "field": "price.total_price",
+            "message": "Итог к оплате неизвестен."
+          },
+          {
+            "code": "PRICE_BASIS_UNKNOWN",
+            "field": "price.base_price.basis",
+            "message": "Неизвестно, указана цена за человека или за группу."
+          },
+          {
+            "code": "INVENTORY_NOT_CHECKED",
+            "field": "inventory",
+            "message": "Число желающих не подтверждает наличие билетов."
+          }
+        ],
+        "evaluated_at": "2026-09-19T07:34:09.969Z"
+      }
+    },
+    {
+      "task_id": "DG-10",
+      "source_event_id": 226169,
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "mode": "EXPERIMENT_SINGLE_RAW_DATE; NOT FULL RECORD ACCEPTANCE",
+      "raw_date": {
+        "start_date": "2026-09-20",
+        "start_time": "17:00:00",
+        "start": 1789912800,
+        "end_date": null,
+        "end_time": null,
+        "end": 1789912800,
+        "is_continuous": false,
+        "is_endless": false,
+        "is_startless": false,
+        "schedules": [],
+        "use_place_schedule": false
+      },
+      "normalized_candidate": {
+        "schema_version": "max.event-occurrence/3-candidate",
+        "ref": {
+          "kind": "EXTERNAL",
+          "provider_id": "KudaGo",
+          "event_id": "226169",
+          "occurrence_id": "start:1789912800",
+          "native_occurrence_id": null
+        },
+        "untrusted_title": "девятый этап Российской серии кольцевых гонок",
+        "untrusted_description": "",
+        "city_id": "moscow",
+        "starts_at": "2026-09-20T14:00:00.000Z",
+        "ends_at": null,
+        "time_precision": "EXACT_OCCURRENCE",
+        "categories": {
+          "known": [],
+          "complete": false,
+          "mapping_verified": false
+        },
+        "price": {
+          "schema_version": "max.price/3-candidate",
+          "source_quote": {
+            "kind": "TEXT",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "raw_label": "от 250 до 3500 рублей",
+            "source_field": "price,is_free",
+            "fees_known": false,
+            "fee_mode": "UNKNOWN",
+            "fee_evidence_ref": null,
+            "extras": [],
+            "warnings": []
+          },
+          "quoted_amount_role": "BASE",
+          "base_price": {
+            "knownness": "UNKNOWN",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "amount": null
+          },
+          "fees_known": false,
+          "mandatory_fees": {
+            "mode": "UNKNOWN",
+            "items": [],
+            "evidence_ref": null
+          },
+          "total_price": {
+            "knownness": "UNKNOWN",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "amount": null
+          },
+          "warnings": [
+            {
+              "code": "BASE_PRICE_UNKNOWN",
+              "field": "price.base_price",
+              "message": "Полная базовая цена не подтверждена."
+            },
+            {
+              "code": "MANDATORY_FEES_UNKNOWN",
+              "field": "price.mandatory_fees",
+              "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+            },
+            {
+              "code": "PAYABLE_TOTAL_UNKNOWN",
+              "field": "price.total_price",
+              "message": "Итог к оплате неизвестен."
+            },
+            {
+              "code": "PRICE_BASIS_UNKNOWN",
+              "field": "price.base_price.basis",
+              "message": "Неизвестно, указана цена за человека или за группу."
+            }
+          ],
+          "provenance": {
+            "observation_id": "t104:KudaGo:226169:0",
+            "group_size_at_quote": null
+          }
+        },
+        "inventory": {
+          "remaining": null,
+          "observed_at": null
+        },
+        "indoor": null,
+        "wheelchair_accessible": null,
+        "status": "UNKNOWN",
+        "listing_state": "PRESENT",
+        "provider_health": "OK",
+        "venue": {
+          "id": "5551",
+          "address": "Волоколамский р-н, дер. Шелудьково, д. 39",
+          "coordinates": {
+            "lat": 55.995423687722656,
+            "lon": 36.267045378673565
+          },
+          "coordinate_meaning": "VENUE"
+        },
+        "provenance": {
+          "observation_id": "t104:KudaGo:226169:0",
+          "observed_at": "2026-09-19T07:34:33.761Z",
+          "fetched_at": "2026-09-19T07:34:33.761Z",
+          "provider_updated_at": null,
+          "source_url": "https://kudago.com/msk/event/raznoe-rossijskaya-seriya-koltsevyih-gonok-sentyabr-2026/",
+          "payload_sha256": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+          "transform_version": "source-normalizer.3-candidate",
+          "field_sources": {
+            "identity": [
+              "id"
+            ],
+            "time": [
+              "dates[0]"
+            ],
+            "price": [
+              "price,is_free"
+            ],
+            "categories": [
+              "categories"
+            ],
+            "city": [
+              "location"
+            ]
+          },
+          "data_mode": "LIVE"
+        },
+        "rights": {
+          "policy_id": "t104-open",
+          "policy_revision": "1",
+          "reviewed_at": "2026-09-19T00:00:00Z",
+          "review_due_at": "2026-09-20T00:00:00Z",
+          "revoked_at": null,
+          "display_facts": "UNKNOWN",
+          "display_text": "UNKNOWN",
+          "display_images": "UNKNOWN",
+          "persist_minimal": "UNKNOWN",
+          "ad_clearance": "UNKNOWN",
+          "evidence_refs": []
+        },
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          }
+        ]
+      },
+      "eligibility": {
+        "schema_version": "max.eligibility/3-candidate",
+        "policy_version": "eligibility-policy/3-candidate",
+        "status": "UNKNOWN",
+        "checks": [
+          {
+            "field": "lifecycle",
+            "status": "UNKNOWN",
+            "reason": "EVENT_STATUS_UNKNOWN"
+          },
+          {
+            "field": "occurrence_lifecycle",
+            "status": "PASS",
+            "reason": "OCCURRENCE_UPCOMING"
+          },
+          {
+            "field": "freshness",
+            "status": "PASS",
+            "reason": "SOURCE_FRESH"
+          },
+          {
+            "field": "listing",
+            "status": "PASS",
+            "reason": "LISTING_OBSERVED"
+          },
+          {
+            "field": "provider_health",
+            "status": "PASS",
+            "reason": "PROVIDER_OK"
+          },
+          {
+            "field": "provenance",
+            "status": "PASS",
+            "reason": "SOURCE_REFERENCED"
+          },
+          {
+            "field": "rights.display_facts",
+            "status": "UNKNOWN",
+            "reason": "RIGHTS_UNVERIFIED"
+          },
+          {
+            "field": "city",
+            "status": "PASS",
+            "reason": "CITY_MATCH"
+          },
+          {
+            "field": "time",
+            "status": "UNKNOWN",
+            "reason": "END_TIME_UNKNOWN"
+          },
+          {
+            "field": "interested_count",
+            "status": "PASS",
+            "reason": "COUNT_CONTEXT_ONLY"
+          },
+          {
+            "field": "budget",
+            "status": "UNKNOWN",
+            "reason": "PAYABLE_TOTAL_UNKNOWN"
+          }
+        ],
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          },
+          {
+            "code": "BASE_PRICE_UNKNOWN",
+            "field": "price.base_price",
+            "message": "Полная базовая цена не подтверждена."
+          },
+          {
+            "code": "MANDATORY_FEES_UNKNOWN",
+            "field": "price.mandatory_fees",
+            "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+          },
+          {
+            "code": "PAYABLE_TOTAL_UNKNOWN",
+            "field": "price.total_price",
+            "message": "Итог к оплате неизвестен."
+          },
+          {
+            "code": "PRICE_BASIS_UNKNOWN",
+            "field": "price.base_price.basis",
+            "message": "Неизвестно, указана цена за человека или за группу."
+          },
+          {
+            "code": "INVENTORY_NOT_CHECKED",
+            "field": "inventory",
+            "message": "Число желающих не подтверждает наличие билетов."
+          }
+        ],
+        "evaluated_at": "2026-09-19T07:34:33.761Z"
+      }
+    },
+    {
+      "task_id": "DG-11",
+      "source_event_id": 175330,
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "receipt": "receipts/DG-10_11_page_1.json",
+      "mode": "EXPERIMENT_SINGLE_RAW_DATE; NOT FULL RECORD ACCEPTANCE",
+      "raw_date": {
+        "start_date": "2026-09-19",
+        "start_time": "17:00:00",
+        "start": 1789826400,
+        "end_date": null,
+        "end_time": null,
+        "end": 1789826400,
+        "is_continuous": false,
+        "is_endless": false,
+        "is_startless": false,
+        "schedules": [],
+        "use_place_schedule": false
+      },
+      "normalized_candidate": {
+        "schema_version": "max.event-occurrence/3-candidate",
+        "ref": {
+          "kind": "EXTERNAL",
+          "provider_id": "KudaGo",
+          "event_id": "175330",
+          "occurrence_id": "start:1789826400",
+          "native_occurrence_id": null
+        },
+        "untrusted_title": "интеллектуальные вечеринки «Идём!Квиз» / «Гоу!Квиз»",
+        "untrusted_description": "",
+        "city_id": "moscow",
+        "starts_at": "2026-09-19T14:00:00.000Z",
+        "ends_at": null,
+        "time_precision": "EXACT_OCCURRENCE",
+        "categories": {
+          "known": [],
+          "complete": false,
+          "mapping_verified": false
+        },
+        "price": {
+          "schema_version": "max.price/3-candidate",
+          "source_quote": {
+            "kind": "TEXT",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "raw_label": "900 рублей за одного участника",
+            "source_field": "price,is_free",
+            "fees_known": false,
+            "fee_mode": "UNKNOWN",
+            "fee_evidence_ref": null,
+            "extras": [],
+            "warnings": []
+          },
+          "quoted_amount_role": "BASE",
+          "base_price": {
+            "knownness": "UNKNOWN",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "amount": null
+          },
+          "fees_known": false,
+          "mandatory_fees": {
+            "mode": "UNKNOWN",
+            "items": [],
+            "evidence_ref": null
+          },
+          "total_price": {
+            "knownness": "UNKNOWN",
+            "basis": "UNKNOWN",
+            "currency": null,
+            "amount": null
+          },
+          "warnings": [
+            {
+              "code": "BASE_PRICE_UNKNOWN",
+              "field": "price.base_price",
+              "message": "Полная базовая цена не подтверждена."
+            },
+            {
+              "code": "MANDATORY_FEES_UNKNOWN",
+              "field": "price.mandatory_fees",
+              "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+            },
+            {
+              "code": "PAYABLE_TOTAL_UNKNOWN",
+              "field": "price.total_price",
+              "message": "Итог к оплате неизвестен."
+            },
+            {
+              "code": "PRICE_BASIS_UNKNOWN",
+              "field": "price.base_price.basis",
+              "message": "Неизвестно, указана цена за человека или за группу."
+            }
+          ],
+          "provenance": {
+            "observation_id": "t104:KudaGo:175330:0",
+            "group_size_at_quote": null
+          }
+        },
+        "inventory": {
+          "remaining": null,
+          "observed_at": null
+        },
+        "indoor": null,
+        "wheelchair_accessible": null,
+        "status": "UNKNOWN",
+        "listing_state": "PRESENT",
+        "provider_health": "OK",
+        "venue": {
+          "id": null,
+          "address": null,
+          "coordinates": null,
+          "coordinate_meaning": "UNKNOWN"
+        },
+        "provenance": {
+          "observation_id": "t104:KudaGo:175330:0",
+          "observed_at": "2026-09-19T07:34:33.761Z",
+          "fetched_at": "2026-09-19T07:34:33.761Z",
+          "provider_updated_at": null,
+          "source_url": "https://kudago.com/msk/event/znaniya-kvizyi/",
+          "payload_sha256": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+          "transform_version": "source-normalizer.3-candidate",
+          "field_sources": {
+            "identity": [
+              "id"
+            ],
+            "time": [
+              "dates[0]"
+            ],
+            "price": [
+              "price,is_free"
+            ],
+            "categories": [
+              "categories"
+            ],
+            "city": [
+              "location"
+            ]
+          },
+          "data_mode": "LIVE"
+        },
+        "rights": {
+          "policy_id": "t104-open",
+          "policy_revision": "1",
+          "reviewed_at": "2026-09-19T00:00:00Z",
+          "review_due_at": "2026-09-20T00:00:00Z",
+          "revoked_at": null,
+          "display_facts": "UNKNOWN",
+          "display_text": "UNKNOWN",
+          "display_images": "UNKNOWN",
+          "persist_minimal": "UNKNOWN",
+          "ad_clearance": "UNKNOWN",
+          "evidence_refs": []
+        },
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          }
+        ]
+      },
+      "eligibility": {
+        "schema_version": "max.eligibility/3-candidate",
+        "policy_version": "eligibility-policy/3-candidate",
+        "status": "UNKNOWN",
+        "checks": [
+          {
+            "field": "lifecycle",
+            "status": "UNKNOWN",
+            "reason": "EVENT_STATUS_UNKNOWN"
+          },
+          {
+            "field": "occurrence_lifecycle",
+            "status": "PASS",
+            "reason": "OCCURRENCE_UPCOMING"
+          },
+          {
+            "field": "freshness",
+            "status": "PASS",
+            "reason": "SOURCE_FRESH"
+          },
+          {
+            "field": "listing",
+            "status": "PASS",
+            "reason": "LISTING_OBSERVED"
+          },
+          {
+            "field": "provider_health",
+            "status": "PASS",
+            "reason": "PROVIDER_OK"
+          },
+          {
+            "field": "provenance",
+            "status": "PASS",
+            "reason": "SOURCE_REFERENCED"
+          },
+          {
+            "field": "rights.display_facts",
+            "status": "UNKNOWN",
+            "reason": "RIGHTS_UNVERIFIED"
+          },
+          {
+            "field": "city",
+            "status": "PASS",
+            "reason": "CITY_MATCH"
+          },
+          {
+            "field": "interested_count",
+            "status": "PASS",
+            "reason": "COUNT_CONTEXT_ONLY"
+          },
+          {
+            "field": "budget",
+            "status": "UNKNOWN",
+            "reason": "PAYABLE_TOTAL_UNKNOWN"
+          }
+        ],
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          },
+          {
+            "code": "BASE_PRICE_UNKNOWN",
+            "field": "price.base_price",
+            "message": "Полная базовая цена не подтверждена."
+          },
+          {
+            "code": "MANDATORY_FEES_UNKNOWN",
+            "field": "price.mandatory_fees",
+            "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+          },
+          {
+            "code": "PAYABLE_TOTAL_UNKNOWN",
+            "field": "price.total_price",
+            "message": "Итог к оплате неизвестен."
+          },
+          {
+            "code": "PRICE_BASIS_UNKNOWN",
+            "field": "price.base_price.basis",
+            "message": "Неизвестно, указана цена за человека или за группу."
+          },
+          {
+            "code": "INVENTORY_NOT_CHECKED",
+            "field": "inventory",
+            "message": "Число желающих не подтверждает наличие билетов."
+          }
+        ],
+        "evaluated_at": "2026-09-19T07:34:33.761Z"
+      }
+    },
+    {
+      "task_id": "PARTIAL",
+      "response_hash": "2ffc08e44e71d2029d5baa38d70a3b52150c32ca341495ca008d02930b5623d1",
+      "coverage": {
+        "scope_id": "t104-isolated",
+        "all_pages_consumed": false,
+        "snapshot_consistent": false,
+        "truncated": false
+      },
+      "next_cursor": "2"
+    },
+    {
+      "task_id": "STALE_SIMULATION",
+      "synthetic_mutation": "observed_at minus 3601 seconds on real candidate",
+      "response_hash": "2e292d1cfdd6a5f615a4de045d4dcdfd5896778d48b7b75831a726df3e3299d7",
+      "eligibility": {
+        "schema_version": "max.eligibility/3-candidate",
+        "policy_version": "eligibility-policy/3-candidate",
+        "status": "UNKNOWN",
+        "checks": [
+          {
+            "field": "lifecycle",
+            "status": "UNKNOWN",
+            "reason": "EVENT_STATUS_UNKNOWN"
+          },
+          {
+            "field": "occurrence_lifecycle",
+            "status": "PASS",
+            "reason": "OCCURRENCE_UPCOMING"
+          },
+          {
+            "field": "freshness",
+            "status": "UNKNOWN",
+            "reason": "SOURCE_STALE"
+          },
+          {
+            "field": "listing",
+            "status": "PASS",
+            "reason": "LISTING_OBSERVED"
+          },
+          {
+            "field": "provider_health",
+            "status": "PASS",
+            "reason": "PROVIDER_OK"
+          },
+          {
+            "field": "provenance",
+            "status": "PASS",
+            "reason": "SOURCE_REFERENCED"
+          },
+          {
+            "field": "rights.display_facts",
+            "status": "UNKNOWN",
+            "reason": "RIGHTS_UNVERIFIED"
+          },
+          {
+            "field": "city",
+            "status": "PASS",
+            "reason": "CITY_MATCH"
+          },
+          {
+            "field": "interested_count",
+            "status": "PASS",
+            "reason": "COUNT_CONTEXT_ONLY"
+          },
+          {
+            "field": "budget",
+            "status": "UNKNOWN",
+            "reason": "PAYABLE_TOTAL_UNKNOWN"
+          }
+        ],
+        "warnings": [
+          {
+            "code": "LIFECYCLE_NOT_PROVIDED",
+            "field": "status",
+            "message": "Публичная запись не содержит проверенного статуса отмены/переноса."
+          },
+          {
+            "code": "DERIVED_OCCURRENCE_ID",
+            "field": "ref",
+            "message": "Отдельный ID сеанса не предоставлен: используется производный идентификатор; изменение расписания требует сопоставления."
+          },
+          {
+            "code": "BASE_PRICE_UNKNOWN",
+            "field": "price.base_price",
+            "message": "Полная базовая цена не подтверждена."
+          },
+          {
+            "code": "MANDATORY_FEES_UNKNOWN",
+            "field": "price.mandatory_fees",
+            "message": "Обязательные доплаты не подтверждены; конкретный сбор не предполагается."
+          },
+          {
+            "code": "PAYABLE_TOTAL_UNKNOWN",
+            "field": "price.total_price",
+            "message": "Итог к оплате неизвестен."
+          },
+          {
+            "code": "PRICE_BASIS_UNKNOWN",
+            "field": "price.base_price.basis",
+            "message": "Неизвестно, указана цена за человека или за группу."
+          },
+          {
+            "code": "INVENTORY_NOT_CHECKED",
+            "field": "inventory",
+            "message": "Число желающих не подтверждает наличие билетов."
+          }
+        ],
+        "evaluated_at": "2026-09-19T07:34:33.761Z"
+      }
+    }
+  ],
+  "critical_false_pass": 0,
+  "conditional_required_NO_PASS_implemented": false,
+  "conditional_actual_baseline_result": "UNKNOWN / TEXT or full-record quarantine, not zero-cost PASS",
+  "test_failures": []
+}

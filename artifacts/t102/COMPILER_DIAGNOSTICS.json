@@ -1,0 +1,1446 @@
+{
+  "typecheck": {
+    "count": 89,
+    "project_errors": [
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 80,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 99,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 115,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 136,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 155,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 41,
+        "column": 81,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 80,
+        "column": 303,
+        "code": "TS2345",
+        "message": "Argument of type '{ optionId: string; snapshotId: string; terms: { title: string; activityIdentity: string; startsAt: string | null; endsAt: string | null; timeZone: string; place: string | null; participationUrl: string | null; obligations: string; price: { ...; }; warnings: string[]; }; expectedStateVersion: number; kind: \"ADD_OPTI...' is not assignable to parameter of type 'Command'."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 11,
+        "column": 23,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 12,
+        "column": 25,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 13,
+        "column": 20,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "modules/maps/component/leaflet-renderer.ts",
+        "line": 29,
+        "column": 36,
+        "code": "TS2345",
+        "message": "Argument of type 'LatLng | undefined' is not assignable to parameter of type 'LatLngExpression'."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 10,
+        "column": 17,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 11,
+        "column": 20,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      },
+      {
+        "path": "scripts/arm-test-outbound.ts",
+        "line": 4,
+        "column": 49,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/helpers/kill-worker.ts",
+        "line": 8,
+        "column": 43,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/helpers/kill-worker.ts",
+        "line": 8,
+        "column": 95,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/integration/foundation.test.ts",
+        "line": 27,
+        "column": 17,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/integration/foundation.test.ts",
+        "line": 27,
+        "column": 76,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/integration/foundation.test.ts",
+        "line": 118,
+        "column": 41,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      }
+    ],
+    "dependency_error_count": 70,
+    "diagnostics": [
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 80,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 99,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 115,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 136,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 155,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 41,
+        "column": 81,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 80,
+        "column": 303,
+        "code": "TS2345",
+        "message": "Argument of type '{ optionId: string; snapshotId: string; terms: { title: string; activityIdentity: string; startsAt: string | null; endsAt: string | null; timeZone: string; place: string | null; participationUrl: string | null; obligations: string; price: { ...; }; warnings: string[]; }; expectedStateVersion: number; kind: \"ADD_OPTI...' is not assignable to parameter of type 'Command'."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 11,
+        "column": 23,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 12,
+        "column": 25,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 13,
+        "column": 20,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "modules/maps/component/leaflet-renderer.ts",
+        "line": 29,
+        "column": 36,
+        "code": "TS2345",
+        "message": "Argument of type 'LatLng | undefined' is not assignable to parameter of type 'LatLngExpression'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/date-duration.d.ts",
+        "line": 1,
+        "column": 35,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/duration.d.ts",
+        "line": 1,
+        "column": 31,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/localdate.d.ts",
+        "line": 1,
+        "column": 32,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/localtime.d.ts",
+        "line": 1,
+        "column": 32,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/relative-duration.d.ts",
+        "line": 1,
+        "column": 39,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/timestamp.d.ts",
+        "line": 1,
+        "column": 36,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/query-builders/query.d.ts",
+        "line": 23,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'GelRelationalQuery<TResult>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/roles.d.ts",
+        "line": 7,
+        "column": 22,
+        "code": "TS2559",
+        "message": "Type 'GelRole' has no properties in common with type 'GelRoleConfig'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/db.d.ts",
+        "line": 1,
+        "column": 38,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/delete.d.ts",
+        "line": 36,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'MySqlDeleteBase<TTable, TQueryResult, TPreparedQueryHKT, TDynamic, TExcludedMethods>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 294,
+        "column": 244,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 320,
+        "column": 247,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 346,
+        "column": 248,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 387,
+        "column": 251,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 413,
+        "column": 245,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 454,
+        "column": 248,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 611,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'MySqlSelectBase<TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>' does not implement inherited abstract member getSQL from class 'MySqlSelectQueryBuilderBase<MySqlSelectHKT, TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.types.d.ts",
+        "line": 138,
+        "column": 1149,
+        "code": "TS2344",
+        "message": "Type 'MySqlSetOperatorExcludedMethods' does not satisfy the constraint '\"offset\" | \"intersect\" | \"as\" | \"execute\" | \"then\" | \"iterator\" | \"union\" | \"catch\" | \"_\" | \"getSQL\" | \"except\" | \"for\" | \"where\" | \"orderBy\" | \"limit\" | \"leftJoin\" | \"rightJoin\" | ... 14 more ... | \"$withCache\"'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/pg-core/query-builders/query.d.ts",
+        "line": 23,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'PgRelationalQuery<TResult>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/pg-core/roles.d.ts",
+        "line": 7,
+        "column": 22,
+        "code": "TS2559",
+        "message": "Type 'PgRole' has no properties in common with type 'PgRoleConfig'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/bigint.d.ts",
+        "line": 13,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBigInt53Builder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, { unsigned: boolean; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/bigint.d.ts",
+        "line": 35,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBigInt64Builder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, { unsigned: boolean; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/binary.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBinaryBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreBinaryConfig, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/boolean.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBooleanBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/char.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreCharBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreCharConfig<T[\"enumValues\"], T[\"length\"]>, { length: T[\"length\"]; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/custom.d.ts",
+        "line": 24,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreCustomColumnBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, { fieldConfig: Record<string, any> | undefined; customTypeParams: CustomTypeParams<any>; }, { singlestoreColumnBuilderBrand: \"SingleStoreCustomColumnBuilderBrand\"; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/date.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/date.d.ts",
+        "line": 37,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateStringBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/datetime.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateTimeBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreDatetimeConfig<\"string\" | \"date\">, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/datetime.d.ts",
+        "line": 38,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateTimeStringBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreDatetimeConfig<\"string\" | \"date\">, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/decimal.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDecimalBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDecimalConfig<\"string\" | \"number\" | \"bigint\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/decimal.d.ts",
+        "line": 36,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDecimalNumberBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDecimalConfig<\"string\" | \"number\" | \"bigint\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/decimal.d.ts",
+        "line": 58,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDecimalBigIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDecimalConfig<\"string\" | \"number\" | \"bigint\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/double.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDoubleBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDoubleConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/enum.d.ts",
+        "line": 19,
+        "column": 5,
+        "code": "TS2416",
+        "message": "Property 'generatedAlwaysAs' in type 'SingleStoreEnumColumnBuilder<T>' is not assignable to the same property in base type 'SingleStoreColumnBuilder<T, { enumValues: T[\"enumValues\"]; }, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/float.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreFloatBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreFloatConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/int.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/json.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreJsonBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/mediumint.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreMediumIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/real.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreRealBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreRealConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/serial.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreSerialBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/smallint.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreSmallIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/text.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTextBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, { textType: SingleStoreTextColumnType; enumValues: T[\"enumValues\"]; }, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/time.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTimeBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/timestamp.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTimestampBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreDateColumnBaseBuilder<T, SingleStoreTimestampConfig<\"string\" | \"date\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/timestamp.d.ts",
+        "line": 35,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTimestampStringBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreDateColumnBaseBuilder<T, SingleStoreTimestampConfig<\"string\" | \"date\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/tinyint.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTinyIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/varbinary.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreVarBinaryBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreVarbinaryOptions, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/varchar.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreVarCharBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreVarCharConfig<T[\"enumValues\"], T[\"length\"]>, { length: T[\"length\"]; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/vector.d.ts",
+        "line": 13,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreVectorBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreVectorConfig, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/year.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreYearBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/db.d.ts",
+        "line": 1,
+        "column": 38,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/delete.d.ts",
+        "line": 36,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'SingleStoreDeleteBase<TTable, TQueryResult, TPreparedQueryHKT, TDynamic, TExcludedMethods>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 268,
+        "column": 262,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 294,
+        "column": 265,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 320,
+        "column": 266,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 346,
+        "column": 263,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 370,
+        "column": 262,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 520,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreSelectBase<TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>' does not implement inherited abstract member getSQL from class 'SingleStoreSelectQueryBuilderBase<SingleStoreSelectHKT, TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.types.d.ts",
+        "line": 130,
+        "column": 1185,
+        "code": "TS2344",
+        "message": "Type 'SingleStoreSetOperatorExcludedMethods' does not satisfy the constraint '\"offset\" | \"intersect\" | \"as\" | \"execute\" | \"then\" | \"iterator\" | \"union\" | \"catch\" | \"_\" | \"getSQL\" | \"except\" | \"for\" | \"where\" | \"orderBy\" | \"limit\" | \"leftJoin\" | \"rightJoin\" | ... 14 more ... | \"minus\"'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore/driver.d.ts",
+        "line": 1,
+        "column": 100,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore/driver.d.ts",
+        "line": 2,
+        "column": 39,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore/session.d.ts",
+        "line": 1,
+        "column": 94,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/query.d.ts",
+        "line": 25,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'SQLiteRelationalQuery<TType, TResult>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 233,
+        "column": 247,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 259,
+        "column": 250,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 285,
+        "column": 251,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 311,
+        "column": 248,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 452,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SQLiteSelectBase<TTableName, TResultType, TRunResult, TSelection, TSelectMode, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>' does not implement inherited abstract member getSQL from class 'SQLiteSelectQueryBuilderBase<SQLiteSelectHKT, TTableName, TResultType, TRunResult, TSelection, TSelectMode, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.types.d.ts",
+        "line": 123,
+        "column": 1157,
+        "code": "TS2344",
+        "message": "Type 'SQLiteSetOperatorExcludedMethods' does not satisfy the constraint '\"values\" | \"all\" | \"offset\" | \"intersect\" | \"as\" | \"execute\" | \"then\" | \"get\" | \"union\" | \"catch\" | \"run\" | \"_\" | \"getSQL\" | \"except\" | \"where\" | \"orderBy\" | \"limit\" | \"leftJoin\" | ... 11 more ... | \"$withCache\"'."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 10,
+        "column": 17,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 11,
+        "column": 20,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      },
+      {
+        "path": "scripts/arm-test-outbound.ts",
+        "line": 4,
+        "column": 49,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/helpers/kill-worker.ts",
+        "line": 8,
+        "column": 43,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/helpers/kill-worker.ts",
+        "line": 8,
+        "column": 95,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/integration/foundation.test.ts",
+        "line": 27,
+        "column": 17,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/integration/foundation.test.ts",
+        "line": 27,
+        "column": 76,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "tests/integration/foundation.test.ts",
+        "line": 118,
+        "column": 41,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      }
+    ]
+  },
+  "build": {
+    "count": 83,
+    "project_errors": [
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 80,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 99,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 115,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 136,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 155,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 41,
+        "column": 81,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 80,
+        "column": 303,
+        "code": "TS2345",
+        "message": "Argument of type '{ optionId: string; snapshotId: string; terms: { title: string; activityIdentity: string; startsAt: string | null; endsAt: string | null; timeZone: string; place: string | null; participationUrl: string | null; obligations: string; price: { ...; }; warnings: string[]; }; expectedStateVersion: number; kind: \"ADD_OPTI...' is not assignable to parameter of type 'Command'."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 11,
+        "column": 23,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 12,
+        "column": 25,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 13,
+        "column": 20,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "modules/maps/component/leaflet-renderer.ts",
+        "line": 29,
+        "column": 36,
+        "code": "TS2345",
+        "message": "Argument of type 'LatLng | undefined' is not assignable to parameter of type 'LatLngExpression'."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 10,
+        "column": 17,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 11,
+        "column": 20,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      }
+    ],
+    "dependency_error_count": 70,
+    "diagnostics": [
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 80,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 99,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 115,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 136,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 40,
+        "column": 155,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 41,
+        "column": 81,
+        "code": "TS18046",
+        "message": "'err' is of type 'unknown'."
+      },
+      {
+        "path": "apps/api/app.ts",
+        "line": 80,
+        "column": 303,
+        "code": "TS2345",
+        "message": "Argument of type '{ optionId: string; snapshotId: string; terms: { title: string; activityIdentity: string; startsAt: string | null; endsAt: string | null; timeZone: string; place: string | null; participationUrl: string | null; obligations: string; price: { ...; }; warnings: string[]; }; expectedStateVersion: number; kind: \"ADD_OPTI...' is not assignable to parameter of type 'Command'."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 11,
+        "column": 23,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 12,
+        "column": 25,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "apps/worker/main.ts",
+        "line": 13,
+        "column": 20,
+        "code": "TS2351",
+        "message": "This expression is not constructable."
+      },
+      {
+        "path": "modules/maps/component/leaflet-renderer.ts",
+        "line": 29,
+        "column": 36,
+        "code": "TS2345",
+        "message": "Argument of type 'LatLng | undefined' is not assignable to parameter of type 'LatLngExpression'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/date-duration.d.ts",
+        "line": 1,
+        "column": 35,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/duration.d.ts",
+        "line": 1,
+        "column": 31,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/localdate.d.ts",
+        "line": 1,
+        "column": 32,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/localtime.d.ts",
+        "line": 1,
+        "column": 32,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/relative-duration.d.ts",
+        "line": 1,
+        "column": 39,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/columns/timestamp.d.ts",
+        "line": 1,
+        "column": 36,
+        "code": "TS2307",
+        "message": "Cannot find module 'gel' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/query-builders/query.d.ts",
+        "line": 23,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'GelRelationalQuery<TResult>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/gel-core/roles.d.ts",
+        "line": 7,
+        "column": 22,
+        "code": "TS2559",
+        "message": "Type 'GelRole' has no properties in common with type 'GelRoleConfig'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/db.d.ts",
+        "line": 1,
+        "column": 38,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/delete.d.ts",
+        "line": 36,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'MySqlDeleteBase<TTable, TQueryResult, TPreparedQueryHKT, TDynamic, TExcludedMethods>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 294,
+        "column": 244,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 320,
+        "column": 247,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 346,
+        "column": 248,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 387,
+        "column": 251,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 413,
+        "column": 245,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 454,
+        "column": 248,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.d.ts",
+        "line": 611,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'MySqlSelectBase<TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>' does not implement inherited abstract member getSQL from class 'MySqlSelectQueryBuilderBase<MySqlSelectHKT, TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/mysql-core/query-builders/select.types.d.ts",
+        "line": 138,
+        "column": 1149,
+        "code": "TS2344",
+        "message": "Type 'MySqlSetOperatorExcludedMethods' does not satisfy the constraint '\"offset\" | \"intersect\" | \"as\" | \"execute\" | \"then\" | \"iterator\" | \"union\" | \"catch\" | \"_\" | \"getSQL\" | \"except\" | \"for\" | \"where\" | \"orderBy\" | \"limit\" | \"leftJoin\" | \"rightJoin\" | ... 14 more ... | \"$withCache\"'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/pg-core/query-builders/query.d.ts",
+        "line": 23,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'PgRelationalQuery<TResult>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/pg-core/roles.d.ts",
+        "line": 7,
+        "column": 22,
+        "code": "TS2559",
+        "message": "Type 'PgRole' has no properties in common with type 'PgRoleConfig'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/bigint.d.ts",
+        "line": 13,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBigInt53Builder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, { unsigned: boolean; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/bigint.d.ts",
+        "line": 35,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBigInt64Builder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, { unsigned: boolean; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/binary.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBinaryBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreBinaryConfig, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/boolean.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreBooleanBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/char.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreCharBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreCharConfig<T[\"enumValues\"], T[\"length\"]>, { length: T[\"length\"]; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/custom.d.ts",
+        "line": 24,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreCustomColumnBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, { fieldConfig: Record<string, any> | undefined; customTypeParams: CustomTypeParams<any>; }, { singlestoreColumnBuilderBrand: \"SingleStoreCustomColumnBuilderBrand\"; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/date.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/date.d.ts",
+        "line": 37,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateStringBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/datetime.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateTimeBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreDatetimeConfig<\"string\" | \"date\">, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/datetime.d.ts",
+        "line": 38,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDateTimeStringBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreDatetimeConfig<\"string\" | \"date\">, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/decimal.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDecimalBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDecimalConfig<\"string\" | \"number\" | \"bigint\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/decimal.d.ts",
+        "line": 36,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDecimalNumberBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDecimalConfig<\"string\" | \"number\" | \"bigint\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/decimal.d.ts",
+        "line": 58,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDecimalBigIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDecimalConfig<\"string\" | \"number\" | \"bigint\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/double.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreDoubleBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreDoubleConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/enum.d.ts",
+        "line": 19,
+        "column": 5,
+        "code": "TS2416",
+        "message": "Property 'generatedAlwaysAs' in type 'SingleStoreEnumColumnBuilder<T>' is not assignable to the same property in base type 'SingleStoreColumnBuilder<T, { enumValues: T[\"enumValues\"]; }, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/float.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreFloatBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreFloatConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/int.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/json.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreJsonBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/mediumint.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreMediumIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/real.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreRealBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreRealConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/serial.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreSerialBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/smallint.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreSmallIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/text.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTextBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, { textType: SingleStoreTextColumnType; enumValues: T[\"enumValues\"]; }, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/time.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTimeBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/timestamp.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTimestampBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreDateColumnBaseBuilder<T, SingleStoreTimestampConfig<\"string\" | \"date\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/timestamp.d.ts",
+        "line": 35,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTimestampStringBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreDateColumnBaseBuilder<T, SingleStoreTimestampConfig<\"string\" | \"date\">, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/tinyint.d.ts",
+        "line": 15,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreTinyIntBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilderWithAutoIncrement<T, SingleStoreIntConfig, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/varbinary.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreVarBinaryBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreVarbinaryOptions, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/varchar.d.ts",
+        "line": 16,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreVarCharBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreVarCharConfig<T[\"enumValues\"], T[\"length\"]>, { length: T[\"length\"]; }, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/vector.d.ts",
+        "line": 13,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreVectorBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, SingleStoreVectorConfig, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/columns/year.d.ts",
+        "line": 14,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreYearBuilder<T>' does not implement inherited abstract member generatedAlwaysAs from class 'SingleStoreColumnBuilder<T, object, object, ColumnBuilderExtraConfig>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/db.d.ts",
+        "line": 1,
+        "column": 38,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/delete.d.ts",
+        "line": 36,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'SingleStoreDeleteBase<TTable, TQueryResult, TPreparedQueryHKT, TDynamic, TExcludedMethods>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 268,
+        "column": 262,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 294,
+        "column": 265,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 320,
+        "column": 266,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 346,
+        "column": 263,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 370,
+        "column": 262,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.d.ts",
+        "line": 520,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SingleStoreSelectBase<TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>' does not implement inherited abstract member getSQL from class 'SingleStoreSelectQueryBuilderBase<SingleStoreSelectHKT, TTableName, TSelection, TSelectMode, TPreparedQueryHKT, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore-core/query-builders/select.types.d.ts",
+        "line": 130,
+        "column": 1185,
+        "code": "TS2344",
+        "message": "Type 'SingleStoreSetOperatorExcludedMethods' does not satisfy the constraint '\"offset\" | \"intersect\" | \"as\" | \"execute\" | \"then\" | \"iterator\" | \"union\" | \"catch\" | \"_\" | \"getSQL\" | \"except\" | \"for\" | \"where\" | \"orderBy\" | \"limit\" | \"leftJoin\" | \"rightJoin\" | ... 14 more ... | \"minus\"'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore/driver.d.ts",
+        "line": 1,
+        "column": 100,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore/driver.d.ts",
+        "line": 2,
+        "column": 39,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/singlestore/session.d.ts",
+        "line": 1,
+        "column": 94,
+        "code": "TS2307",
+        "message": "Cannot find module 'mysql2/promise' or its corresponding type declarations."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/query.d.ts",
+        "line": 25,
+        "column": 22,
+        "code": "TS2420",
+        "message": "Class 'SQLiteRelationalQuery<TType, TResult>' incorrectly implements interface 'SQLWrapper'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 233,
+        "column": 247,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 259,
+        "column": 250,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 285,
+        "column": 251,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 311,
+        "column": 248,
+        "code": "TS2344",
+        "message": "Type 'string' does not satisfy the constraint 'keyof this & string'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.d.ts",
+        "line": 452,
+        "column": 22,
+        "code": "TS2515",
+        "message": "Non-abstract class 'SQLiteSelectBase<TTableName, TResultType, TRunResult, TSelection, TSelectMode, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>' does not implement inherited abstract member getSQL from class 'SQLiteSelectQueryBuilderBase<SQLiteSelectHKT, TTableName, TResultType, TRunResult, TSelection, TSelectMode, TNullabilityMap, TDynamic, TExcludedMethods, TResult, TSelectedFields>'."
+      },
+      {
+        "path": "node_modules/drizzle-orm/sqlite-core/query-builders/select.types.d.ts",
+        "line": 123,
+        "column": 1157,
+        "code": "TS2344",
+        "message": "Type 'SQLiteSetOperatorExcludedMethods' does not satisfy the constraint '\"values\" | \"all\" | \"offset\" | \"intersect\" | \"as\" | \"execute\" | \"then\" | \"get\" | \"union\" | \"catch\" | \"run\" | \"_\" | \"getSQL\" | \"except\" | \"where\" | \"orderBy\" | \"limit\" | \"leftJoin\" | ... 11 more ... | \"$withCache\"'."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 10,
+        "column": 17,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      },
+      {
+        "path": "packages/platform/governor.ts",
+        "line": 11,
+        "column": 20,
+        "code": "TS2709",
+        "message": "Cannot use namespace 'Redis' as a type."
+      }
+    ]
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "all_pass": true,
+  "entries": [
+    {
+      "path": "README.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-001-scope-and-evidence.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-002-postgresql-search.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-003-async-jobs.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-004-provider-kudago.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-005-max-integration.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-006-security-observability.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-007-ux-semantics.md",
+      "pass": true
+    },
+    {
+      "path": "adr/ADR-008-research-governance.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/MOSCOW_DATA_GATE_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_DESIGN_TOKENS_V1.json",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_FINAL_SCOPE_FREEZE_MVP.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_KUDAGO_PROVIDER_CONTRACT_V1.json",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_MOSCOW_DATA_GATE_V1.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_PRODUCT_CONTRACT_V1.json",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_PRODUCT_SPEC_V1.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_PRODUCT_SPEC_V1_1_DATA_SAFETY_PATCH.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_SCREEN_ACCEPTANCE_V1.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/POVOD_UI_TRANSLATION_V2_SPEC.md",
+      "pass": true
+    },
+    {
+      "path": "canonical/kudago_runtime_probe.py",
+      "pass": true
+    },
+    {
+      "path": "codex/CODEX_IMPLEMENTATION_KICKOFF_PROMPT.md",
+      "pass": true
+    },
+    {
+      "path": "codex/CODEX_RESEARCH_IMPORT_AND_PREFLIGHT_PROMPT.md",
+      "pass": true
+    },
+    {
+      "path": "codex/REPO_TARGET_STRUCTURE.md",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_PRESENTATION-CONTENT_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_architecture_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_codex-workflow_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_data-pipeline_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_hackathon-compliance_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_max-native_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_providers_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_security-reliability_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_user-validation_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "research_archives/POVOD_RESEARCH_ux-patterns_FINAL_2026-09-18.zip",
+      "pass": true
+    },
+    {
+      "path": "synthesis/CASE_COMPLIANCE_MATRIX.md",
+      "pass": true
+    },
+    {
+      "path": "synthesis/DECISION_REGISTER.md",
+      "pass": true
+    },
+    {
+      "path": "synthesis/IMPLEMENTATION_PLAN.md",
+      "pass": true
+    },
+    {
+      "path": "synthesis/PRESENTATION_CONTENT_STATUS.md",
+      "pass": true
+    },
+    {
+      "path": "synthesis/RESEARCH_ARCHIVE_INDEX.md",
+      "pass": true
+    },
+    {
+      "path": "synthesis/RESEARCH_SYNTHESIS.md",
+      "pass": true
+    }
+  ]
+}

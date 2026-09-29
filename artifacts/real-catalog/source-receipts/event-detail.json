@@ -1,0 +1,25 @@
+{
+  "name": "event-detail",
+  "url": "https://kudago.com/public-api/v1.4/events/172178/?fields=id,title,site_url,dates,place,price,is_free,categories&expand=dates,place",
+  "status": 200,
+  "bytes": 422717,
+  "sha256": "123001219716c7bf473f2a2b51f43fa65300a7a5b6022520cad1e5c2d31f523b",
+  "id": 172178,
+  "title": "большой стендап-концерт",
+  "site_url": "https://kudago.com/msk/event/comedy-club-stand-up-shou/",
+  "datesTotal": 1880,
+  "futureDates": [],
+  "place": null,
+  "price": "от 990 рублей",
+  "is_free": false,
+  "fieldNames": [
+    "id",
+    "dates",
+    "title",
+    "place",
+    "categories",
+    "price",
+    "is_free",
+    "site_url"
+  ]
+}

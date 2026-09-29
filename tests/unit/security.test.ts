@@ -1,0 +1,49 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {randomBytes} from 'node:crypto';
+import {strictJson,obj,int64,NumericLexeme,fatalUtf8} from '../../packages/platform/wire.ts';
+import {verifyInitData} from '../../packages/platform/auth.ts';
+import {seal,unseal} from '../../packages/persistence/sessions.ts';
+import {sign} from '../fixtures.ts';
+const token=randomBytes(32).toString('hex'),now=1800000000;
+const user='{"id":9007199254740993,"first_name":"Тест","username":null}';
+test('signed >2^53 ID survives as decimal string',()=>assert.equal(verifyInitData(sign(token,user,now),token,now).actorExternalId,'9007199254740993'));
+test('bad HMAC fails',()=>assert.throws(()=>verifyInitData(sign(token,user,now)+'0',token,now),/HASH_FORMAT/));
+test('wrong token fails',()=>assert.throws(()=>verifyInitData(sign(token,user,now),token+'x',now),/AUTH_INVALID/));
+test('freshness at 1h equality fails',()=>assert.throws(()=>verifyInitData(sign(token,user,now-3600),token,now),/AUTH_EXPIRED/));
+test('future >300 seconds fails',()=>assert.throws(()=>verifyInitData(sign(token,user,now+301),token,now),/AUTH_EXPIRED/));
+test('nullable chat allowed; no membership inferred',()=>assert.equal(verifyInitData(sign(token,user,now,{chat:'null'}),token,now).chatId,null));
+test('duplicate form key rejected',()=>assert.throws(()=>verifyInitData(sign(token,user,now)+'&user='+encodeURIComponent(user),token,now),/DUPLICATE_FORM/));
+test('escaped duplicate form key rejected',()=>assert.throws(()=>verifyInitData(sign(token,user,now)+'&%75ser='+encodeURIComponent(user),token,now),/DUPLICATE_FORM/));
+test('malformed form UTF-8 rejected',()=>assert.throws(()=>verifyInitData('user=%ff&hash=x',token,now),/FORM_ENCODING/));
+test('HMAC computed over original nested JSON not reserialized',()=>assert.equal(verifyInitData(sign(token,'{ "first_name" : "Тест", "id" : 12 }',now),token,now).actorExternalId,'12'));
+for(const v of ['9007199254740993','9223372036854775807','-9223372036854775808'])test('int64 exact '+v,()=>assert.equal(int64(obj(strictJson('{"v":'+v+'}',true)).v),v));
+for(const v of ['9223372036854775808','-9223372036854775809','1e3','1.0','"1"','null','[]','{}'])test('reject invalid int64 '+v,()=>assert.throws(()=>int64(obj(strictJson('{"v":'+v+'}',true)).v),/INT64/));
+for(const s of ['{"a":1,"a":1}','{"a":1,"\\u0061":2}','{"x":{"a":0,"a":1}}','{"__proto__":1}','{"constructor":1}'])test('strict duplicate/prototype preflight '+s,()=>assert.throws(()=>strictJson(s,true),/JSON_DUPLICATE_OR_UNSAFE_KEY/));
+test('valid nested values not misidentified as duplicate keys',()=>assert.deepEqual(strictJson('{"a":{"b":1},"b":[{"a":2}],"c":"a"}'),{a:{b:1},b:[{a:2}],c:'a'}));
+test('depth bounded before native parse',()=>assert.throws(()=>strictJson('['.repeat(33)+'0'+']'.repeat(33)),/JSON_DEPTH/));
+test('unsafe app JSON integer rejected instead of coerced',()=>assert.throws(()=>strictJson('{"id":9007199254740993}'),/UNSAFE_NUMBER/));
+test('fatal UTF8 does not replace invalid bytes',()=>assert.throws(()=>fatalUtf8(new Uint8Array([255])),/INVALID_UTF8/));
+for(const name of ['[]','{}','null','true','1'])test('signed wrong first_name type rejected '+name,()=>assert.throws(()=>verifyInitData(sign(token,'{"id":1,"first_name":'+name+'}',now),token,now),/STRING_REQUIRED/));
+test('AES-GCM escrow roundtrip; tamper fails',()=>{const key=randomBytes(32).toString('hex'),value='opaque-session-for-test';const a=seal(key,value);assert.equal(unseal(key,a),value);const bytes=Buffer.from(a,'base64');bytes[30]=bytes[30]!^1;assert.throws(()=>unseal(key,bytes.toString('base64')));});
+
+test('empty optional MAX profile fields are valid strings',()=>{const token='synthetic-token',now=1800000000;assert.equal(verifyInitData(sign(token,'{"id":12,"first_name":"Synthetic","last_name":"","username":""}',now),token,now).actorExternalId,'12');});
+
+test('valid HMAC-sized tampering rejected with AUTH_INVALID',()=>{
+ const raw=sign(token,user,now),tampered=raw.replace(/hash=([a-f0-9])/,(_,x)=>'hash='+(x==='0'?'1':'0'));
+ assert.throws(()=>verifyInitData(tampered,token,now),/AUTH_INVALID/);
+});
+test('freshness boundaries: 3599 seconds and 300 second future skew accepted',()=>{
+ assert.equal(verifyInitData(sign(token,user,now-3599),token,now).authDate,now-3599);
+ assert.equal(verifyInitData(sign(token,user,now+300),token,now).authDate,now+300);
+});
+for(const suffix of ['&hash='+'0'.repeat(64),'&%68ash='+'0'.repeat(64),'&auth_date='+now,'&%61uth_date='+now])
+ test('security rejects duplicate critical field '+suffix.slice(0,12),()=>assert.throws(()=>verifyInitData(sign(token,user,now)+suffix,token,now),/DUPLICATE_FORM/));
+for(const raw of ['user=%&hash=x','user=%G0&hash=x','user=%C0%AF&hash=x','user=%ED%A0%80&hash=x'])
+ test('security rejects malformed encoding '+raw,()=>assert.throws(()=>verifyInitData(raw,token,now),/FORM_ENCODING/));
+test('signed int64 max ID and non-ASCII profile remain exact',()=>{
+ assert.equal(verifyInitData(sign(token,'{"id":9223372036854775807,"first_name":"Тест + ="}',now),token,now).actorExternalId,'9223372036854775807');
+});
+test('signed start_param context never changes the validated actor',()=>{
+ const a=verifyInitData(sign(token,user,now,{start_param:'catalog'}),token,now),b=verifyInitData(sign(token,user,now,{start_param:'p_foreign'}),token,now);
+ assert.equal(a.actorExternalId,b.actorExternalId);assert.equal('start_param' in b,false);
+ assert.throws(()=>verifyInitData(sign(token,user,now,{start_param:'catalog'}).replace('start_param=catalog','start_param=admin'),token,now),/AUTH_INVALID/);
+});

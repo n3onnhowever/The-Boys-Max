@@ -1,0 +1,29 @@
+{
+  "url": "https://www.darwinmuseum.ru/rss.php?type=exh",
+  "status": 200,
+  "bytes": 11694,
+  "sha256": "7f425f866b85631c6cb46f51f746eb872123bb53679cce3b98b8877180f16024",
+  "itemCount": 12,
+  "sample": [
+    {
+      "title": "<![CDATA[Случайный пассажир]]>",
+      "link": "http://www.darwinmuseum.ru/exhibition/sluchajnyj-passazhir"
+    },
+    {
+      "title": "<![CDATA[Пушистые герои сказок]]>",
+      "link": "http://www.darwinmuseum.ru/exhibition/pushistye-geroi-skazok"
+    },
+    {
+      "title": "<![CDATA[Белый клык]]>",
+      "link": "http://www.darwinmuseum.ru/exhibition/belyj-klyk"
+    },
+    {
+      "title": "<![CDATA[XII Фестиваль «Дикий подводный мир»]]>",
+      "link": "http://www.darwinmuseum.ru/exhibition/xii-festival-dikij-podvodnyj-mir"
+    },
+    {
+      "title": "<![CDATA[От когтей до кончиков волос]]>",
+      "link": "http://www.darwinmuseum.ru/exhibition/ot-kogtej-do-konchikov-volos"
+    }
+  ]
+}

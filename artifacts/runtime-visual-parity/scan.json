@@ -1,0 +1,16 @@
+{
+  "base": "797fef47a054164fc395705a57a322a0f00d5062",
+  "changedPaths": 113,
+  "prohibitedPaths": [],
+  "reviewedExampleOrFixtureHits": [
+    {
+      "path": "deploy/runtime.example.json",
+      "rule": "database-credential"
+    },
+    {
+      "path": "tests/unit/demo-catalog.test.ts",
+      "rule": "database-credential"
+    }
+  ],
+  "unexpectedSecretHits": []
+}

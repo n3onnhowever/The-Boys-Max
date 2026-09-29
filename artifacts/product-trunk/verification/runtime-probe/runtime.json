@@ -1,0 +1,1283 @@
+{
+  "synthetic": true,
+  "noLiveAuthentication": true,
+  "result": [
+    {
+      "scenario": "catalog",
+      "kind": "catalog",
+      "body": "К содержимому\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nUNKNOWN\nСобытия\nСмотреть все\n›\nСобытия\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 1\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 2\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 3\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 4\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 5\nUNKNOWN\nЛекция\nЕщё события\nСмотреть все\n›\nЕщё события\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 6\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 7\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 8\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 9\nUNKNOWN\nЛекция\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 0»",
+          "disabled": false
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 0»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 1»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 2»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 3»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 4»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 5»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 6»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 7»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 8»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 9»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 241,
+      "wallMs": 363.8342
+    },
+    {
+      "scenario": "catalog",
+      "kind": "runtime-detail-no-artwork-unknown",
+      "body": "К содержимому\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nО событии\nЛекция\n\nТолько синтетическая проверка runtime-адаптера. Не рекомендация.\n\n2 октября 2026 · 20:00\nМесто уточняется\nЦена не указана\nИтоговая стоимость не подтверждена\nИсточник: Синтетический тестовый источник\nТест · Ссылка на источник недоступна\nИсточник недоступен\nСохранить\nДобавить в план\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [],
+      "buttons": [
+        {
+          "text": "Назад",
+          "disabled": false
+        },
+        {
+          "text": "Поделиться",
+          "disabled": true
+        },
+        {
+          "text": "Сохранить",
+          "disabled": true
+        },
+        {
+          "text": "Источник недоступен",
+          "disabled": true
+        },
+        {
+          "text": "Сохранить",
+          "disabled": true
+        },
+        {
+          "text": "Добавить в план",
+          "disabled": true
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 111
+    },
+    {
+      "scenario": "catalog",
+      "kind": "runtime-detail-long-fields",
+      "body": "К содержимому\n2 октября 2026 · 20:00\nОчень длинное название — образовательная лекция об истории архитектуры и современном искусстве в Москве\nО событии\nЛекция\n\nТолько синтетическая проверка runtime-адаптера. Не рекомендация.\n\n2 октября 2026 · 20:00\nКультурно-образовательный центр современного искусства имени очень длинного названия\nот 1 234 567 890 ₽ + сбор не указан\nИтоговая стоимость не подтверждена\nИсточник: Синтетический тестовый источник\nТест · Ссылка на источник недоступна\nИсточник недоступен\nСохранить\nДобавить в план\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [],
+      "buttons": [
+        {
+          "text": "Назад",
+          "disabled": false
+        },
+        {
+          "text": "Поделиться",
+          "disabled": true
+        },
+        {
+          "text": "Сохранить",
+          "disabled": true
+        },
+        {
+          "text": "Источник недоступен",
+          "disabled": true
+        },
+        {
+          "text": "Сохранить",
+          "disabled": true
+        },
+        {
+          "text": "Добавить в план",
+          "disabled": true
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 111
+    },
+    {
+      "scenario": "large-catalog",
+      "kind": "large-catalog",
+      "body": "К содержимому\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nUNKNOWN\nСобытия\nСмотреть все\n›\nСобытия\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 1\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 2\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 3\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 4\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 5\nUNKNOWN\nЛекция\nЕщё события\nСмотреть все\n›\nЕщё события\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 6\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 7\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 8\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 9\nUNKNOWN\nЛекция\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 0»",
+          "disabled": false
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 0»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 1»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 2»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 3»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 4»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 5»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 6»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 7»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 8»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 9»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 241,
+      "wallMs": 308.2782000000001,
+      "inputMs": 20.700000002980232
+    },
+    {
+      "scenario": "empty",
+      "kind": "empty",
+      "body": "К содержимому\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nСобытий пока нет\n\nПо твоим фильтрам ничего\nне нашлось. Попробуй изменить\nпараметры поиска.\n\nИзменить фильтры\nСбросить фильтры\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        },
+        {
+          "src": "/assets/states/povod-empty-magnifier.png",
+          "alt": ""
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Изменить фильтры",
+          "disabled": false
+        },
+        {
+          "text": "Сбросить фильтры",
+          "disabled": false
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 72,
+      "wallMs": 294.29639999999995
+    },
+    {
+      "scenario": "error",
+      "kind": "error",
+      "body": "К содержимому\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nНе удалось загрузить события\n\nЧто-то пошло не так.\nПопробуй ещё раз через пару секунд.\n\nПовторить\nВернуться на главную\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        },
+        {
+          "src": "/assets/states/povod-error-cable.png",
+          "alt": ""
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Повторить",
+          "disabled": false
+        },
+        {
+          "text": "Вернуться на главную",
+          "disabled": false
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 72,
+      "wallMs": 315.04089999999997
+    },
+    {
+      "scenario": "absent",
+      "kind": "absent",
+      "body": "К содержимому\nПовод\nНе удалось войти\n\nОткройте приложение кнопкой в чате бота MAX. В обычном браузере доступна только уже подтверждённая сессия.\n\nПовторить проверку",
+      "images": [],
+      "buttons": [
+        {
+          "text": "Повторить проверку",
+          "disabled": false
+        }
+      ],
+      "designChunk": false,
+      "dom": 21,
+      "wallMs": 295.2372999999998
+    },
+    {
+      "scenario": "bridge-throws",
+      "kind": "bridge-throws",
+      "body": "К содержимому\nПовод\nНе удалось войти\n\nНе удалось подтвердить запуск. Повторите проверку или заново откройте приложение из чата бота в MAX.\n\nПовторить проверку",
+      "images": [],
+      "buttons": [
+        {
+          "text": "Повторить проверку",
+          "disabled": false
+        }
+      ],
+      "designChunk": false,
+      "dom": 21,
+      "wallMs": 299.1415999999999
+    },
+    {
+      "scenario": "cookie-blocked",
+      "kind": "cookie-blocked",
+      "body": "К содержимому\nПовод\nНе удалось войти\n\nКлиент не сохраняет защищённую сессию. Откройте приложение из чата бота в MAX; если ошибка повторится, обновите клиент MAX.\n\nПовторить проверку",
+      "images": [],
+      "buttons": [
+        {
+          "text": "Повторить проверку",
+          "disabled": false
+        }
+      ],
+      "designChunk": false,
+      "dom": 21,
+      "wallMs": 299.68100000000004
+    },
+    {
+      "scenario": "session-hang",
+      "kind": "session-still-loading-after-8s",
+      "body": "К содержимому\nПовод\nНе удалось войти\n\nОткройте приложение кнопкой в чате бота MAX. В обычном браузере доступна только уже подтверждённая сессия.\n\nПовторить проверку",
+      "images": [],
+      "buttons": [
+        {
+          "text": "Повторить проверку",
+          "disabled": false
+        }
+      ],
+      "designChunk": false,
+      "dom": 21
+    },
+    {
+      "scenario": "sdk-delay",
+      "at2000ms": {
+        "main": false,
+        "root": false,
+        "ready": "loading"
+      }
+    },
+    {
+      "scenario": "sdk-delay",
+      "kind": "sdk-recovered-after-delay",
+      "body": "К содержимому\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nUNKNOWN\nСобытия\nСмотреть все\n›\nСобытия\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 0\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 1\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 2\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 3\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 4\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 5\nUNKNOWN\nЛекция\nЕщё события\nСмотреть все\n›\nЕщё события\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 6\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 7\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 8\nUNKNOWN\nЛекция\n2 октября 2026 · 20:00\nСИНТЕТИЧЕСКАЯ проверка — лекция 9\nUNKNOWN\nЛекция\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 0»",
+          "disabled": false
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 0»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 1»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 2»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 3»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 4»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 5»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 6»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 7»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 8»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Открыть событие «СИНТЕТИЧЕСКАЯ проверка — лекция 9»",
+          "disabled": false
+        },
+        {
+          "text": "Сохранить событие",
+          "disabled": true
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 241
+    },
+    {
+      "scenario": "catalog",
+      "kind": "runtime-offline-after-loaded-catalog",
+      "body": "К содержимому\nНет подключения к интернету\nПоказываем сохранённые события\n›\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nДоступно без интернета\nСмотреть все\n›\nДоступно без интернета\n\nСохранённых событий на этом устройстве пока нет.\n\nНовые события появятся после восстановления связи\n\nМы сохранили часть ранее загруженных событий. Обновим, как только появится интернет.\n\nПовторить\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Повторить",
+          "disabled": false
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 90
+    },
+    {
+      "scenario": "catalog",
+      "kind": "runtime-back-online-no-autorefresh",
+      "body": "К содержимому\nНет подключения к интернету\nПоказываем сохранённые события\n›\nЧто хочется найти\nВсе\nКонцерты\nВечеринки\nВыставки\nКино\nДоступно без интернета\nСмотреть все\n›\nДоступно без интернета\n\nСохранённых событий на этом устройстве пока нет.\n\nНовые события появятся после восстановления связи\n\nМы сохранили часть ранее загруженных событий. Обновим, как только появится интернет.\n\nПовторить\nГлавная\nПоиск\nПлан\nДрузья\nПрофиль",
+      "images": [
+        {
+          "src": "/assets/brand/povod-wordmark-home.png",
+          "alt": "Повод"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Уведомления",
+          "disabled": true
+        },
+        {
+          "text": "Все",
+          "disabled": false
+        },
+        {
+          "text": "Концерты",
+          "disabled": false
+        },
+        {
+          "text": "Вечеринки",
+          "disabled": false
+        },
+        {
+          "text": "Выставки",
+          "disabled": false
+        },
+        {
+          "text": "Кино",
+          "disabled": false
+        },
+        {
+          "text": "Смотреть все›",
+          "disabled": true
+        },
+        {
+          "text": "Повторить",
+          "disabled": false
+        },
+        {
+          "text": "Главная",
+          "disabled": false
+        },
+        {
+          "text": "Поиск",
+          "disabled": true
+        },
+        {
+          "text": "План",
+          "disabled": true
+        },
+        {
+          "text": "Друзья",
+          "disabled": true
+        },
+        {
+          "text": "Профиль",
+          "disabled": true
+        }
+      ],
+      "designChunk": false,
+      "dom": 90
+    }
+  ],
+  "requests": [
+    {
+      "scenario": "catalog",
+      "path": "/"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/brand/povod-icon-app.png"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/ui/v1/session"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/fonts/IBMPlexMono-Regular.ttf"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/brand/povod-icon-app.png"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/api/ui/v1/session"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "large-catalog",
+      "path": "/assets/fonts/IBMPlexMono-Regular.ttf"
+    },
+    {
+      "scenario": "empty",
+      "path": "/"
+    },
+    {
+      "scenario": "empty",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "empty",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "empty",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "empty",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "empty",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "empty",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "empty",
+      "path": "/api/ui/v1/session"
+    },
+    {
+      "scenario": "empty",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "empty",
+      "path": "/assets/states/povod-empty-magnifier.png"
+    },
+    {
+      "scenario": "error",
+      "path": "/"
+    },
+    {
+      "scenario": "error",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "error",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "error",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "error",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "error",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "error",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "error",
+      "path": "/api/ui/v1/session"
+    },
+    {
+      "scenario": "error",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "error",
+      "path": "/assets/states/povod-error-cable.png"
+    },
+    {
+      "scenario": "absent",
+      "path": "/"
+    },
+    {
+      "scenario": "absent",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "absent",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "absent",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "absent",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "absent",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "absent",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "bridge-throws",
+      "path": "/"
+    },
+    {
+      "scenario": "bridge-throws",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "bridge-throws",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "bridge-throws",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "bridge-throws",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/api/v1/session/bootstrap"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "cookie-blocked",
+      "path": "/api/v1/session/max"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "session-hang",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/api/ui/v1/session"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "sdk-delay",
+      "path": "/assets/fonts/IBMPlexMono-Regular.ttf"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/qa-sdk.js"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/index-CQ2337fU.js"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/index-B8-DSzec.css"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/v1/session"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/brand/povod-wordmark-home.png"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/fonts/Onest-Variable.ttf"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/ui/v1/session"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/api/ui/v1/view"
+    },
+    {
+      "scenario": "catalog",
+      "path": "/assets/fonts/IBMPlexMono-Regular.ttf"
+    }
+  ],
+  "errors": [
+    {
+      "sessionId": "1FCA31D000E87B228D2CB1B33260F087",
+      "text": "Error: SYNTHETIC Bridge error\n    at get (http://127.0.0.1:4198/qa-sdk.js:1:52)\n    at m (http://127.0.0.1:4198/assets/index-CQ2337fU.js:2:2338)\n    at ee (http://127.0.0.1:4198/assets/index-CQ2337fU.js:2:4495)\n    at http://127.0.0.1:4198/assets/index-CQ2337fU.js:62:62488"
+    }
+  ]
+}

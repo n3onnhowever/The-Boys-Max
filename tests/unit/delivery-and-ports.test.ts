@@ -1,0 +1,17 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {recoverAttempt,classifyHttp} from '../../packages/domain/delivery.ts';
+import {authorizeSearch} from '../../modules/search/port.ts';
+import {createPlan} from '../../packages/domain/plan.ts';
+import {O,A,P,NOW,DEC,COM,self} from '../fixtures.ts';
+test('UNKNOWN never becomes EXPIRED or READY after TTL',()=>assert.equal(recoverAttempt('UNKNOWN',true,true),'UNKNOWN'));
+test('worker killed after possible submission becomes UNKNOWN',()=>assert.equal(recoverAttempt('RUNNING',true,false),'UNKNOWN'));
+test('known not submitted may recover READY',()=>assert.equal(recoverAttempt('RUNNING',false,false),'READY'));
+test('known not submitted after deadline EXPIRED',()=>assert.equal(recoverAttempt('RUNNING',false,true),'EXPIRED'));
+test('Redis loss does not revoke SUCCEEDED',()=>assert.equal(recoverAttempt('SUCCEEDED',true,true),'SUCCEEDED'));
+test('unsafe POST 503 is UNKNOWN',()=>assert.equal(classifyHttp(503,false,null,0).kind,'UNKNOWN'));
+test('logical false is not success',()=>assert.equal(classifyHttp(200,false,null,0).kind,'DEAD'));
+test('accepted result means API acceptance only',()=>assert.equal(classifyHttp(200,true,'opaque-mid',0).kind,'SUCCEEDED'));
+test('trusted 429 allows bounded retry',()=>assert.deepEqual(classifyHttp(429,false,null,2500),{kind:'RETRY_WAIT',retryAfterMs:2500,reason:'PROVIDER_429'}));
+test('personal scope does not need artificial group',()=>assert.deepEqual(authorizeSearch({kind:'PERSONAL',actorId:O},O),{canSearch:true,canAddToPlan:false}));
+test('scope actor cannot be forged',()=>assert.throws(()=>authorizeSearch({kind:'PERSONAL',actorId:A},O),/FORBIDDEN/));
+test('plan search non-participating organizer retained',()=>{const p=createPlan(P,O,'Plan',[{...self,actorId:null,state:'UNBOUND'}],{kind:'ALL'},DEC,COM,NOW);assert.equal(authorizeSearch({kind:'PLAN',planId:P,actorId:O},O,p).canAddToPlan,true);assert.throws(()=>authorizeSearch({kind:'PLAN',planId:P,actorId:A},A,p),/NOT_FOUND/);});

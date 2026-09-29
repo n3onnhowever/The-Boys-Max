@@ -1,0 +1,246 @@
+{
+  "source": "C:\\Users\\admin\\Downloads\\POVOD_SYNTHESIS_HANDOFF_2026-09-19.zip",
+  "source_sha256": "eb06177c37aaadddcce3f0aeeb6f98406c6ec9d10a7a8f254fa15dd171614aa0",
+  "files": [
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/MANIFEST.json",
+      "path": "docs/research/2026-09-18/handoff/MANIFEST.json",
+      "sha256": "fb2a819b70ec5c3d9a2de2e31ed3d58ad5f73cd233d8261fd4c1eb90306fbb5a",
+      "bytes": 6559
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/README.md",
+      "path": "docs/research/2026-09-18/handoff/README.md",
+      "sha256": "56e29c4c2e41e2b2cea945f46f70cd8c0e9316ccc03386308323b21e7fb09649",
+      "bytes": 1033
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-001-scope-and-evidence.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-001-scope-and-evidence.md",
+      "sha256": "96df99fb67ffa090fb109595a8096fee55335b4533e026040257b34dafe7cc23",
+      "bytes": 405
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-002-postgresql-search.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-002-postgresql-search.md",
+      "sha256": "7aa5e83afba43761497c0fdca87a8f37460acea83316a049970e56655765cbe6",
+      "bytes": 467
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-003-async-jobs.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-003-async-jobs.md",
+      "sha256": "16617cffec17cf4e8b07a3982a5fad005bba8897a8ace8e1bdcc122c6dd5e872",
+      "bytes": 546
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-004-provider-kudago.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-004-provider-kudago.md",
+      "sha256": "4f7ed37a2269c643817e7fca7c8a132a51822e0be3837605f00afb01fabeac0e",
+      "bytes": 419
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-005-max-integration.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-005-max-integration.md",
+      "sha256": "547a2c610ebf20cc9699766e2a7ec1d97f3786b2b4ebc585ff0183c3cb26c915",
+      "bytes": 468
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-006-security-observability.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-006-security-observability.md",
+      "sha256": "913a47992114b3f1c56010497e03c5cac60f5debf26be50926b92b7250356f26",
+      "bytes": 492
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-007-ux-semantics.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-007-ux-semantics.md",
+      "sha256": "3478f050f64cf7aabe6754546b0576f5e27a435f1df83e18328b7d2b77ce7413",
+      "bytes": 455
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/adr/ADR-008-research-governance.md",
+      "path": "docs/architecture/adr/povod-2026-09-19/ADR-008-research-governance.md",
+      "sha256": "0d76338e725352e45d0556741fc30668de901c4bb81b8da1b91caeda9d47cd18",
+      "bytes": 417
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/MOSCOW_DATA_GATE_RECEIPT.json",
+      "path": "docs/product/povod-2026-09-19/MOSCOW_DATA_GATE_RECEIPT.json",
+      "sha256": "34b3dca6f4d3fa82fc22b69c32a81cc58c404d6f2bb7b6bf17ff9de0dac55a6e",
+      "bytes": 14723
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_DESIGN_TOKENS_V1.json",
+      "path": "docs/product/povod-2026-09-19/POVOD_DESIGN_TOKENS_V1.json",
+      "sha256": "041b5e97cfa6a736bbdcba97cd7ae5c905eadbdf8b5a77d16c68cd83a0261830",
+      "bytes": 1776
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_FINAL_SCOPE_FREEZE_MVP.md",
+      "path": "docs/product/povod-2026-09-19/POVOD_FINAL_SCOPE_FREEZE_MVP.md",
+      "sha256": "a904abdcb148692a22a821ca0ccf22e52281d3204c7ca26e9c9a563b04e05f99",
+      "bytes": 14134
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_KUDAGO_PROVIDER_CONTRACT_V1.json",
+      "path": "docs/product/povod-2026-09-19/POVOD_KUDAGO_PROVIDER_CONTRACT_V1.json",
+      "sha256": "7a2777f5dd74cec556d5711c2809955b61d361b48a0dfcb6063c79d500758f34",
+      "bytes": 1554
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_MOSCOW_DATA_GATE_V1.md",
+      "path": "docs/product/povod-2026-09-19/POVOD_MOSCOW_DATA_GATE_V1.md",
+      "sha256": "672fbf9b9fca1033f5489ff93ee399f9bdd75329a211c7100eaa5c1f5fa11435",
+      "bytes": 15163
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_PRODUCT_CONTRACT_V1.json",
+      "path": "docs/product/povod-2026-09-19/POVOD_PRODUCT_CONTRACT_V1.json",
+      "sha256": "fee706e1a28155c9a33a744fcaf4588803f4bcf76df04a580f053c9900199640",
+      "bytes": 7136
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_PRODUCT_SPEC_V1.md",
+      "path": "docs/product/povod-2026-09-19/POVOD_PRODUCT_SPEC_V1.md",
+      "sha256": "66509ced23dde708a8cc5f101ab15423387d0e51e0c4d31c82d8f5f4f1aba5e8",
+      "bytes": 28872
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_PRODUCT_SPEC_V1_1_DATA_SAFETY_PATCH.md",
+      "path": "docs/product/povod-2026-09-19/POVOD_PRODUCT_SPEC_V1_1_DATA_SAFETY_PATCH.md",
+      "sha256": "54b4a98e8a0373c01fabee12a46a89be0773e37aeb26523c56e026f29f3daab4",
+      "bytes": 2918
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_SCREEN_ACCEPTANCE_V1.md",
+      "path": "docs/product/povod-2026-09-19/POVOD_SCREEN_ACCEPTANCE_V1.md",
+      "sha256": "fdf6743a54445cc95af9ddb170987c7d4f0fc61043f3a77a9d4289754cd9572a",
+      "bytes": 3756
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/POVOD_UI_TRANSLATION_V2_SPEC.md",
+      "path": "docs/product/povod-2026-09-19/POVOD_UI_TRANSLATION_V2_SPEC.md",
+      "sha256": "740b7891a1e201a73f863c1f105e7361c8f52fce59d37b18505673ab340710df",
+      "bytes": 10482
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/canonical/kudago_runtime_probe.py",
+      "path": "docs/product/povod-2026-09-19/kudago_runtime_probe.py",
+      "sha256": "bd13dff224fabc6ffc99ab8d2d0c4a79a2235e2ef4f9905e1099f54c9b408dd1",
+      "bytes": 11792
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/codex/CODEX_IMPLEMENTATION_KICKOFF_PROMPT.md",
+      "path": "docs/research/2026-09-18/handoff/codex/CODEX_IMPLEMENTATION_KICKOFF_PROMPT.md",
+      "sha256": "9dbfc2ff2da54548f6abc2661934f5f8b9042a975c63d3e0d93cbe60fa1478ce",
+      "bytes": 1601
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/codex/CODEX_RESEARCH_IMPORT_AND_PREFLIGHT_PROMPT.md",
+      "path": "docs/research/2026-09-18/handoff/codex/CODEX_RESEARCH_IMPORT_AND_PREFLIGHT_PROMPT.md",
+      "sha256": "d7e064cdb8c7bb1cdb08c446411cc7caea0509f9b117056f2c1d1dbf3639cd51",
+      "bytes": 4187
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/codex/REPO_TARGET_STRUCTURE.md",
+      "path": "docs/research/2026-09-18/handoff/codex/REPO_TARGET_STRUCTURE.md",
+      "sha256": "ce58b7da37edd75f9ce55df8ae134633c0708218a69ce422e7d021f3c6f7be74",
+      "bytes": 1414
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_PRESENTATION-CONTENT_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/presentation-content/POVOD_RESEARCH_PRESENTATION-CONTENT_FINAL_2026-09-18.zip",
+      "sha256": "7fb5c54ca62c0cde0f9fa3ecc44f1e7cd28cee263f563a5eb79e7ea80f36589a",
+      "bytes": 57585
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_architecture_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/architecture/POVOD_RESEARCH_architecture_FINAL_2026-09-18.zip",
+      "sha256": "b2c750ed7e362909511ab96005b8ddf0d827490ba14094a34c294da1903b1994",
+      "bytes": 48076
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_codex-workflow_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/codex-workflow/POVOD_RESEARCH_codex-workflow_FINAL_2026-09-18.zip",
+      "sha256": "2877b5ba1c0edeeceba1e64c2f8368f810336fadcd2687fccfe7a2c1a4a9501b",
+      "bytes": 71932
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_data-pipeline_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/data-pipeline/POVOD_RESEARCH_data-pipeline_FINAL_2026-09-18.zip",
+      "sha256": "1960c082d02c9ed428bd35ee82059e4b96951573b699c0fdbbe92811f14ccece",
+      "bytes": 61992
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_hackathon-compliance_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/hackathon-compliance/POVOD_RESEARCH_hackathon-compliance_FINAL_2026-09-18.zip",
+      "sha256": "97345da193807fd80db05d4992c34e266b236e5a1ed8a0fe60c22c80ff418ad8",
+      "bytes": 53498
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_max-native_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/max-native/POVOD_RESEARCH_max-native_FINAL_2026-09-18.zip",
+      "sha256": "ec8c3eaabcc210818801bd4181d1121e6630d56ef371a6b11019b29e65e1a62c",
+      "bytes": 48556
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_providers_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/providers/POVOD_RESEARCH_providers_FINAL_2026-09-18.zip",
+      "sha256": "360378e291c0347c965a8fd8cfd02ac3533bcda4fbc4ad84c633d6b8073533cf",
+      "bytes": 50720
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_security-reliability_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/security-reliability/POVOD_RESEARCH_security-reliability_FINAL_2026-09-18.zip",
+      "sha256": "86306b74b5e6cfe27aba18fdf6a1cac6b6b37fd9a4b13c048b1b105f60b3c999",
+      "bytes": 55130
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_user-validation_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/user-validation/POVOD_RESEARCH_user-validation_FINAL_2026-09-18.zip",
+      "sha256": "acd4642c6d7f18bd1a3b84b56f1b40c09aa268e58a5a664a4ed0b2d07d2ebe6a",
+      "bytes": 60189
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/research_archives/POVOD_RESEARCH_ux-patterns_FINAL_2026-09-18.zip",
+      "path": "docs/research/2026-09-18/raw/ux-patterns/POVOD_RESEARCH_ux-patterns_FINAL_2026-09-18.zip",
+      "sha256": "d2e82d29596b8829faf8d12149379366ea32b856c22986d977a6ba0e06e6db13",
+      "bytes": 48735
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/synthesis/CASE_COMPLIANCE_MATRIX.md",
+      "path": "docs/research/2026-09-18/synthesis/CASE_COMPLIANCE_MATRIX.md",
+      "sha256": "8b22fadf4abb29512c0c132fe107b6efeca90b8960d504c8a0b92a226a4800de",
+      "bytes": 4721
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/synthesis/DECISION_REGISTER.md",
+      "path": "docs/research/2026-09-18/synthesis/DECISION_REGISTER.md",
+      "sha256": "0b18c4ffebeb6652b28e32776bea9e3cc1e142711f6f791aa44b8a44eea445fa",
+      "bytes": 3926
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/synthesis/IMPLEMENTATION_PLAN.md",
+      "path": "docs/research/2026-09-18/synthesis/IMPLEMENTATION_PLAN.md",
+      "sha256": "89bfbce30aa0fba40c769be3d65ccf07bd42e44bc126b711076798a2a89c4778",
+      "bytes": 4628
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/synthesis/PRESENTATION_CONTENT_STATUS.md",
+      "path": "docs/research/2026-09-18/synthesis/PRESENTATION_CONTENT_STATUS.md",
+      "sha256": "83af8cfeec64211705b4ff83bb025188f5a3051fa1d4dd5a6945f5b50dd16422",
+      "bytes": 1123
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/synthesis/RESEARCH_ARCHIVE_INDEX.md",
+      "path": "docs/research/2026-09-18/synthesis/RESEARCH_ARCHIVE_INDEX.md",
+      "sha256": "a4f6ec2a728fe556a0b7083926c64eef5f5459a29701ee23c2663af72d640a64",
+      "bytes": 2401
+    },
+    {
+      "source_member": "POVOD_SYNTHESIS_2026-09-19/synthesis/RESEARCH_SYNTHESIS.md",
+      "path": "docs/research/2026-09-18/synthesis/RESEARCH_SYNTHESIS.md",
+      "sha256": "2e5d5f3fe8cc1165e30088f8bffe5c94ac4fd21ed36bd27442fd626dc9a774d2",
+      "bytes": 9305
+    }
+  ]
+}

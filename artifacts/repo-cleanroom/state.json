@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "base_sha": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "source_path": "D:\\Dev\\Repos\\The-Boys-Max",
+  "cleanup_path": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom",
+  "branch": "codex/repo-cleanroom",
+  "created_utc": "2026-09-20T17:34:42Z",
+  "phases": {
+    "1": {
+      "status": "PASS",
+      "summary": {
+        "files": 124695,
+        "bytes": 2141639205,
+        "by_classification": {
+          "KEEP_TRACKED": 9429,
+          "IGNORE": 234,
+          "KEEP_UNTRACKED": 702,
+          "REVIEW_REQUIRED": 52,
+          "MOVE_TO_ARCHIVE": 833,
+          "DELETE_SAFE": 113445
+        },
+        "by_git_status": {
+          "tracked": 9429,
+          "ignored": 113756,
+          "untracked": 1510
+        },
+        "by_category": {
+          "other": 321,
+          "secret_path": 26,
+          "archives": 154,
+          "logs": 4305,
+          "local_runtime": 23,
+          "source": 1535,
+          "evidence": 2625,
+          "screenshots": 311,
+          "scripts": 216,
+          "research_copies": 833,
+          "build": 1707,
+          "dependencies": 111738,
+          "docs": 868,
+          "design_references": 33
+        },
+        "duplicate_groups_within_worktree": 964,
+        "tracked_binary_records": 403,
+        "archive_records": 154,
+        "errors": 0,
+        "worktrees": 12,
+        "limitations": [
+          "Git internal object files excluded; refs/objects audited separately",
+          "Credential/private runtime content and node_modules not opened or hashed",
+          "Generated dependency file metadata included; same-path copies across worktrees not counted as clutter",
+          "Snapshot taken while other tasks may be running"
+        ]
+      },
+      "inventory": "inventory.csv.gz"
+    },
+    "3": {
+      "status": "PASS",
+      "evidence": "context-proof.json"
+    },
+    "5": {
+      "status": "PASS",
+      "baseline_leaked_markers": 17,
+      "hardened_leaked_markers": 0,
+      "evidence": "context-proof.json",
+      "actual_image_membership": "PASS"
+    },
+    "7": {
+      "status": "PASS",
+      "evidence": "clean-checkout-results.json",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "integration_runtime": "NOT_RUN",
+      "external_MAX_provider": "NOT_RUN",
+      "unit_tests": {
+        "total": 115,
+        "passed": 115,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    "6": {
+      "status": "PASS_WITH_DOCUMENTED_REVIEW_ITEMS",
+      "sbom_status": "PASS",
+      "evidence": "lock-review.json",
+      "advisories_reported": 0,
+      "dependency_changes": 0
+    },
+    "2": {
+      "status": "ISSUES_DOCUMENTED",
+      "evidence": "authority-evidence.json",
+      "issues": [
+        "README stale T102.2/T103 BLOCKED summary",
+        "TARGET_ARCHITECTURE stale T103 gate",
+        "ignored official PDF absent from Git checkout",
+        "UI/MAX branch-local work not integrated"
+      ]
+    },
+    "4": {
+      "status": "NO_CONFIRMED_SECRET_MATCH_IN_SCANNED_TEXT",
+      "evidence": "secret-audit.json",
+      "unresolved_distinct_candidates": 0,
+      "rerun": {
+        "evidence": "secret-scan.json",
+        "reachable_commits": 38,
+        "unique_blobs": 1752,
+        "text_blobs_scanned": 1614,
+        "binary_blobs_skipped": 138
+      }
+    }
+  },
+  "cleanup_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+  "cleanliness_verdict": "CONDITIONAL_READY_FOR_REVIEW",
+  "deleted_files": 0,
+  "moved_files": 0,
+  "feature_merges": 0,
+  "canonicalization": "proposal_only",
+  "source_preservation": "source-preservation.json",
+  "outputs": {
+    "reports": "docs/research/2026-09-20/repo-cleanroom/",
+    "inventory": "artifacts/repo-cleanroom/inventory.csv.gz",
+    "package": "artifacts/research/POVOD_REPO_CLEANROOM.zip",
+    "desktop_copy": "C:\\Users\\admin\\Desktop\\POVOD_REPO_CLEANROOM.zip"
+  },
+  "audit_status": "COMPLETE",
+  "final_verification": "final-verification.json",
+  "package_receipt": "artifacts/research/POVOD_REPO_CLEANROOM.receipt.json",
+  "packaging_note": "Delivery receipt is generated after the evidence commit; it is the authority for archive/copy hashes."
+}

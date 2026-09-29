@@ -1,0 +1,116 @@
+[
+  {
+    "ref": "refs/heads/codex/max-bot-entry-flow",
+    "sha": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+    "base_only_commits": 0,
+    "ref_only_commits": 0
+  },
+  {
+    "ref": "refs/heads/codex/max-bot-ux",
+    "sha": "d2a03110d955a5e13f37a0e86281bdd26c7b3349",
+    "base_only_commits": 0,
+    "ref_only_commits": 1
+  },
+  {
+    "ref": "refs/heads/codex/max-miniapp-production",
+    "sha": "2b1f126bce6aac760a4be42df3fff88028b36f8e",
+    "base_only_commits": 0,
+    "ref_only_commits": 1
+  },
+  {
+    "ref": "refs/heads/codex/max-token-tls",
+    "sha": "fc5aeed6ad9e12845c71b8016c9071240d22d74a",
+    "base_only_commits": 0,
+    "ref_only_commits": 1
+  },
+  {
+    "ref": "refs/heads/codex/repo-cleanroom",
+    "sha": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+    "base_only_commits": 0,
+    "ref_only_commits": 0
+  },
+  {
+    "ref": "refs/heads/codex/t103-bullmq-runtime",
+    "sha": "e379c62b6804d67df811bb2db5338cbf9a3f9e83",
+    "base_only_commits": 5,
+    "ref_only_commits": 0
+  },
+  {
+    "ref": "refs/heads/codex/t104-kudago-gate",
+    "sha": "3bb2a9a47163b6f25dafe3381b5fe278bcb46ea5",
+    "base_only_commits": 5,
+    "ref_only_commits": 0
+  },
+  {
+    "ref": "refs/heads/codex/t105-data-safety",
+    "sha": "05ef63d2fa24a05e1ff308052b02c9b808d2af34",
+    "base_only_commits": 1,
+    "ref_only_commits": 0
+  },
+  {
+    "ref": "refs/heads/codex/t106-max-runtime",
+    "sha": "5583772554bb196f6410ea4b3a90da55ba1e68eb",
+    "base_only_commits": 6,
+    "ref_only_commits": 4
+  },
+  {
+    "ref": "refs/heads/codex/ui-povod-v1",
+    "sha": "84ca97d41dd16991359ccdcf39f7c068cfd566b5",
+    "base_only_commits": 0,
+    "ref_only_commits": 3
+  },
+  {
+    "ref": "refs/heads/codex/ui-v1-detail",
+    "sha": "a6f8cc4c259bab62937e260ac4f68a0b8534b4a9",
+    "base_only_commits": 0,
+    "ref_only_commits": 4
+  },
+  {
+    "ref": "refs/heads/codex/ui-v1-integrated",
+    "sha": "6cc7311aa2ad882437946a7970245704527732c6",
+    "base_only_commits": 0,
+    "ref_only_commits": 15
+  },
+  {
+    "ref": "refs/heads/codex/ui-v1-plans",
+    "sha": "cb278a70cd66c7e4c3e810dd57733e41510aeecc",
+    "base_only_commits": 0,
+    "ref_only_commits": 4
+  },
+  {
+    "ref": "refs/heads/codex/ui-v1-profile",
+    "sha": "ba184df44aa3beefc9722f5c3cb7d8bc1b1a2f71",
+    "base_only_commits": 0,
+    "ref_only_commits": 4
+  },
+  {
+    "ref": "refs/heads/codex/ui-v1-saved",
+    "sha": "fa27796e9d79ad2fd207e96f5d68f44246d9c10a",
+    "base_only_commits": 0,
+    "ref_only_commits": 4
+  },
+  {
+    "ref": "refs/heads/codex/ui-v1-states",
+    "sha": "b5b1c423f5ce18290ba927cefa1146b8e9a417a6",
+    "base_only_commits": 0,
+    "ref_only_commits": 4
+  },
+  {
+    "ref": "refs/heads/main",
+    "sha": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+    "base_only_commits": 0,
+    "ref_only_commits": 0
+  },
+  {
+    "ref": "refs/heads/t002-pre-final-repair",
+    "sha": "b94b7185e31214c9b1b73a106c3c45b5e9fca71f",
+    "base_only_commits": 9,
+    "ref_only_commits": 2
+  },
+  {
+    "ref": "refs/heads/t002-pre-repair",
+    "sha": "46d419aee3ec44c207c2172704cf08d2f338b2e5",
+    "base_only_commits": 9,
+    "ref_only_commits": 2
+  }
+]

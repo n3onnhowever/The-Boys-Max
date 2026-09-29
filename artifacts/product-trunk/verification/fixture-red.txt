@@ -1,0 +1,37 @@
+✔ deterministic Home fixture remains explicitly synthetic (0.7616ms)
+✔ catalog adapter preserves server display evidence without changing domain models (0.5528ms)
+✔ catalog adapter does not invent an event when the server returns no events (0.0823ms)
+✖ server catalog adapters do not assign design artwork or design map behavior (0.6301ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.4869
+
+✖ failing tests:
+
+test at tests\unit\home-view-model.test.ts:64:1
+✖ server catalog adapters do not assign design artwork or design map behavior (0.6301ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + '/assets/events/home-hero.jpg'
+  - null
+
+      at TestContext.<anonymous> (file:///D:/Dev/Repos/The-Boys-Max-product-trunk/tests/unit/home-view-model.test.ts:67:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/assets/events/home-hero.jpg',
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

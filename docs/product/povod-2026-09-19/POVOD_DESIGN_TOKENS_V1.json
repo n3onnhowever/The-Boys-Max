@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "product": "Повод",
+    "team": "The Boys",
+    "version": "1.0",
+    "date": "2026-09-17",
+    "status": "design-decision-v1"
+  },
+  "colors": {
+    "background": "#FFFDF8",
+    "ink": "#0E0E0E",
+    "primary": "#C63B2B",
+    "social": "#6C54FF",
+    "surface": "#FFFFFF",
+    "mutedText": "#6F6D68",
+    "border": "#DEDBD3",
+    "darkSurface": "#151515",
+    "success": "#237A4B",
+    "warning": "#A86600",
+    "error": "#B42318"
+  },
+  "typography": {
+    "primaryFamily": "Onest",
+    "monoFamily": "IBM Plex Mono",
+    "scale": {
+      "display": {
+        "size": 40,
+        "lineHeight": 42,
+        "weight": 900
+      },
+      "h1": {
+        "size": 32,
+        "lineHeight": 36,
+        "weight": 800
+      },
+      "h2": {
+        "size": 24,
+        "lineHeight": 28,
+        "weight": 700
+      },
+      "h3": {
+        "size": 20,
+        "lineHeight": 24,
+        "weight": 700
+      },
+      "bodyL": {
+        "size": 17,
+        "lineHeight": 24,
+        "weight": 450
+      },
+      "body": {
+        "size": 15,
+        "lineHeight": 22,
+        "weight": 450
+      },
+      "label": {
+        "size": 13,
+        "lineHeight": 18,
+        "weight": 600
+      },
+      "mono": {
+        "size": 12,
+        "lineHeight": 16,
+        "weight": 500
+      }
+    }
+  },
+  "spacing": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32,
+    40,
+    48
+  ],
+  "radius": {
+    "chip": 999,
+    "button": 16,
+    "card": 20,
+    "sheet": 24,
+    "image": 16
+  },
+  "layout": {
+    "mobileBaseWidth": 390,
+    "requiredWidths": [
+      360,
+      390,
+      430
+    ],
+    "mobileSidePadding": 16,
+    "webContentMaxWidth": 720
+  },
+  "motionMs": {
+    "microMin": 160,
+    "microMax": 220,
+    "sheetMin": 250,
+    "sheetMax": 350
+  }
+}

@@ -1,0 +1,482 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:max:ai-candidate:3",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": "ai-candidate/3"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "NEEDS_CLARIFICATION",
+        "REFUSED"
+      ]
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40,
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
+                }
+              },
+              "required": [
+                "id",
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "date": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "EXACT"
+                    },
+                    "on": {
+                      "type": "string",
+                      "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "on"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "RANGE"
+                    },
+                    "from": {
+                      "type": "string",
+                      "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+                    },
+                    "through": {
+                      "type": "string",
+                      "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "from",
+                    "through"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time_window": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                },
+                "end": {
+                  "type": "string",
+                  "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                },
+                "end_day_offset": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ]
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "STARTS_WITHIN",
+                    "FULLY_WITHIN",
+                    "UNKNOWN"
+                  ]
+                }
+              },
+              "required": [
+                "start",
+                "end",
+                "end_day_offset",
+                "mode"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timezone": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "excluded_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CINEMA",
+              "THEATRE",
+              "CONCERT",
+              "MUSEUM",
+              "SPORT",
+              "OUTDOOR",
+              "VOLUNTEER",
+              "OTHER"
+            ]
+          },
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "included_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CINEMA",
+              "THEATRE",
+              "CONCERT",
+              "MUSEUM",
+              "SPORT",
+              "OUTDOOR",
+              "VOLUNTEER",
+              "OTHER"
+            ]
+          },
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "party_size": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "budget": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "max_minor": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,11})$"
+                },
+                "currency": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{3}$"
+                },
+                "basis": {
+                  "type": "string",
+                  "enum": [
+                    "PER_PERSON",
+                    "GROUP_TOTAL",
+                    "UNKNOWN"
+                  ]
+                }
+              },
+              "required": [
+                "max_minor",
+                "currency",
+                "basis"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "indoor": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "wheelchair_required": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "require_available": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "city",
+        "date",
+        "time_window",
+        "timezone",
+        "excluded_categories",
+        "included_categories",
+        "party_size",
+        "budget",
+        "indoor",
+        "wheelchair_required",
+        "require_available"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "date": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "time_window": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "timezone": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "excluded_categories": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "included_categories": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "party_size": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "budget": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "indoor": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "wheelchair_required": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        },
+        "require_available": {
+          "type": "string",
+          "enum": [
+            "SET",
+            "NOT_MENTIONED",
+            "CLARIFY",
+            "UNSUPPORTED"
+          ]
+        }
+      },
+      "required": [
+        "city",
+        "date",
+        "time_window",
+        "timezone",
+        "excluded_categories",
+        "included_categories",
+        "party_size",
+        "budget",
+        "indoor",
+        "wheelchair_required",
+        "require_available"
+      ],
+      "additionalProperties": false
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "enum": [
+              "city",
+              "date",
+              "time_window",
+              "timezone",
+              "excluded_categories",
+              "included_categories",
+              "party_size",
+              "budget",
+              "indoor",
+              "wheelchair_required",
+              "require_available",
+              "request"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "AMBIGUOUS",
+              "MISSING",
+              "CONTRADICTION",
+              "INVALID_DATE",
+              "INVALID_QUANTITY",
+              "UNSUPPORTED",
+              "TIMEZONE",
+              "DST",
+              "WRITE_REQUEST",
+              "UNTRUSTED_INSTRUCTION",
+              "REFUSAL"
+            ]
+          }
+        },
+        "required": [
+          "field",
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 24,
+      "uniqueItems": true
+    },
+    "read_tool": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "const": "request_approved_search"
+            },
+            "arguments": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "name",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "version",
+    "state",
+    "intent",
+    "coverage",
+    "issues",
+    "read_tool"
+  ],
+  "additionalProperties": false
+}

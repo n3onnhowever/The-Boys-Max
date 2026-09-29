@@ -1,0 +1,47 @@
+{
+  "date_utc": "2026-09-19T07:01:19.664993+00:00",
+  "old_head": "4f9a198d4fa2b18686efa19a59b6ac78281d341d",
+  "baseline_head": "Resolve HEAD of the commit containing this receipt; exact resulting SHA and post-commit worktree verification are in the final response (option B, no second commit).",
+  "commit_message": "chore: establish Povod reproducible P0 baseline",
+  "branch": "main",
+  "phase": "Pre-commit audited baseline",
+  "immutable_whitespace_files": 177,
+  "initial_offending_files": 48,
+  "mutable_scripts_corrected": 3,
+  "immutable_hashes_checked": 304,
+  "source_hashes_checked": 146,
+  "full_check": {
+    "exit_code": 2,
+    "findings": 17783,
+    "log": "C:\\Users\\admin\\AppData\\Local\\Temp\\povod-baseline-final-t_d1l135\\full-whitespace.txt",
+    "sha256": "352e5c01a16d13c46c14d7ddc69b893a884a2cab3e866b47d9ed6d2bdea8d269"
+  },
+  "mutable_check": "PASS; exact final command and paths recorded in COMMAND_RESULTS.json",
+  "secret_scan": "PASS; see SECRET_SCAN.json",
+  "unit": {
+    "passed": 115,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "docker": "NOT_RUN this pass; T102.2 evidence intact and executable source unchanged",
+  "planned_worktrees": [
+    {
+      "path": "D:/Dev/Repos/The-Boys-Max-t103",
+      "branch": "codex/t103-bullmq-runtime",
+      "status": "PENDING until baseline commit"
+    },
+    {
+      "path": "D:/Dev/Repos/The-Boys-Max-t104",
+      "branch": "codex/t104-kudago-gate",
+      "status": "PENDING until baseline commit"
+    },
+    {
+      "path": "D:/Dev/Repos/The-Boys-Max-t106",
+      "branch": "codex/t106-max-runtime",
+      "status": "PENDING until baseline commit"
+    }
+  ],
+  "implementation_tickets_started": false
+}

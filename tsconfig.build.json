@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rewriteRelativeImportExtensions": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "declaration": true
+  },
+  "include": [
+    "apps/api/**/*.ts",
+    "apps/worker/**/*.ts",
+    "packages/**/*.ts",
+    "modules/**/*.ts",
+    "scripts/migrate.ts",
+    "scripts/import-curated-official.ts",
+    "scripts/seed-demo.ts",
+    "scripts/amvera-runtime.ts"
+  ],
+  "exclude": [
+    "tests",
+    "node_modules"
+  ]
+}

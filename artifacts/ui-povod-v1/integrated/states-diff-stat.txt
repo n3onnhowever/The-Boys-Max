@@ -1,0 +1,50 @@
+ apps/miniapp/public/assets/states/README.md        |  18 ++
+ .../public/assets/states/povod-empty-magnifier.png | Bin 0 -> 89114 bytes
+ .../public/assets/states/povod-error-cable.png     | Bin 0 -> 76630 bytes
+ apps/miniapp/src/App.tsx                           |  27 ++-
+ apps/miniapp/src/assets.ts                         |   6 +-
+ apps/miniapp/src/components/EventCardList.tsx      |   4 +-
+ apps/miniapp/src/components/EventsList.tsx         |  35 +++-
+ apps/miniapp/src/components/HomeSystemScreen.tsx   | 110 +++++++++++
+ apps/miniapp/src/components/Icon.tsx               |   3 +-
+ apps/miniapp/src/components/Skeleton.tsx           |  33 +++-
+ apps/miniapp/src/design-data/states.ts             |  17 ++
+ apps/miniapp/src/main.tsx                          |  16 +-
+ apps/miniapp/src/styles.css                        | 206 +++++++++++++++++++--
+ apps/miniapp/src/view-model/system-state.ts        |  94 ++++++++++
+ artifacts/ui-povod-v1/states/empty-360.png         | Bin 0 -> 78936 bytes
+ artifacts/ui-povod-v1/states/empty-390.png         | Bin 0 -> 87878 bytes
+ artifacts/ui-povod-v1/states/empty-430.png         | Bin 0 -> 88399 bytes
+ artifacts/ui-povod-v1/states/error-360.png         | Bin 0 -> 63901 bytes
+ artifacts/ui-povod-v1/states/error-390.png         | Bin 0 -> 68553 bytes
+ artifacts/ui-povod-v1/states/error-430.png         | Bin 0 -> 69236 bytes
+ artifacts/ui-povod-v1/states/loading-360.png       | Bin 0 -> 35154 bytes
+ artifacts/ui-povod-v1/states/loading-390.png       | Bin 0 -> 35278 bytes
+ artifacts/ui-povod-v1/states/loading-430.png       | Bin 0 -> 35668 bytes
+ .../ui-povod-v1/states/logs/build-typescript.log   |   2 +
+ artifacts/ui-povod-v1/states/logs/copy-assets.log  |   2 +
+ artifacts/ui-povod-v1/states/logs/diff-check.log   |   6 +
+ .../states/logs/patch-drizzle-build.log            |   3 +
+ .../states/logs/patch-drizzle-typecheck.log        |   3 +
+ artifacts/ui-povod-v1/states/logs/syntax.log       | 146 +++++++++++++++
+ .../ui-povod-v1/states/logs/typecheck-pure.log     |   2 +
+ artifacts/ui-povod-v1/states/logs/typecheck.log    |   2 +
+ artifacts/ui-povod-v1/states/logs/unit.log         | 148 +++++++++++++++
+ .../states/logs/verification-results.json          | 107 +++++++++++
+ .../states/logs/verify-dependencies.log            |   2 +
+ artifacts/ui-povod-v1/states/logs/vite-build.log   |  14 ++
+ artifacts/ui-povod-v1/states/offline-360.png       | Bin 0 -> 89572 bytes
+ artifacts/ui-povod-v1/states/offline-390.png       | Bin 0 -> 91473 bytes
+ artifacts/ui-povod-v1/states/offline-430.png       | Bin 0 -> 92029 bytes
+ artifacts/ui-povod-v1/states/secret-scan.json      |  49 +++++
+ .../ui-povod-v1/states/state-capture-audit.json    |  95 ++++++++++
+ artifacts/ui-povod-v1/states/states-montage.png    | Bin 0 -> 292156 bytes
+ artifacts/ui-povod-v1/states/states-parity.png     | Bin 0 -> 2010321 bytes
+ docs/handoffs/ui-v1/UI_STATES_HANDOFF.md           |  83 +++++++++
+ scripts/build-povod-state-evidence.ps1             | 102 ++++++++++
+ scripts/capture-povod-states.mjs                   | 160 ++++++++++++++++
+ scripts/extract-povod-state-assets.ps1             |  62 +++++++
+ scripts/verify-povod-states.mjs                    |  61 ++++++
+ tests/unit/home-system-reset.test.ts               |  35 ++++
+ tests/unit/home-system-state.test.ts               |  46 +++++
+ 49 files changed, 1663 insertions(+), 36 deletions(-)

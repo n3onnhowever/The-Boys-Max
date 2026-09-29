@@ -1,0 +1,11 @@
+# Demo delivery scope addendum — 2026-09-25
+
+Owner decision for the hackathon delivery permits disclosed synthetic or prepared data when a real external integration is unavailable (organizer FAQ 13/15 and the official case). This addendum authorizes only the separate, explicitly configured `APP_MODE=demo` catalog. It does not amend the [P0 freeze](../product/povod-2026-09-19/POVOD_FINAL_SCOPE_FREEZE_MVP.md), the [source authority](POVOD_SOURCE_AUTHORITY.md), or the [T104 gate evidence](../handoffs/T104_KUDAGO_RUNTIME_GATE.md).
+
+Demo v1 contains six team-authored, fictional Moscow occurrences. Its reference date is **2026-09-25**, with fixed local dates from **2026-10-17 through 2027-02-13**. These dates are never shifted at runtime. Normal server time still governs session expiration, rights review, search, upcoming status and Save. The demo expires naturally as events pass or its rights review reaches **2027-03-20**; a later demo requires a separately versioned dataset and review.
+
+`APP_MODE=demo` plus `DEMO_CATALOG_VERSION=v1` are required to serve the demo catalog. An operator runs `npm run migrate` then `npm run seed:demo` against the selected database. The API does not seed at startup or switch modes after a failed provider call. Versioned synthetic records enter the canonical T105 persistence path and a bounded search projection; stable event/session/observation IDs make reruns idempotent without deleting Save rows. Demo source pages are served only in demo mode and explicitly say the events are fictional. The runtime banner says: **“Демонстрационная афиша — события вымышлены”**.
+
+Seed against the final `PUBLIC_ORIGIN`: canonical source URLs are pinned to that origin for this version. A different origin on rerun fails the version check instead of silently replacing source links. Use a fresh demo database or a separately reviewed migration/version for an origin change.
+
+Live mode continues to query only `LIVE` catalog candidates and admitted live Saved occurrences, with no synthetic fallback. T105 live-source admission is unchanged. KudaGo remains **NOT_APPROVED**, Moscow live activation remains **OFF**, and the T104 `DATA_RUNTIME_GATE=FAIL` / `LEGAL_MANUAL_GATE=OPEN` findings stand. The demo makes no claim about real venues, artists, tickets, availability or provider rights.

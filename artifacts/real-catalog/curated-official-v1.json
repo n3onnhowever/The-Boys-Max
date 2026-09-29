@@ -1,0 +1,59 @@
+{
+  "schema": "povod.curated-official/1",
+  "as_of": "2026-09-26T00:00:00.000Z",
+  "records": [
+    {
+      "identity": "darwin-lisij-den-2026",
+      "source_url": "https://www.darwinmuseum.ru/projects/celebration/lisij-den",
+      "source_owner": "Государственный Дарвиновский музей",
+      "reviewed_at": "2026-09-26T14:14:00.000Z",
+      "source_hash": "898faea54a57f9a5c32ff4b9691fc005c016c833ea8c453779ab09f28bf130ff",
+      "rights_note": "First-party factual title, date, time and address only; no description or image reused. Museum site restricts its materials to noncommercial use; facts are independently restated.",
+      "title": "Лисий день",
+      "category": "OTHER",
+      "sessions": [
+        {"identity":"2026-10-03","starts_at":"2026-10-03T10:30:00+03:00","ends_at":"2026-10-03T16:00:00+03:00","venue_id":"darwin-main","venue_name":"Государственный Дарвиновский музей","address":"Москва, ул. Вавилова, 57","price_text":null,"fee_status":"UNKNOWN","price_scope":"OCCURRENCE"}
+      ]
+    },
+    {
+      "identity": "darwin-medvezhij-prazdnik-2026",
+      "source_url": "https://www.darwinmuseum.ru/projects/separate-exp/kvest-medvezhij-prazdnik",
+      "source_owner": "Государственный Дарвиновский музей",
+      "reviewed_at": "2026-09-26T14:14:00.000Z",
+      "source_hash": "5e5df85652203ed0e94bb9809f690e5ea415bdeabead907d90188e8458cde2a1",
+      "rights_note": "First-party factual title, session times, admission amount and address only; no description or image reused. Additional mandatory fees not established.",
+      "title": "Медвежий праздник",
+      "category": "OTHER",
+      "sessions": [
+        {"identity":"2026-10-09-1130","starts_at":"2026-10-09T11:30:00+03:00","ends_at":null,"venue_id":"darwin-main","venue_name":"Государственный Дарвиновский музей","address":"Москва, ул. Вавилова, 57","price_text":"1500 рублей","fee_status":"UNKNOWN","price_scope":"OCCURRENCE"},
+        {"identity":"2026-10-30-1130","starts_at":"2026-10-30T11:30:00+03:00","ends_at":null,"venue_id":"darwin-main","venue_name":"Государственный Дарвиновский музей","address":"Москва, ул. Вавилова, 57","price_text":"1500 рублей","fee_status":"UNKNOWN","price_scope":"OCCURRENCE"}
+      ]
+    },
+    {
+      "identity": "darwin-belcanto-buratino-2026-10-03",
+      "source_url": "https://www.darwinmuseum.ru/projects/separate-exp/belcantofund",
+      "source_owner": "Государственный Дарвиновский музей",
+      "reviewed_at": "2026-09-26T14:14:00.000Z",
+      "source_hash": "c608d2eb39f76e2baa7b0a949ea8c8653edb8cbb12f5b1644cb31d56e4a1171c",
+      "rights_note": "First-party factual title, date, start/end time and venue only; no description or image reused. Admission price not published on source page.",
+      "title": "Приключение Буратино или Золотой ключик",
+      "category": "CONCERT",
+      "sessions": [
+        {"identity":"2026-10-03-1700","starts_at":"2026-10-03T17:00:00+03:00","ends_at":"2026-10-03T18:00:00+03:00","venue_id":"darwin-main","venue_name":"Государственный Дарвиновский музей","address":"Москва, ул. Вавилова, 57","price_text":null,"fee_status":"UNKNOWN","price_scope":"OCCURRENCE"}
+      ]
+    },
+    {
+      "identity": "darwin-belcanto-gornyj-korol-2026-10-17",
+      "source_url": "https://www.darwinmuseum.ru/projects/separate-exp/belcantofund",
+      "source_owner": "Государственный Дарвиновский музей",
+      "reviewed_at": "2026-09-26T14:14:00.000Z",
+      "source_hash": "c608d2eb39f76e2baa7b0a949ea8c8653edb8cbb12f5b1644cb31d56e4a1171c",
+      "rights_note": "First-party factual title, date, start/end time and venue only; no description or image reused. Admission price not published on source page.",
+      "title": "В пещере горного короля",
+      "category": "CONCERT",
+      "sessions": [
+        {"identity":"2026-10-17-1700","starts_at":"2026-10-17T17:00:00+03:00","ends_at":"2026-10-17T18:00:00+03:00","venue_id":"darwin-main","venue_name":"Государственный Дарвиновский музей","address":"Москва, ул. Вавилова, 57","price_text":null,"fee_status":"UNKNOWN","price_scope":"OCCURRENCE"}
+      ]
+    }
+  ]
+}

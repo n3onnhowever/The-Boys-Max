@@ -1,0 +1,17 @@
+# Unlaunched configuration. External PostgreSQL/Redis and approved HTTPS proxy required.
+# Missing .env.release / empty live gate fails closed. No fake transport, no test seeding.
+name: the-boys-integration26-release
+services:
+  api:
+    build: .
+    env_file: .env.release
+    environment: {APP_MODE: live, NODE_ENV: production, MAX_INGRESS_MODE: WEBHOOK}
+    ports: ["127.0.0.1:3000:3000"]
+    command: ["node", "dist/apps/api/main.js"]
+    stop_grace_period: 30s
+  worker:
+    build: .
+    env_file: .env.release
+    environment: {APP_MODE: live, NODE_ENV: production, MAX_INGRESS_MODE: WEBHOOK}
+    command: ["node", "dist/apps/worker/main.js"]
+    stop_grace_period: 30s

@@ -1,0 +1,361 @@
+{
+  "base_sha": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "verified_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+  "proof_path": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+  "environment_policy": "Only OS/tool location variables retained; no APP/NODE/credential variables; explicit empty npm user/global configs and new cache",
+  "npm_executable": "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+  "node_executable": "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\node.EXE",
+  "records": [
+    {
+      "label": "proof-node-version",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\node.EXE",
+        "--version"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:43Z",
+      "seconds": 0.04,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-node-version.txt.gz",
+      "log_sha256": "b5665a088940061ef60ef048dee928ef761572605c5e9efac9aa8b76c0a61f92",
+      "uncompressed_log_sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-npm-version",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "--version"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:43Z",
+      "seconds": 0.28,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-npm-version.txt.gz",
+      "log_sha256": "d638fd386ad868c6afbbe13990b4292cf26cfef420e26017decb676c7e1be008",
+      "uncompressed_log_sha256": "005206ab803f8881d8227540b7980b37e723b69a8849edb31734a90b7e7964e2",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-lock-review",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\node.EXE",
+        "scripts/review-lock.mjs"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:44Z",
+      "seconds": 0.07,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-lock-review.txt.gz",
+      "log_sha256": "49e840249633bb658110c1984930708131baaec511ef7efc2e482b50dfe6f29d",
+      "uncompressed_log_sha256": "28a007ce7055c27772d9199bb970d615ef1d8bf2d9221084b6b766e5a104b865",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-lock-tree",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "ls",
+        "--package-lock-only",
+        "--all",
+        "--json"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:44Z",
+      "seconds": 0.58,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-lock-tree.txt.gz",
+      "log_sha256": "c4eede28f6e7ad31e3a349ac08718bdaafd636f9b3028184d5cf9c726ea7219b",
+      "uncompressed_log_sha256": "5db4a6cbd019c2a32aabcb8ff89205b4f9c46bf2d15ae257d8ed4d5f2e5ae65f",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-sbom",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "sbom",
+        "--package-lock-only",
+        "--sbom-format",
+        "cyclonedx",
+        "--ignore-scripts",
+        "--offline"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:44Z",
+      "seconds": 0.54,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-sbom.txt.gz",
+      "log_sha256": "8d0f4f74a65e250e74d35f26a7dd41a4ed711cfb563c331807cab6625a578b10",
+      "uncompressed_log_sha256": "7afe63e947f43d19de9b3fcb000839fb14747a00ccd10f863aaa7585870191a6",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-advisories",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "audit",
+        "--package-lock-only",
+        "--json",
+        "--ignore-scripts"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:45Z",
+      "seconds": 0.95,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-advisories.txt.gz",
+      "log_sha256": "64ea1c14abd14b94b704a8406c34fbac2854afe72d1c15436d629a0ca02d8e8b",
+      "uncompressed_log_sha256": "77694ff360139140370face7ed19bfafa830864ebe71955c619424a34bd7af69",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-npm-ci",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:46Z",
+      "seconds": 4.62,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-npm-ci.txt.gz",
+      "log_sha256": "e26a86a88a5bb24ecb651472be7f05f5e1c09e86da4082222a2d7bd9c8f5a75d",
+      "uncompressed_log_sha256": "a51ba925cf8f3ecee241fdc316b4cf5394cb84d95d8a7b499a930c8da116e8b6",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-typecheck",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "run",
+        "typecheck"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:43:50Z",
+      "seconds": 10.13,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-typecheck.txt.gz",
+      "log_sha256": "0d73edb8021b272ff424281a2903cef8058fe739f502e0091362fe5ed76a829b",
+      "uncompressed_log_sha256": "0c488fa996049cbb1fe6e686c9b9892e5cc97b720cbfcdc51487e6eaa9e2e6b5",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-unit",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "run",
+        "test:unit"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:00Z",
+      "seconds": 4.06,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-unit.txt.gz",
+      "log_sha256": "95a163f25ecfd894fd8a633a1ae11c068f24ac316e6e4d1690621d8db823f70e",
+      "uncompressed_log_sha256": "47a2754444be784bc7bb07765caaee058b8f897322c658c9474811ae26ad4b41",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-build",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\npm.cmd",
+        "run",
+        "build"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:04Z",
+      "seconds": 6.77,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-build.txt.gz",
+      "log_sha256": "8679aeeeb2d3a3af02c4f9f41bc99565312daaee72a269d3735d67cc2470fbf0",
+      "uncompressed_log_sha256": "5242e03b27a4123c0b58b3653d1fa56ec1001761bc61256cf09ec704e142222c",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-host-missing-config",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\node.EXE",
+        "dist/apps/api/main.js"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:11Z",
+      "seconds": 0.48,
+      "exit": 1,
+      "status": "PASS",
+      "log": "raw/proof-host-missing-config.txt.gz",
+      "log_sha256": "0622787560c9be45fe50547d3aafdb62e86bc84c56857e59f3521aa754efde60",
+      "uncompressed_log_sha256": "e8172e25cced85a68dd26aa7acd474bdb27e5878df5f08442241f78feccae4dd",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-host-missing-secrets",
+      "command": [
+        "C:\\Users\\admin\\AppData\\Local\\fnm_multishells\\48800_1789926222755\\node.EXE",
+        "dist/apps/api/main.js"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:12Z",
+      "seconds": 0.48,
+      "exit": 1,
+      "status": "PASS",
+      "log": "raw/proof-host-missing-secrets.txt.gz",
+      "log_sha256": "63cf5994ebb30260843f03aeb20fb8bd3abc892ef3893584e566432eac1f7f52",
+      "uncompressed_log_sha256": "c99d244a2174c32d42ee752e4cd7571c0ad5517674b7d16c83d05117488c41de",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:12Z",
+      "seconds": 0.16,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-diff-check.txt.gz",
+      "log_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressed_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-docker-build",
+      "command": [
+        "docker",
+        "build",
+        "--no-cache",
+        "--progress=plain",
+        "--iidfile",
+        "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom\\artifacts\\repo-cleanroom\\docker-image-id.txt",
+        "-t",
+        "povod-repo-cleanroom:991b3cdf9e80",
+        "."
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:12Z",
+      "seconds": 29.82,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-docker-build.txt.gz",
+      "log_sha256": "5fe0dab6fc7a6868bb2de766baf3f3b05a28b5c4e0514d3bd93cda2084852cc0",
+      "uncompressed_log_sha256": "06a43acdaeb2c315e133e3598dea621dd89dce412552d06b9bc7873e413f30fe",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-docker-missing-config",
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "povod-repo-cleanroom:991b3cdf9e80"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:42Z",
+      "seconds": 0.93,
+      "exit": 1,
+      "status": "PASS",
+      "log": "raw/proof-docker-missing-config.txt.gz",
+      "log_sha256": "2390c9e7598e8d59175ec6c18a7601575bb58ff43f1918569acb4f46732ce0d2",
+      "uncompressed_log_sha256": "0247f52fc4cde80de078e3e691f2750a0439a22c6da1488f0f0c745b99872570",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-docker-missing-secrets",
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "-e",
+        "APP_MODE=live",
+        "-e",
+        "COOKIE_PROFILE=LAX_FIRST_PARTY",
+        "-e",
+        "PUBLIC_ORIGIN=https://cleanroom.example.invalid",
+        "povod-repo-cleanroom:991b3cdf9e80"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:43Z",
+      "seconds": 0.76,
+      "exit": 1,
+      "status": "PASS",
+      "log": "raw/proof-docker-missing-secrets.txt.gz",
+      "log_sha256": "7338bf5bc833d5e460c9a2c102b46b2bbac1b1268e0bc76e9f8f189db88e8a31",
+      "uncompressed_log_sha256": "823e87f270624979c3b9e67ef6f56175addf1088161e11b7eeb6b4e2fba57aa6",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-base-image-digest",
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "node:24.20.0-bookworm-slim",
+        "--format",
+        "{{json .RepoDigests}}"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:44Z",
+      "seconds": 0.11,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-base-image-digest.txt.gz",
+      "log_sha256": "93be496904cd393951f3ca5d4f95b647d92e8c80701d973ec8a4d45e6ef67df6",
+      "uncompressed_log_sha256": "f345a07065899b68a3069f47adb5652778c368f135b354537ff90723ae376474",
+      "log_compression": "gzip"
+    },
+    {
+      "label": "proof-final-status",
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "cwd": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom-verify",
+      "source_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+      "started_utc": "2026-09-20T17:44:44Z",
+      "seconds": 0.18,
+      "exit": 0,
+      "status": "PASS",
+      "log": "raw/proof-final-status.txt.gz",
+      "log_sha256": "9ad26580ca8c59041aa5899ca977d9ddb333a3c666c9f018f655705326873430",
+      "uncompressed_log_sha256": "ba051334ebc33f3162a4fd5be48615e03c8dac8ec7977e7c2752dbc1cf981841",
+      "log_compression": "gzip"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+.map-comparison { --map-border: #d8dce4; --map-ink: #202833; box-sizing: border-box; font: 16px/1.5 system-ui, sans-serif; color: var(--map-ink); max-width: 840px; margin: 0 auto; padding: 18px; background: #fff; }
+.map-comparison *, .map-comparison *::before, .map-comparison *::after { box-sizing: border-box; }
+.map-comparison h2 {font-size: 24px; line-height: 1.25; margin: 4px 0 12px;}
+.map-comparison h3 {font-size: 18px; margin: 0 0 8px;}
+.map-comparison p {margin: 10px 0; overflow-wrap:anywhere;}
+.map-eyebrow {letter-spacing:.09em; font-size:12px; font-weight:700;}
+.map-comparison button,.map-comparison a {min-height:44px; padding:10px 12px; border-radius:10px; font:inherit;}
+.map-comparison button {border:1px solid #adb8c7; background:#f5f7fa; color:inherit; cursor:pointer; white-space:normal;}
+.map-comparison button:focus-visible,.map-comparison a:focus-visible {outline:3px solid #245bad; outline-offset:2px;}
+.map-comparison button[aria-pressed="true"] {border:2px solid #245bad; background:#ebf2ff;}
+.map-comparison button:disabled {opacity:.65; cursor:not-allowed;}
+.map-comparison a {color:#214f93; display:inline-block; overflow-wrap:anywhere;}
+.map-note {font-size:13px; color:#505d6d;}
+.map-warning {font-size:14px; color:#715020;}
+.map-options {display:grid; gap:14px; margin:18px 0;}
+.map-options article {padding:16px; border:1px solid var(--map-border); border-radius:14px; min-width:0;}
+.map-options article[data-selected="true"] {border:2px solid #245bad; padding:15px;}
+.map-comparison label {display:block; font-size:13px; margin:12px 0 6px;}
+.map-comparison input {font:inherit; width:100%; min-width:0; padding:10px; border:1px solid var(--map-border); border-radius:8px;}
+.map-panel {margin:14px 0; border:1px solid var(--map-border); border-radius:14px; padding:10px; overflow:hidden;}
+.map-canvas {height:280px; width:100%; background:#f1f3f5; z-index:0;}
+.map-panel[data-expanded="true"] .map-canvas {height:min(65dvh,540px); min-height:260px;}
+.map-toolbar {display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.map-actions {display:flex; align-items:flex-start; flex-direction:column; margin-top:10px;}
+.map-ordinal {background:transparent!important; color:#fff!important; box-shadow:none!important; border:0!important; font-weight:700!important;}
+.map-ordinal::before {display:none!important;}
+/* Keep attribution readable and out of app overlays. Never hide it or invert map imagery. */
+.map-canvas .leaflet-control-attribution {max-width:100%; font-size:11px; color:#222; background:rgba(255,255,255,.95);}
+.map-canvas .leaflet-control-attribution a {font-size:11px; padding:0; min-height:0; display:inline; color:#145790;}
+.map-comparison details {border-top:1px solid var(--map-border); padding:16px 0;}
+.map-comparison summary {cursor:pointer; min-height:44px; font-weight:600;}
+@media (max-width:380px) {.map-comparison {padding:12px;} .map-options article {padding:12px;} .map-canvas {height:260px;}}

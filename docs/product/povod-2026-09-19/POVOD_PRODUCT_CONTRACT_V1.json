@@ -1,0 +1,386 @@
+{
+  "meta": {
+    "product": "Повод",
+    "team": "The Boys",
+    "version": "1.0",
+    "date": "2026-09-17",
+    "status": "product-contract"
+  },
+  "principles": [
+    "solo_first",
+    "event_occurrence_separation",
+    "unknown_is_first_class",
+    "source_provenance_visible",
+    "social_is_optional",
+    "no_false_purchase_or_availability_claims",
+    "multi_city_quality_gated"
+  ],
+  "scope": {
+    "P0": {
+      "identity": [
+        "max_identity",
+        "povod_user_profile"
+      ],
+      "cities": {
+        "architecture": "multi_city",
+        "target_active_cities": "2-3 if data-gated"
+      },
+      "discovery": [
+        "for_you",
+        "search",
+        "filters",
+        "event_detail",
+        "map",
+        "source_link"
+      ],
+      "personalization": [
+        "interests",
+        "favorites",
+        "follow_artist",
+        "follow_topic",
+        "basic_preferences",
+        "explainable_ranking"
+      ],
+      "retention": [
+        "one_smart_povod_notification_flow"
+      ],
+      "social": [
+        "invite_friends",
+        "shared_plan",
+        "preference_vs_commitment",
+        "material_change_reconfirmation"
+      ]
+    },
+    "P1": [
+      "more_cities",
+      "follow_team",
+      "follow_sport",
+      "follow_venue",
+      "follow_series",
+      "notification_modes",
+      "behavioral_personalization",
+      "advanced_shared_plan"
+    ],
+    "P2": [
+      "russia_by_coverage",
+      "partner_sources",
+      "ticket_integrations_if_approved",
+      "organizer_tools_if_validated",
+      "advanced_ml_recommendations"
+    ]
+  },
+  "navigation": {
+    "bottom_tabs": [
+      "for_you",
+      "search",
+      "saved"
+    ],
+    "profile_entry": "top_avatar",
+    "shared_plan": "contextual_only"
+  },
+  "city_statuses": [
+    "draft",
+    "data_check",
+    "beta",
+    "active",
+    "paused"
+  ],
+  "occurrence_statuses": [
+    "scheduled",
+    "cancelled",
+    "ended",
+    "unknown"
+  ],
+  "price_kinds": [
+    "exact",
+    "from",
+    "range",
+    "free",
+    "unknown"
+  ],
+  "follow_entity_types": [
+    "artist",
+    "topic",
+    "team",
+    "sport",
+    "venue",
+    "series"
+  ],
+  "p0_follow_entity_types": [
+    "artist",
+    "topic"
+  ],
+  "screens": [
+    {
+      "id": "S00",
+      "name": "Launch / MAX identity",
+      "p0": true
+    },
+    {
+      "id": "S01",
+      "name": "Onboarding interests",
+      "p0": true
+    },
+    {
+      "id": "S02",
+      "name": "Для тебя",
+      "p0": true
+    },
+    {
+      "id": "S03",
+      "name": "Search + Filters",
+      "p0": true
+    },
+    {
+      "id": "S04",
+      "name": "Event detail",
+      "p0": true
+    },
+    {
+      "id": "S05",
+      "name": "Map",
+      "p0": true
+    },
+    {
+      "id": "S06",
+      "name": "Saved",
+      "p0": true
+    },
+    {
+      "id": "S07",
+      "name": "Мой Повод",
+      "p0": true
+    },
+    {
+      "id": "S08",
+      "name": "Follow entity",
+      "p0": true
+    },
+    {
+      "id": "S09",
+      "name": "Smart Povod notification",
+      "p0": true
+    },
+    {
+      "id": "S10",
+      "name": "Invite friends",
+      "p0": true
+    },
+    {
+      "id": "S11",
+      "name": "Shared plan",
+      "p0": true
+    },
+    {
+      "id": "S12",
+      "name": "Material-change reconfirm",
+      "p0": true
+    }
+  ],
+  "entities": {
+    "User": [
+      "id",
+      "max_user_id",
+      "display_name",
+      "avatar_url",
+      "locale",
+      "created_at",
+      "updated_at"
+    ],
+    "UserPreferenceProfile": [
+      "user_id",
+      "home_city_id",
+      "default_budget_max",
+      "preferred_start_time_from",
+      "preferred_start_time_to",
+      "preferred_radius_minutes",
+      "smart_notifications_enabled",
+      "updated_at"
+    ],
+    "City": [
+      "id",
+      "slug",
+      "name",
+      "timezone",
+      "status",
+      "beta_label",
+      "coverage_checked_at",
+      "activated_at"
+    ],
+    "Category": [
+      "id",
+      "slug",
+      "name",
+      "parent_id",
+      "active"
+    ],
+    "UserInterest": [
+      "user_id",
+      "category_id",
+      "weight",
+      "source",
+      "created_at"
+    ],
+    "FollowableEntity": [
+      "id",
+      "type",
+      "name",
+      "canonical_key",
+      "metadata",
+      "active"
+    ],
+    "UserFollow": [
+      "user_id",
+      "entity_id",
+      "created_at",
+      "notifications_enabled"
+    ],
+    "Event": [
+      "id",
+      "title",
+      "description",
+      "category_id",
+      "primary_entity_ids",
+      "image_url",
+      "canonical_key",
+      "status"
+    ],
+    "Occurrence": [
+      "id",
+      "event_id",
+      "city_id",
+      "venue_id",
+      "starts_at",
+      "ends_at",
+      "timezone",
+      "status",
+      "source_id",
+      "external_url",
+      "fetched_at",
+      "source_updated_at"
+    ],
+    "Venue": [
+      "id",
+      "name",
+      "city_id",
+      "address",
+      "lat",
+      "lon",
+      "source_id"
+    ],
+    "PriceSnapshot": [
+      "id",
+      "occurrence_id",
+      "amount_min",
+      "amount_max",
+      "currency",
+      "price_kind",
+      "fee_known",
+      "source_id",
+      "observed_at"
+    ],
+    "Source": [
+      "id",
+      "name",
+      "provider_type",
+      "base_url",
+      "attribution",
+      "data_mode",
+      "active"
+    ],
+    "Favorite": [
+      "user_id",
+      "event_id",
+      "preferred_occurrence_id",
+      "created_at"
+    ],
+    "RecommendationReason": [
+      "user_id",
+      "occurrence_id",
+      "code",
+      "label",
+      "strength",
+      "generated_at"
+    ],
+    "SmartNotification": [
+      "id",
+      "user_id",
+      "occurrence_id",
+      "trigger_code",
+      "sent_at",
+      "opened_at",
+      "state"
+    ],
+    "SharedPlan": [
+      "id",
+      "created_by_user_id",
+      "event_id",
+      "occurrence_id",
+      "price_snapshot_id",
+      "revision",
+      "status",
+      "created_at",
+      "updated_at"
+    ],
+    "SharedPlanMember": [
+      "plan_id",
+      "user_id_or_invitee_ref",
+      "membership_status",
+      "preference_status",
+      "commitment_revision",
+      "updated_at"
+    ],
+    "PlanMaterialRevision": [
+      "plan_id",
+      "revision",
+      "occurrence_snapshot",
+      "venue_snapshot",
+      "price_snapshot",
+      "warnings_snapshot",
+      "changed_fields",
+      "created_at"
+    ]
+  },
+  "analytics_events": [
+    "app_opened",
+    "onboarding_started",
+    "onboarding_completed",
+    "city_selected",
+    "interest_added",
+    "feed_viewed",
+    "filter_applied",
+    "search_submitted",
+    "occurrence_opened",
+    "source_opened",
+    "map_opened",
+    "favorite_added",
+    "favorite_removed",
+    "follow_added",
+    "follow_removed",
+    "smart_notification_sent",
+    "smart_notification_opened",
+    "invite_started",
+    "plan_created",
+    "plan_preference_submitted",
+    "plan_committed",
+    "plan_reconfirmation_required",
+    "plan_reconfirmed"
+  ],
+  "design": {
+    "colors": {
+      "background": "#FFFDF8",
+      "ink": "#0E0E0E",
+      "primary": "#C63B2B",
+      "social": "#6C54FF"
+    },
+    "fonts": [
+      "Onest",
+      "IBM Plex Mono"
+    ],
+    "mobile_widths": [
+      360,
+      390,
+      430
+    ]
+  }
+}

@@ -1,0 +1,251 @@
+[
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 539
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3025
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 886
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "kill",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 511
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3010
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 553
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3029
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 899
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 507
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3021
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 546
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3053
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 902
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 528
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3032
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "postgres"
+    ],
+    "exit_code": 0,
+    "duration_ms": 922
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "stop",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 542
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "povod-t103",
+      "up",
+      "--no-deps",
+      "-d",
+      "--wait",
+      "redis"
+    ],
+    "exit_code": 0,
+    "duration_ms": 3013
+  }
+]

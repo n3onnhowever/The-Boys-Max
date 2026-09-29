@@ -1,0 +1,58 @@
+{
+  "starting-status": {
+    "command": [
+      "git",
+      "-c",
+      "safe.directory=D:/Dev/Repos/The-Boys-Max",
+      "status",
+      "--short"
+    ],
+    "cwd": "D:\\Dev\\Repos\\The-Boys-Max",
+    "started_at": "2026-09-18T22:42:02.451932+00:00",
+    "duration_seconds": 0.032,
+    "exit_code": 0,
+    "log": "artifacts/t101/logs/starting-status.txt"
+  },
+  "starting-head": {
+    "command": [
+      "git",
+      "-c",
+      "safe.directory=D:/Dev/Repos/The-Boys-Max",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "D:\\Dev\\Repos\\The-Boys-Max",
+    "started_at": "2026-09-18T22:42:02.484527+00:00",
+    "duration_seconds": 0.029,
+    "exit_code": 0,
+    "log": "artifacts/t101/logs/starting-head.txt"
+  },
+  "starting-branch": {
+    "command": [
+      "git",
+      "-c",
+      "safe.directory=D:/Dev/Repos/The-Boys-Max",
+      "branch",
+      "--show-current"
+    ],
+    "cwd": "D:\\Dev\\Repos\\The-Boys-Max",
+    "started_at": "2026-09-18T22:42:02.517199+00:00",
+    "duration_seconds": 0.029,
+    "exit_code": 0,
+    "log": "artifacts/t101/logs/starting-branch.txt"
+  },
+  "diff-check": {
+    "command": [
+      "git",
+      "-c",
+      "safe.directory=D:/Dev/Repos/The-Boys-Max",
+      "diff",
+      "--check"
+    ],
+    "cwd": "D:\\Dev\\Repos\\The-Boys-Max",
+    "started_at": "2026-09-18T22:44:48.906866+00:00",
+    "duration_seconds": 0.037,
+    "exit_code": 0,
+    "log": "artifacts/t101/logs/diff-check.txt"
+  }
+}

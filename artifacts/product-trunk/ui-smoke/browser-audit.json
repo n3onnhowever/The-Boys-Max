@@ -1,0 +1,2507 @@
+{
+  "generatedUtc": "2026-09-22T19:04:40.512Z",
+  "scope": "all",
+  "origin": "http://127.0.0.1:4199",
+  "captures": [
+    {
+      "route": "home",
+      "width": 390,
+      "height": 844,
+      "file": "390/home.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "search",
+      "width": 390,
+      "height": 844,
+      "file": "390/search.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Поиск",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "filters",
+      "width": 390,
+      "height": 844,
+      "file": "390/filters.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Поиск",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "detail",
+      "width": 390,
+      "height": 844,
+      "file": "390/detail.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "saved",
+      "width": 390,
+      "height": 844,
+      "file": "390/saved.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Профиль",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "profile",
+      "width": 390,
+      "height": 844,
+      "file": "390/profile.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Профиль",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "my-plans",
+      "width": 390,
+      "height": 844,
+      "file": "390/my-plans.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "План",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "plan-detail",
+      "width": 390,
+      "height": 844,
+      "file": "390/plan-detail.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "План",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "loading",
+      "width": 390,
+      "height": 844,
+      "file": "390/loading.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "empty",
+      "width": 390,
+      "height": 844,
+      "file": "390/empty.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "error",
+      "width": 390,
+      "height": 844,
+      "file": "390/error.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "offline",
+      "width": 390,
+      "height": 844,
+      "file": "390/offline.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": [
+          215,
+          215
+        ]
+      }
+    },
+    {
+      "route": "detail-price-unknown",
+      "width": 390,
+      "height": 844,
+      "file": "390/detail-price-unknown.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "detail-venue-unknown",
+      "width": 390,
+      "height": 844,
+      "file": "390/detail-venue-unknown.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "detail-source-unavailable",
+      "width": 390,
+      "height": 844,
+      "file": "390/detail-source-unavailable.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "Главная",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "plan-detail-solo",
+      "width": 390,
+      "height": 844,
+      "file": "390/plan-detail-solo.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "План",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    },
+    {
+      "route": "plan-detail-empty-discussion",
+      "width": 390,
+      "height": 844,
+      "file": "390/plan-detail-empty-discussion.png",
+      "layout": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "navCount": 1,
+        "navItems": 5,
+        "active": "План",
+        "navBottom": 844,
+        "brokenImages": 0,
+        "offlineCopyWidths": []
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "Saved segments, remove, undo, empty and selected-event navigation",
+      "status": "PASS",
+      "evidence": {
+        "upcoming": 6,
+        "later": 2,
+        "empty": 0,
+        "eventId": "design:saved:bikini-kill"
+      }
+    },
+    {
+      "name": "Home search, local Save, and navigation availability",
+      "status": "PASS",
+      "evidence": {
+        "friendsDisabled": true,
+        "search": true,
+        "save": true
+      }
+    },
+    {
+      "name": "Search sorting, filter reset/apply/close and safe event navigation",
+      "status": "PASS",
+      "evidence": {
+        "sort": true,
+        "filters": true,
+        "detail": true
+      }
+    },
+    {
+      "name": "Detail UNKNOWN variants retain facts and safe source actions",
+      "status": "PASS",
+      "evidence": [
+        "detail-price-unknown",
+        "detail-venue-unknown",
+        "detail-source-unavailable"
+      ]
+    },
+    {
+      "name": "Profile VK+OK placeholders, preference editing and Saved subsection",
+      "status": "PASS",
+      "evidence": {
+        "services": [
+          "VK",
+          "OK",
+          "+"
+        ],
+        "linking": "UNAVAILABLE",
+        "savedActive": "profile"
+      }
+    },
+    {
+      "name": "Plans RSVP, selected solo plan, empty discussion and local composer",
+      "status": "PASS",
+      "evidence": {
+        "soloParticipants": 1,
+        "emptyMessages": 0,
+        "localMessages": 4,
+        "invite": "UNAVAILABLE"
+      }
+    },
+    {
+      "name": "Loading reduced motion and Offline supplied cache",
+      "status": "PASS",
+      "evidence": {
+        "animation": "none",
+        "cachedCards": 2,
+        "offlineSaveDisabled": true
+      }
+    },
+    {
+      "name": "Empty, Error and Offline actions reach deterministic destinations",
+      "status": "PASS",
+      "evidence": [
+        [
+          "empty",
+          "change-filters",
+          "filters"
+        ],
+        [
+          "empty",
+          "reset-filters",
+          "home"
+        ],
+        [
+          "error",
+          "retry",
+          "home"
+        ],
+        [
+          "error",
+          "return-home",
+          "home"
+        ],
+        [
+          "offline",
+          "retry",
+          "home"
+        ]
+      ]
+    }
+  ],
+  "runtimeNegativeControls": [
+    {
+      "search": "",
+      "unavailableApi": true,
+      "fixtureBoundary": false,
+      "syntheticText": false,
+      "fixtureChunk": false,
+      "profileControls": 0
+    },
+    {
+      "search": "?design=unknown",
+      "unavailableApi": true,
+      "fixtureBoundary": false,
+      "syntheticText": false,
+      "fixtureChunk": false,
+      "profileControls": 0
+    },
+    {
+      "search": "?design=toString",
+      "unavailableApi": true,
+      "fixtureBoundary": false,
+      "syntheticText": false,
+      "fixtureChunk": false,
+      "profileControls": 0
+    }
+  ],
+  "build": [
+    {
+      "file": "index.html",
+      "sha256": "97b3094431d2f60b1a553324612092b1fc08d410ddc000bbf962472baaf321f4"
+    },
+    {
+      "file": "assets/DesignPreview-D0ql-iiw.js",
+      "sha256": "cf49f18128986fddf2b29746d5f4c6fd00e07cb85be6edcc4a1c771ee1fe7d08"
+    },
+    {
+      "file": "assets/index-B8-DSzec.css",
+      "sha256": "29ad691a627f6ff457001e33bd31326846ff16dc53aad00b7c360cd3fa90c6a1"
+    },
+    {
+      "file": "assets/index-CQ2337fU.js",
+      "sha256": "35ad1ad43679f825b4c6ca8ba861ade640205b53818ceba678e1bb2455d12572"
+    },
+    {
+      "file": "assets/leaflet-renderer-Nh_jUyXD.js",
+      "sha256": "3f973570b28e04153f0b07810635ddb955471647ef8ad7e2a52bc26aed2a35a2"
+    },
+    {
+      "file": "assets/leaflet-renderer-vh-t_kPv.css",
+      "sha256": "86d3d093fad979e1d185c8a93258f5f124d863fd13ca894c0b9f50bb68b66997"
+    }
+  ],
+  "previewApiRequests": 0,
+  "maxSdk": "Intercepted for offline UI evidence; MAX runtime NOT_RUN",
+  "status": "PASS",
+  "javascriptErrors": [],
+  "requests": [
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/?design=home",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-icon-app.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "1B4DC2E4E2C7242274E5FCA7EF7ED225",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/?design=search",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "A34DA3977332FED6294FEC0C18DD29A6",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/?design=filters",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "72B5B3DAAACE400967257A13D3DC8CFF",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/?design=detail",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "8F4C74A8B315ECA9AF94726B591DCE4D",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/?design=saved",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "E7253662D8ED8ADDA03C11F76741CF0F",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "http://127.0.0.1:4199/?design=profile",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "http://127.0.0.1:4199/assets/profile/design-avatar.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "AA6EBEDC90027416D31D09C6C1C658AF",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/?design=my-plans",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "962A08DADCD5605641C0F4C5808E0541",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "http://127.0.0.1:4199/?design=plan-detail",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0BB7144568D619D6E89D28805C5CC4D3",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "http://127.0.0.1:4199/?design=loading",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "71EAA03173F07BBE1B742F55549D6DB8",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/?design=empty",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/assets/states/povod-empty-magnifier.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "85D58881E032B6F3F573E52C59BD2E36",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/?design=error",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/assets/states/povod-error-cable.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "6DE89CA4506A0931FF3D94C3EA32A8D0",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/?design=offline",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "364EBA430E5D1435AECBFA80AC864CCD",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/?design=detail-price-unknown",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9819CD35E46A7841388F67B73DE04BBB",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/?design=detail-venue-unknown",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "4BAAD429E4BC6E42750DECD5086C68A6",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/?design=detail-source-unavailable",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C06839B6122458751049E63EC63E6E85",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "http://127.0.0.1:4199/?design=plan-detail-solo",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "B8EE8C01EFE58E094F3A81CA9670EAFA",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "http://127.0.0.1:4199/?design=plan-detail-empty-discussion",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "05D45163FBA3A900D52E6822DD0F917A",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/?design=saved",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/?design=detail&event=design%3Asaved%3Abikini-kill&from=saved",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "32AB34D10B8010916D97ECD1CE932490",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/?design=home",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/?design=search",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "349E38094F5C27578E6E0AEF85362725",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/?design=search",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/?design=detail&event=design%3Asearch%3Abikini-kill&from=search",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "ED778DA255F4A34CE1268953A6E641EF",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/?design=detail-price-unknown",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "182CF752113927588E139FA6622B5F6D",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/?design=detail-venue-unknown",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "7CF616138A7914E982469400935FC0C0",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/?design=detail-source-unavailable",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "23E1C0AE35A08B37C14E83F74E851E0A",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/?design=detail",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "CAD61AF384F4147613FF42A99EE9723A",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/?design=profile",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/profile/design-avatar.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/?design=saved",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "2705078CCCB20095C5FC974B24501750",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/?design=my-plans",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/?design=plan-detail&plan=design%3Aplan%3Acassette",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "834F6BF7C8AFA7418C1003CB07D3C822",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "http://127.0.0.1:4199/?design=plan-detail",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "9C00B2AE335565BB6C1D0CB51F633592",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "http://127.0.0.1:4199/?design=loading",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "C26FA188F2620031305C8C548C782D67",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/?design=offline",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "F6E55E7A99F03B86F628BE1FA3B5978A",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/?design=empty",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/states/povod-empty-magnifier.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/?design=filters",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "231A2170954AA1A39F66EACB20069B14",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/?design=empty",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/states/povod-empty-magnifier.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/?design=home",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "0676BBFDE19B991CC017B90A675C9C3C",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/?design=error",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/states/povod-error-cable.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/?design=home",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "29C105CB7B02C09E0F57BE16685C5733",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/?design=error",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/states/povod-error-cable.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/?design=home",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "63A25AFD86F242C22F8B9D8418C19D36",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/?design=offline",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/?design=home",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/DesignPreview-D0ql-iiw.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/home-hero.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-club.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/fonts/IBMPlexMono-Regular.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-concert.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/for-you-gallery.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "162D6C3C8C301161B11ED44407022A41",
+      "url": "http://127.0.0.1:4199/assets/events/nearby-dance.jpg",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "http://127.0.0.1:4199/",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "http://127.0.0.1:4199/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "62CAD7B6927528B7242B82A9B8FB8F72",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "http://127.0.0.1:4199/?design=unknown",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "http://127.0.0.1:4199/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "FC9D07B48323EC3E1AE0F33B51CAEA65",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "http://127.0.0.1:4199/?design=toString",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "https://st.max.ru/js/max-web-app.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "http://127.0.0.1:4199/assets/index-CQ2337fU.js",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "http://127.0.0.1:4199/assets/index-B8-DSzec.css",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "http://127.0.0.1:4199/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "http://127.0.0.1:4199/assets/brand/povod-wordmark-home.png",
+      "method": "GET"
+    },
+    {
+      "sessionId": "22908BFC2158DF468B9D6D5FE4008E8F",
+      "url": "http://127.0.0.1:4199/assets/fonts/Onest-Variable.ttf",
+      "method": "GET"
+    }
+  ]
+}

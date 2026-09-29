@@ -1,0 +1,72 @@
+{
+  "name": "the-boys-afisha-integration",
+  "version": "0.2.0-candidate",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.19.0",
+  "engines": {
+    "node": "24.20.0",
+    "npm": "11.19.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "modules/*"
+  ],
+  "scripts": {
+    "verify:dependencies": "node scripts/verify-dependencies.mjs",
+    "typecheck": "node scripts/patch-drizzle-declarations.mjs && tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test tests/unit/*.test.ts",
+    "test:integration": "node --experimental-strip-types --test --test-concurrency=1 tests/integration/*.test.ts",
+    "build": "node scripts/patch-drizzle-declarations.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp",
+    "capture:home": "node scripts/capture-povod-home.mjs",
+    "capture:search": "node scripts/capture-povod-home.mjs --design=search --output=artifacts/ui-povod-v1/search --widths=360,390,430",
+    "capture:saved": "node scripts/capture-povod-home.mjs --design=saved --output=artifacts/ui-povod-v1/saved --widths=360,390,430",
+    "verify:saved": "node scripts/verify-povod-saved.mjs",
+    "capture:filters": "node scripts/capture-povod-home.mjs --design=filters --output=artifacts/ui-povod-v1/filters --widths=390",
+    "capture:detail": "node scripts/capture-povod-home.mjs --design=detail --output=artifacts/ui-povod-v1/detail --widths=360,390,430 && node scripts/capture-povod-home.mjs --design=detail-price-unknown --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-price-unknown && node scripts/capture-povod-home.mjs --design=detail-venue-unknown --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-venue-unknown && node scripts/capture-povod-home.mjs --design=detail-source-unavailable --output=artifacts/ui-povod-v1/detail --widths=390 --suffix=-source-unavailable",
+    "migrate": "node --experimental-strip-types scripts/migrate.ts",
+    "seed:test": "node --experimental-strip-types scripts/seed-test.ts",
+    "seed:demo": "node --experimental-strip-types scripts/seed-demo.ts",
+    "import:curated-official": "node --experimental-strip-types scripts/import-curated-official.ts",
+    "import:moscow-sport": "node --experimental-strip-types scripts/import-moscow-sport.ts",
+    "openapi": "node --experimental-strip-types scripts/openapi.ts",
+    "start:api": "node dist/apps/api/main.js",
+    "start:worker": "node dist/apps/worker/main.js",
+    "migrate:price": "node --experimental-strip-types scripts/upgrade-price.ts",
+    "syntax": "node scripts/check-source-syntax.mjs",
+    "test:offline": "node --experimental-strip-types --test tests/unit/*.test.ts",
+    "typecheck:pure": "tsc --noEmit -p tsconfig.pure.json",
+    "capture:profile": "node scripts/capture-povod-home.mjs --design=profile --output=artifacts/ui-povod-v1/profile --widths=360,390,430",
+    "capture:integrated": "node scripts/verify-povod-integrated.mjs",
+    "verify:integrated": "node scripts/verify-povod-integrated.mjs --no-capture",
+    "capture:states": "node scripts/capture-povod-states.mjs"
+  },
+  "dependencies": {
+    "@fastify/cookie": "11.0.2",
+    "@fastify/swagger": "9.8.1",
+    "bullmq": "6.3.4",
+    "drizzle-orm": "0.45.2",
+    "fastify": "5.12.3",
+    "fastify-type-provider-zod": "7.0.0",
+    "ioredis": "5.11.1",
+    "leaflet": "1.9.4",
+    "openapi-types": "12.1.3",
+    "pg": "8.23.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/leaflet": "1.9.20",
+    "@types/node": "24.13.3",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.1.1",
+    "gel": "2.2.1",
+    "mysql2": "3.24.4",
+    "typescript": "5.9.3",
+    "vite": "8.2.2"
+  }
+}

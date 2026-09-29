@@ -1,0 +1,7 @@
+﻿chat,status,valid_result,blockers,rerun
+26,PARTIAL_STRONG,105 unit PASS,"DNS/npm, no Docker/PG/Redis, no target build",Да: merge v2 сейчас
+27,PARTIAL_BLOCKED,122 unit PASS; код исправлений,DNS/npm; donor/runtime/screenshots не получены,Да: visual runtime сейчас
+28,GOOD_BASELINE_NOT_CURRENT_RELEASE,audit tooling; source23 regressions,нет result26; runtime deps/Docker absent,Нет: после 32/33/34
+29,STRONG_LOCAL_NO_LIVE_AI,348 unit PASS; eval runner,DNS + no credentials/admission; N=0 live,Нет: live benchmark только с допустимым account
+30,PARTIAL_STRONG,run_all PASS; local fixes,DNS/npm; no live KudaGo/Timepad/map build,Да: live events/maps сейчас
+31,GOOD_DRAFT,19-slide deck + product materials,depends on runtime/screenshots/evidence,Нет: обновить после acceptance

@@ -1,0 +1,20 @@
+{
+  "status": "PASS_PACKAGE_AND_DESKTOP_COPY",
+  "archive": "D:\\Dev\\Repos\\The-Boys-Max-repo-cleanroom\\artifacts\\research\\POVOD_REPO_CLEANROOM.zip",
+  "archive_sha256": "a3c87db60a92f98ffffa0c680b40bbcdca4c85282ba02e1509e07821a74312c1",
+  "archive_bytes": 2726211,
+  "entries": 108,
+  "source_base": "1e4a7a2b454bed87bdcb40559773143c2fc38c9b",
+  "cleanup_sha": "991b3cdf9e8081cf9648faa4746243e4e5dfcb3b",
+  "evidence_commit": "12b18e82fffe76b3bf40d3c0465716051e53d60a",
+  "crc_test": "PASS",
+  "member_hash_test": "PASS",
+  "prohibited_member_paths": [],
+  "strong_secret_signatures": [],
+  "decompressed_bytes_scanned": 29490736,
+  "desktop_target": "C:\\Users\\admin\\Desktop\\POVOD_REPO_CLEANROOM.zip",
+  "created_utc": "2026-09-20T18:06:16Z",
+  "desktop_sha256": "a3c87db60a92f98ffffa0c680b40bbcdca4c85282ba02e1509e07821a74312c1",
+  "desktop_bytes": 2726211,
+  "verified_utc": "2026-09-20T18:06:52Z"
+}

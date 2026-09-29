@@ -1,0 +1,143 @@
+{
+  "package": "drizzle-orm",
+  "version": "0.45.2",
+  "source": "https://registry.npmjs.org/drizzle-orm/-/drizzle-orm-0.45.2.tgz",
+  "integrity": "sha512-kY0BSaTNYWnoDMVoyY8uxmyHjpJW1geOmBMdSSicKo9CIIWkSxMIj2rkeSR51b8KAPB7m+qysjuHme5nKP+E5Q==",
+  "files": [
+    {
+      "path": "pg-core/query-builders/query.d.ts",
+      "reason": "Restore getSQL present in the pinned runtime and stripped from declarations.",
+      "before_sha256": "b58dda762d6bd8608d50e1a9cc4b4a1663a9d4aa50a9476d592a6ecdc6194af4",
+      "after_sha256": "d1f33eb0d8632dda918d220f3831362ec884cb57d859a06462673f3c2eb0c130",
+      "offset": 1945,
+      "remove": "",
+      "insert": "getSQL(): import(\"../../sql/sql.js\").SQL;\n    "
+    },
+    {
+      "path": "gel-core/query-builders/query.d.ts",
+      "reason": "Restore getSQL present in the pinned runtime and stripped from declarations.",
+      "before_sha256": "acaf0a60eb243938f7742df08bf5d52482fbea033fd27141ee3a6d878bbb0d3d",
+      "after_sha256": "2ad30f8e7dbff1d25361417ea0acf7a65d3bbe11e670fc65a5bad12ddc2dcd02",
+      "offset": 1956,
+      "remove": "",
+      "insert": "getSQL(): import(\"../../sql/sql.js\").SQL;\n    "
+    },
+    {
+      "path": "sqlite-core/query-builders/query.d.ts",
+      "reason": "Restore getSQL present in the pinned runtime and stripped from declarations.",
+      "before_sha256": "6d3496cac1c65b8a645ecbb3e45ec678dd4d39ce360eecbcb6806a33e3d9a7ae",
+      "after_sha256": "9736f74cb40be312855d2579e0eaedce28caac49f1d155716880784bb06be71a",
+      "offset": 2522,
+      "remove": "",
+      "insert": "getSQL(): import(\"../../sql/sql.js\").SQL;\n    "
+    },
+    {
+      "path": "mysql-core/query-builders/delete.d.ts",
+      "reason": "Restore runtime getSQL.",
+      "before_sha256": "a64e28f2333ea0324632cf81fd73dc0f7090525547a76308cb1dfe5dab96596a",
+      "after_sha256": "7fe4576f92c7746eaa025c54c299bf3e44b64741bb09758f2ffb486033a4f9e6",
+      "offset": 2867,
+      "remove": "",
+      "insert": "getSQL(): SQL;\n    "
+    },
+    {
+      "path": "singlestore-core/query-builders/delete.d.ts",
+      "reason": "Restore runtime getSQL.",
+      "before_sha256": "e0b5f197fb47b39a4689ad356b8488e335bbf399b283492c0ffae0cfda88837b",
+      "after_sha256": "798c76e68ab86dc127bfba6269c9df59a76f1755f57613c7bdecb09923b9c5f4",
+      "offset": 3089,
+      "remove": "",
+      "insert": "getSQL(): SQL;\n    "
+    },
+    {
+      "path": "mysql-core/query-builders/select.d.ts",
+      "reason": "Restore inherited concrete getSQL implemented in runtime.",
+      "before_sha256": "91830d20b424859e5582a141efe9a799dc520b5cce17d61b579fb053c9a6cd85",
+      "after_sha256": "ec6b96681fcc58a2ff19063d08e71af054a6a331a920bf3b85cd8c0dd74884ae",
+      "offset": 3299,
+      "remove": "",
+      "insert": "getSQL(): SQL;\n    "
+    },
+    {
+      "path": "mysql-core/query-builders/select.types.d.ts",
+      "reason": "session/config is protected/internal, not a public key. Removing it from the public omission list preserves its protection and public method restrictions.",
+      "before_sha256": "2e2421a3eec7afefa5a1344a6852d6fee6304678e2d4ee5380b7805f0ac8b58a",
+      "after_sha256": "5e4967950819d291d434e2a2aca90efcbbd2e5d10999169e5a9b411fa51c8601",
+      "offset": 7503,
+      "remove": "session' | '",
+      "insert": ""
+    },
+    {
+      "path": "singlestore-core/query-builders/select.d.ts",
+      "reason": "Restore inherited concrete getSQL implemented in runtime.",
+      "before_sha256": "914d11655546eba92ac24d73e6efdb350738bcf4a9a161a2b96e904bad4de809",
+      "after_sha256": "4ff8f2a1bc552671cf8365acf693c7cafa26fd7a3f5c3cf52cf0df6634571a34",
+      "offset": 2982,
+      "remove": "",
+      "insert": "getSQL(): SQL;\n    "
+    },
+    {
+      "path": "singlestore-core/query-builders/select.types.d.ts",
+      "reason": "session/config is protected/internal, not a public key. Removing it from the public omission list preserves its protection and public method restrictions.",
+      "before_sha256": "06d66a6723085295f3f0ecd254a674478c4dba80e7b01c23a9693a586682252f",
+      "after_sha256": "516d4e22028baff634305b4ce8fff1006cc0f1752f7bffe03d83d1c9fdd9bab0",
+      "offset": 6884,
+      "remove": "session' | '",
+      "insert": ""
+    },
+    {
+      "path": "sqlite-core/query-builders/select.d.ts",
+      "reason": "Restore inherited concrete getSQL implemented in runtime.",
+      "before_sha256": "ae89fb16575dc616df3ff907c6338d94cfa731881ecef82155b21ab4134b3826",
+      "after_sha256": "5783d6925423945cca54b8cbc6d90d80b67e983d9405f1dfc0b01deb3b401269",
+      "offset": 3002,
+      "remove": "",
+      "insert": "getSQL(): SQL;\n    "
+    },
+    {
+      "path": "sqlite-core/query-builders/select.types.d.ts",
+      "reason": "session/config is protected/internal, not a public key. Removing it from the public omission list preserves its protection and public method restrictions.",
+      "before_sha256": "a886a5af337cce28fe3e956fd0ed921345933163f5b14f739266ba9400b92484",
+      "after_sha256": "8471fe46b5d2d9655903a3829e9efef8d489c5cb8579d1c747bbd947d86a859e",
+      "offset": 6470,
+      "remove": "config' | '",
+      "insert": ""
+    },
+    {
+      "path": "pg-core/roles.d.ts",
+      "reason": "Restore readonly optional config fields from pinned source map.",
+      "before_sha256": "e3588e9db86c6eaa572c313a23bf10f7f2f8370e62972996ac79b99da065acaa",
+      "after_sha256": "44143825715ed51add7b0a1fd0a5576eada33eef043dd319aee8b40b50b9dbf9",
+      "offset": 235,
+      "remove": "",
+      "insert": "readonly createDb: PgRoleConfig['createDb'];\n    readonly createRole: PgRoleConfig['createRole'];\n    readonly inherit: PgRoleConfig['inherit'];\n    "
+    },
+    {
+      "path": "gel-core/roles.d.ts",
+      "reason": "Restore readonly optional config fields from pinned source map.",
+      "before_sha256": "a12c86c4a691608d19a75320946c80bbce38bb62c091dda32572aee7158edd38",
+      "after_sha256": "e5d8408f05da8a309c12c091b1377ffe95b012f4ff3bf7e90e0bd2b6760cc343",
+      "offset": 238,
+      "remove": "",
+      "insert": "readonly createDb: GelRoleConfig['createDb'];\n    readonly createRole: GelRoleConfig['createRole'];\n    readonly inherit: GelRoleConfig['inherit'];\n    "
+    },
+    {
+      "path": "singlestore-core/columns/common.d.ts",
+      "reason": "Restore runtime method using the existing abstract contract, without any.",
+      "before_sha256": "a2e6a99c0fb4257e9301d592da0834a2cb321b9b1e0a81498424036109295f8b",
+      "after_sha256": "5c176b55cc529c2b72d63c1c3fdd20f75b52d5667ae185c8717fcce1f362aa6b",
+      "offset": 1350,
+      "remove": "",
+      "insert": "generatedAlwaysAs(as: import('../../sql/sql.js').SQL | T['data'] | (() => import('../../sql/sql.js').SQL), config?: SingleStoreGeneratedColumnConfig): import('../../column-builder.js').HasGenerated<this, { type: 'always' }>;\n    "
+    },
+    {
+      "path": "singlestore-core/columns/enum.d.ts",
+      "reason": "Runtime always throws Method not implemented: never is the exact return type.",
+      "before_sha256": "b26e3175cf5cee8367964e73647d215d1bf38be594ac5362a096c611c0e2eea8",
+      "after_sha256": "127f315a285d56bf75e7bd515b17d5c5402ecb64ec749f47186a41e37d7bf1c9",
+      "offset": 1020,
+      "remove": "HasGenerated<this, {}>",
+      "insert": "never"
+    }
+  ]
+}

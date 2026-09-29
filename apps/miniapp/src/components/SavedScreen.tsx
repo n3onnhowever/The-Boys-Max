@@ -1,0 +1,84 @@
+import { useReducer, useRef, useState } from 'react';
+import type { SavedSegment, SavedViewModel } from '../view-model/saved.ts';
+import { createSavedUiState, savedEventById, savedEventsForSegment, savedUiReducer } from '../view-model/saved.ts';
+import { AppViewport, Screen } from './AppShell.tsx';
+import { BottomNav } from './BottomNav.tsx';
+import { EventCardList } from './EventCardList.tsx';
+import { Icon } from './Icon.tsx';
+import { BackHeader, useUnreadCount } from './PovodUI.tsx';
+
+interface SavedScreenProps {
+  model: SavedViewModel;
+  initialSegment?: SavedSegment;
+  onEventOpen?: (eventId: string) => void;
+  onNavigate?: (id: string) => void;
+  onBack?: () => void;
+  onNotifications?: () => void;
+  onToggleSaved?: (eventId:string,saved:boolean)=>Promise<void>;
+}
+
+export function SavedScreen({ model, initialSegment = 'upcoming', onEventOpen, onNavigate, onBack, onNotifications, onToggleSaved }: SavedScreenProps) {
+  const unreadCount=useUnreadCount();
+  const [state, dispatch] = useReducer(savedUiReducer, undefined, () => createSavedUiState(model, initialSegment));
+  const [pending,setPending]=useState<string|null>(null);
+  const pendingRef=useRef(false);
+  const [error,setError]=useState<string|null>(null);
+  const toggle=(eventId:string)=>{
+    if(!onToggleSaved){dispatch({type:'TOGGLE_SAVED',eventId});return;}
+    if(pendingRef.current)return;
+    pendingRef.current=true;
+    setPending(eventId);setError(null);
+    void onToggleSaved(eventId,!state.savedEventIds.includes(eventId)).then(()=>dispatch({type:'TOGGLE_SAVED',eventId}))
+      .catch(()=>setError('Не удалось изменить сохранение. Повторите попытку.'))
+      .finally(()=>{pendingRef.current=false;setPending(null);});
+  };
+  const events = savedEventsForSegment(model, state);
+  const removedEvent = savedEventById(model, state.lastRemovedEventId);
+  return <AppViewport>
+    <a className="skip-link" href="#main">К содержимому</a>
+    <Screen className="saved-screen">
+      {onBack?<BackHeader title={model.title} onBack={onBack} action={<button className="notification-action" type="button" aria-label="Уведомления" onClick={onNotifications} disabled={!onNotifications}><Icon name="bell" />{unreadCount>0&&<span className="v2-unread" aria-label={`Непрочитанных: ${unreadCount}`}>{unreadCount>9?'9+':unreadCount}</span>}</button>}/>:<header className="saved-page-header">
+        <span aria-hidden="true" />
+        <h1>{model.title}</h1>
+        <button className="notification-action" type="button" aria-label="Уведомления" onClick={onNotifications} disabled={!onNotifications}>
+          <Icon name="bell" />
+          {unreadCount>0&&<span className="v2-unread" aria-label={`Непрочитанных: ${unreadCount}`}>{unreadCount>9?'9+':unreadCount}</span>}
+        </button>
+      </header>}
+      <div className="saved-segmented" role="group" aria-label="Период сохранённых событий">
+        {model.segments.map(segment => <button
+          key={segment.id}
+          id={`saved-tab-${segment.id}`}
+          type="button"
+          aria-controls="saved-events-panel"
+          aria-pressed={state.activeSegment === segment.id}
+          className={state.activeSegment === segment.id ? 'is-active' : ''}
+          onClick={() => dispatch({ type: 'SELECT_SEGMENT', segment: segment.id })}
+        >{segment.label}</button>)}
+      </div>
+      <section
+        id="saved-events-panel"
+        className="saved-events-panel"
+        aria-labelledby={`saved-tab-${state.activeSegment}`}
+      >
+        {events.length > 0 ? <EventCardList
+          events={events}
+          savedEventIds={state.savedEventIds}
+          ariaLabel="Сохранённые события"
+          onOpen={onEventOpen}
+          onSave={pending ? undefined : toggle}
+        /> : <div className="saved-empty" role="status">
+          <Icon name="heart" />
+          <h2>Пока ничего нет</h2>
+          <p>Сохраняйте события, чтобы вернуться к ним позже.</p>
+        </div>}
+      </section>
+      {removedEvent ? <div className="saved-undo" role="status" aria-live="polite">
+        <span>«{removedEvent.title}» убрано</span>
+        <button type="button" disabled={Boolean(pending)} onClick={() => toggle(removedEvent.id)}>Вернуть</button>
+      </div> : null}
+      {error && <p role="alert">{error}</p>}
+    </Screen>
+    {!onBack&&<BottomNav active="profile" onSelect={onNavigate} />}
+  </AppViewport>;
+}

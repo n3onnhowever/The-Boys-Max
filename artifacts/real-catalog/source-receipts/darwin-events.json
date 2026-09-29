@@ -1,0 +1,29 @@
+{
+  "url": "https://www.darwinmuseum.ru/rss.php?type=news",
+  "status": 200,
+  "bytes": 5638,
+  "sha256": "561923be577d85e277d6ea0fe87677ba76c1c43e9c0d73106fed9c3e3a5bf02c",
+  "itemCount": 5,
+  "sample": [
+    {
+      "title": "<![CDATA[День Дошкольной академии 2026]]>",
+      "link": "http://www.darwinmuseum.ru/news/den-doshkol-noj-akademii-2026"
+    },
+    {
+      "title": "<![CDATA[Торжественно открылась выставка «Перечитывая Дарвина» ]]>",
+      "link": "http://www.darwinmuseum.ru/news/torzhestvenno-otkrylas-vystavka-perechityvaya-darvina"
+    },
+    {
+      "title": "<![CDATA[Виктор Евстафьев (1916—1989). Каталог коллекции живописи, графики и скульптуры]]>",
+      "link": "http://www.darwinmuseum.ru/news/viktor-evstaf-ev-1916-1989-katalog-kollekcii-zhivopisi-grafiki-i-skul-ptury"
+    },
+    {
+      "title": "<![CDATA[Лекция «Животные в мифах народов мира» прошла в рамках проекта музея и Московского транспорта]]>",
+      "link": "http://www.darwinmuseum.ru/news/lekciya-zhivotnye-v-mifah-narodov-mira-proshla-v-ramkah-proekta-muzeya-i-moskovskogo-transporta"
+    },
+    {
+      "title": "<![CDATA[В оранжерее зацветает хойя австралийская]]>",
+      "link": "http://www.darwinmuseum.ru/news/v-oranzheree-zacvetaet-hojya-avstralijskaya"
+    }
+  ]
+}
