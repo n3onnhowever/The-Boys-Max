@@ -1,4 +1,0 @@
-
-> the-boys-afisha-integration@0.2.0-candidate verify:dependencies
-> node scripts/verify-dependencies.mjs
-exit=0

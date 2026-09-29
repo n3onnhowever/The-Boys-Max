@@ -19,6 +19,7 @@ import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
 import {CONTRACT} from '../../apps/miniapp/src/port/contracts.ts';
 import {DEMO_NOTICE,DEMO_PROVIDER_ID,demoSourceUrl,DEMO_ITEMS} from '../demo/catalog-v1.ts';
+import {allowedReasons} from '../../modules/ai/smart-occasion.ts';
 import type {View,Route,Envelope,Receipt,Revision,EventCardView,PlaceView,PlanView,OptionView} from '../../apps/miniapp/src/port/contracts.ts';
 type Plans=ReturnType<typeof planService>;
 type Mapped={kind:'PLAN';planId:string;command:DomainCommand}|{kind:'INVITE';planId:string;expected:number}|{kind:'JOIN';inviteRef:string};
@@ -104,9 +105,13 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config){
   const selectedFields=[b.ctx.draft.date?'time':null,b.ctx.draft.includedCategories.length?'included_categories':null,b.ctx.draft.budgetText?'budget':null].filter((field):field is string=>field!==null);
   const visibleItems=b.items.filter(item=>selectedFields.every(field=>item.eligibility.checks.some(check=>check.field===field&&check.status==='PASS')));
   const prefs=route.scope.kind==='PERSONAL'?await social.settings(subject.actor_id):null;
-  const ranked=prefs?.city==='Москва'?rankRecommendations(visibleItems,prefs,item=>item.candidate)
+  const ranked=prefs?.city==='Москва'?rankRecommendations(visibleItems,prefs,item=>item.candidate,b.ctx.draft.smartInterests??[])
    :prefs?[]:visibleItems.map(item=>({item,recommendation:undefined}));
-  return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:ranked.map(({item,recommendation})=>eventCard(item,b.now,['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined,recommendation)),aiState:'UNAVAILABLE',aiMessage:'Текстовый поиск выполняется по проверенному каталогу. ИИ и внешние модели отключены.'};
+  return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:ranked.map(({item,recommendation})=>{
+   const card=eventCard(item,b.now,['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined,recommendation);
+   if(b.ctx.draft.smartInterests!==undefined)card.evidenceReasons=allowedReasons(item.candidate,item.eligibility,b.ctx.hard,prefs?.interests??[],b.ctx.draft.smartInterests);
+   return card;
+  }),aiState:'UNAVAILABLE',aiMessage:'Текстовый поиск выполняется по проверенному каталогу. ИИ и внешние модели отключены.'};
  }
  async function mapped(subject:Subject,envelope:Envelope):Promise<Mapped>{
   const hash=digest(canonical(envelope)),actor=subject.actor_id,key=envelope.idempotencyKey;

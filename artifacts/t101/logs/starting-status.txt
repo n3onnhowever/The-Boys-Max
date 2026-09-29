@@ -1,8 +1,0 @@
- M docs/tasks/ACTIVE_TASK.md
-?? artifacts/
-?? docs/architecture/
-?? docs/current/POVOD_SOURCE_AUTHORITY.md
-?? docs/handoffs/T070_RESEARCH_IMPORT_PREFLIGHT.md
-?? docs/product/povod-2026-09-19/
-?? docs/research/
-?? docs/tasks/070_RESEARCH_IMPORT_PREFLIGHT.md

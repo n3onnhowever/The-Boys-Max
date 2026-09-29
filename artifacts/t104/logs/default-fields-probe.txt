@@ -1,1 +1,0 @@
-detail_default_fields 200 255.04 ms

@@ -12,6 +12,7 @@ export function rightsCheck(raw:Rights,operation:'display_facts'|'display_text'|
 }
 function budgetCheck(i:SearchIntent,c:Candidate):Check {
  const b=i.budget!,price=c.price,m=price.total_price,base={field:'budget'};
+ if(b.max_minor==='0'&&price.fees_known&&m.knownness==='KNOWN'&&m.amount.kind==='FREE')return {...base,status:'PASS',reason:'CONFIRMED_FREE'};
  if(m.knownness==='UNKNOWN')return {...base,status:'UNKNOWN',reason:'PAYABLE_TOTAL_UNKNOWN'};
  if(m.basis==='UNKNOWN')return {...base,status:'UNKNOWN',reason:'PRICE_BASIS_UNKNOWN'};
  if(m.currency!==b.currency)return {...base,status:'UNKNOWN',reason:'CURRENCY_NOT_COMPARABLE'};

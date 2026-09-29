@@ -2,19 +2,19 @@
 
 «Повод» — персональная афиша и навигатор событий внутри MAX. Продукт помогает выбрать конкретный сеанс по интересам, времени и бюджету, увидеть цену либо честный UNKNOWN, место и источник, открыть первоисточник и сохранить событие.
 
-**Текущий T102.2: T102 PASS.** Install/metadata/syntax/unit 115/115/typecheck/build, clean Docker build 25,132 с, startup, host/internal health и stop/restart прошли. API опубликован только на 127.0.0.1:3000; PostgreSQL/Redis остаются в internal backend без host ports. [Актуальный handoff](docs/handoffs/T102_2_NETWORK_MIGRATION_ACCEPTANCE.md), [evidence](artifacts/t102_2/FINAL_VERIFICATION.json). Следующие tickets не активированы.
+**Командная версия: `main`.** Принятый UI V2, backend hardening, реализация MAX E2E и Smart Occasion собраны в одну историю. Начните с [TEAM_HANDOFF_NIKITA](docs/handoffs/TEAM_HANDOFF_NIKITA.md): текущее состояние, точные команды проверок и задача подключения AI provider. Production hosting, приёмка реального MAX и live AI ещё не активированы.
 
 ## Замороженный сценарий
 
 MAX → подключённая Mini App → серверная проверка MAX identity → интересы/структурные фильтры → живые события **Москвы** → detail конкретного Occurrence → цена/UNKNOWN/источник → открыть источник. Save и базовый «Мой Повод» сохраняются между входами. Основной путь должен работать в MAX mobile и web без группы.
 
-Это целевой P0, не заявление о готовности функций. Live ingestion, Save и профиль ещё не завершены. Follow, Smart Povod и map относятся к P1; второй город и Shared Plan/social — Stretch. [Authority/overrides](docs/current/POVOD_SOURCE_AUTHORITY.md) разрешает старые противоречивые P0-флаги. [FINAL SCOPE FREEZE](docs/product/povod-2026-09-19/POVOD_FINAL_SCOPE_FREEZE_MVP.md) остаётся каноническим.
+В текущей реализации есть детерминированный каталог, Search, Save, профиль, Plans/RSVP, Friends и Notifications. Smart Occasion добавляет ограниченный structured proposal с подтверждением пользователя; внешний AI выключен. Follow-triggered отправки, map и второй город не активированы. [Authority/overrides](docs/current/POVOD_SOURCE_AUTHORITY.md) разрешает старые противоречивые P0-флаги. [FINAL SCOPE FREEZE](docs/product/povod-2026-09-19/POVOD_FINAL_SCOPE_FREEZE_MVP.md) остаётся каноническим.
 
 ## Архитектура
 
 TypeScript/Fastify API + React/Vite Mini App, модульный монолит с отдельным worker. API обслуживает собранную Mini App и HTTP routes; PostgreSQL хранит бизнес-состояние, durable ingress/outbox и результаты операций; Redis/BullMQ исполняет async-задачи. Redis также нужен outbound governor. MAX Bot API находится на сервере, MAX Bridge — на клиенте. Provider adapters отделены портами.
 
-Queue decision **BLOCKED** до T103 runtime-verification. Существующие BullMQ/Redis/outbox/governor сохранены. [Схема](docs/TARGET_ARCHITECTURE.md) описывает границы, а не наличие работающего live provider.
+Queue decision: **KEEP_EXISTING_BULLMQ**, принят после T103 runtime-verification. BullMQ/Redis/outbox/governor сохранены. [Схема](docs/TARGET_ARCHITECTURE.md) описывает границы, а не наличие работающего live provider.
 
 ## Установка и локальные проверки
 

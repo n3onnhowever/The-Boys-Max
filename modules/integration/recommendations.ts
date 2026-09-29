@@ -32,11 +32,16 @@ export function recommendationFor(candidate:Candidate,prefs:Preferences):Recomme
  return {score:(interest?4:0)+(reasons.includes('BUDGET')?2:0)+(reasons.includes('TIME')?1:0),reasons,interest};
 }
 
-export function rankRecommendations<T>(items:readonly T[],prefs:Preferences,candidate:(item:T)=>Candidate):{item:T;recommendation:Recommendation}[] {
+function interpretedInterestScore(candidate:Candidate,interests:readonly string[]):number {
+ if(!candidate.categories.mapping_verified)return 0;
+ return interests.some(raw=>candidate.categories.known.some(category=>(categoryInterest[category]??[]).some(label=>normalizeSearchText(label)===normalizeSearchText(raw))))?1:0;
+}
+export function rankRecommendations<T>(items:readonly T[],prefs:Preferences,candidate:(item:T)=>Candidate,smartInterests:readonly string[]=[]):{item:T;recommendation:Recommendation}[] {
  return items.map(item=>({item,recommendation:recommendationFor(candidate(item),prefs)})).sort((a,b)=>{
   const left=candidate(a.item),right=candidate(b.item);
   return Number(right.provenance.data_mode==='LIVE')-Number(left.provenance.data_mode==='LIVE')
    ||b.recommendation.score-a.recommendation.score
+   ||interpretedInterestScore(right,smartInterests)-interpretedInterestScore(left,smartInterests)
    ||left.provenance.observation_id.localeCompare(right.provenance.observation_id);
  });
 }

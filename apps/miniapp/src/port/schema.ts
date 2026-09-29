@@ -18,7 +18,7 @@ const base = { contract: z.literal(CONTRACT), actorId: id, route: routeSchema, a
 const price = z.object({ baseLabel: text, totalLabel: text.nullable(), basisLabel: text, fees_known: z.boolean(), warnings: z.array(text) }).strict();
 const place = z.object({ address: text, coordinates: z.object({lat: z.number().min(-90).max(90), lon: z.number().min(-180).max(180)}).strict().nullable(), navigationUrl: text.nullable(), attribution: text.nullable(), geoView: geoViewSchema.optional() }).strict();
 export const eventRef = z.object({ offerId:z.uuid(),contextRevision:count, sourceId: id, externalEventId: id, occurrenceId: id.nullable(), observationId: id }).strict();
-const event = z.object({ ref: eventRef, title: text, startLabel: text, categoryLabel: text, place, price, sourceLabel: text, sourceUrl: text.nullable(), freshnessLabel: text, eligibilityLabel: text, description: text, recommendation:z.object({score:count,reasons:z.array(z.enum(['INTEREST','BUDGET','TIME'])),interest:text.nullable()}).strict().optional() }).strict();
+const event = z.object({ ref: eventRef, title: text, startLabel: text, categoryLabel: text, place, price, sourceLabel: text, sourceUrl: text.nullable(), freshnessLabel: text, eligibilityLabel: text, description: text, recommendation:z.object({score:count,reasons:z.array(z.enum(['INTEREST','BUDGET','TIME'])),interest:text.nullable()}).strict().optional(),evidenceReasons:z.array(z.object({code:z.enum(['CATEGORY_MATCH','TIME_MATCH','BUDGET_FIT','INTEREST_MATCH']),text,observation_id:id,check:text,source:z.enum(['request','saved_preference'])}).strict()).optional() }).strict();
 const answer = z.enum(['CAN', 'CANNOT', 'UNKNOWN', 'MISSING', 'STALE']);
 const option = z.object({ optionId: id, snapshotId: id, termsRevision: count, presentationRevision: count, title: text, startLabel: text, startLocal: text, timeZone: text, price, place, description: text, eligibility: z.enum(['READY','PROVISIONAL','BLOCKED']), eligibilityMessage: text, aggregate: z.object({CAN:count,CANNOT:count,UNKNOWN:count,MISSING:count,STALE:count}).strict(), selfAnswer: answer }).strict();
 const organizer = z.object({
@@ -26,7 +26,7 @@ const organizer = z.object({
   joinRequests: z.array(z.object({requestId:id,actorId:id,displayName:text,state:z.enum(['PENDING','ACTIVE'])}).strict()),
   responseRows: z.array(z.object({displayName:text,optionId:id,value:answer}).strict()),
 }).strict();
-export const querySchema = z.object({ text, city:text, date:text, startLocal:text, endLocal:text, timeZone:text, excludeCategories:z.array(text),includedCategories:z.array(text), participants:text, budgetText:text, budgetCurrency:z.literal('RUB'), priceBasis:z.enum(['PER_PERSON','GROUP_TOTAL','UNKNOWN']) }).strict();
+export const querySchema = z.object({ text, city:text, date:text, dateThrough:text.optional(),freeOnly:z.boolean().optional(),smartInterests:z.array(z.string().max(40)).max(8).optional(),startLocal:text, endLocal:text, timeZone:text, excludeCategories:z.array(text),includedCategories:z.array(text), participants:text, budgetText:text, budgetCurrency:z.literal('RUB'), priceBasis:z.enum(['PER_PERSON','GROUP_TOTAL','UNKNOWN']) }).strict();
 export const viewSchema: z.ZodType<View> = z.discriminatedUnion('kind', [
   z.object({...base,kind:z.literal('CATALOG'),query:querySchema,approvedFilterLabels:z.array(text),events:z.array(event),aiState:z.enum(['AVAILABLE','UNAVAILABLE']),aiMessage:text}).strict(),
   z.object({...base,kind:z.literal('EVENT'),event,targetPlanId:id.nullable(),unknownReasons:z.array(text)}).strict(),

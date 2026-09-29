@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "D:\Dev\Repos\The-Boys-Max-t104\artifacts\t104\final_verify.py", line 54, in <module>
-    checks={n:next(c for c in reversed(commands) if c['name']==n)['exit_code'] for n in required_checks};assert all(v==0 for v in checks.values())
-                                                                                                                ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

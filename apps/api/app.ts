@@ -24,7 +24,9 @@ import {CoreError} from '../../modules/search/core/guard.ts';
 import {routeSchema as uiRoute,envelopeSchema as uiEnvelope,viewSchema as uiView} from '../miniapp/src/port/schema.ts';
 import * as S from '../../packages/contracts/http.ts';
 import {launchLink,launchParam} from '../../packages/platform/links.ts';
-export async function buildApp(c:Config){
+import {smartOccasionService} from '../../modules/ai/smart-service.ts';
+import type {SmartOccasionProvider} from '../../modules/ai/port.ts';
+export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null=null){
  const app=Fastify({bodyLimit:73728,logger:false,disableRequestLogging:true,genReqId:()=>randomUUID(),trustProxy:false}).withTypeProvider<ZodTypeProvider>();
  app.setValidatorCompiler(validatorCompiler);app.setSerializerCompiler(serializerCompiler);
  app.removeContentTypeParser('application/json');
@@ -33,12 +35,16 @@ export async function buildApp(c:Config){
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
  const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode),social=socialService(pool);
  const ui=uiService(pool,plans,c);
+ // Test-only injection until a separately approved live provider and durable quota exist.
+ const smart=smartOccasionService(c.mode==='test'?smartProvider:null);
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};
  const header=(r:FastifyRequest,name:string)=>{const h=r.headers[name];return typeof h==='string'?h:undefined;};
  const origin=(r:FastifyRequest)=>requireThat(header(r,'origin')===c.publicOrigin,'ORIGIN_INVALID',403);
  const readOrigin=(r:FastifyRequest)=>{if(header(r,'origin')!==undefined)origin(r);requireThat(header(r,'sec-fetch-site')!=='cross-site','ORIGIN_INVALID',403);};
  const json=(r:FastifyRequest)=>requireThat(/^application\/json(?:\s*;.*)?$/i.test(header(r,'content-type')??''),'JSON_REQUIRED',415);
  const auth=async(r:FastifyRequest,write=false)=>{readOrigin(r);if(write){origin(r);json(r);requireThat(header(r,'x-csrf-token'),'CSRF_REQUIRED',403);}return sessions.authenticate(r.cookies['__Host-max_session'],write?header(r,'x-csrf-token'):undefined);};
+ app.post('/api/v1/ai/smart-occasion/propose',{schema:{body:z.strictObject({text:z.string().min(1).max(240)}),security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r,true);return smart.propose(s.actor.id,s.id,r.body.text);});
+ app.post('/api/v1/ai/smart-occasion/accept',{schema:{body:z.strictObject({proposalId:z.uuid(),budgetBasis:z.enum(['PER_PERSON','GROUP_TOTAL']).nullable()}),security:[{sessionCookie:[]}]}},async r=>{const s=await auth(r,true);try{return smart.accept(s.actor.id,s.id,r.body.proposalId,r.body.budgetBasis);}catch(error){throw new AppError(error instanceof Error?error.message:'AI_ACCEPT_INVALID',422);}});
  app.addHook('onSend',async(_r,reply,payload)=>{reply.header('Cache-Control','no-store');reply.header('X-Content-Type-Options','nosniff');reply.header('Referrer-Policy','no-referrer');return payload;});
  app.addHook('onResponse',async(r,reply)=>{console.log(JSON.stringify({event:'http_end',requestId:r.id,route:r.routeOptions.url,status:reply.statusCode}));});
  app.setErrorHandler((err,req,reply)=>{

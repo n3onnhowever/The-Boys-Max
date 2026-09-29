@@ -1,8 +1,0 @@
-
-> the-boys-afisha-integration@0.2.0-candidate typecheck
-> node scripts/patch-drizzle-declarations.mjs && tsc --noEmit
-
-Drizzle 0.45.2: 15 declaration corrections applied; 15 verified
-node_modules/drizzle-orm/gel-core/query-builders/query.d.ts(33,15): error TS2304: Cannot find name 'SQL'.
-node_modules/drizzle-orm/pg-core/query-builders/query.d.ts(33,15): error TS2304: Cannot find name 'SQL'.
-node_modules/drizzle-orm/sqlite-core/query-builders/query.d.ts(33,15): error TS2304: Cannot find name 'SQL'.

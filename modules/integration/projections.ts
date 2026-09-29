@@ -22,12 +22,14 @@ export function fromUiDraft(d:UiDraft,ctx:SemanticContext):SearchIntent {
  const i=defaultIntent(),city=[...ctx.cities].find(([id,c])=>id===d.city.trim()||c.label.toLocaleLowerCase('ru')===d.city.trim().toLocaleLowerCase('ru'));
  if(d.city.trim()){requireThat(city,'CITY_NEEDS_RESOLUTION',422);i.city={id:city[0],label:city[1].label};}
  i.timezone=d.timeZone.trim()||null;
- if(d.date)i.date={kind:'EXACT',on:d.date};
+ requireThat(!d.dateThrough||d.date,'DATE_FROM_REQUIRED',422);
+ if(d.date)i.date=d.dateThrough&&d.dateThrough!==d.date?{kind:'RANGE',from:d.date,through:d.dateThrough}:{kind:'EXACT',on:d.date};
  if(d.startLocal||d.endLocal){requireThat(d.startLocal&&d.endLocal,'TIME_WINDOW_INCOMPLETE',422);i.time_window={start:d.startLocal,end:d.endLocal,end_day_offset:0,mode:'STARTS_WITHIN'};}
  i.included_categories=d.includedCategories as SearchIntent['included_categories'];
  i.excluded_categories=d.excludeCategories as SearchIntent['excluded_categories'];
  if(d.participants){requireThat(/^[1-9]\d{0,2}$/.test(d.participants),'SEARCH_QUANTITY',422);i.interested_count=Number(d.participants);}
  if(d.budgetText){requireThat(d.priceBasis!=='UNKNOWN','PRICE_BASIS_REQUIRED',422);i.budget={max_minor:rublesToMinor(d.budgetText),currency:d.budgetCurrency,basis:d.priceBasis};}
+ if(d.freeOnly)requireThat(d.budgetText==='0'&&d.priceBasis==='PER_PERSON','FREE_FILTER_INVALID',422);
  return validateIntent(i,ctx);
 }
 /** Model20 supplies a draft only. Capability and explicit confirmation are subsequent operations. */

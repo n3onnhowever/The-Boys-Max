@@ -15,7 +15,7 @@ export interface Revision {
   terms_revision: number | null;
 }
 export interface SearchDraft {
-  text: string; city: string; date: string; startLocal: string; endLocal: string;
+  text: string; city: string; date: string; dateThrough?:string; freeOnly?:boolean; smartInterests?:string[]; startLocal: string; endLocal: string;
   timeZone: string; excludeCategories: string[]; includedCategories: string[]; participants: string;
   budgetText: string; budgetCurrency: 'RUB'; priceBasis: 'PER_PERSON' | 'GROUP_TOTAL' | 'UNKNOWN';
 }
@@ -41,6 +41,7 @@ export interface EventCardView {
   place: PlaceView; price: PriceView; sourceLabel: string; sourceUrl: string | null;
   freshnessLabel: string; eligibilityLabel: string; description: string;
   recommendation?: {score:number;reasons:('INTEREST'|'BUDGET'|'TIME')[];interest:string|null};
+  evidenceReasons?:{code:'CATEGORY_MATCH'|'TIME_MATCH'|'BUDGET_FIT'|'INTEREST_MATCH';text:string;observation_id:string;check:string;source:'request'|'saved_preference'}[];
 }
 export type Feasibility = 'CAN' | 'CANNOT' | 'UNKNOWN';
 export type ActionName = 'SEARCH' | 'ADD_TO_PLAN' | 'CREATE_OWNED_OPTION' | 'CREATE_INVITE'

@@ -13,6 +13,7 @@ import { SelectedFilterChip } from './SelectedFilterChip.tsx';
 import { SortTabs } from './SortTabs.tsx';
 import { BrandHeader } from './BrandHeader.tsx';
 import { RUNTIME_CATEGORY_OPTIONS } from '../view-model/search.ts';
+import type {SmartProposal} from '../../../../modules/ai/smart-occasion.ts';
 
 interface SearchScreenProps {
   model: SearchViewModel;
@@ -29,9 +30,10 @@ interface SearchScreenProps {
   searchText?:string;
   onSearchText?:(value:string)=>void;
   savedIds?:readonly string[];canSave?:(id:string)=>boolean;onSave?:(id:string)=>void;saveError?:string;
+  smart?:{proposal:(SmartProposal&{proposalId:string;review:{dateFrom:string|null;dateTo:string|null}})|null;error:string|null;busy:boolean;onPropose:()=>void;onAccept:(basis:'PER_PERSON'|'GROUP_TOTAL'|null)=>void;onDismiss:()=>void};
 }
 
-export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, onNavigate, onEventOpen, runtime, unsupportedCity, cityLoading = false, onNotifications, onCity, city, searchText, onSearchText, savedIds=[], canSave, onSave, saveError }: SearchScreenProps) {
+export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, onNavigate, onEventOpen, runtime, unsupportedCity, cityLoading = false, onNotifications, onCity, city, searchText, onSearchText, savedIds=[], canSave, onSave, saveError, smart }: SearchScreenProps) {
   const [state, dispatch] = useReducer(searchUiReducer, undefined, () => createSearchUiState(model, initialFilterSheetOpen));
   const [runtimeSheetOpen, setRuntimeSheetOpen] = useState(false);
   const [runtimeDraft, setRuntimeDraft] = useState<SearchDraft | null>(null);
@@ -43,8 +45,8 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
   const openFilters = () => runtime ? (setRuntimeDraft({ ...runtime.query, includedCategories: [...runtime.query.includedCategories] }), setRuntimeSheetOpen(true)) : act({ type: 'OPEN_FILTERS' });
   const removeRuntimeFilter = (key: string, value: string) => {
     if (!runtime) return;
-    runtime.onApply({ ...runtime.query, text: '', date: key === 'date' ? '' : runtime.query.date,
-      budgetText:key==='price'?'':runtime.query.budgetText,priceBasis:key==='price'?'UNKNOWN':runtime.query.priceBasis,
+    runtime.onApply({ ...runtime.query, text: '', date: key === 'date' ? '' : runtime.query.date,dateThrough:key==='date'?undefined:runtime.query.dateThrough,
+      budgetText:key==='price'?'':runtime.query.budgetText,priceBasis:key==='price'?'UNKNOWN':runtime.query.priceBasis,freeOnly:key==='price'?false:runtime.query.freeOnly,
       includedCategories: key === 'category' ? runtime.query.includedCategories.filter(category => category !== value) : runtime.query.includedCategories });
   };
   return <AppViewport>
@@ -59,6 +61,16 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
         <SearchBar value={runtime ? effectiveText : state.applied.query} onChange={value => runtime?(onSearchText??setText)(value):act({ type: 'SET_QUERY', value })}
           placeholder="Куда идём?" />
       </form>
+      {runtime&&smart&&<section className="v2-discovery" aria-label="Умный повод">
+        {!smart.proposal&&<button type="button" className="v2-button v2-button-secondary" disabled={smart.busy||!effectiveText.trim()} onClick={smart.onPropose}>Разобрать запрос</button>}
+        {smart.error&&<p className="v2-error" role="alert">{smart.error}</p>}
+        {smart.proposal&&<div role="group" aria-label="Проверьте условия поиска"><h2>Проверьте условия</h2>
+          <p>{[smart.proposal.review.dateFrom&&`Дата: ${smart.proposal.review.dateFrom}${smart.proposal.review.dateTo&&smart.proposal.review.dateTo!==smart.proposal.review.dateFrom?' — '+smart.proposal.review.dateTo:''}`,smart.proposal.draft.daypart&&`Время: ${{MORNING:'утром',DAY:'днём',EVENING:'вечером',NIGHT:'ночью'}[smart.proposal.draft.daypart]}`,smart.proposal.draft.categories.length&&`Категория: ${smart.proposal.draft.categories.map(category=>RUNTIME_CATEGORY_OPTIONS.find(option=>option.id===category)?.label??category).join(', ')}`,smart.proposal.draft.budget_max!==null&&`До ${smart.proposal.draft.budget_max} ₽`,smart.proposal.draft.free_only&&'Только бесплатно',smart.proposal.draft.city&&`Город: ${smart.proposal.draft.city}`,smart.proposal.draft.party_size&&`Участников: ${smart.proposal.draft.party_size}`,smart.proposal.draft.interests.length&&`Интересы: ${smart.proposal.draft.interests.join(', ')}`,smart.proposal.draft.mood_tags.length&&`Настроение: ${smart.proposal.draft.mood_tags.join(', ')}`,smart.proposal.draft.radius_preference==='NEARBY'&&'Поблизости'].filter(Boolean).join(' · ')||'Условия не распознаны'}</p>
+          {smart.proposal.clarification?<><p>{smart.proposal.clarification.question}</p>{smart.proposal.clarification.code==='BUDGET_BASIS'&&<><button type="button" className="v2-button v2-button-secondary" disabled={smart.busy} onClick={()=>smart.onAccept('GROUP_TOTAL')}>На всех</button><button type="button" className="v2-button v2-button-secondary" disabled={smart.busy} onClick={()=>smart.onAccept('PER_PERSON')}>На человека</button></>}</>
+            :<button type="button" className="v2-button v2-button-primary" disabled={smart.busy} onClick={()=>smart.onAccept(null)}>Применить условия</button>}
+          <button type="button" className="v2-button v2-button-secondary" onClick={smart.onDismiss}>Отмена</button>
+        </div>}
+      </section>}
       <div className="search-selected-filters" aria-label="Выбранные фильтры">
         {selected.map(filter => <SelectedFilterChip key={filter.id} filter={filter} onRemove={() => runtime ? removeRuntimeFilter(filter.key, filter.value) : act({ type: 'REMOVE_FILTER', key: filter.key, value: filter.value })} />)}
       </div>
@@ -86,7 +98,7 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
     <FilterSheet open={runtime ? runtimeSheetOpen : state.sheetOpen} filters={state.draft} onAction={act}
       runtime={runtime && runtimeDraft ? { draft: runtimeDraft, busy: runtime.busy,
         onChange: setRuntimeDraft, onClose: () => setRuntimeSheetOpen(false),
-        onReset: () => setRuntimeDraft({ ...runtimeDraft, date: '', includedCategories: [],budgetText:'',priceBasis:'UNKNOWN' }),
-        onApply: () => { runtime.onApply({ ...runtimeDraft, text: '' }); setRuntimeSheetOpen(false); } } : undefined} />
+        onReset: () => setRuntimeDraft({ ...runtimeDraft, date: '',dateThrough:undefined,freeOnly:false,smartInterests:[],includedCategories: [],budgetText:'',priceBasis:'UNKNOWN' }),
+        onApply: () => { runtime.onApply({ ...runtimeDraft, text: '',dateThrough:runtimeDraft.date===runtime?.query.date?runtimeDraft.dateThrough:undefined,freeOnly:runtimeDraft.budgetText===runtime?.query.budgetText?runtimeDraft.freeOnly:false,smartInterests:[] }); setRuntimeSheetOpen(false); } } : undefined} />
   </AppViewport>;
 }

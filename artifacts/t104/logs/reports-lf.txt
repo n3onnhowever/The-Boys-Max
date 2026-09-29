@@ -1,1 +1,0 @@
-reports written {'unique_events': 205, 'null_place': 53, 'missing_venue_coordinates': 68, 'empty_price': 27, 'missing_source_url': 0, 'event_with_null_end_time': 163, 'event_with_schedule': 66, 'dates_over_50': 35}

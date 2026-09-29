@@ -1,5 +1,0 @@
-
-> the-boys-afisha-integration@0.2.0-candidate migrate
-> node --experimental-strip-types scripts/migrate.ts
-
-{"migration":"0004","status":"APPLIED","sha256":"d14cef7b400fc9eb78fac5f81a2cef8e78519afd448160ec8c0d8e6865cb829e"}

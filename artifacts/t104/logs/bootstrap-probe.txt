@@ -1,5 +1,0 @@
-Reconstructed request summary from captured receipts; not original process stdout. Tool completion exit 0 observed.
-categories HTTP 200 248.67 ms UTC 2026-09-19T07:32:05.613939+00:00
-moscow HTTP 200 133.72 ms UTC 2026-09-19T07:32:07.063349+00:00
-first_moscow HTTP 200 1825.35 ms UTC 2026-09-19T07:32:08.397823+00:00
-official_docs HTTP 200 351.73 ms UTC 2026-09-19T07:32:11.425438+00:00

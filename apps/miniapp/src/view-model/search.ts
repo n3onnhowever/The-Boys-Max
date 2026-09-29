@@ -12,13 +12,13 @@ export function runtimeSelectedFilterChips(query: SearchDraft): SelectedFilterVi
   if (query.date) {
     const date = new Date(`${query.date}T12:00:00Z`);
     selected.push({ id: `date:${query.date}`, key: 'date', value: query.date,
-      label: Number.isNaN(date.getTime()) ? query.date : new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(date), icon: 'calendar' });
+      label: Number.isNaN(date.getTime()) ? query.date : new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(date)+(query.dateThrough&&query.dateThrough!==query.date?' — '+new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(`${query.dateThrough}T12:00:00Z`)):'') , icon: 'calendar' });
   }
   for (const category of query.includedCategories) {
     selected.push({ id: `category:${category}`, key: 'category', value: category,
       label: RUNTIME_CATEGORY_OPTIONS.find(option => option.id === category)?.label ?? 'Категория', icon: 'music' });
   }
-  if(query.budgetText)selected.push({id:`price:${query.budgetText}`,key:'price',value:query.budgetText,label:`До ${query.budgetText} ₽`,icon:'coins'});
+  if(query.budgetText)selected.push({id:`price:${query.budgetText}`,key:'price',value:query.budgetText,label:query.freeOnly?'Бесплатно':`До ${query.budgetText} ₽`,icon:'coins'});
   return selected;
 }
 
@@ -102,6 +102,7 @@ export interface SearchEventViewModel {
   artworkAlt: string;
   saved: boolean;
   categoryLabel?:string;
+  reasonLabels?:string[];
 }
 
 export interface SearchViewModel {
@@ -270,6 +271,7 @@ export function catalogToSearchViewModel(view: CatalogView): SearchViewModel {
       artworkAlt: '',
       saved: false,
       categoryLabel:event.categoryLabel,
+      reasonLabels:event.evidenceReasons?.map(reason=>reason.text),
     })),
   };
 }

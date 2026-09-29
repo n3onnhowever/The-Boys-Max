@@ -1,6 +1,0 @@
-
-> the-boys-afisha-integration@0.2.0-candidate typecheck
-> tsc --noEmit
-
-'tsc' is not recognized as an internal or external command,
-operable program or batch file.

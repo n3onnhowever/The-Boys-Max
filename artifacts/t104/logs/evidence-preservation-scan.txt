@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "D:\Dev\Repos\The-Boys-Max-t104\artifacts\t104\final_verify.py", line 56, in <module>
-    if 'log' in command:assert digest(OUT/command['log'])==command['log_sha256'],command['name']
-                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: bootstrap-probe

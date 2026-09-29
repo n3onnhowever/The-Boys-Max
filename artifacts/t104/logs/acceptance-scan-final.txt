@@ -1,1 +1,0 @@
-{"status": "PASS", "receipt_count": 29, "credential_findings": 0, "prohibited_files": 0, "unexpected_scope_changes": [], "new_files": 112}

@@ -80,6 +80,7 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
     }
     if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||e.status==='FAIL')continue;
     if(!matchesCandidateText(c,words))continue;
+    if(!ref&&ctx.draft.freeOnly&&!(c.price.fees_known&&c.price.total_price.knownness==='KNOWN'&&c.price.total_price.amount.kind==='FREE'))continue;
     if(!verifiedFields.every(field=>e.checks.some(check=>check.field===field&&check.status==='PASS')))continue;
     const offer=await db.query<{id:string}>(`INSERT INTO catalog_choices(id,actor_id,session_id,context_id,context_revision,observation_id,expires_at)
      VALUES($1,$2,$3,$4,$5,$6,clock_timestamp()+interval '15 minutes')

@@ -10,6 +10,7 @@ import {wallTime} from '../../modules/integration/projections.ts';
 import {envelopeFor} from '../../apps/miniapp/src/core/commands.ts';
 import {socialService} from '../../packages/persistence/social.ts';
 import type {Route,View,PlanView,CatalogView,EventView,Command,Envelope,Receipt} from '../../apps/miniapp/src/port/contracts.ts';
+import type {SmartOccasionProvider} from '../../modules/ai/port.ts';
 const cfg=config();assert.equal(process.env.RUN_MAX23_INTEGRATION,'1');assert.equal(cfg.mode,'test');assert.equal(new URL(cfg.databaseUrl).pathname,'/max23_test');
 const {app,pool,sessions}=await buildApp(cfg);
 type Auth={token:string;body:{actor:{id:string};csrfToken:string}};
@@ -112,4 +113,27 @@ test('visible budget results require a verified payable total within the cap',as
  assert.equal(high.statusCode,200,high.body);
  const highView=high.json<Receipt>().view as CatalogView;
  assert.ok(highView.events.some(e=>e.ref.observationId===observation),'verified 530 RUB total must match a 600 RUB chip');
+});
+
+test('Smart Occasion proposal stays session-bound and leaves Search unchanged until accepted command',async()=>{
+ const actor=await session(),other=await session(),scope={kind:'PERSONAL' as const};
+ const provider:SmartOccasionProvider={contractVersion:'smart-occasion-intent/1',parseIntent:async()=>({kind:'UNAVAILABLE',reason:'unused'}),interpretSmartOccasion:async()=>({query_text:'вдвоём до 3000 ₽',date_from:null,date_to:null,daypart:null,categories:[],interests:[],budget_max:3000,free_only:false,city:null,radius_preference:null,social_context:'PAIR',party_size:2,mood_tags:[],hard_constraints:['BUDGET'],soft_preferences:['SOCIAL_CONTEXT'],clarification_required:false,clarification_question:null})};
+ const injected=await buildApp(cfg,provider);await injected.app.ready();
+ try{
+  const original=await get(actor,{kind:'CATALOG',scope}) as CatalogView;
+  const path='/api/v1/ai/smart-occasion/propose';
+  const noCsrf=await injected.app.inject({method:'POST',url:path,headers:{...headers(actor),'x-csrf-token':''},payload:{text:'вдвоём до 3000 ₽'}});
+  assert.equal(noCsrf.statusCode,403);
+  const proposal=await injected.app.inject({method:'POST',url:path,headers:headers(actor),payload:{text:'вдвоём до 3000 ₽'}});
+  assert.equal(proposal.statusCode,200,proposal.body);assert.equal(proposal.json().state,'REVIEW');assert.equal(proposal.json().clarification.code,'BUDGET_BASIS');assert.equal('events' in proposal.json(),false);
+  assert.deepEqual((await get(actor,{kind:'CATALOG',scope}) as CatalogView).query,original.query);
+  const accept='/api/v1/ai/smart-occasion/accept',payload={proposalId:proposal.json().proposalId,budgetBasis:'GROUP_TOTAL'};
+  assert.equal((await injected.app.inject({method:'POST',url:accept,headers:headers(other),payload})).statusCode,422);
+  const accepted=await injected.app.inject({method:'POST',url:accept,headers:headers(actor),payload});assert.equal(accepted.statusCode,200,accepted.body);
+  assert.equal(accepted.json().searchDraft.priceBasis,'GROUP_TOTAL');
+  assert.deepEqual((await get(actor,{kind:'CATALOG',scope}) as CatalogView).query,original.query);
+  const applied=await post(actor,envelopeFor(original,{type:'SEARCH',scope,draft:accepted.json().searchDraft},randomUUID()));
+  assert.equal(applied.statusCode,200,applied.body);
+  assert.equal((applied.json<Receipt>().view as CatalogView).query.priceBasis,'GROUP_TOTAL');
+ }finally{await injected.app.close();}
 });

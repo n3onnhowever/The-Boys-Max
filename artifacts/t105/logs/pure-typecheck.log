@@ -1,4 +1,0 @@
-
-> the-boys-afisha-integration@0.2.0-candidate typecheck:pure
-> tsc --noEmit -p tsconfig.pure.json
-exit=0

@@ -1,2 +1,0 @@
-{"database":"UP","outboundHold":false}
-HTTP_STATUS=200

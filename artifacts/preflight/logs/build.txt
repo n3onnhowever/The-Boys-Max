@@ -1,6 +1,0 @@
-
-> the-boys-afisha-integration@0.2.0-candidate build
-> tsc -p tsconfig.build.json && node scripts/copy-assets.mjs && vite build apps/miniapp
-
-'tsc' is not recognized as an internal or external command,
-operable program or batch file.

@@ -1,8 +1,0 @@
-NAME                                     IMAGE                                 COMMAND                  SERVICE    CREATED          STATUS                     PORTS
-the-boys-integration26-test-api-1        the-boys-integration26-test-api       "docker-entrypoint.s…"   api        5 minutes ago    Exited (0) 3 minutes ago   
-the-boys-integration26-test-init-1       node:24.20.0-bookworm-slim            "docker-entrypoint.s…"   init       28 minutes ago   Exited (0) 4 minutes ago   
-the-boys-integration26-test-migrate-1    the-boys-integration26-test-migrate   "docker-entrypoint.s…"   migrate    5 minutes ago    Exited (0) 4 minutes ago   
-the-boys-integration26-test-postgres-1   postgres:18.6                         "docker-entrypoint.s…"   postgres   28 minutes ago   Exited (0) 3 minutes ago   
-the-boys-integration26-test-prepare-1    the-boys-integration26-test-prepare   "docker-entrypoint.s…"   prepare    5 minutes ago    Exited (0) 4 minutes ago   
-the-boys-integration26-test-redis-1      redis:8.2.9                           "docker-entrypoint.s…"   redis      28 minutes ago   Exited (0) 3 minutes ago   
-the-boys-integration26-test-worker-1     the-boys-integration26-test-worker    "docker-entrypoint.s…"   worker     5 minutes ago    Exited (0) 3 minutes ago   

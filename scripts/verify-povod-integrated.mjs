@@ -33,16 +33,19 @@ try {
   if (!options['no-capture']) {
     const widths = (options.widths || '390,360,430').split(',').map(Number);
     for (const width of widths) {
-      const routes = scope === 'states' ? states : scope === 'saved' ? ['saved'] : width === 390 ? [...primary, ...variants] : core;
+      const routes = scope === 'states' ? states : scope === 'saved' ? ['saved'] : scope === 'detail-navigation' ? ['saved', 'detail', ...variants.filter(route => route.startsWith('detail-'))] : width === 390 ? [...primary, ...variants] : core;
       const directory = options.layout === 'legacy-states' ? output : path.join(output, String(width));
       await mkdir(directory, { recursive: true });
       for (const route of routes) {
         const page = await browser.open(urlFor(route), width);
-        const layout = await browser.evaluate(page, `(()=>{const nav=document.querySelector('.bottom-nav');const rect=nav.getBoundingClientRect();return {viewport:innerWidth,documentWidth:document.documentElement.scrollWidth,navCount:document.querySelectorAll('.bottom-nav').length,navItems:nav.querySelectorAll('button').length,active:nav.querySelector('[aria-current="page"]')?.textContent.trim(),navBottom:rect.bottom,brokenImages:[...document.images].filter(image=>!image.complete||!image.naturalWidth).length,offlineCopyWidths:[...document.querySelectorAll('.offline-content .event-list-copy')].map(node=>node.getBoundingClientRect().width)}})()`);
+        const layout = await browser.evaluate(page, `(()=>{const nav=document.querySelector('.bottom-nav');return {viewport:innerWidth,documentWidth:document.documentElement.scrollWidth,navCount:document.querySelectorAll('.bottom-nav').length,navItems:nav?.querySelectorAll('button').length??0,active:nav?.querySelector('[aria-current="page"]')?.textContent.trim(),navBottom:nav?.getBoundingClientRect().bottom??null,backHeader:!!document.querySelector('.v2-back-header .v2-back'),brokenImages:[...document.images].filter(image=>!image.complete||!image.naturalWidth).length,offlineCopyWidths:[...document.querySelectorAll('.offline-content .event-list-copy')].map(node=>node.getBoundingClientRect().width)}})()`);
         assert.equal(layout.viewport, width); assert.ok(layout.documentWidth <= width, route + ' horizontal overflow');
-        assert.equal(layout.navCount, 1); assert.equal(layout.navItems, 5); assert.equal(layout.brokenImages, 0); assert.ok(Math.abs(layout.navBottom - 844) < 1);
+        const detailRoute = route === 'detail' || route.startsWith('detail-');
+        assert.equal(layout.brokenImages, 0);
+        if (detailRoute) { assert.equal(layout.navCount, 0); assert.equal(layout.backHeader, true); }
+        else { assert.equal(layout.navCount, 1); assert.equal(layout.navItems, 5); assert.ok(Math.abs(layout.navBottom - 844) < 1); }
         const expectedActive = ['search', 'filters'].includes(route) ? 'Поиск' : ['saved', 'profile'].includes(route) ? 'Профиль' : route.startsWith('plan-detail') || route === 'my-plans' ? 'План' : 'Главная';
-        assert.equal(layout.active, expectedActive, route + ' active navigation');
+        if (!detailRoute) assert.equal(layout.active, expectedActive, route + ' active navigation');
         assert.ok(layout.offlineCopyWidths.every(value => value > 150), 'Offline retains readable shared row geometry');
         const filename = options.layout === 'legacy-states' ? route + '-' + width + '.png' : route + '.png';
         await browser.capture(page, path.join(directory, filename));
@@ -51,7 +54,7 @@ try {
       }
     }
   }
-  if (scope === 'all' || scope === 'saved') {
+  if (scope === 'all' || scope === 'saved' || scope === 'detail-navigation') {
     await check('Saved segments, remove, undo, empty and selected-event navigation', async () => {
       const page = await browser.open(urlFor('saved'));
       const count = () => browser.evaluate(page, "document.querySelectorAll('.event-list-card').length");
@@ -60,10 +63,27 @@ try {
       await click(page, '.save-action'); await click(page, '.save-action'); assert.equal(await count(), 0);
       assert.ok(await browser.evaluate(page, "Boolean(document.querySelector('.saved-empty'))"));
       await click(page, '#saved-tab-upcoming'); await navigate(page, '.event-list-open', 'detail');
-      assert.equal(await browser.evaluate(page, "document.querySelector('h1').textContent"), 'БИКИНИ KILL');
-      assert.equal(await browser.evaluate(page, "document.querySelector('.bottom-nav [aria-current]').textContent.trim()"), 'Профиль');
+      assert.equal(await browser.evaluate(page, "document.querySelector('#event-detail-title').textContent"), 'БИКИНИ KILL');
+      assert.equal(await browser.evaluate(page, "document.querySelector('.v2-back-header h1').textContent"), 'Событие');
+      assert.equal(await browser.evaluate(page, "document.querySelectorAll('.bottom-nav').length"), 0);
       const eventId = await browser.evaluate(page, "new URL(location.href).searchParams.get('event')");
+      await navigate(page, '.v2-back', 'saved');
+      assert.equal(await browser.evaluate(page, "document.querySelector('.bottom-nav [aria-current]').textContent.trim()"), 'Профиль');
       await browser.closePage(page); return { upcoming: 6, later: 2, empty: 0, eventId };
+    });
+  }
+  if (scope === 'detail-navigation') {
+    await check('Accepted V2 detail returns to Search and retains header Save', async () => {
+      const page = await browser.open(urlFor('search'));
+      await navigate(page, '.event-list-open', 'detail');
+      assert.equal(await browser.evaluate(page, "document.querySelectorAll('.bottom-nav').length"), 0);
+      const selector = '.v2-detail-header-actions button[aria-pressed]';
+      const before = await browser.evaluate(page, `document.querySelector('${selector}').getAttribute('aria-pressed')`);
+      await click(page, selector);
+      assert.notEqual(await browser.evaluate(page, `document.querySelector('${selector}').getAttribute('aria-pressed')`), before);
+      await navigate(page, '.v2-back', 'search');
+      assert.equal(await browser.evaluate(page, "document.querySelector('.bottom-nav [aria-current]').textContent.trim()"), 'Поиск');
+      await browser.closePage(page); return { backDestination: 'search', headerSave: true };
     });
   }
   if (scope === 'all') {
@@ -86,6 +106,8 @@ try {
       await click(page, '.search-filter-controls button'); await click(page, '.filter-sheet-close');
       assert.equal(await browser.evaluate(page, "document.querySelector('.filter-sheet-layer').getAttribute('aria-hidden')"), 'true');
       await navigate(page, '.event-list-open', 'detail');
+      assert.equal(await browser.evaluate(page, "document.querySelectorAll('.bottom-nav').length"), 0);
+      await navigate(page, '.v2-back', 'search');
       assert.equal(await browser.evaluate(page, "document.querySelector('.bottom-nav [aria-current]').textContent.trim()"), 'Поиск');
       await browser.closePage(page); return { sort: true, filters: true, detail: true };
     });
@@ -98,10 +120,10 @@ try {
         if (route === 'detail-source-unavailable') assert.equal(await browser.evaluate(page, "document.querySelector('.detail-primary-action').disabled"), true);
         await browser.closePage(page);
       }
-      const page = await browser.open(urlFor('detail')); await click(page, '.event-detail-heart');
-      assert.ok(await browser.evaluate(page, "document.querySelector('.event-detail-heart').classList.contains('is-saved')"));
+      const page = await browser.open(urlFor('detail')); await click(page, '.v2-detail-header-actions button[aria-pressed]');
+      assert.equal(await browser.evaluate(page, "document.querySelector('.v2-detail-header-actions button[aria-pressed]').getAttribute('aria-pressed')"), 'true');
       await browser.evaluate(page, 'scrollTo(0,document.documentElement.scrollHeight)');
-      assert.ok(await browser.evaluate(page, "document.querySelector('.detail-attendance').getBoundingClientRect().bottom <= document.querySelector('.bottom-nav').getBoundingClientRect().top"));
+      assert.ok(await browser.evaluate(page, "document.querySelector('.detail-attendance').getBoundingClientRect().bottom <= innerHeight"));
       await browser.closePage(page); return Object.keys(expected);
     });
     await check('Profile VK+OK placeholders, preference editing and Saved subsection', async () => {
@@ -160,7 +182,9 @@ try {
     }
   }
   const previewApiRequests = browser.requests.filter(request => request.url.includes('/api/') && !normalSessionIds.has(request.sessionId));
-  assert.equal(previewApiRequests.length, 0);
+  // Accepted V2 Saved mounts useUnreadCount. The static verifier has no authenticated
+  // backend; allow only this read and continue rejecting every fixture mutation.
+  assert.deepEqual(previewApiRequests.filter(request => request.method !== 'GET' || request.url !== origin + '/api/v1/me/notifications/count'), []);
   assert.equal(browser.errors.length, 0, JSON.stringify(browser.errors));
   const externalRequests = browser.requests.filter(request => /^https?:/.test(request.url) && new URL(request.url).origin !== origin && request.url !== 'https://st.max.ru/js/max-web-app.js');
   assert.deepEqual(externalRequests, []);

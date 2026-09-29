@@ -21,6 +21,7 @@ export function EventCardList({ events, savedEventIds, onSave, canSave, onOpen, 
           <span className="event-list-date">{event.dateTimeLabel}</span>
           <span className="event-list-title">{event.title}</span>
           <span className="event-list-venue"><Icon name="pin" />{event.venue}</span>
+          {event.reasonLabels?.length?<span className="event-list-venue">{event.reasonLabels.slice(0,2).join(' · ')}</span>:null}
           <strong className="event-list-price">{event.priceLabel}</strong>
         </span>
       </button>

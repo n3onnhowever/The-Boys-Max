@@ -8,6 +8,7 @@ openapi.json
 lock-review.json
 dependency-preflight.json
 *.log
+/artifacts/**/logs/
 
 # Private configuration. Only these two safe templates belong in Git.
 .env*
