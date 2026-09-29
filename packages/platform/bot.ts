@@ -7,7 +7,7 @@ export const BOT_COMMANDS={commands:[
  {name:'app',description:'Открыть Повод'},
  {name:'help',description:'Помощь и ссылки'},
 ]};
-export const BOT_UPDATE_TYPES=['bot_started','message_created'] as const;
+export const BOT_UPDATE_TYPES=['bot_started','message_created','bot_stopped','dialog_removed'] as const;
 export type BotPurpose='WELCOME'|'APP'|'HELP'|'FALLBACK';
 export interface BotConfig {miniappUrl?:string;botUsername?:string;privacyUrl?:string;aboutUrl?:string;}
 export type BotButton={type:'open_app';text:string;web_app:string;payload:string}|{type:'message';text:string}|{type:'link';text:string;url:string};
@@ -50,17 +50,29 @@ export function botMessage(purpose:string,config:BotConfig):BotMessage {
  const text=copy[purpose as BotPurpose]+(!ready?'\n\nСейчас Повод недоступен. Попробуйте /app чуть позже.':purpose==='HELP'?'\nПо кнопке «Открыть ссылку» можно проверить загрузку. Для входа в Повод вернитесь в MAX.':'');
  return {text,attachments:buttons.length?[{type:'inline_keyboard',payload:{buttons}}]:[]};
 }
+/** Exact destinations use the documented MAX startapp link button. */
+export function botNotice(purpose:'PLAN_INVITE'|'RECONFIRMATION'|'REMINDER'|'RECOMMENDATION'|'PLAN_NOTICE',link:string):BotMessage {
+ requireThat(/^https:\/\/max\.ru\/[A-Za-z0-9_]{3,80}\?startapp=[A-Za-z0-9_-]{1,512}$/.test(link),'BOT_LINK_INVALID');
+ const text=purpose==='PLAN_INVITE'?'Вас пригласили в план в Поводе.':purpose==='RECONFIRMATION'?'Условия плана изменились. Проверьте их и ответьте снова.':purpose==='REMINDER'?'Скоро встреча по вашему плану. Проверьте актуальные условия.':purpose==='RECOMMENDATION'?'Для вас есть событие в Поводе. Проверьте актуальные сведения.':'В плане есть обновление. Проверьте актуальные условия.';
+ return {text,attachments:[{type:'inline_keyboard',payload:{buttons:[[{type:'link',text:'Открыть в Поводе',url:link}]]}}]};
+}
 
 export interface BotReply {actorId:string;name:string;chatId:string;purpose:BotPurpose;}
-export interface BotUpdate {kind:string;key:string;sourceTimestampMs:string;reply:BotReply|null;}
+export interface BotUpdate {kind:string;key:string;sourceTimestampMs:string;reply:BotReply|null;revoke?:{actorId:string;chatId:string};}
 function userName(user:Record<string,unknown>):string {
  // Current schema uses first_name; older official start examples still contain deprecated name.
  return boundedText(user.first_name??user.name);
 }
 export function parseBotUpdate(wire:Record<string,unknown>):BotUpdate|undefined {
  const kind=boundedText(wire.update_type,80);
- if(kind!=='bot_started'&&kind!=='message_created')return undefined;
+ if(kind!=='bot_started'&&kind!=='message_created'&&kind!=='bot_stopped'&&kind!=='dialog_removed')return undefined;
  const timestamp=int64(wire.timestamp,true);
+ if(kind==='bot_stopped'||kind==='dialog_removed'){
+  const user=obj(wire.user),actorId=int64(user.user_id,true),chatId=int64(wire.chat_id);
+  requireThat(user.is_bot===undefined||typeof user.is_bot==='boolean','BOT_FLAG_INVALID');
+  return {kind,key:digest(`${kind}:${actorId}:${chatId}:${timestamp}`),sourceTimestampMs:timestamp,reply:null,
+   ...(user.is_bot===true?{}:{revoke:{actorId,chatId}})};
+ }
  if(kind==='bot_started'){
   const user=obj(wire.user),actorId=int64(user.user_id,true),chatId=int64(wire.chat_id);
   requireThat(user.is_bot===undefined||typeof user.is_bot==='boolean','BOT_FLAG_INVALID');

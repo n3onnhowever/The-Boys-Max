@@ -5,6 +5,7 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import {config} from '../../packages/platform/config.ts';
 import {buildApp} from '../../apps/api/app.ts';
 import {sign} from '../fixtures.ts';
+import {digest} from '../../packages/platform/auth.ts';
 const cfg=config();
 assert.equal(process.env.RUN_MAX23_INTEGRATION,'1');assert.equal(cfg.mode,'test');assert.equal(new URL(cfg.databaseUrl).pathname,'/max23_test');
 const {app,pool,sessions}=await buildApp(cfg);
@@ -59,6 +60,27 @@ test('MAX-AUTH-05 start_param tampering invalidates HMAC; valid context grants n
   assert.equal((await app.inject({url:'/api/v1/plans/'+id+'?startapp=p_'+id,headers:headers(x)})).statusCode,404);
   assert.equal((await app.inject({method:'POST',url:'/api/v1/plans/'+id+'/invites',headers:{...headers(x),'idempotency-key':randomUUID()},payload:{expectedStateVersion:1}})).statusCode,404);
  }
+});
+test('MAX launch links resolve plan, invite and friend preview under session ACL without joining',async()=>{
+ const owner=await launch(),recipient=await launch();
+ const created=await app.inject({method:'POST',url:'/api/v1/plans',headers:{...headers(owner),'idempotency-key':randomUUID()},payload:{title:'SYNTHETIC exact launch',slots:[{slotId:randomUUID(),label:'Owner',required:true,actorId:owner.body.actor.id,state:'ACTIVE'},{slotId:randomUUID(),label:'Guest',required:false,actorId:null,state:'UNBOUND'}],rule:{kind:'ALL'},decisionDeadline:new Date(Date.now()+3600000).toISOString(),commitmentDeadline:new Date(Date.now()+7200000).toISOString()}});
+ assert.equal(created.statusCode,200,created.body);const planId=created.json().planId as string;
+ const link=(x:Awaited<ReturnType<typeof launch>>,body:Record<string,string>)=>app.inject({method:'POST',url:'/api/v1/launch/link',headers:headers(x),payload:body});
+ const plan=await link(owner,{kind:'PLAN',planId});assert.equal(plan.statusCode,200,plan.body);assert.equal(new URL(plan.json().url).searchParams.get('launch')??new URL(plan.json().url).searchParams.get('startapp'),'p_'+planId);
+ assert.equal((await link(recipient,{kind:'PLAN',planId})).statusCode,404);
+ assert.equal((await app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'PLAN',planId})),headers:headers(owner)})).statusCode,200,'authorized direct reload keeps exact Plan');
+ const invite=await app.inject({method:'POST',url:`/api/v1/plans/${planId}/invites`,headers:{...headers(owner),'idempotency-key':randomUUID()},payload:{expectedStateVersion:1}});
+ assert.equal(invite.statusCode,200,invite.body);const ref=invite.json().inviteRef as string;
+ const inviteLink=await link(recipient,{kind:'INVITE',inviteRef:ref});assert.equal(inviteLink.statusCode,200,inviteLink.body);
+ const invitePreview=await app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'INVITE',inviteRef:ref})),headers:headers(recipient)});
+ assert.equal(invitePreview.statusCode,200);assert.equal(invitePreview.json().state,'REQUESTABLE');
+ assert.equal((await pool.query('SELECT count(*)::integer AS n FROM join_requests WHERE plan_id=$1 AND actor_id=$2',[planId,recipient.body.actor.id])).rows[0].n,0);
+ const friend=await app.inject({method:'POST',url:'/api/v1/me/friend-links',headers:headers(owner),payload:{}});assert.equal(friend.statusCode,200);
+ const friendRef=friend.json().token as string;const friendLink=await link(recipient,{kind:'FRIEND',friendRef});assert.equal(friendLink.statusCode,200);assert.match(friendLink.json().payload,/^f_[a-f0-9]{64}$/);
+ await pool.query("UPDATE friend_links SET expires_at=clock_timestamp()-interval '1 second' WHERE token_hash=$1",[digest(friendRef)]);
+ assert.equal((await link(recipient,{kind:'FRIEND',friendRef})).statusCode,404);
+ await pool.query("UPDATE invites SET expires_at=clock_timestamp()-interval '1 second' WHERE token_hash=$1",[digest(ref)]);
+ assert.equal((await link(recipient,{kind:'INVITE',inviteRef:ref})).statusCode,410);
 });
 test('MAX-AUTH-06 replay same exchange is idempotent; new bootstrap resumes only exact active session',async()=>{
  const x=await launch(),retry=await exchange(x.raw,undefined,x.b,x.key);assert.equal(retry.r.statusCode,200);assert.ok(cookie(retry.r,'__Host-max_session')===x.token);

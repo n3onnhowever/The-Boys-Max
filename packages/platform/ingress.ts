@@ -22,17 +22,37 @@ export function ingressService(pool:Pool,config:{credentialScope:string;webhookS
    if(ins.rowCount===0){const old=await c.query<{payload_hash:string}>('SELECT payload_hash FROM inbox WHERE event_key=$1',[parsed.key]);
     if(old.rows[0]!.payload_hash!==hash)await c.query('INSERT INTO quarantine(id,payload_hash,reason,raw_cipher) VALUES($1,$2,$3,$4)',[randomUUID(),hash,'EVENT_KEY_COLLISION',seal(config.escrowKey,raw.toString('base64'))]);
     return {accepted:true,duplicate:true};}
+   if(parsed.revoke){
+    const actor=await c.query<{id:string}>('SELECT id FROM actors WHERE external_id=$1',[parsed.revoke.actorId]);
+    if(actor.rows[0]){
+     const current=await c.query<{chat_id:string;source_timestamp_ms:string|null;active:boolean}>(
+      'SELECT chat_id,source_timestamp_ms,active FROM destinations WHERE actor_id=$1 FOR UPDATE',[actor.rows[0].id]);
+     const old=current.rows[0];
+     if(old&&old.chat_id!==parsed.revoke.chatId){
+      await c.query('INSERT INTO quarantine(id,payload_hash,reason,raw_cipher) VALUES($1,$2,$3,$4)',[randomUUID(),hash,'DESTINATION_CHAT_MISMATCH',seal(config.escrowKey,raw.toString('base64'))]);
+     }else if(old){
+      const incoming=BigInt(parsed.sourceTimestampMs),previous=old.source_timestamp_ms===null?null:BigInt(old.source_timestamp_ms);
+      if(previous!==null&&incoming>previous||previous===null&&incoming>BigInt(new Date((await c.query<{verified_at:Date}>('SELECT verified_at FROM destinations WHERE actor_id=$1',[actor.rows[0].id])).rows[0]!.verified_at).getTime()))
+       await c.query('UPDATE destinations SET active=false,source_timestamp_ms=$2,source_digest=$3 WHERE actor_id=$1',[actor.rows[0].id,parsed.sourceTimestampMs,hash]);
+      else if(previous!==null&&incoming===previous&&old.active){
+       await c.query('UPDATE destinations SET active=false,source_digest=$2 WHERE actor_id=$1',[actor.rows[0].id,hash]);
+       await c.query('INSERT INTO quarantine(id,payload_hash,reason,raw_cipher) VALUES($1,$2,$3,$4)',[randomUUID(),hash,'DESTINATION_TIMESTAMP_COLLISION',seal(config.escrowKey,raw.toString('base64'))]);
+      }
+     }
+    }
+    await c.query('UPDATE inbox SET processed=true WHERE id=$1',[ins.rows[0].id]);return {accepted:true,duplicate:false};
+   }
    if(!parsed.reply){await c.query('UPDATE inbox SET processed=true WHERE id=$1',[ins.rows[0].id]);return {accepted:true,duplicate:false};}
    const reply=parsed.reply;
    const a=await c.query<{id:string}>('INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3) ON CONFLICT(external_id) DO UPDATE SET display_name=EXCLUDED.display_name RETURNING id',[randomUUID(),reply.actorId,reply.name]);
-   const dest=await c.query<{chat_id:string;source_timestamp_ms:string|null}>(`INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest,source_timestamp_ms) VALUES($1,$2,clock_timestamp(),$3,$4)
-    ON CONFLICT(actor_id) DO UPDATE SET chat_id=EXCLUDED.chat_id,verified_at=EXCLUDED.verified_at,source_digest=EXCLUDED.source_digest,source_timestamp_ms=EXCLUDED.source_timestamp_ms
+   const dest=await c.query<{chat_id:string;source_timestamp_ms:string|null;active:boolean}>(`INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest,source_timestamp_ms,active) VALUES($1,$2,clock_timestamp(),$3,$4,true)
+    ON CONFLICT(actor_id) DO UPDATE SET chat_id=EXCLUDED.chat_id,verified_at=EXCLUDED.verified_at,source_digest=EXCLUDED.source_digest,source_timestamp_ms=EXCLUDED.source_timestamp_ms,active=true
     WHERE (destinations.source_timestamp_ms IS NULL AND EXCLUDED.source_timestamp_ms > (extract(epoch FROM destinations.verified_at)*1000)::bigint)
        OR destinations.source_timestamp_ms < EXCLUDED.source_timestamp_ms
-    RETURNING chat_id,source_timestamp_ms`,[a.rows[0]!.id,reply.chatId,hash,parsed.sourceTimestampMs]);
+    RETURNING chat_id,source_timestamp_ms,active`,[a.rows[0]!.id,reply.chatId,hash,parsed.sourceTimestampMs]);
    // The unique actor row serializes competing UPSERTs. Equal source times cannot order distinct chats.
-   const current=dest.rows[0]??(await c.query<{chat_id:string;source_timestamp_ms:string|null}>('SELECT chat_id,source_timestamp_ms FROM destinations WHERE actor_id=$1',[a.rows[0]!.id])).rows[0]!;
-   if(current.chat_id===reply.chatId){
+   const current=dest.rows[0]??(await c.query<{chat_id:string;source_timestamp_ms:string|null;active:boolean}>('SELECT chat_id,source_timestamp_ms,active FROM destinations WHERE actor_id=$1',[a.rows[0]!.id])).rows[0]!;
+   if(current.active&&current.chat_id===reply.chatId){
     await c.query("INSERT INTO outbox(id,command_id,plan_id,actor_id,kind,purpose,state,inbox_id,expires_at) VALUES($1,NULL,NULL,$2,'BOT_WELCOME',$4,'READY',$3,clock_timestamp()+interval '1 hour') ON CONFLICT DO NOTHING",[randomUUID(),a.rows[0]!.id,ins.rows[0].id,reply.purpose]);
    }else if(current.source_timestamp_ms===parsed.sourceTimestampMs){
     await c.query('INSERT INTO quarantine(id,payload_hash,reason,raw_cipher) VALUES($1,$2,$3,$4)',[randomUUID(),hash,'DESTINATION_TIMESTAMP_COLLISION',seal(config.escrowKey,raw.toString('base64'))]);

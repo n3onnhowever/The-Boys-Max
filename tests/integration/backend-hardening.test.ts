@@ -48,6 +48,7 @@ test('friend invite and join retries converge to one active invite, one request 
  const ref=invited.find(x=>x.inviteRef)?.inviteRef;assert.ok(ref);
  assert.equal(await count('SELECT count(*) FROM invites WHERE plan_id=$1',[p.id]),1);
  assert.equal(await count("SELECT count(*) FROM in_app_notifications WHERE plan_id=$1 AND actor_id=$2 AND kind='PLAN_INVITE'",[p.id,friend.id]),1);
+ assert.equal(await count("SELECT count(*) FROM outbox WHERE plan_id=$1 AND actor_id=$2 AND kind='PLAN_INVITE'",[p.id,friend.id]),1);
  const requests=await Promise.all(Array.from({length:10},()=>plans.requestJoin(friend.id,ref)));
  assert.ok(requests.every(x=>x.state==='PENDING'));
  assert.equal(await count('SELECT count(*) FROM join_requests WHERE plan_id=$1 AND actor_id=$2',[p.id,friend.id]),1);
@@ -60,6 +61,7 @@ test('friend invite and join retries converge to one active invite, one request 
  assert.equal(renewed.filter(x=>x.state==='SENT').length,1);
  const newRef=renewed.find(x=>x.inviteRef)?.inviteRef;assert.ok(newRef);assert.notEqual(newRef,ref);
  assert.equal(await count("SELECT count(*) FROM invites WHERE plan_id=$1 AND NOT revoked AND expires_at>clock_timestamp()",[p.id]),1);
+ assert.equal(await count("SELECT count(*) FROM outbox WHERE plan_id=$1 AND actor_id=$2 AND kind='PLAN_INVITE'",[p.id,friend.id]),2,'renewed invite has a new durable notification identity');
  assert.equal(await count("SELECT count(*) FROM in_app_notifications WHERE plan_id=$1 AND actor_id=$2 AND kind='PLAN_INVITE'",[p.id,friend.id]),1);
  assert.equal((await social.planInviteStatuses(owner.id,p.id)).items.some(x=>x.friendId===friend.id&&x.state==='PENDING'),true);
  const second=await plan(owner),sent=await plans.inviteFriend(owner.id,friend.id,second.id,1);assert.ok(sent.inviteRef);
@@ -97,6 +99,7 @@ test('YES binds to material reconfirm version; nonmaterial edit preserves respon
  await social.setPlanRsvp(friend.id,p.id,'YES',0);
  const changed=await social.savePlanPresentation(owner.id,p.id,{title:initial.title,meetingTime:new Date(Date.now()+5400000).toISOString(),meetingPoint:'SYNTHETIC point',note:'initial',participantLimit:null,expectedVersion:initial.version});
  assert.equal(changed.reconfirmVersion,1);assert.ok(changed.changedFields.meetingTime);
+ assert.equal(await count("SELECT count(*) FROM outbox WHERE plan_id=$1 AND actor_id=$2 AND kind='RECONFIRMATION' AND semantic_revision=1",[p.id,friend.id]),1);
  const stale=await social.planRsvps(friend.id,p.id);assert.equal(stale.currentReconfirmVersion,1);assert.equal(stale.items.find(x=>x.actorId===friend.id)?.responseRequired,true);
  await assert.rejects(social.setPlanRsvp(friend.id,p.id,'YES',0),/VERSION_CONFLICT/);
  await social.setPlanRsvp(friend.id,p.id,'YES',1);await social.setPlanRsvp(friend.id,p.id,'YES',1);

@@ -112,9 +112,14 @@ export function planService(db:Database,inviteSecret:string) {
    requireThat(row.stateVersion===expectedStateVersion,'VERSION_CONFLICT',409);
    const hex=digest('FRIEND_INVITE:'+planId+':'+friend),key=pending.rows.length?randomUUID():`${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20,32)}`;
    const token=keyed(inviteSecret,`invite:${planId}:${actor}:${key}`);
-   await tx.execute(sql`INSERT INTO invites(id,plan_id,token_hash,create_key,expected_revision,expires_at) VALUES(${randomUUID()},${planId},${digest(token)},${key},${expectedStateVersion},clock_timestamp()+interval '7 days')`);
+   const inviteId=randomUUID();
+   await tx.execute(sql`INSERT INTO invites(id,plan_id,token_hash,create_key,expected_revision,expires_at) VALUES(${inviteId},${planId},${digest(token)},${key},${expectedStateVersion},clock_timestamp()+interval '7 days')`);
    if(pending.rows.length)await tx.execute(sql`UPDATE in_app_notifications SET invite_ref=${token},actor_context_id=${actor},read_at=NULL,created_at=clock_timestamp() WHERE id=${pending.rows[0]!.id}`);
    else await tx.execute(sql`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id,invite_ref,actor_context_id) VALUES(${randomUUID()},${friend},'PLAN_INVITE','Приглашение в план',${planId},${token},${actor})`);
+   await tx.execute(sql`INSERT INTO outbox(id,command_id,plan_id,actor_id,kind,purpose,state,expires_at,notification_key,invite_ref)
+    SELECT ${randomUUID()},NULL,${planId},${friend},'PLAN_INVITE','PLAN_INVITE','READY',clock_timestamp()+interval '1 hour',${'invite:'+inviteId+':'+friend+':PLAN_INVITE'},${token}
+    WHERE COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=${friend}),true)
+    ON CONFLICT DO NOTHING`);
    return {inviteRef:token,state:'SENT' as const};
   });
  },

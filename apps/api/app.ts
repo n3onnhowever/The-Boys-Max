@@ -5,7 +5,7 @@ import {validatorCompiler,serializerCompiler,jsonSchemaTransform} from 'fastify-
 import type {ZodTypeProvider} from 'fastify-type-provider-zod';
 import type {FastifyRequest} from 'fastify';
 import {z} from 'zod';
-import {randomUUID} from 'node:crypto';
+import {randomBytes,randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {ownerPreviewAllowed,type Config} from '../../packages/platform/config.ts';
@@ -23,6 +23,7 @@ import {uiService} from '../../packages/persistence/ui.ts';
 import {CoreError} from '../../modules/search/core/guard.ts';
 import {routeSchema as uiRoute,envelopeSchema as uiEnvelope,viewSchema as uiView} from '../miniapp/src/port/schema.ts';
 import * as S from '../../packages/contracts/http.ts';
+import {launchLink,launchParam} from '../../packages/platform/links.ts';
 export async function buildApp(c:Config){
  const app=Fastify({bodyLimit:73728,logger:false,disableRequestLogging:true,genReqId:()=>randomUUID(),trustProxy:false}).withTypeProvider<ZodTypeProvider>();
  app.setValidatorCompiler(validatorCompiler);app.setSerializerCompiler(serializerCompiler);
@@ -78,6 +79,39 @@ export async function buildApp(c:Config){
  app.get('/api/ui/v1/view',{schema:{querystring:z.strictObject({route:z.string().max(4096)}),response:{200:uiView,...S.errors},security:[{sessionCookie:[]}]}},async r=>{
   const s=await auth(r);let raw:unknown;try{raw=strictJson(r.query.route);}catch{throw new AppError('ROUTE_INVALID',400);}
   const route=uiRoute.safeParse(raw);requireThat(route.success,'ROUTE_INVALID',400);return ui.read({actor_id:s.actor.id,session_id:s.id},route.data);
+ });
+ const launchLinkBody=z.discriminatedUnion('kind',[
+  z.strictObject({kind:z.literal('EVENT'),sourceId:z.string().min(1).max(160),externalEventId:z.string().min(1).max(160),occurrenceId:z.string().min(1).max(160)}),
+  z.strictObject({kind:z.literal('PLAN'),planId:z.uuid()}),
+  z.strictObject({kind:z.literal('INVITE'),inviteRef:z.string().regex(/^[a-f0-9]{64}$/)}),
+  z.strictObject({kind:z.literal('FRIEND'),friendRef:z.string().regex(/^[a-f0-9]{64}$/)})
+ ]);
+ app.post('/api/v1/launch/link',{schema:{body:launchLinkBody}},async r=>{
+  const session=await auth(r,true),actor=session.actor.id;let locator:Parameters<typeof launchLink>[0]=r.body;
+  if(r.body.kind==='EVENT'){
+   await ui.read({actor_id:actor,session_id:session.id},{...r.body,scope:{kind:'PERSONAL'}});
+   try{launchParam(r.body);}catch(error){
+    requireThat(error instanceof Error&&error.message==='LAUNCH_PAYLOAD_LIMIT','LAUNCH_LOCATOR',400);
+    const ref=randomBytes(16).toString('hex');
+    await pool.query("INSERT INTO max_event_launch_refs(ref,source_id,external_event_id,occurrence_id,expires_at) VALUES($1,$2,$3,$4,clock_timestamp()+interval '30 days')",[ref,r.body.sourceId,r.body.externalEventId,r.body.occurrenceId]);
+    locator={kind:'EVENT_REF',eventRef:ref};
+   }
+  }else if(r.body.kind==='PLAN')await ui.read({actor_id:actor,session_id:session.id},r.body);
+  else if(r.body.kind==='INVITE'){
+   const view=await ui.read({actor_id:actor,session_id:session.id},r.body);
+   requireThat(view.kind==='INVITE'&&view.state!=='EXPIRED','INVITE_EXPIRED',410);
+  }else await social.friendLinkStatus(actor,r.body.friendRef);
+  return {url:launchLink(locator,c),payload:launchParam(locator)};
+ });
+ app.get('/api/v1/launch/event/:ref',{schema:{params:z.strictObject({ref:z.string().regex(/^[a-f0-9]{32}$/)})}},async r=>{
+  const session=await auth(r),actor=session.actor.id;
+  const found=await pool.query<{source_id:string;external_event_id:string;occurrence_id:string}>(
+   'SELECT source_id,external_event_id,occurrence_id FROM max_event_launch_refs WHERE ref=$1 AND expires_at>clock_timestamp()',[r.params.ref]);
+  requireThat(found.rows[0],'LINK_EXPIRED',410);
+  const row=found.rows[0]!;
+  const route={kind:'EVENT' as const,sourceId:row.source_id,externalEventId:row.external_event_id,occurrenceId:row.occurrence_id,scope:{kind:'PERSONAL' as const}};
+  await ui.read({actor_id:actor,session_id:session.id},route);
+  return {route};
  });
  app.post('/api/ui/v1/commands',{schema:{body:uiEnvelope,response:{200:z.strictObject({idempotencyKey:z.uuid(),outcome:z.enum(['APPLIED','REPLAYED','NO_CHANGE']),view:uiView}),...S.errors},security:[{sessionCookie:[]}]}},async r=>{
   const s=await auth(r,true);return ui.execute({actor_id:s.actor.id,session_id:s.id},r.body,r.id);

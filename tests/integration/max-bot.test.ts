@@ -11,10 +11,11 @@ import {Governor} from '../../packages/platform/governor.ts';
 import {TestTransport,maxResponseOutcome,type Transport} from '../../packages/platform/transport.ts';
 import {deliver,reconcile} from '../../packages/persistence/delivery.ts';
 import {digest} from '../../packages/platform/auth.ts';
+import {socialService} from '../../packages/persistence/social.ts';
 import type {BotAttachment} from '../../packages/platform/bot.ts';
 assert.equal(process.env.RUN_MAX23_INTEGRATION,'1');
 const c=config();assert.equal(c.mode,'test');assert.equal(new URL(c.databaseUrl).pathname,'/max23_test');
-const {app,pool}=await buildApp(c),scope='synthetic-bot-'+randomUUID(),epoch=randomUUID();
+const {app,pool,plans}=await buildApp(c),social=socialService(pool),scope='synthetic-bot-'+randomUUID(),epoch=randomUUID();
 const redis=new Redis(c.redisUrl,{maxRetriesPerRequest:1}),workerRedis=new Redis(c.redisUrl,{maxRetriesPerRequest:null});
 redis.on('error',()=>{});workerRedis.on('error',()=>{});
 const queue=new Queue(scope,{connection:redis}),gov=new Governor(redis,scope,epoch),sink=new TestTransport(pool,'test');
@@ -35,6 +36,8 @@ const send=(raw:string,secret=c.webhookSecret)=>app.inject({method:'POST',url:'/
 async function rows(actor:string){return (await pool.query("SELECT o.* FROM outbox o JOIN actors a ON a.id=o.actor_id WHERE a.external_id=$1",[actor])).rows;}
 async function destination(actor:string){return (await pool.query<{chat_id:string;source_timestamp_ms:string;source_digest:string;verified_at:Date}>("SELECT d.chat_id,d.source_timestamp_ms,d.source_digest,d.verified_at FROM destinations d JOIN actors a ON a.id=d.actor_id WHERE a.external_id=$1",[actor])).rows[0];}
 function started(actor:string,chat:string,timestamp:number){return `{"update_type":"bot_started","timestamp":${timestamp},"chat_id":${chat},"user":{"user_id":${actor},"first_name":"SYNTHETIC","is_bot":false}}`;}
+function stopped(kind:'bot_stopped'|'dialog_removed',actor:string,chat:string,timestamp:number){return `{"update_type":"${kind}","timestamp":${timestamp},"chat_id":${chat},"user":{"user_id":${actor},"first_name":"SYNTHETIC","is_bot":false}}`;}
+async function active(actor:string){return (await pool.query<{active:boolean}>("SELECT d.active FROM destinations d JOIN actors a ON a.id=d.actor_id WHERE a.external_id=$1",[actor])).rows[0]?.active;}
 async function delivered(actor:string){await reconcile(pool,queue);await until(async()=>(await rows(actor)).every(r=>r.state==='SUCCEEDED'));}
 
 before(async()=>{
@@ -76,6 +79,65 @@ test('older then newer source event advances destination and exact duplicate is 
  assert.equal((await send(newRaw)).json().duplicate,true);
  assert.deepEqual(await destination(actor),final);
  assert.equal((await rows(actor)).length,2);
+});
+test('stop/removal events revoke only in source order; duplicate and equal-time conflict fail closed',async()=>{
+ const actor=id(),chat=id(),now=Date.now();
+ await send(started(actor,chat,now));assert.equal(await active(actor),true);
+ await send(stopped('bot_stopped',actor,chat,now-1));assert.equal(await active(actor),true,'older stop cannot revoke newer start');
+ const stop=stopped('bot_stopped',actor,chat,now+1);
+ await send(stop);assert.equal(await active(actor),false);
+ assert.equal((await send(stop)).json().duplicate,true);assert.equal(await active(actor),false);
+ await send(stopped('dialog_removed',actor,chat,now+1));assert.equal(await active(actor),false);
+ await send(started(actor,chat,now+1));assert.equal(await active(actor),false,'equal-time start cannot reinstate consent');
+ await reconcile(pool,queue);
+ await until(async()=>(await rows(actor)).some(r=>r.kind==='BOT_WELCOME'&&r.state==='CANCELLED'));
+ assert.equal(calls.some(x=>x.chatId===chat),false,'revoked destination is never sent a queued welcome');
+ await send(started(actor,chat,now+2));assert.equal(await active(actor),true,'newer explicit start restores destination');
+});
+test('a stop for another dialog cannot revoke the current destination',async()=>{
+ const actor=id(),oldChat=id(),currentChat=id(),now=Date.now();
+ await send(started(actor,oldChat,now));
+ await send(started(actor,currentChat,now+1));
+ assert.equal((await destination(actor))?.chat_id,currentChat);
+ await send(stopped('bot_stopped',actor,oldChat,now+2));
+ assert.equal(await active(actor),true);
+ assert.equal((await destination(actor))?.chat_id,currentChat);
+ const quarantine=await pool.query<{reason:string}>("SELECT reason FROM quarantine WHERE reason='DESTINATION_CHAT_MISMATCH' ORDER BY created_at DESC LIMIT 1");
+ assert.equal(quarantine.rows[0]?.reason,'DESTINATION_CHAT_MISMATCH');
+});
+test('friend invitation and scheduled reminder use durable factual outbox and exact MAX buttons',async()=>{
+ const owner=start(),friend=start();await send(owner.raw);await send(friend.raw);
+ const actor=async(external:string)=>(await pool.query<{id:string}>('SELECT id FROM actors WHERE external_id=$1',[external])).rows[0]!.id;
+ const ownerId=await actor(owner.actor),friendId=await actor(friend.actor);
+ await social.requestFriend(ownerId,friendId);await social.acceptFriend(friendId,ownerId);
+ const slots=[{slotId:randomUUID(),label:'SYNTHETIC owner',required:true,actorId:ownerId,state:'ACTIVE' as const},{slotId:randomUUID(),label:'SYNTHETIC guest',required:false,actorId:null,state:'UNBOUND' as const}];
+ const created=await plans.create(ownerId,randomUUID(),{title:'SYNTHETIC notification plan',slots,rule:{kind:'ALL'},decisionDeadline:new Date(Date.now()+7200000).toISOString(),commitmentDeadline:new Date(Date.now()+10800000).toISOString()});
+ const invitation=await plans.inviteFriend(ownerId,friendId,created.planId,1);assert.equal(invitation.state,'SENT');
+ await reconcile(pool,queue);
+ await until(async()=>(await rows(friend.actor)).some(r=>r.kind==='PLAN_INVITE'&&r.state==='SUCCEEDED'));
+ const inviteMessage=calls.findLast(x=>x.chatId===friend.actor&&x.text.includes('пригласили'))!;
+ const inviteButton=inviteMessage.attachments?.[0]?.payload.buttons[0]?.[0];assert.equal(inviteButton?.type,'link');
+ if(inviteButton?.type==='link')assert.match(inviteButton.url,/^https:\/\/max\.ru\/synthetic_bot\?startapp=i_[a-f0-9]{64}$/);
+ const initial=await social.savePlanPresentation(ownerId,created.planId,{title:'SYNTHETIC notification plan',meetingTime:new Date(Date.now()+3600000).toISOString(),meetingPoint:null,note:null,participantLimit:null,expectedVersion:0});
+ assert.equal(initial.reconfirmVersion,1);
+ await reconcile(pool,queue);await reconcile(pool,queue);
+ assert.equal((await pool.query<{n:string}>("SELECT count(*) AS n FROM outbox WHERE plan_id=$1 AND actor_id=$2 AND kind='REMINDER'",[created.planId,ownerId])).rows[0]!.n,'1');
+ await until(async()=>(await rows(owner.actor)).some(r=>r.kind==='REMINDER'&&r.state==='SUCCEEDED'));
+ const reminder=calls.findLast(x=>x.chatId===owner.actor&&x.text.includes('Скоро встреча'))!;
+ const reminderButton=reminder.attachments?.[0]?.payload.buttons[0]?.[0];assert.equal(reminderButton?.type,'link');
+ if(reminderButton?.type==='link')assert.match(reminderButton.url,/^https:\/\/max\.ru\/synthetic_bot\?startapp=p_/);
+ await plans.requestJoin(friendId,invitation.inviteRef!);
+ await plans.command(ownerId,created.planId,randomUUID(),{kind:'ROSTER',expectedStateVersion:1,
+  slots:slots.map(s=>s.state==='UNBOUND'?{...s,actorId:friendId,state:'ACTIVE' as const}:s),rule:{kind:'ALL'},
+  decisionDeadline:new Date((await pool.query<{state:{decisionDeadline:string}}>('SELECT state FROM plans WHERE id=$1',[created.planId])).rows[0]!.state.decisionDeadline).toISOString(),reason:'SYNTHETIC approval'},randomUUID());
+ await social.setPlanRsvp(friendId,created.planId,'YES',1);
+ const changed=await social.savePlanPresentation(ownerId,created.planId,{title:initial.title,meetingTime:initial.meetingTime,meetingPoint:'SYNTHETIC changed point',note:null,participantLimit:null,expectedVersion:initial.version});
+ assert.equal(changed.reconfirmVersion,2);
+ await reconcile(pool,queue);
+ await until(async()=>(await rows(friend.actor)).some(r=>r.kind==='RECONFIRMATION'&&r.state==='SUCCEEDED'));
+ const reconfirm=calls.findLast(x=>x.chatId===friend.actor&&x.text.includes('изменились'))!;
+ const reconfirmButton=reconfirm.attachments?.[0]?.payload.buttons[0]?.[0];assert.equal(reconfirmButton?.type,'link');
+ if(reconfirmButton?.type==='link')assert.match(reconfirmButton.url,/^https:\/\/max\.ru\/synthetic_bot\?startapp=p_/);
 });
 test('competing destination updates serialize by source time, not commit order',async()=>{
  const actor=id(),chats=Array.from({length:8},()=>id()),base=Date.now();

@@ -5,7 +5,7 @@ import type { ViewController } from '../core/controller.ts';
 import { eventToDetailViewModel } from '../view-model/detail.ts';
 import { DetailScreen } from './DetailScreen.tsx';
 import { Chip, PovodButton, PovodSheet } from './PovodUI.tsx';
-import {eventShareUrl} from '../core/event-link.ts';
+import {share as shareInMax} from '../../bridge.ts';
 
 function planActionMessage(error:string):string {
   if(error.includes('COMMITMENT_MUST_PRECEDE_EVENT'))return 'Подтверждение должно завершиться до начала события. Измените сроки и попробуйте снова.';
@@ -18,6 +18,7 @@ export function EventDetail({ view, controller, busy, actionError, uncertain = f
   const [groupOpen, setGroupOpen] = useState(false);
   const [shareOpen,setShareOpen]=useState(false);
   const [shareNotice,setShareNotice]=useState('');
+  const [eventUrl,setEventUrl]=useState('');
   const [ack, setAck] = useState(false);
   const [saveTarget,setSaveTarget]=useState<string|null>(null);
   const [saved,setSaved]=useState(false);
@@ -47,6 +48,11 @@ export function EventDetail({ view, controller, busy, actionError, uncertain = f
    }).catch(()=>{if(active)setSaveError('Не удалось проверить сохранение. Повторите открытие события.');});
    return ()=>{active=false;};
   },[view.event.ref.sourceId,view.event.ref.externalEventId,view.event.ref.occurrenceId]);
+  useEffect(()=>{
+   let active=true;
+   void api<{url:string}>('/api/v1/launch/link',{kind:'EVENT',sourceId:view.event.ref.sourceId,externalEventId:view.event.ref.externalEventId,occurrenceId:view.event.ref.occurrenceId}).then(x=>{if(active)setEventUrl(x.url)}).catch(()=>{if(active)setShareNotice('Не удалось подготовить ссылку на событие.')});
+   return()=>{active=false};
+  },[view.event.ref.sourceId,view.event.ref.externalEventId,view.event.ref.occurrenceId]);
   if(saveTarget)model.saveCapability='AVAILABLE';
   const toggleSave=async()=>{
    if(!saveTarget||savePending.current)return;
@@ -56,12 +62,12 @@ export function EventDetail({ view, controller, busy, actionError, uncertain = f
    catch{setSaveError('Не удалось изменить сохранение. Повторите попытку.');}
    finally{savePending.current=false;setSaveBusy(false);}
   };
-  const eventUrl=eventShareUrl(view.route,location.origin);
-  const copyEventLink=async()=>{try{await navigator.clipboard.writeText(eventUrl);setShareOpen(false);setShareNotice('Ссылка скопирована')}catch{setShareNotice('Копирование недоступно. Выделите ссылку ниже.')}};
+  const copyEventLink=async()=>{if(!eventUrl)return;try{await navigator.clipboard.writeText(eventUrl);setShareOpen(false);setShareNotice('Ссылка скопирована')}catch{setShareNotice('Копирование недоступно. Выделите ссылку ниже.')}};
   const shareEvent=async()=>{
-    if(!navigator.share){await copyEventLink();return}
-    try{await navigator.share({title:view.event.title,url:eventUrl});setShareOpen(false)}
-    catch(error){if(!(error instanceof DOMException&&error.name==='AbortError'))setShareNotice('Отправка недоступна. Скопируйте ссылку.')}
+    if(!eventUrl)return;
+    const result=await shareInMax(`Повод: ${view.event.title}`,eventUrl);
+    if(result==='INVOKED'){setShareOpen(false);setShareNotice('Открыт выбор получателя в MAX.');}
+    else setShareNotice('Отправка в MAX недоступна. Скопируйте ссылку.');
   };
 
   const planPanel = <PovodSheet title={view.targetPlanId ? 'Добавить в план' : 'Новый план'} open={groupOpen} onClose={()=>setGroupOpen(false)}><form className="v2-edit-form" noValidate onSubmit={event => {
@@ -109,6 +115,6 @@ export function EventDetail({ view, controller, busy, actionError, uncertain = f
     busy={busy}
     onBack={onBack??(() => void controller.load({ kind: 'CATALOG', scope }))}
     onPlan={() => setGroupOpen(true)}
-    planPanel={<>{shareNotice&&!shareOpen&&<p className="v2-feedback" role="status">{shareNotice}</p>}{planPanel}<PovodSheet title="Поделиться событием" open={shareOpen} onClose={()=>setShareOpen(false)}><div className="v2-event-share-preview"><strong>{view.event.title}</strong><span>{model.heroDateTimeLabel} · {model.venue.displayLabel}</span></div><div className="v2-actions"><PovodButton icon="max" onClick={()=>void shareEvent()}>Отправить в MAX</PovodButton><PovodButton variant="secondary" icon="copy" onClick={()=>void copyEventLink()}>Скопировать ссылку</PovodButton></div>{shareNotice&&<p className="v2-feedback" role="status">{shareNotice}</p>}{shareNotice.startsWith('Копирование недоступно')&&<input className="v2-input" aria-label="Ссылка на событие для ручного копирования" readOnly value={eventUrl} onFocus={event=>event.target.select()}/>}</PovodSheet></>}
+    planPanel={<>{shareNotice&&!shareOpen&&<p className="v2-feedback" role="status">{shareNotice}</p>}{planPanel}<PovodSheet title="Поделиться событием" open={shareOpen} onClose={()=>setShareOpen(false)}><div className="v2-event-share-preview"><strong>{view.event.title}</strong><span>{model.heroDateTimeLabel} · {model.venue.displayLabel}</span></div><div className="v2-actions"><PovodButton icon="max" disabled={!eventUrl} onClick={()=>void shareEvent()}>Отправить в MAX</PovodButton><PovodButton variant="secondary" icon="copy" disabled={!eventUrl} onClick={()=>void copyEventLink()}>Скопировать ссылку</PovodButton></div>{shareNotice&&<p className="v2-feedback" role="status">{shareNotice}</p>}{shareNotice.startsWith('Копирование недоступно')&&<input className="v2-input" aria-label="Ссылка на событие для ручного копирования" readOnly value={eventUrl} onFocus={event=>event.target.select()}/>}</PovodSheet></>}
   />;
 }

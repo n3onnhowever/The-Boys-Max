@@ -1,5 +1,5 @@
 /** Public locators and attribution hints only. Every object read still needs session + ACL. */
-export type Launch={kind:'PERSONAL'}|{kind:'PLAN';planId:string}|{kind:'INVITE';inviteRef:string}
+export type Launch={kind:'PERSONAL'}|{kind:'INVALID'}|{kind:'EVENT_REF';eventRef:string}|{kind:'FRIEND';friendRef:string}|{kind:'PLAN';planId:string}|{kind:'INVITE';inviteRef:string}
  |{kind:'EVENT';sourceId:string;externalEventId:string;occurrenceId:string}
  |{kind:'CAMPAIGN'|'REFERRAL';code:string};
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -11,15 +11,21 @@ export function launchParam(route:Launch):string{
  if(route.kind==='PERSONAL')value='catalog';
  else if(route.kind==='PLAN'&&uuid.test(route.planId))value='p_'+route.planId;
  else if(route.kind==='INVITE'&&/^[a-f0-9]{64}$/.test(route.inviteRef))value='i_'+route.inviteRef;
+ else if(route.kind==='FRIEND'&&/^[a-f0-9]{64}$/.test(route.friendRef))value='f_'+route.friendRef;
+ else if(route.kind==='EVENT_REF'&&/^[a-f0-9]{32}$/.test(route.eventRef))value='x_'+route.eventRef;
  else if(route.kind==='EVENT'&&[route.sourceId,route.externalEventId,route.occurrenceId].every(identifier))value='e_'+encode([route.sourceId,route.externalEventId,route.occurrenceId]);
  else if((route.kind==='CAMPAIGN'||route.kind==='REFERRAL')&&/^[A-Za-z0-9_-]{1,100}$/.test(route.code))value=(route.kind==='CAMPAIGN'?'c_':'r_')+route.code;
  else throw new Error('LAUNCH_LOCATOR');
  if(!validStartParam(value))throw new Error('LAUNCH_PAYLOAD_LIMIT');return value;
 }
 export function decodeLaunch(raw:unknown):Launch{
- if(!validStartParam(raw))return {kind:'PERSONAL'};
+ if(raw===null||raw===undefined||raw==='')return {kind:'PERSONAL'};
+ if(!validStartParam(raw))return {kind:'INVALID'};
+ if(raw==='catalog')return {kind:'PERSONAL'};
  if(raw.startsWith('p_')&&uuid.test(raw.slice(2)))return {kind:'PLAN',planId:raw.slice(2)};
  if(/^i_[a-f0-9]{64}$/.test(raw))return {kind:'INVITE',inviteRef:raw.slice(2)};
+ if(/^f_[a-f0-9]{64}$/.test(raw))return {kind:'FRIEND',friendRef:raw.slice(2)};
+ if(/^x_[a-f0-9]{32}$/.test(raw))return {kind:'EVENT_REF',eventRef:raw.slice(2)};
  if(/^[cr]_[A-Za-z0-9_-]{1,100}$/.test(raw))return {kind:raw[0]==='c'?'CAMPAIGN':'REFERRAL',code:raw.slice(2)};
  if(raw.startsWith('e_'))try{
   const encoded=raw.slice(2).replaceAll('-','+').replaceAll('_','/');
@@ -27,6 +33,6 @@ export function decodeLaunch(raw:unknown):Launch{
   const value:unknown=JSON.parse(decoded);
   if(Array.isArray(value)&&value.length===3&&value.every(identifier)&&'e_'+encode(value)===raw)
    return {kind:'EVENT',sourceId:value[0]!,externalEventId:value[1]!,occurrenceId:value[2]!};
- }catch{/* Invalid locators return to personal home; they never become commands. */}
- return {kind:'PERSONAL'};
+ }catch{/* Invalid locators never become commands. */}
+ return {kind:'INVALID'};
 }

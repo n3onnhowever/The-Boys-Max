@@ -95,18 +95,25 @@ export function socialService(pool:Pool){
    requireThat(!['CANCELLED','CLOSED'].includes(locked.rows[0]!.state.phase),'TERMINAL',409);
    const lockedOccupied=locked.rows[0]!.state.slots.filter(x=>x.state==='ACTIVE').length;
    requireThat(next.participantLimit===null||next.participantLimit>=lockedOccupied&&next.participantLimit<=locked.rows[0]!.state.slots.length,'PARTICIPANT_LIMIT',422);
-   const result=await db.query(`INSERT INTO plan_presentation(plan_id,version,title,meeting_time,meeting_point,note,participant_limit,changed_fields,reconfirm_version)
+   const result=await db.query<{version:number;reconfirm_version:number}>(`INSERT INTO plan_presentation(plan_id,version,title,meeting_time,meeting_point,note,participant_limit,changed_fields,reconfirm_version)
     VALUES($1,1,$2,$3,$4,$5,$6,$7::jsonb,CASE WHEN $9 THEN 1 ELSE 0 END)
     ON CONFLICT(plan_id) DO UPDATE SET version=plan_presentation.version+1,title=EXCLUDED.title,meeting_time=EXCLUDED.meeting_time,
     meeting_point=EXCLUDED.meeting_point,note=EXCLUDED.note,participant_limit=EXCLUDED.participant_limit,changed_fields=EXCLUDED.changed_fields,
     reconfirm_version=plan_presentation.reconfirm_version+CASE WHEN $9 THEN 1 ELSE 0 END,changed_at=clock_timestamp()
-    WHERE plan_presentation.version=$8 RETURNING version`,
+    WHERE plan_presentation.version=$8 RETURNING version,reconfirm_version`,
     [plan,next.title,next.meetingTime,next.meetingPoint,next.note,next.participantLimit,JSON.stringify(changed),input.expectedVersion,material]);
    requireThat(result.rowCount===1,'VERSION_CONFLICT',409);
-   await db.query('INSERT INTO plan_presentation_changes(plan_id,version,changed_fields) VALUES($1,$2,$3::jsonb)',[plan,result.rows[0].version,JSON.stringify(changed)]);
+   await db.query('INSERT INTO plan_presentation_changes(plan_id,version,changed_fields) VALUES($1,$2,$3::jsonb)',[plan,result.rows[0]!.version,JSON.stringify(changed)]);
    await db.query(`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id,actor_context_id)
     SELECT gen_random_uuid(),s.actor_id,'PLAN_CHANGED','План изменился',$1,$2 FROM plan_slots s
     WHERE s.plan_id=$1 AND s.state='ACTIVE' AND s.actor_id<>$2 AND COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=s.actor_id),true)`,[plan,actor]);
+   if(material)await db.query(`INSERT INTO outbox(id,command_id,plan_id,actor_id,kind,purpose,state,expires_at,notification_key,semantic_revision)
+    SELECT gen_random_uuid(),NULL,$1::uuid,s.actor_id,'RECONFIRMATION','RECONFIRMATION','READY',clock_timestamp()+interval '1 hour',
+     'reconfirm:'||($1::uuid)::text||':'||s.actor_id::text||':'||($2::integer)::text,$2::integer
+    FROM plan_slots s JOIN plan_rsvps r ON r.plan_id=s.plan_id AND r.actor_id=s.actor_id AND r.state='YES' AND r.reconfirm_version<$2::integer
+    WHERE s.plan_id=$1::uuid AND s.state='ACTIVE' AND s.actor_id<>$3::uuid
+    AND COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=s.actor_id),true)
+    ON CONFLICT DO NOTHING`,[plan,result.rows[0]!.reconfirm_version,actor]);
    });
    return this.planPresentation(actor,plan);
   },

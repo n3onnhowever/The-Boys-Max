@@ -50,7 +50,7 @@ test('campaign/referral are context only and route to personal home',()=>{
  for(const kind of ['CAMPAIGN','REFERRAL']as const){const payload=launchParam({kind,code:'public_campaign'});assert.deepEqual(decodeLaunch(payload),{kind,code:'public_campaign'});assert.deepEqual(route(payload),{kind:'CATALOG',scope:{kind:'PERSONAL'}});}
 });
 test('invalid or oversized event encoding fails closed to personal home',()=>{
- for(const payload of ['e_!','e_eyJyb2xlIjoiYWRtaW4ifQ','e_wA','e_'+'a'.repeat(511)])assert.deepEqual(decodeLaunch(payload),{kind:'PERSONAL'});
+ for(const payload of ['e_!','e_eyJyb2xlIjoiYWRtaW4ifQ','e_wA','e_'+'a'.repeat(511)])assert.deepEqual(decodeLaunch(payload),{kind:'INVALID'});
  assert.throws(()=>launchParam({kind:'EVENT',sourceId:'x'.repeat(160),externalEventId:'y'.repeat(160),occurrenceId:'z'.repeat(160)}),/PAYLOAD_LIMIT/);
 });
 test('launch context rejection and timeout are graceful',async t=>{
@@ -77,6 +77,14 @@ test('native rejection and missing APIs report explicit outcomes',async t=>{
  assert.equal(await openLink('https://max.ru/test_bot'),'FAILED');assert.equal(await share('SYNTHETIC','https://max.ru/test_bot'),'FAILED');
  window.WebApp={initData:'SYNTHETIC',platform:'android'};
  assert.equal(await openLink('https://max.ru/test_bot'),'UNSUPPORTED');assert.equal(await share('SYNTHETIC','https://max.ru/test_bot'),'UNSUPPORTED');
+});
+test('native MAX share receives exact public link synchronously in the click turn',async t=>{
+ const calls:{text:string;link:string}[]=[];
+ host(t,{initData:'SYNTHETIC',platform:'android',shareMaxContent:params=>{calls.push(params);return undefined}});
+ const link='https://max.ru/test_bot?startapp=f_'+'a'.repeat(64);
+ const pending=share('Добавиться в друзья в Поводе',link);
+ assert.deepEqual(calls,[{text:'Добавиться в друзья в Поводе',link}]);
+ assert.equal(await pending,'INVOKED');
 });
 test('BackButton subscription and cleanup use the same callback',t=>{
  const calls:string[]=[],back=()=>{};host(t,{initData:'SYNTHETIC',platform:'android',BackButton:{onClick(fn){assert.equal(fn,back);calls.push('on');},offClick(fn){assert.equal(fn,back);calls.push('off');},show(){calls.push('show');},hide(){calls.push('hide');}}});

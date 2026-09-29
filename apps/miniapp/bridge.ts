@@ -77,6 +77,10 @@ export function startParam(raw:string|null,search:string):string|null {
   return values.length===1&&validStartParam(values[0])?values[0]:null;
  }catch{return null;}
 }
+export function hasSignedStartParam(raw:string|null):boolean {
+ if(!raw)return false;
+ try{return parameters(raw).has('start_param')}catch{return true;}
+}
 async function bounded(call:()=>unknown,timeoutMs=1500):Promise<unknown>{
  let timer:ReturnType<typeof setTimeout>|undefined;
  try{return await Promise.race([Promise.resolve(call()),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('BRIDGE_TIMEOUT')),timeoutMs);})]);}

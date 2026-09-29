@@ -2,8 +2,8 @@ import { STATE_ASSETS } from '../assets.ts';
 import { AppViewport, Screen } from './AppShell.tsx';
 import { BrandHeader } from './BrandHeader.tsx';
 
-export function LaunchStateScreen({ title, message, relaunch, onRetry }: {
-  title: string; message: string; relaunch: boolean; onRetry: () => void;
+export function LaunchStateScreen({ title, message, relaunch, onRetry, actionLabel='Повторить проверку' }: {
+  title: string; message: string; relaunch: boolean; onRetry: () => void; actionLabel?:string;
 }) {
   return <AppViewport>
     <a className="skip-link" href="#main">К содержимому</a>
@@ -17,7 +17,7 @@ export function LaunchStateScreen({ title, message, relaunch, onRetry }: {
           <p>{relaunch ? 'Откройте Повод заново кнопкой в чате бота MAX, чтобы подтвердить сессию.' : message}</p>
         </div>
         <div className="system-state-actions">
-          <button type="button" className="system-state-primary" onClick={onRetry}>Повторить проверку</button>
+          <button type="button" className="system-state-primary" onClick={onRetry}>{actionLabel}</button>
         </div>
       </section>
     </Screen>

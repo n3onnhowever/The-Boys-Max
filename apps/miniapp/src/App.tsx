@@ -28,6 +28,10 @@ export interface AppProps {
   clipboard: ClipboardPort | null;
   renderMap?: MapRenderer;
   entry?: { message: string; retry: () => void };
+  initialSurface?: Surface;
+  forceInitialSurface?:boolean;
+  initialFriendToken?: string | null;
+  launchFailure?: string;
 }
 
 const catalogRoute: Route = {kind:'CATALOG',scope:{kind:'PERSONAL'}};
@@ -52,10 +56,11 @@ function surfaceFromUrl():Surface {
   return 'home';
 }
 
-export function App({ controller, origins, entry }: AppProps) {
-  const [surface,setSurface]=useState<Surface>(surfaceFromUrl);
+export function App({ controller, origins, entry, initialSurface, forceInitialSurface, initialFriendToken, launchFailure }: AppProps) {
+  const [surface,setSurface]=useState<Surface>(()=>forceInitialSurface?initialSurface??'home':surfaceFromUrl());
   const [searchText,setSearchText]=useState(()=>new URLSearchParams(location.search).get('q')??'');
-  const [friendToken]=useState(()=>new URLSearchParams(location.search).get('friend'));
+  const friendToken=initialFriendToken??new URLSearchParams(location.search).get('friend');
+  useEffect(()=>{if(forceInitialSurface&&initialSurface)setSurface(initialSurface)},[initialSurface,forceInitialSurface]);
   const [savedFallback,setSavedFallback]=useState<OccurrenceView|null>(null);
   const pendingScroll=useRef<number|null>(null);
   const state=useSyncExternalStore(controller.subscribe,controller.getSnapshot,controller.getSnapshot);
@@ -115,6 +120,7 @@ export function App({ controller, origins, entry }: AppProps) {
   };
   const navigation={availableIds:['home','search','plan','friends','profile'],onSelect:select};
   const criticalError=state.error&&['auth-failed','expired','uncertain'].includes(state.phase);
+  if(launchFailure)return <LaunchStateScreen title="Ссылка недоступна" message={launchFailure} relaunch={false} actionLabel="На главную" onRetry={()=>{window.history.replaceState(null,'',location.pathname);window.location.reload()}}/>;
   if(entry||criticalError)return <LaunchStateScreen title={entry?'Не удалось войти':state.phase==='auth-failed'?'Нужно войти снова':state.phase==='expired'?'Срок действия истёк':'Проверяем результат'} message={entry?.message??state.error??''} relaunch={Boolean(entry||state.phase==='expired'||state.phase==='auth-failed')} onRetry={entry?.retry??(()=>void controller.retry())}/>;
   const wrap=(content:ReactNode)=><NavigationProvider value={navigation}>{demoBanner}{content}</NavigationProvider>;
   if(surface==='profile')return wrap(<ProfileRuntime onNavigate={select} onSaved={()=>navigate('saved')} onSettings={()=>navigate('settings')} onNotifications={()=>navigate('notifications')} onPreference={page=>navigate(page)}/>);

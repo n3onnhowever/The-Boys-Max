@@ -1,6 +1,6 @@
 import {initialize,assertSessionCsrf} from '../client.ts';
-import {launchData,startParam,viewportSize} from '../bridge.ts';
-import {decodeLaunch} from './core/launch.ts';
+import {hasSignedStartParam,launchData,startParam,viewportSize} from '../bridge.ts';
+import {resolveLaunch} from './core/launch.ts';
 import {MapComparison} from '../../../modules/maps/component/MapComparison.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -24,6 +24,7 @@ async function readSession() {
 const port=new HttpVisualPort({origin:location.origin,fetcher:fetch.bind(window),codec,csrfToken:async()=>(await readSession()).csrfToken});
 const controller=new ViewController(port,()=>navigator.onLine);
 let initialRoute:Route={kind:'CATALOG',scope:{kind:'PERSONAL'}};
+let initialSurface:'home'|'event'|'invite'|'friends'|`plan:${string}`='home',friendToken:string|null=null,eventRef:string|null=null,linkError:string|null=null,usedStartParam=false;
 const params=new URLSearchParams(location.search);
 try{const serialized=params.get('route');if(serialized&&params.getAll('route').length===1)initialRoute=routeSchema.parse(JSON.parse(serialized));}
 catch{/* Malformed navigation never grants access. */}
@@ -34,7 +35,14 @@ let raw:string|null=null,launchError:unknown=null;
 try{
  raw=launchData();
  const context=startParam(raw,location.search);
- if(!params.has('route')&&!params.has('event')&&!params.has('invite')&&context)initialRoute=decodeLaunch(context);
+ if(hasSignedStartParam(raw)||!params.has('route')&&!params.has('event')&&!params.has('invite')){
+  const launch=resolveLaunch(context);
+  if(context||params.has('startapp')||params.has('launch')||hasSignedStartParam(raw)){
+   usedStartParam=true;
+   initialRoute=launch.route;initialSurface=launch.surface;friendToken=launch.friendToken??null;eventRef=launch.eventRef??null;
+   linkError=launch.error??(!context?'Ссылка недействительна. Откройте Повод с главной страницы.':null);
+  }
+ }
 }catch(error){launchError=error;}
 finally{
  // Remove launch material before any private view or external navigation; keep it only in memory.
@@ -49,9 +57,9 @@ updateViewport();window.addEventListener('resize',updateViewport);window.visualV
 void viewportSize().then(size=>{nativeHeight=size?.height??null;updateViewport();});
 const element=document.getElementById('root');if(!element)throw new Error('Missing root element');
 const root=createRoot(element);
-function render(entry?:{message:string;retry:()=>void}){
+function render(entry?:{message:string;retry:()=>void},failure?:string){
  root.render(<StrictMode><App controller={controller} origins={session?.externalOrigins??[]} clipboard={navigator.clipboard??null}
-  {...(entry?{entry}:{})}
+  {...(entry?{entry}:{})} initialSurface={initialSurface} forceInitialSurface={usedStartParam} initialFriendToken={friendToken} launchFailure={failure}
   renderMap={place=>place.geoView?<MapComparison options={[{uiKey:'place',view:place.geoView}]} selectedKey="place" onHighlight={()=>{}} onBack={()=>{}} gate="ADMISSION_HOLD" />:<p>Для этого места есть только адрес. Точка не придумана.</p>}/></StrictMode>);
 }
 let starting=false;
@@ -63,7 +71,34 @@ async function start(){
    const preview=await fetch('/dev/owner-session',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({persona:params.get('owner-preview')==='friend'?'friend':'owner'})});
    if(!preview.ok)throw new Error('OWNER_PREVIEW_UNAVAILABLE');
   }
-  await initialize(raw);await readSession();render();await controller.load(initialRoute);
+  await initialize(raw);await readSession();
+  if(eventRef){
+   try{const resolved=await fetch('/api/v1/launch/event/'+eventRef,{credentials:'same-origin',cache:'no-store'});
+    if(!resolved.ok)throw new Error('EVENT_REF_UNAVAILABLE');
+    initialRoute=routeSchema.parse((await resolved.json()).route);
+   }catch{linkError='Событие недоступно или срок ссылки истёк.';}
+  }
+  if(friendToken){
+   try{const resolved=await fetch('/api/v1/friend-links/'+friendToken+'/status',{credentials:'same-origin',cache:'no-store'});
+    if(!resolved.ok)throw new Error('FRIEND_REF_UNAVAILABLE');
+   }catch{linkError='Приглашение в друзья истекло или недоступно.';}
+  }
+  if(linkError){render(undefined,linkError);return;}
+  await controller.load(initialRoute);
+  const loaded=controller.getSnapshot();
+  if(loaded.phase!=='ready'){
+   const message=initialSurface==='invite'?'Приглашение истекло или недоступно.':initialSurface==='event'?'Событие недоступно.':initialSurface.startsWith('plan:')?'Нет доступа к этому плану.':initialSurface==='friends'?'Приглашение в друзья истекло.':null;
+   if(message){render(undefined,message);return;}
+  }
+  if(usedStartParam){
+   const url=new URL(location.href);
+   for(const key of ['startapp','launch','route','event','invite','friend','ui'])url.searchParams.delete(key);
+   url.searchParams.set('ui',initialSurface);
+   if(initialSurface==='friends'&&friendToken)url.searchParams.set('friend',friendToken);
+   else if(initialSurface==='event'||initialSurface==='invite'||initialSurface.startsWith('plan:'))url.searchParams.set('route',JSON.stringify(initialRoute));
+   history.replaceState(history.state,'',url);
+  }
+  render();
  }catch(error){
   session=null;
   const code=error instanceof Error?error.message:'';

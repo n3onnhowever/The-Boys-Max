@@ -13,7 +13,7 @@ function env():NodeJS.ProcessEnv{return {APP_MODE:'test',PUBLIC_ORIGIN:'http://l
 
 test('desired commands and subscription have only the entry flow',()=>{
  assert.deepEqual(BOT_COMMANDS.commands.map(c=>c.name),['start','app','help']);
- assert.deepEqual(BOT_UPDATE_TYPES,['bot_started','message_created']);
+ assert.deepEqual(BOT_UPDATE_TYPES,['bot_started','message_created','bot_stopped','dialog_removed']);
 });
 for(const [text,purpose] of [['/start','WELCOME'],[' /HELP ','HELP'],['/app','APP'],['/start locator','WELCOME'],['/startle','FALLBACK'],['Привет','FALLBACK'],['','FALLBACK']] as const)
  test('command '+JSON.stringify(text),()=>assert.equal(botPurpose(text),purpose));
