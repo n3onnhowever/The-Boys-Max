@@ -1,0 +1,8 @@
+# POVOD is a Node.js/TypeScript application; there are no Python runtime packages.
+# Application library versions are pinned in package.json and package-lock.json.
+# Required local/runtime tools:
+# Node.js 24.20.0
+# npm 11.19.0
+# Docker and Docker Compose
+# PostgreSQL 18.6
+# Redis 8.2.9
