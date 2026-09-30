@@ -24,6 +24,10 @@ COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/migrations ./migrations
 COPY --from=build --chown=node:node /app/licenses ./licenses
 COPY --from=build --chown=node:node /app/scripts/health-worker.cjs ./scripts/health-worker.cjs
+COPY --from=build --chown=node:node /app/scripts/data/curated-official-v1.json ./scripts/data/curated-official-v1.json
+COPY --from=build --chown=node:node /app/scripts/data/curated-official-tretyakov-exact-v1.json ./scripts/data/curated-official-tretyakov-exact-v1.json
+COPY --from=build --chown=node:node /app/scripts/data/curated-kudago-moscow-a-v1.json ./scripts/data/curated-kudago-moscow-a-v1.json
+COPY --from=build --chown=node:node /app/scripts/data/curated-kudago-moscow-b-v1.json ./scripts/data/curated-kudago-moscow-b-v1.json
 USER node
 EXPOSE 3000
 # Migration entry: node dist/scripts/migrate.js (no test seeding in release).

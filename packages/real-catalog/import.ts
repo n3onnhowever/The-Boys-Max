@@ -8,6 +8,21 @@ import {canonical} from '../../modules/search/core/guard.ts';
 import type {Candidate,PriceQuote} from '../../modules/search/core/types.ts';
 
 const uuid=(value:string)=>{const h=hash(value);return `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}`;};
+
+/** Reject cross-file collisions before any catalog transaction starts. */
+export function assertDistinctCuratedFiles(files:readonly CuratedFile[]):void{
+ const events=new Set<string>();
+ const sessions=new Set<string>();
+ for(const file of files)for(const record of file.records){
+  if(events.has(record.identity))throw Error('CURATED_BATCH_DUPLICATE_EVENT');
+  events.add(record.identity);
+  for(const session of record.sessions){
+   const identity=`${record.source_url}:${session.identity}`;
+   if(sessions.has(identity))throw Error('CURATED_BATCH_DUPLICATE_SESSION');
+   sessions.add(identity);
+  }
+ }
+}
 function candidateQuote(o:Occurrence):PriceQuote{
  const p=o.price,common={basis:p.basis,currency:p.currency,source_field:'source.price_text',fees_known:p.feesKnown,fee_mode:p.feeMode,fee_evidence_ref:p.feesKnown?'source.fee_status':null,extras:[],warnings:[]};
  if(p.kind==='FREE')return {...common,kind:'FREE'};
@@ -17,7 +32,9 @@ function candidateQuote(o:Occurrence):PriceQuote{
  return {...common,kind:'UNKNOWN',warnings:p.kind==='CONDITIONAL'?[{code:'CONDITIONAL_PRICE',field:'price',message:'Цена имеет обязательные условия; итог не подтверждён.'}]:[]};
 }
 export function candidateFromCanonical(event:Event,o:Occurrence,reviewedAt:string,reviewDueAt:string):Candidate{
- const observationId=uuid(['real-catalog/1',event.providerEventId,o.aliasValue,o.provenance.responseSha256].join(':'));
+ // A corrected canonical title is a new immutable Search observation.  The
+ // upstream response hash alone cannot represent that presentation change.
+ const observationId=uuid(['real-catalog/2',event.providerEventId,o.aliasValue,o.provenance.responseSha256,event.title].join(':'));
  const sourceUrl=o.provenance.sourceUrl;
  if(!sourceUrl)throw Error('REAL_SOURCE_LINK_REQUIRED');
  return parseCandidate({schema_version:'max.event-occurrence/3-candidate',ref:{kind:'EXTERNAL',provider_id:'ManualProvider',event_id:event.providerEventId,occurrence_id:o.aliasValue,native_occurrence_id:o.nativeSessionId},

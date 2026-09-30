@@ -1,7 +1,7 @@
 import {createHash} from 'node:crypto';
 import {mkdir,writeFile} from 'node:fs/promises';
 
-const out=new URL('../artifacts/real-catalog/source-receipts/',import.meta.url);
+const out=new URL('../.run-evidence/real-catalog/source-receipts/',import.meta.url);
 await mkdir(out,{recursive:true});
 const since=Math.floor(Date.parse('2026-09-25T21:00:00Z')/1000);
 const until=Math.floor(Date.parse('2026-10-25T20:59:59Z')/1000);

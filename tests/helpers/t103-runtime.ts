@@ -1,4 +1,4 @@
-/** Real PG/Redis/BullMQ T103 failure matrix. Run only through artifacts/t103/run-runtime.mjs. */
+/** Real PG/Redis/BullMQ T103 failure matrix. Run only through tests/runners/t103-runtime.mjs. */
 import assert from 'node:assert/strict';
 import {randomUUID,randomBytes} from 'node:crypto';
 import {fork,type ChildProcess} from 'node:child_process';

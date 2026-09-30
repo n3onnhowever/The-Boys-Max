@@ -1,8 +1,0 @@
-{
-  "name": "focused",
-  "startedUtc": "2026-09-20T17:05:54.4233148Z",
-  "sourceFingerprint": "6d968e6e50c9a7a84214664f4b7a142bbddd88e8a596f811028ac4fc1d7a9c4b",
-  "exit": 0,
-  "finishedUtc": "2026-09-20T17:05:55.2903555Z",
-  "command": "node --experimental-strip-types --test tests/unit/home-view-model.test.ts tests/unit/search-ui-state.test.ts tests/unit/detail-view-model.test.ts tests/unit/saved-ui-state.test.ts tests/unit/profile-ui-state.test.ts tests/unit/plans-ui.test.ts tests/unit/home-system-state.test.ts tests/unit/home-system-reset.test.ts tests/unit/ui-integration.test.ts"
-}

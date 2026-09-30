@@ -25,6 +25,7 @@ const eventView: EventView = {
     title: 'Synthetic concert',
     startLabel: '2 октября · 20:00',
     categoryLabel: 'Концерт',
+    artworkCategory: 'CONCERT',
     place: { address: '', coordinates: null, navigationUrl: null, attribution: null },
     price: { baseLabel: 'UNKNOWN', totalLabel: null, basisLabel: 'Основание неизвестно', fees_known: false, warnings: [] },
     sourceLabel: 'Synthetic source', sourceUrl: 'https://outside.invalid/event', freshnessLabel: 'Synthetic timestamp',
@@ -72,7 +73,8 @@ test('runtime adapter preserves supplied start only and does not invent detail f
   assert.equal(model.source.url, null);
   assert.equal(model.primaryAction.kind, 'UNAVAILABLE');
   assert.equal(model.attendance, null);
-  assert.equal(model.heroArtwork, null);
+  assert.equal(model.heroArtwork, '/assets/events/category-concert.png');
+  assert.equal(model.heroArtworkAlt, 'Иллюстрация категории «Концерты»');
 });
 
 test('runtime source action is exposed only for an allowlisted safe URL', () => {

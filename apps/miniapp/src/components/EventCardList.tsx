@@ -19,6 +19,7 @@ export function EventCardList({ events, savedEventIds, onSave, canSave, onOpen, 
         {event.artwork ? <img className="event-list-artwork" src={event.artwork} loading="lazy" decoding="async" alt={event.artworkAlt} /> : <span className={`event-list-artwork event-list-artwork-placeholder category-${categoryTone(event.categoryLabel)}`} role="img" aria-label="Иллюстрация категории; фото события не предоставлено" />}
         <span className="event-list-copy">
           <span className="event-list-date">{event.dateTimeLabel}</span>
+          {event.sourceLabel === 'Демо-каталог' && <span className="demo-catalog-card-label">Демо-каталог</span>}
           <span className="event-list-title">{event.title}</span>
           <span className="event-list-venue"><Icon name="pin" />{event.venue}</span>
           {event.reasonLabels?.length?<span className="event-list-venue">{event.reasonLabels.slice(0,2).join(' · ')}</span>:null}

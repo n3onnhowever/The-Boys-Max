@@ -1,9 +1,0 @@
-{
-  "status": "PASS",
-  "sourceSha": "7fbe5950f41cba4b310f5d1180121e174bd61496",
-  "modeCount": 2,
-  "modalSteps": 8,
-  "searchFocusChecked": true,
-  "raw": "keyboard-settled.json",
-  "command": "node D:/Dev/Repos/The-Boys-Max-ui-quality/tools/ui-final-gate/keyboard-probe.mjs"
-}

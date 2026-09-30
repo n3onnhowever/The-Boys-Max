@@ -13,6 +13,7 @@ export function EventCardCompact({ event, variant = 'compact', onOpen, onSave }:
     </div>
     <div className="event-card-body">
       <span className="event-card-date">{event.dateTimeLabel}</span>
+      {event.sourceLabel === 'Демо-каталог' && <span className="demo-catalog-card-label">Демо-каталог</span>}
       <h3>{event.title}</h3>
       <span className="event-card-venue"><Icon name="pin" />{event.venue}{event.distanceLabel ? ` · ${event.distanceLabel}` : ''}</span>
       <div className="event-card-tags">{event.categoryLabels.slice(0, 2).map(label => <span key={label}>{label}</span>)}</div>

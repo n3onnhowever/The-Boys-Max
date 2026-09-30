@@ -72,9 +72,9 @@ export function launchData(b:MaxBridge|null=bridge(),hash=typeof window==='undef
 export function startParam(raw:string|null,search:string):string|null {
  try{
   const signed=raw?parameters(raw).get('start_param'):undefined;
-  if(signed!==undefined)return validStartParam(signed)?signed:null;
+  if(signed!==undefined)return signed===''||validStartParam(signed)?signed:null;
   const params=new URLSearchParams(search),values=['WebAppStartParam','startapp','launch'].flatMap(key=>params.getAll(key));
-  return values.length===1&&validStartParam(values[0])?values[0]:null;
+  return values.length===1&&(values[0]===''||validStartParam(values[0]))?values[0]:null;
  }catch{return null;}
 }
 export function hasSignedStartParam(raw:string|null):boolean {

@@ -1,6 +1,0 @@
-{
-  "archive": "artifacts/t103/RAW_LOGS.json.gz",
-  "archive_sha256": "16abd4576cf5dd02eecdb67396db6f28c541ea53db201ce3ca871d71a103204c",
-  "original_logs": 43,
-  "normalization": "LF; trailing spaces/tabs; blank EOF lines only. No test output content or exit changed. Imported/baseline evidence untouched."
-}

@@ -2223,6 +2223,7 @@ details { margin: 16px 0; } summary { min-height: 44px; padding: 10px 0; cursor:
 .launch-state-reason { max-width: 300px; margin: 16px auto 0; color: var(--povod-color-muted); font-size: 12px; }
 @media (max-height: 620px) { .app-viewport:has(input:focus) .bottom-nav { display: none; } }
 .demo-catalog-notice { position: fixed; z-index: 70; right: max(12px, calc((100vw - 430px) / 2 + 12px)); bottom: calc(var(--povod-bottom-nav-height) + var(--povod-safe-bottom) + 10px); padding: 5px 9px; border: 1px solid #d9d2c5; border-radius: var(--povod-radius-pill); background: rgb(255 253 248 / 96%); color: var(--povod-color-muted); box-shadow: 0 2px 8px rgb(0 0 0 / 8%); font-size: 11px; font-weight: 600; line-height: 1.15; pointer-events: none; }
+.demo-catalog-card-label { display: inline-block; width: fit-content; padding: 3px 7px; border: 1px solid #d9d2c5; border-radius: var(--povod-radius-pill); background: #fffdf8; color: var(--povod-color-muted); font-size: 10px; font-weight: 700; line-height: 1.2; }
 /* Runtime forms and lists use the accepted viewport and visual tokens. */
 .owner-content{padding:20px 20px 110px;display:grid;gap:18px}
 .owner-form{display:grid;gap:18px}

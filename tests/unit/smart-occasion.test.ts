@@ -85,7 +85,7 @@ test('disabled, malformed, failure, timeout and quota are bounded',async()=>{
  assert.equal((await smartOccasionService(null,()=>Date.parse(now)).propose('a','s','test')).state,'DISABLED');
  assert.equal((await smartOccasionService(provider(async()=>'{bad'),()=>Date.parse(now)).propose('a','s','хочу куда-нибудь')).code,'AI_INVALID_RESPONSE');
  assert.equal((await smartOccasionService(provider(async()=>{throw new Error('offline')}),()=>Date.parse(now)).propose('a','s','хочу куда-нибудь')).code,'AI_PROVIDER_FAILURE');
- const slow=smartOccasionService(provider(async(_text,signal)=>new Promise((_resolve,reject)=>signal.addEventListener('abort',()=>reject(new Error('aborted')),{once:true}))),()=>Date.parse(now));
+ const slow=smartOccasionService(provider(async(_text,signal)=>new Promise((_resolve,reject)=>signal.addEventListener('abort',()=>reject(new Error('aborted')),{once:true}))),()=>Date.parse(now),20);
  assert.equal((await slow.propose('a','s','хочу куда-нибудь')).code,'AI_TIMEOUT');
  const service=smartOccasionService(provider(async()=>draft()),()=>Date.parse(now));
  for(let i=0;i<10;i++)assert.equal((await service.propose('a','s','хочу куда-нибудь')).state,'REVIEW');

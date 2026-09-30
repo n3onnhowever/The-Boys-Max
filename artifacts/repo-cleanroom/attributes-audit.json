@@ -1,6 +1,0 @@
-{
-  "changed": false,
-  "sha256_git_blob_bytes": "a0dd3039f24dd2af248a90a392e90872a0510390e33f48128e796b9ea54495a1",
-  "minus_text_rules": 304,
-  "reason": "Exact historical byte-preservation rules retained; no global newline normalization introduced"
-}

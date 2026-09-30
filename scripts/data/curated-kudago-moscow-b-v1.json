@@ -1,0 +1,1731 @@
+{
+  "records": [
+    {
+      "identity": "kudago-190272-1791108000",
+      "source_url": "https://kudago.com/msk/event/teatr-pokolenie-maugli/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "771be6a2b331e1347ac77384dcb499dca7baa1418701964ab2408e2e81a28ff4",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Поколение Маугли» на сцене МХТ имени Чехова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-190272-1791108000",
+          "starts_at": "2026-10-04T13:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1059",
+          "venue_name": "Московский художественный театр имени Чехова (МХТ)",
+          "address": "пер. Камергерский, д. 3",
+          "price_text": "от 1000 до 9500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-213876-1791108000",
+      "source_url": "https://kudago.com/msk/event/myuzikl-ostrov-sokrovisch/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f2f05cd6e512bf57a4de8e0f6931b3b597ec6bae3d10589fd362b81b57c4a38b",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "мюзикл «Остров сокровищ»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-213876-1791108000",
+          "starts_at": "2026-10-04T13:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 800 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-220111-1791108000",
+      "source_url": "https://kudago.com/msk/event/interaktivnyij-kontsert-s-chego-nachinaetsya-dzhaz/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "d370e12795639d9cb10f16007a7e79c30e0001bc259901c441f4e48aeafaafc1",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Интерактивный концерт «С чего начинается джаз»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-220111-1791108000",
+          "starts_at": "2026-10-04T13:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 900 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-225450-1791108000",
+      "source_url": "https://kudago.com/msk/event/ekskursiya-osobnyakteatralizovannaya-immersivnaya-ekskursiya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "81ebfa40d255e25e84a0ddfc0255170ddbf1a092049a3963982e9de4b3f2b270",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "театрализованная иммерсивная экскурсия «Особняк»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-225450-1791108000",
+          "starts_at": "2026-10-04T13:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-36231",
+          "venue_name": "бар «Орбита»",
+          "address": "ул. Яузская, д. 1/15 стр. 1",
+          "price_text": "от 1700 до 5000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226641-1791108000",
+      "source_url": "https://kudago.com/msk/event/ekskursiya-mezhdu-slovom-i-obrazom-gogol-v-illyustratsiyah-i-tsitatah/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a152ac23239ad10a117c2cf3695f33cc3743c3d3e52ea749f54469185adb9e4c",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "экскурсия «Между словом и образом: Гоголь в иллюстрациях и цитатах»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-226641-1791108000",
+          "starts_at": "2026-10-04T13:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1492",
+          "venue_name": "Дом Николая Гоголя",
+          "address": "бул. Никитский, д. 7, лит. А",
+          "price_text": "от 400 до 600 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-190558-1791111600",
+      "source_url": "https://kudago.com/msk/event/teatr-hodzha-nasreddin-fevral-2021/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "30380765b8954928fb6bdd27dad5fa1798bf840241bf38aae3911989a13fe3a8",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Ходжа Насреддин» в Театре Наций",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-190558-1791111600",
+          "starts_at": "2026-10-04T14:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-3461",
+          "venue_name": "Театр Наций",
+          "address": "Петровский пер., д. 3",
+          "price_text": "от 3000 до 6000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-15198-1791115200",
+      "source_url": "https://kudago.com/msk/event/kukolnyj-spektakl-zakoldovannyj-les-v-moskovskom-d/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f4e4a53a1010299a564890cd17b6d63a54eff023229865494f848937b9884be9",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Заколдованный лес» в Сказочном театре",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-15198-1791115200",
+          "starts_at": "2026-10-04T15:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-10141",
+          "venue_name": "Московский детский Сказочный театр",
+          "address": "пер. Большой Факельный, д. 18, стр. 2",
+          "price_text": "от 500 до 3000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-194706-1791118800",
+      "source_url": "https://kudago.com/msk/event/kontsert-vivaldi-vremena-goda-noyabr-2021/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "c9d4a522771d9943c96e597549eb9e5c30830482809201806dc20e6ec020677d",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Вивальди. Времена года»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-194706-1791118800",
+          "starts_at": "2026-10-04T16:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-36376",
+          "venue_name": "Киноконцертный зал «Эльдар»",
+          "address": "Ленинский просп., д. 105",
+          "price_text": "от 2000 до 3900 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226665-1791118800",
+      "source_url": "https://kudago.com/msk/event/kontsert-shedevryi-organnoj-muzyiki-igraet-melodi-mishel-frantsiya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "811c64d7b7715594df01332228fff91a2300d2f0d0da2f0248664e26dfba42f4",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Шедевры органной музыки: играет Мелоди Мишель (Франция)»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-226665-1791118800",
+          "starts_at": "2026-10-04T16:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-12566",
+          "venue_name": "Евангелическо-Лютеранский Кафедральный собор святых апостолов Петра и Павла",
+          "address": "пер. Старосадский, д. 7/10, стр. 10",
+          "price_text": "от 900 руб.",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-223480-1791122400",
+      "source_url": "https://kudago.com/msk/event/kontsert-dzhaz-i-vino/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "407fdd9c2caf1b089a227d768f84ffe30fe394fb8f2c165ca38f45321671eaa8",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "вечер «Джаз и вино»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-223480-1791122400",
+          "starts_at": "2026-10-04T17:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-36231",
+          "venue_name": "бар «Орбита»",
+          "address": "ул. Яузская, д. 1/15 стр. 1",
+          "price_text": "от 3500 до 5000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-190272-1791126000",
+      "source_url": "https://kudago.com/msk/event/teatr-pokolenie-maugli/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "6fd4de107ab85a52695dd4af13c8221178170192673d27fa8bbcdfe5ce275d26",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Поколение Маугли» на сцене МХТ имени Чехова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-190272-1791126000",
+          "starts_at": "2026-10-04T18:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1059",
+          "venue_name": "Московский художественный театр имени Чехова (МХТ)",
+          "address": "пер. Камергерский, д. 3",
+          "price_text": "от 1000 до 9500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-219578-1791126000",
+      "source_url": "https://kudago.com/msk/event/kontsert-duhovogo-kvinteta-windspiel/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "0946e5f51d42b74a95db871c9656eab58515048d021f8cf7e8c1994c5d965586",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Концерт духового квинтета Windspiel",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-219578-1791126000",
+          "starts_at": "2026-10-04T18:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1498",
+          "venue_name": "научная библиотека и мемориальный музей «Дом Лосева»",
+          "address": "ул. Арбат, д. 33",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-190558-1791129600",
+      "source_url": "https://kudago.com/msk/event/teatr-hodzha-nasreddin-fevral-2021/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "25a042fe15debccf9c084876aa9c8aebe524195e8cad43de07b26df7012c5d88",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Ходжа Насреддин» в Театре Наций",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-190558-1791129600",
+          "starts_at": "2026-10-04T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-3461",
+          "venue_name": "Театр Наций",
+          "address": "Петровский пер., д. 3",
+          "price_text": "от 3000 до 6000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-196538-1791129600",
+      "source_url": "https://kudago.com/msk/event/kontsert-meditatsiya-na-organe-minimalizm/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "5ecdfa8c5f065cdfcb20a14d86c6024d2f91f12e9450fdf43aabb413b5531992",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «1983. Минимализм. Медитация на органе»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-196538-1791129600",
+          "starts_at": "2026-10-04T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-12566",
+          "venue_name": "Евангелическо-Лютеранский Кафедральный собор святых апостолов Петра и Павла",
+          "address": "пер. Старосадский, д. 7/10, стр. 10",
+          "price_text": "от 600 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-204073-1791129600",
+      "source_url": "https://kudago.com/msk/event/teatr-primadonnyi/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "89b4fbcd3eafa0078c8553f1bcdf3d18cfdc55ff54c4a706bf2e11f117f8688a",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Примадонны»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-204073-1791129600",
+          "starts_at": "2026-10-04T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": "от 2000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-206600-1791129600",
+      "source_url": "https://kudago.com/msk/event/teatr-mayakovskij-poslushajte/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "4c951e7500eb44442a156242dc537e5f7342f2b6f3bbfeb14d0e6f3ae4313b1a",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Маяковский. Послушайте» в театре «Мастерская Петра Фоменко»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-206600-1791129600",
+          "starts_at": "2026-10-04T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-630",
+          "venue_name": "Театр «Мастерская Петра Фоменко»",
+          "address": "наб. Тараса Шевченко, д. 29",
+          "price_text": "от 1000 до 10 000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-220525-1791129600",
+      "source_url": "https://kudago.com/msk/event/kontsert-otgovorila-roscha-zolotaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f7acbba66b64c5b8512ed180f6b1f236d2a8ba6b211daf1b3841b6db95c2892d",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Отговорила роща золотая»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-220525-1791129600",
+          "starts_at": "2026-10-04T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 700 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226906-1791133200",
+      "source_url": "https://kudago.com/msk/event/spektakl-lastochka-moya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "b55d63356232532eac91a592189efe6245c882d658a331a720b8d2a9d72fb288",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Ласточка моя»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226906-1791133200",
+          "starts_at": "2026-10-04T20:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1470",
+          "venue_name": "Музей Москвы",
+          "address": "бул. Зубовский, д. 2",
+          "price_text": "уточняйте у организаторов",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226901-1791183600",
+      "source_url": "https://kudago.com/msk/event/kinopokaz-dozhivyom-do-ponedelnika/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "bdac439fab5f5b6a611a6b277fe6f82deff8210c3eda3b85c2bb6f83f3da93ec",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "показ фильма «Доживём до понедельника»",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-226901-1791183600",
+          "starts_at": "2026-10-05T10:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-2476",
+          "venue_name": "кинотеатр «Иллюзион»",
+          "address": "наб. Котельническая, д. 1/15",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226947-1791208800",
+      "source_url": "https://kudago.com/msk/event/kinolektorij-vij/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "d0d92765c2d0bc73f4ae23573ec4d36558b9e0e3ddcae4bd6cbd2be89b1003c2",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "кинолекторий «Вий»",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-226947-1791208800",
+          "starts_at": "2026-10-05T17:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1492",
+          "venue_name": "Дом Николая Гоголя",
+          "address": "бул. Никитский, д. 7, лит. А",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-225450-1791216000",
+      "source_url": "https://kudago.com/msk/event/ekskursiya-osobnyakteatralizovannaya-immersivnaya-ekskursiya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "4c0947656301f8f255c0c879424bf76587a28792dafa8e4b0075fdefc6176560",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "театрализованная иммерсивная экскурсия «Особняк»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-225450-1791216000",
+          "starts_at": "2026-10-05T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-36231",
+          "venue_name": "бар «Орбита»",
+          "address": "ул. Яузская, д. 1/15 стр. 1",
+          "price_text": "от 1700 до 5000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226756-1791216000",
+      "source_url": "https://kudago.com/msk/event/teatr-ostryie-predmetyi/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "09d56f5dfc0211af99a7e24f0fdd21d510471bd9b43ed38fbb2410b2ac1599c1",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Острые предметы»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226756-1791216000",
+          "starts_at": "2026-10-05T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-832",
+          "venue_name": "Театр на Таганке",
+          "address": "ул. Земляной Вал, д. 76/21",
+          "price_text": "от 12 000 руб.",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226967-1791216000",
+      "source_url": "https://kudago.com/msk/event/teatr-rahmaninov-doroga-v-raj/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "e7f752ca4d2c499188f43a68e1572d1beebaa2f3b18616a5745ca9db0b05b45f",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Рахманинов. Дорога в рай» со скидкой 40%",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226967-1791216000",
+          "starts_at": "2026-10-05T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": "от 900 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-227046-1791216000",
+      "source_url": "https://kudago.com/msk/event/pokaz-dokumentalnogo-filma-i-obsuzhdenie-velikantsyi/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "972ef238b18d7673591265ecf183de509d7fc635f87e9eda4f7d5d8b658288bf",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "показ документального фильма и обсуждение «Великанцы»",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-227046-1791216000",
+          "starts_at": "2026-10-05T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-743",
+          "venue_name": "Российская государственная библиотека для молодёжи",
+          "address": "ул. Большая Черкизовская, д. 4/1",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-47998-1791217800",
+      "source_url": "https://kudago.com/msk/event/spektakl-krik-langusty-v-teatre-im-evgvahtangova/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "2864380399f327cb995bbf4220172e44efcf1f807c152f1f072013ac0e00a1fb",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Крик лангусты» в Театре имени Вахтангова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-47998-1791217800",
+          "starts_at": "2026-10-05T19:30:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-27769",
+          "venue_name": "Театр имени Евгения Вахтангова (Новая сцена)",
+          "address": "ул. Арбат, д. 24",
+          "price_text": "от 1500 до 3201 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-207629-1791217800",
+      "source_url": "https://kudago.com/msk/event/teatr-dolgie-godyi/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f35ecb790f3d8d08c7e1e11095e0ee47d679a402037536aba1d9d574d1140e3e",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Долгие годы» в Театре имени Вахтангова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-207629-1791217800",
+          "starts_at": "2026-10-05T19:30:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-30496",
+          "venue_name": "Театр имени Евгения Вахтангова (Симоновская сцена)",
+          "address": "пер. Калошин, д. 10, стр. 2",
+          "price_text": "от 1300 до 2200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226966-1791217800",
+      "source_url": "https://kudago.com/msk/event/teatr-malenkie-komedii-o-glavnom/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a2156f59a9b715a2ac0d6399f09442c933a75cae5b46deeef904aa24b5fd167e",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Маленькие комедии о главном» со скидкой 25%",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226966-1791217800",
+          "starts_at": "2026-10-05T19:30:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": "от 1875 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226906-1791219600",
+      "source_url": "https://kudago.com/msk/event/spektakl-lastochka-moya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "57a352792b94d5551edf5aa8559a1773305be93d404a9d9a6cb54cd67911b825",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Ласточка моя»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226906-1791219600",
+          "starts_at": "2026-10-05T20:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1470",
+          "venue_name": "Музей Москвы",
+          "address": "бул. Зубовский, д. 2",
+          "price_text": "уточняйте у организаторов",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226682-1791302400",
+      "source_url": "https://kudago.com/msk/event/teatr-svadba-vslepuyu/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "2bdaab51126eae28ca7fc1b21e8552f95fed149c9fc421533c98cbd36ca747ee",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Свадьба вслепую»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226682-1791302400",
+          "starts_at": "2026-10-06T19:00:00+03:00",
+          "ends_at": "2026-10-06T20:40:00+03:00",
+          "venue_id": "kudago-place-1672",
+          "venue_name": "Театр «На Страстном»",
+          "address": "Страстной бул., д. 8, лит. А",
+          "price_text": "от 1000 до 4500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226949-1791302400",
+      "source_url": "https://kudago.com/msk/event/kinopokaz-no-budet-leto/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "6b649b3a0cb9a5eaf49f66a14df094afcbb92cf32e95e70e0dd0961e4c07616c",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "кинопоказ «Но будет лето…»",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-226949-1791302400",
+          "starts_at": "2026-10-06T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1492",
+          "venue_name": "Дом Николая Гоголя",
+          "address": "бул. Никитский, д. 7, лит. А",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-190990-1791304200",
+      "source_url": "https://kudago.com/msk/event/teatr-obeschanie-na-rassvete/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "afd756d051a1ccaa214051e64387c3a0b1b81710f5db49f7b8efdd73e89f9e64",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Обещание на рассвете» в Театре имени Вахтангова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-190990-1791304200",
+          "starts_at": "2026-10-06T19:30:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-30496",
+          "venue_name": "Театр имени Евгения Вахтангова (Симоновская сцена)",
+          "address": "пер. Калошин, д. 10, стр. 2",
+          "price_text": "от 1000 до 3000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226906-1791306000",
+      "source_url": "https://kudago.com/msk/event/spektakl-lastochka-moya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "9bf52bb5571de208dde4349187be9b5604885c38b64ed7ea74e734c220ac319d",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Ласточка моя»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226906-1791306000",
+          "starts_at": "2026-10-06T20:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1470",
+          "venue_name": "Музей Москвы",
+          "address": "бул. Зубовский, д. 2",
+          "price_text": "уточняйте у организаторов",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-65687-1791378000",
+      "source_url": "https://kudago.com/msk/event/spektakl-ali-baba-i-sorok-razbojnikov-v-teatre-kuk/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "d0baa6ee602deb3ad785d44a4dc966d01ab4cb2cbc1677b178874103eb391042",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Али-Баба и сорок разбойников» в Театре кукол имени Образцова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-65687-1791378000",
+          "starts_at": "2026-10-07T16:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-2033",
+          "venue_name": "Театр кукол имени Образцова",
+          "address": "ул. Садовая-Самотёчная, д. 3",
+          "price_text": "от 800 до 3000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-194567-1791388800",
+      "source_url": "https://kudago.com/msk/event/teatr-vojna-i-mir-noyabr-2021/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "017a1946c14b838af947b676ceea9c08af80f0600ded573015f4fa9ab20474db",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Война и мир» в Театре имени Вахтангова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-194567-1791388800",
+          "starts_at": "2026-10-07T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-847",
+          "venue_name": "Театр имени Евгения Вахтангова",
+          "address": "ул. Арбат, д. 26",
+          "price_text": "от 1500 до 15 000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226990-1791388800",
+      "source_url": "https://kudago.com/msk/event/festival-neskazannoe-upoenie---opera/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "ef155111aabc356ad5125d20539d8320f88632c3b716156b2eca7138e8913707",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "фестиваль «Несказанное упоение — опера»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-226990-1791388800",
+          "starts_at": "2026-10-07T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1498",
+          "venue_name": "научная библиотека и мемориальный музей «Дом Лосева»",
+          "address": "ул. Арбат, д. 33",
+          "price_text": "от 0 до 250 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-218372-1791390600",
+      "source_url": "https://kudago.com/msk/event/kontsert-gastro-stendap/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "7129a93a3cd413bf5b3b628adee19d8aabb32384e540f0a91b10e82a3ee4afb0",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Гастростендап. Комедийный концерт с ужином от шефа в старинном особняке",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-218372-1791390600",
+          "starts_at": "2026-10-07T19:30:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226966-1791390600",
+      "source_url": "https://kudago.com/msk/event/teatr-malenkie-komedii-o-glavnom/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "b3cc348eb344ee9afc14f59aa04a3ad89d8edf401bd6b51930b90004f04d8d17",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Маленькие комедии о главном» со скидкой 25%",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226966-1791390600",
+          "starts_at": "2026-10-07T19:30:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": "от 1875 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226283-1791392400",
+      "source_url": "https://kudago.com/msk/event/spektakl-lyubovnyie-pisma-virtualnyij-roman/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "dd253d3c3117254f943f18335d22f8e05c8d43a51dcced90b730486ab2434ff4",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Любовные письма. Виртуальный роман»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-226283-1791392400",
+          "starts_at": "2026-10-07T20:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 1500 до 25 000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-227103-1791471600",
+      "source_url": "https://kudago.com/msk/event/kontsert-kamernoj-ansamblevoj-muzyiki/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "9e8ecfcbb1f51eecf61a58ff957a2333876a271ef198f4921b0a0cb0ec2275e5",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Концерт камерной ансамблевой музыки",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-227103-1791471600",
+          "starts_at": "2026-10-08T18:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-2539",
+          "venue_name": "Особняк купца Носова",
+          "address": "ул. Электрозаводская, д. 12, стр. 1",
+          "price_text": "200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-216956-1791475200",
+      "source_url": "https://kudago.com/msk/event/teatr-gamlet-2025/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "68057403b12305fd6a5e39a3b1c1bc9e3f90924167d41fd90eb5af291cc4674f",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Гамлет» в Театре на Таганке",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-216956-1791475200",
+          "starts_at": "2026-10-08T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-832",
+          "venue_name": "Театр на Таганке",
+          "address": "ул. Земляной Вал, д. 76/21",
+          "price_text": "от 1000 до 8000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-220513-1791475200",
+      "source_url": "https://kudago.com/msk/event/kontsert-pesnopeniya-drevnej-vizantii-hor-aksion-estin/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "1f463d91e385c8acbcf3e045f7101a5c8d23f14f2f0a50bd54c8e59a14045417",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Песнопения древней Византии. Хор Аксион Естин»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-220513-1791475200",
+          "starts_at": "2026-10-08T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 700 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-190640-1791478800",
+      "source_url": "https://kudago.com/msk/event/kontsert-saundtreki-na-organe-solyaris-zerkalo-interstellar/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "3e3e042728d321c23cdcd1db4a5ad65b0a80551c6892093ed1c0af5437a12b71",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Саундтреки на органе»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-190640-1791478800",
+          "starts_at": "2026-10-08T20:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-12566",
+          "venue_name": "Евангелическо-Лютеранский Кафедральный собор святых апостолов Петра и Павла",
+          "address": "пер. Старосадский, д. 7/10, стр. 10",
+          "price_text": "от 900 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-227104-1791554400",
+      "source_url": "https://kudago.com/msk/event/kontsert-muzyikalnyij-salon-fantaziya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "ae09496bd147610e20450a2ca39cd53a86b6b298d254635d745d2baeafd61eab",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Музыкальный салон „Фантазия“»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-227104-1791554400",
+          "starts_at": "2026-10-09T17:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-2539",
+          "venue_name": "Особняк купца Носова",
+          "address": "ул. Электрозаводская, д. 12, стр. 1",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-188885-1791561600",
+      "source_url": "https://kudago.com/msk/event/teatr-starshij-syin-2020/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a818e0f91fe492e8ccd2f9fc1f425641640136f0fa18eaed459789ee8759b3fe",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Старший сын» в Московском театре Олега Табакова",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-188885-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-844",
+          "venue_name": "Московский театр Олега Табакова (Историческая сцена)",
+          "address": "ул. Чаплыгина, д. 1, лит. А, стр. 1",
+          "price_text": "от 2500 до 8000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-199924-1791561600",
+      "source_url": "https://kudago.com/msk/event/teatr-slishkom-zhenatyij-taksist-oktyabr-2022/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "7e0a26512b68d5c2cc2031e62b846340d6e6706d3cce6f17559d0bda2778f904",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Слишком женатый таксист»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-199924-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": "от 1500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-209756-1791561600",
+      "source_url": "https://kudago.com/msk/event/teatr-moj-brat-umer/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a3a4369dd7bf07c9db78e50d420c16a76a7c271a517aa36670f2837a64f3d80c",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "спектакль «Мой брат умер» в Новом пространстве Театра Наций",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-209756-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-28105",
+          "venue_name": "Театр Наций (Новое пространство)",
+          "address": "Страстной бул., д. 12/2",
+          "price_text": "от 6000 до 8500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-220532-1791561600",
+      "source_url": "https://kudago.com/msk/event/tvorcheskij-vecher-zhizn-na-konchikah-paltsev/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "5eba7ec2ee2b6a61dca63d6c337f6d2688c0f366734ee971fdfcd84933639e61",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "творческий вечер «Жизнь на кончиках пальцев»",
+      "category": "THEATRE",
+      "sessions": [
+        {
+          "identity": "kudago-220532-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 3500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-220555-1791561600",
+      "source_url": "https://kudago.com/msk/event/shou-flamenco-capriccios/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a2c668a8e90cd959e0cf8b23b091cad61aa9c98aed393bb130c74520f1fff06a",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "шоу Flamenco Capriccios",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-220555-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 700 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-222527-1791561600",
+      "source_url": "https://kudago.com/msk/event/kontsert-mirovyie-rok-hityi-na-saksofonah/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "39b2c588a0ce23049c3b9b8530fb9aa248ce50c38792becd2084df3e6e7da287",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Мировые рок-хиты на саксофонах»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-222527-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 700 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-222804-1791561600",
+      "source_url": "https://kudago.com/msk/event/kontsert-madam-boom-aprel-2026/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "ee421ab562654e3657fb1f71b5d415d8d2b7111fef570c5cf40b6072455df96f",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "бурлеск-кабаре «Мадам Бум»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-222804-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-36201",
+          "venue_name": "гастро-клуб «Гримёрка»",
+          "address": "ул. Пушечная, д. 9/6",
+          "price_text": "от 3000 до 7000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226984-1791561600",
+      "source_url": "https://kudago.com/msk/event/kontsert-na-vyisote/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "aeb56f5f148554f3b59b6daf4e1946197f43661b25c0dd5d6bd679c429dfa3da",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «На высоте»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-226984-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": "2026-10-09T20:30:00+03:00",
+          "venue_id": "kudago-place-10857",
+          "venue_name": "дом культуры «Зодчие»",
+          "address": "ул. Партизанская, д. 23",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226993-1791561600",
+      "source_url": "https://kudago.com/msk/event/kontsert-zvuki-proshlogo/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f3177a516496b5798e939851b1dce4aba30747a54f6c17cb836e2394d71d89ae",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Звуки прошлого»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-226993-1791561600",
+          "starts_at": "2026-10-09T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1498",
+          "venue_name": "научная библиотека и мемориальный музей «Дом Лосева»",
+          "address": "ул. Арбат, д. 33",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-194706-1791633600",
+      "source_url": "https://kudago.com/msk/event/kontsert-vivaldi-vremena-goda-noyabr-2021/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "1b2854893d37ec1e4b590b6a68daae447f32e0d7b972084490b0b990393f6222",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Вивальди. Времена года»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-194706-1791633600",
+          "starts_at": "2026-10-10T15:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-36376",
+          "venue_name": "Киноконцертный зал «Эльдар»",
+          "address": "Ленинский просп., д. 105",
+          "price_text": "от 2000 до 3900 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-211600-1791633600",
+      "source_url": "https://kudago.com/msk/event/kontsert-nashe-lyubimoe-kino-orkestr-russkaya-filarmoniya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "162b1664d9c6374e575b7d5501c0a3410550dfb788f8548a52c6a4b1d1992261",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "концерт «Наше любимое кино. Оркестр „Русская филармония“»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-211600-1791633600",
+          "starts_at": "2026-10-10T15:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-745",
+          "venue_name": "Московский международный Дом музыки (ММДМ)",
+          "address": "наб. Космодамианская, д. 52, стр. 8",
+          "price_text": "от 3000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-194295-1791640800",
+      "source_url": "https://kudago.com/msk/event/kontsert-the-beatles-oktyabr-2021/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "d2fed40f1af4851354fc821137e2d8bbe3cb673a4380d1d29652b8c0d324e019",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "фестиваль «Битлзфест»",
+      "category": "CONCERT",
+      "sessions": [
+        {
+          "identity": "kudago-194295-1791640800",
+          "starts_at": "2026-10-10T17:00:00+03:00",
+          "ends_at": "2026-10-10T23:00:00+03:00",
+          "venue_id": "kudago-place-36315",
+          "venue_name": "клуб «База» / Base",
+          "address": "ул. Орджоникидзе, д. 11, стр. 1",
+          "price_text": "от 2200 до 5000 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-227106-1791712800",
+      "source_url": "https://kudago.com/msk/event/ekskursiya-struktura-povsednevnosti-yauzskoj-moskvyi/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "30a7ee3feeb581213cb86f04d62b1fb496b6f3b2631b9000a502ff2c86de3bc7",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "экскурсия «Структура повседневности Яузской Москвы»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-227106-1791712800",
+          "starts_at": "2026-10-11T13:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-2539",
+          "venue_name": "Особняк купца Носова",
+          "address": "ул. Электрозаводская, д. 12, стр. 1",
+          "price_text": "1500 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-25325-1791752400",
+      "source_url": "https://kudago.com/msk/event/dni-otkrytyh-dverej-v-muzeyah-moskvy/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "2aac6d75224e1d2652bf0278b3db7c6595e44ae3be5e419832401210c9f0d198",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Московская музейная неделя",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-25325-1791752400",
+          "starts_at": "2026-10-12T00:00:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-227052-1791900000",
+      "source_url": "https://kudago.com/msk/event/seriya-kinopokazov-zvezda-po-imeni-kostomarov/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a2fdc1ab8fe1ae58022e1c5ab8caa5a7fb9045951a4f7192d62d7c39f87466de",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "кинопоказ «Звезда по имени Костомаров»",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-227052-1791900000",
+          "starts_at": "2026-10-13T17:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-743",
+          "venue_name": "Российская государственная библиотека для молодёжи",
+          "address": "ул. Большая Черкизовская, д. 4/1",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-226951-1791979200",
+      "source_url": "https://kudago.com/msk/event/kinolektorij-osen-s-tiflokommentariyami/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "8d39b358179470be1bebbdfcde49e9b7bce755743fa3bfeafa500725568851d7",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "кинолекторий «Осень» с тифлокомментариями",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-226951-1791979200",
+          "starts_at": "2026-10-14T15:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-1492",
+          "venue_name": "Дом Николая Гоголя",
+          "address": "бул. Никитский, д. 7, лит. А",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-227054-1792166400",
+      "source_url": "https://kudago.com/msk/event/kinopokaz-zhivoj-trup-1929/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f3dc8bd8ff434a6e3812483cce8b5b66313daaa6c64e08f530852c0ab00dc93d",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "кинопоказ «Живой труп» (1929)",
+      "category": "CINEMA",
+      "sessions": [
+        {
+          "identity": "kudago-227054-1792166400",
+          "starts_at": "2026-10-16T19:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-743",
+          "venue_name": "Российская государственная библиотека для молодёжи",
+          "address": "ул. Большая Черкизовская, д. 4/1",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794042000",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "51ccce82fd934bdc320be7ba7abad895a1495454b90f0188bb3f91b60b0f76b9",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794042000",
+          "starts_at": "2026-11-07T12:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-224877-1794042000",
+      "source_url": "https://kudago.com/msk/event/vyistavka-vselennaya-sobak-maj-2026/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "6b3cf25d3b80a302dbb18161708ed03291f156266cef54353f91bf8d6938afa5",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Вселенная собак»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-224877-1794042000",
+          "starts_at": "2026-11-07T12:00:00+03:00",
+          "ends_at": "2026-11-07T20:00:00+03:00",
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794049200",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "ef5efaeffbbbe2c3d19fddd6e3687651b9a178b6e05d03acd857499a423318cb",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794049200",
+          "starts_at": "2026-11-07T14:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794056400",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "a363f132c50bc3d2d41dfac6b4cb7682c39e3ee4f30e48f0b0b7880e11bcad4e",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794056400",
+          "starts_at": "2026-11-07T16:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794063600",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "8bd1991956d4dfab57bf02871d0cd5707ad863418107ba421d790dbc820cc79c",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794063600",
+          "starts_at": "2026-11-07T18:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794128400",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "ade6fc54bf28def2bd4263ef9f19ed2430445d2f3b1d41c0db1081068cf20672",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794128400",
+          "starts_at": "2026-11-08T12:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-224877-1794128400",
+      "source_url": "https://kudago.com/msk/event/vyistavka-vselennaya-sobak-maj-2026/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "8c805000cc016f443251a82cd7e97a86d56760b37f28bd850200adc8e6ef953f",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Вселенная собак»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-224877-1794128400",
+          "starts_at": "2026-11-08T12:00:00+03:00",
+          "ends_at": "2026-11-08T20:00:00+03:00",
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794135600",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "3756e8d005a9df19634c1a5e06a7f9fc9435153ee0258f5ec3f62d91b1adee88",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794135600",
+          "starts_at": "2026-11-08T14:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794142800",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "6d37cfcecbaa370856a701b7940e50ead51ec90e71c2d4941a6218a739659e20",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794142800",
+          "starts_at": "2026-11-08T16:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-214165-1794150000",
+      "source_url": "https://kudago.com/msk/event/vyistavka-koshachya-vselennaya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "9a3d34b3737077014ea657710b949925241485797ea8e79f85495278873b38af",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка «Кошачья Вселенная»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-214165-1794150000",
+          "starts_at": "2026-11-08T18:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-596",
+          "venue_name": "центр дизайна «Артплей» / Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10, стр. 7",
+          "price_text": "от 200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-25325-1794171600",
+      "source_url": "https://kudago.com/msk/event/dni-otkrytyh-dverej-v-muzeyah-moskvy/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "45ae0ec51120d710a0873f4465cc9bfb801a31da30f985e392c48d6068791c0f",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Московская музейная неделя",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-25325-1794171600",
+          "starts_at": "2026-11-09T00:00:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-59888-1794639600",
+      "source_url": "https://kudago.com/msk/event/vystavka-sobak-evraziya/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "bacccdf7faf834e85c5a1035d52262e3438e2df22f51e01a227aa99ce92f5f1a",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка собак «Евразия 2026»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-59888-1794639600",
+          "starts_at": "2026-11-14T10:00:00+03:00",
+          "ends_at": null,
+          "venue_id": "kudago-place-361",
+          "venue_name": "Международный выставочный центр «Крокус Экспо»",
+          "address": "Московская обл., Красногорский р-н, г. Красногорск, ул. Международная, д. 16, 18, 20",
+          "price_text": "от 200 до 1200 рублей",
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-221496-1795856400",
+      "source_url": "https://kudago.com/msk/event/vyistavka-vyistavka-yolochnyih-igrushek-ot-marketa-4-sezona/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "94d0e32535dba51b55b9c98822d0dd8be6a5c4717c6ac1ab5ee6fa5311561cd7",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка ёлочных игрушек от маркета «4 сезона»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-221496-1795856400",
+          "starts_at": "2026-11-28T12:00:00+03:00",
+          "ends_at": "2026-11-28T20:00:00+03:00",
+          "venue_id": "kudago-place-33532",
+          "venue_name": "центр дизайна Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10 стр. 7",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-221496-1795942800",
+      "source_url": "https://kudago.com/msk/event/vyistavka-vyistavka-yolochnyih-igrushek-ot-marketa-4-sezona/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "f554d4e8dbbd052946ad222e38483be122d0bb7d3527848f02900e3a38ad3810",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "выставка ёлочных игрушек от маркета «4 сезона»",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-221496-1795942800",
+          "starts_at": "2026-11-29T12:00:00+03:00",
+          "ends_at": "2026-11-29T20:00:00+03:00",
+          "venue_id": "kudago-place-33532",
+          "venue_name": "центр дизайна Artplay",
+          "address": "ул. Нижняя Сыромятническая, д. 10 стр. 7",
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    },
+    {
+      "identity": "kudago-25325-1797195600",
+      "source_url": "https://kudago.com/msk/event/dni-otkrytyh-dverej-v-muzeyah-moskvy/",
+      "source_owner": "KudaGo",
+      "reviewed_at": "2026-09-30T00:00:00.000Z",
+      "source_hash": "12bfd71bf670b361c49758babe5880e5e5476d70f11da3b6df94db7334ded954",
+      "rights_note": "KudaGo public API factual listing; added for the hackathon with explicit operator authorization. Advertising status is not independently reviewed; no descriptions or provider images are reused.",
+      "title": "Московская музейная неделя",
+      "category": "MUSEUM",
+      "sessions": [
+        {
+          "identity": "kudago-25325-1797195600",
+          "starts_at": "2026-12-14T00:00:00+03:00",
+          "ends_at": null,
+          "venue_id": null,
+          "venue_name": null,
+          "address": null,
+          "price_text": null,
+          "fee_status": "UNKNOWN",
+          "price_scope": "EVENT"
+        }
+      ]
+    }
+  ],
+  "schema": "povod.curated-official/1",
+  "as_of": "2026-09-30T00:00:00.000Z"
+}

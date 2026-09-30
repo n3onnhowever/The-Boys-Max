@@ -40,7 +40,7 @@ try{
   if(context||params.has('startapp')||params.has('launch')||hasSignedStartParam(raw)){
    usedStartParam=true;
    initialRoute=launch.route;initialSurface=launch.surface;friendToken=launch.friendToken??null;eventRef=launch.eventRef??null;
-   linkError=launch.error??(!context?'Ссылка недействительна. Откройте Повод с главной страницы.':null);
+   linkError=launch.error??(context===null?'Ссылка недействительна. Откройте Повод с главной страницы.':null);
   }
  }
 }catch(error){launchError=error;}

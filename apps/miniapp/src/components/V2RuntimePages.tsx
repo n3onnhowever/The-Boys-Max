@@ -7,6 +7,8 @@ import { AppHeader, BackHeader, Chip, EmptyState, ErrorState, FriendRow, Notific
 import type { Route } from '../port/contracts.ts';
 import './v2-runtime.css';
 import {share as shareInMax} from '../../bridge.ts';
+import {calendarEventUrl,preferenceWritePayload} from '../core/runtime-actions.ts';
+import {ExternalLink} from './ExternalLink.tsx';
 
 export type PreferencePage = 'interests'|'city'|'budget'|'time'|'radius'|'notification-preferences'|'linked-services';
 type Preferences = {city:string;interests:string[];budgetRub:number|null;radiusKm:number;notificationsEnabled:boolean;preferredTime:'ANY'|'MORNING'|'DAY'|'EVENING'|'NIGHT'};
@@ -21,7 +23,7 @@ type Notice = {id:string;kind:string;title:string;planId:string|null;inviteRef:s
 type Rsvp = 'YES'|'MAYBE'|'NO';
 type Plan = {planId:string;title:string;stateVersion:number;phase:string;capabilities:{canManage:boolean};rule:{kind:'ALL'|'MIN';n?:number};decisionDeadline:string;options:{optionId:string;source?:{ref?:{provider_id:string;event_id:string;occurrence_id:string}};terms:{title:string;startsAt:string|null;endsAt:string|null;place:string|null}}[];slots:{slotId:string;label:string;required:boolean;actorId:string|null;state:string}[]};
 type Change = {from:string|null;to:string|null};
-type Presentation = {version:number;reconfirmVersion:number;title:string;meetingTime:string|null;meetingPoint:string|null;note:string|null;participantLimit:number|null;maxParticipants:number;phase:string;organizerId:string;organizerName:string;changedFields:Record<string,Change>};
+type Presentation = {version:number;reconfirmVersion:number;title:string;meetingTime:string|null;meetingPoint:string|null;note:string|null;participantLimit:number|null;maxParticipants:number;phase:string;organizerId:string;organizerName:string;participantNames:Record<string,string>;changedFields:Record<string,Change>};
 const interests = ['Музыка','Стендап','Выставки','Театр','Кино','Фестивали','Лекции','Спорт','Гастрономия','Искусство','Вечеринки','Для детей'];
 const timeOptions = [{id:'ANY',label:'Любое'},{id:'MORNING',label:'Утром'},{id:'DAY',label:'Днём'},{id:'EVENING',label:'Вечером'},{id:'NIGHT',label:'Ночью'}] as const;
 const cityOptions = ['Москва','Санкт-Петербург','Казань','Екатеринбург','Новосибирск'];
@@ -42,7 +44,7 @@ function Frame({title,active='profile',onBack,onNavigate,children,headerAction}:
 function usePreferences(){
  const [value,setValue]=useState<Preferences|null>(null),[error,setError]=useState(''),[tick,setTick]=useState(0);
  useEffect(()=>{let live=true;api<Preferences>('/api/v1/me/preferences').then(x=>{if(live){setValue(x);setError('')}}).catch(()=>{if(live)setError('Не удалось загрузить предпочтения')});return()=>{live=false}},[tick]);
- const save=async(next:Preferences)=>{try{const saved=await apiWrite<Preferences>('PUT','/api/v1/me/preferences',next);setValue(saved);setError('');return true}catch{setError('Не удалось сохранить. Попробуйте ещё раз.');return false}};
+ const save=async(next:Preferences)=>{try{const saved=await apiWrite<Preferences>('PUT','/api/v1/me/preferences',preferenceWritePayload(next));setValue(saved);setError('');return true}catch{setError('Не удалось сохранить. Попробуйте ещё раз.');return false}};
  return {value,error,retry:()=>setTick(x=>x+1),save};
 }
 export function ProfileRuntime({onNavigate,onSaved,onSettings,onNotifications,onPreference}:{onNavigate:(id:string)=>void;onSaved:()=>void;onSettings:()=>void;onNotifications:()=>void;onPreference:(page:PreferencePage)=>void}){
@@ -145,14 +147,10 @@ function PlanCard({plan,presentation,rsvp,needsReconfirmation,participantNames,o
 const changeLabels:Record<string,string>={title:'Название плана',meetingTime:'Время встречи',meetingPoint:'Точка встречи',note:'Заметка',participantLimit:'Лимит участников'};
 const changedValue=(key:string,value:string|null)=>value===null?'Не задано':key==='meetingTime'?date(value):value;
 function CalendarAction({plan,presentation}:{plan:Plan;presentation:Presentation}){
- const download=()=>{
-  const event=plan.options[0]?.terms;if(!event?.startsAt)return;
-  const stamp=(value:string)=>new Date(value).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
-  const escape=(value:string)=>value.replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');
-  const text=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//POVOD//Plan//RU','BEGIN:VEVENT',`UID:${plan.planId}@povod`,`DTSTAMP:${stamp(new Date().toISOString())}`,`DTSTART:${stamp(presentation.meetingTime??event.startsAt)}`,`SUMMARY:${escape(presentation.title)}`,`LOCATION:${escape(presentation.meetingPoint??event.place??'')}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
-  const url=URL.createObjectURL(new Blob([text],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='povod-plan.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
- };
- return <PovodButton variant="secondary" icon="calendar" onClick={download} disabled={!plan.options[0]?.terms.startsAt}>Добавить в календарь</PovodButton>;
+ const event=plan.options[0]?.terms;
+ if(!event?.startsAt)return <PovodButton variant="secondary" icon="calendar" disabled>Дата события уточняется</PovodButton>;
+ const url=calendarEventUrl({title:presentation.title,startsAt:presentation.meetingTime??event.startsAt,endsAt:presentation.meetingTime?null:event.endsAt,place:presentation.meetingPoint??event.place,note:presentation.note});
+ return <ExternalLink href={url} className="v2-button v2-button-secondary"><Icon name="calendar"/>Открыть Google Календарь</ExternalLink>;
 }
 export function PlansRuntime({onNavigate,selected,onSelect,onOpenEvent}:{onNavigate:(id:string)=>void;selected:string|null;onSelect:(id:string|null)=>void;onOpenEvent?:(route:Extract<Route,{kind:'EVENT'}>)=>void}){
  const meetingInput=useRef<HTMLInputElement>(null);
@@ -186,10 +184,10 @@ export function PlansRuntime({onNavigate,selected,onSelect,onOpenEvent}:{onNavig
  if(!plans||!actor)return <Frame title="Мои планы" active="plan" onNavigate={onNavigate}>{error?<ErrorState message={error} onRetry={()=>setTick(x=>x+1)}/>:<p role="status">Загружаем планы…</p>}</Frame>;
  if(!plan)return <Frame title="Мои планы" active="plan" onNavigate={onNavigate}>
   {error&&<ErrorState message={error} onRetry={()=>setTick(x=>x+1)}/>}
-  {plans.length?<><div className="v2-segment"><button type="button" className={period==='upcoming'?'is-active':''} aria-pressed={period==='upcoming'} onClick={()=>setPeriod('upcoming')}>Предстоящие</button><button type="button" className={period==='past'?'is-active':''} aria-pressed={period==='past'} onClick={()=>setPeriod('past')}>Прошедшие</button></div><div className="v2-plan-list">{plans.filter(p=>{const start=p.options[0]?.terms.startsAt;const upcoming=p.phase!=='CANCELLED'&&(!start||Date.parse(start)>=Date.now());return period==='upcoming'?upcoming:!upcoming}).map(p=><PlanCard key={p.planId} plan={p} presentation={presentations[p.planId]} rsvp={selfStatus(p)} needsReconfirmation={Boolean(actor&&rsvps[p.planId]?.find(x=>x.actorId===actor.id)?.needsReconfirmation)} participantNames={p.slots.filter(s=>s.state==='ACTIVE'&&s.actorId).map(s=>s.actorId===actor.id?actor.displayName:s.actorId===presentations[p.planId]?.organizerId?presentations[p.planId]?.organizerName??'Организатор':friends.find(f=>f.id===s.actorId)?.name??s.label??'Участник')} onOpen={()=>onSelect(p.planId)}/>)}</div>{!plans.some(p=>{const start=p.options[0]?.terms.startsAt;const upcoming=p.phase!=='CANCELLED'&&(!start||Date.parse(start)>=Date.now());return period==='upcoming'?upcoming:!upcoming})&&<EmptyState title={period==='upcoming'?'Предстоящих планов нет':'Прошедших планов нет'} description="Другие планы можно найти в соседней вкладке."/>}</>:<EmptyState title="Пока планов нет" description="Сохраняйте интересные события и планируйте поход с друзьями." action={<PovodButton onClick={()=>onNavigate('search')}>Найти событие</PovodButton>}/>}
+  {plans.length?<><div className="v2-segment"><button type="button" className={period==='upcoming'?'is-active':''} aria-pressed={period==='upcoming'} onClick={()=>setPeriod('upcoming')}>Предстоящие</button><button type="button" className={period==='past'?'is-active':''} aria-pressed={period==='past'} onClick={()=>setPeriod('past')}>Прошедшие</button></div><div className="v2-plan-list">{plans.filter(p=>{const start=p.options[0]?.terms.startsAt;const upcoming=p.phase!=='CANCELLED'&&(!start||Date.parse(start)>=Date.now());return period==='upcoming'?upcoming:!upcoming}).map(p=><PlanCard key={p.planId} plan={p} presentation={presentations[p.planId]} rsvp={selfStatus(p)} needsReconfirmation={Boolean(actor&&rsvps[p.planId]?.find(x=>x.actorId===actor.id)?.needsReconfirmation)} participantNames={p.slots.filter(s=>s.state==='ACTIVE'&&s.actorId).map(s=>s.actorId===actor.id?actor.displayName:s.actorId===presentations[p.planId]?.organizerId?presentations[p.planId]?.organizerName??'Организатор':presentations[p.planId]?.participantNames?.[s.actorId!]??friends.find(f=>f.id===s.actorId)?.name??s.label??'Участник')} onOpen={()=>onSelect(p.planId)}/>)}</div>{!plans.some(p=>{const start=p.options[0]?.terms.startsAt;const upcoming=p.phase!=='CANCELLED'&&(!start||Date.parse(start)>=Date.now());return period==='upcoming'?upcoming:!upcoming})&&<EmptyState title={period==='upcoming'?'Предстоящих планов нет':'Прошедших планов нет'} description="Другие планы можно найти в соседней вкладке."/>}</>:<EmptyState title="Пока планов нет" description="Сохраняйте интересные события и планируйте поход с друзьями." action={<PovodButton onClick={()=>onNavigate('search')}>Найти событие</PovodButton>}/>}
  </Frame>;
  const organizerId=presentation?.organizerId??(plan.capabilities.canManage?actor.id:'');
- const participantRows=[...(organizerId?[{id:organizerId,name:presentation?.organizerName??actor.displayName,organizer:true}]:[]),...plan.slots.filter(x=>x.actorId&&x.actorId!==organizerId).map(x=>({id:x.actorId!,name:x.actorId===actor.id?actor.displayName:friends.find(f=>f.id===x.actorId)?.name??x.label??'Участник',organizer:false}))];
+ const participantRows=[...(organizerId?[{id:organizerId,name:presentation?.organizerName??actor.displayName,organizer:true}]:[]),...plan.slots.filter(x=>x.actorId&&x.actorId!==organizerId).map(x=>({id:x.actorId!,name:x.actorId===actor.id?actor.displayName:presentation?.participantNames?.[x.actorId!]??friends.find(f=>f.id===x.actorId)?.name??x.label??'Участник',organizer:false}))];
  const cancelled=plan.phase==='CANCELLED';
  const sourceRef=plan.options[0]?.source?.ref;
  const eventRoute=sourceRef?{kind:'EVENT' as const,sourceId:sourceRef.provider_id,externalEventId:sourceRef.event_id,occurrenceId:sourceRef.occurrence_id,scope:{kind:'PERSONAL' as const}}:null;

@@ -3,7 +3,8 @@ import type {SmartOccasionProvider} from './port.ts';
 import {SMART_INTENT_VERSION,reviewDates,smartToSearch,validateSmartProposal,type BudgetBasis,type SmartProposal} from './smart-occasion.ts';
 
 type Stored={actor:string;session:string;proposal:SmartProposal;proposedAt:number;expires:number};
-export function smartOccasionService(provider:SmartOccasionProvider|null,now:()=>number=Date.now){
+export function smartOccasionService(provider:SmartOccasionProvider|null,now:()=>number=Date.now,timeoutMs=18000){
+ if(!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>20000)throw new Error('AI_TIMEOUT_CONFIG');
  const proposals=new Map<string,Stored>(),quota=new Map<string,{window:number;count:number}>();
  return {
   async propose(actor:string,session:string,text:string){
@@ -14,10 +15,10 @@ export function smartOccasionService(provider:SmartOccasionProvider|null,now:()=
    for(const [id,entry] of proposals)if(entry.expires<=t)proposals.delete(id);
    if(q&&t-q.window<3600000&&q.count>=10)return {state:'ERROR' as const,code:'AI_RATE_LIMIT'};
    quota.set(key,!q||t-q.window>=3600000?{window:t,count:1}:{window:q.window,count:q.count+1});
-   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),4000);
+   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
    let raw:unknown;
    try{raw=await Promise.race([provider.interpretSmartOccasion(text,controller.signal,{maxOutputTokens:500}),new Promise<never>((_,reject)=>controller.signal.addEventListener('abort',()=>reject(new Error('AI_TIMEOUT')),{once:true}))]);}
-   catch(error){return {state:'ERROR' as const,code:error instanceof Error&&error.message==='AI_TIMEOUT'?'AI_TIMEOUT':'AI_PROVIDER_FAILURE'};}
+   catch(error){const code=error instanceof Error&&/^AI_[A-Z0-9_]{1,64}$/.test(error.message)?error.message:'AI_PROVIDER_FAILURE';console.warn(JSON.stringify({event:'AI_PROVIDER_FAILURE',code}));return {state:'ERROR' as const,code:code==='AI_TIMEOUT'?'AI_TIMEOUT':'AI_PROVIDER_FAILURE'};}
    finally{clearTimeout(timer);}
    let proposal:SmartProposal;
    try{if(JSON.stringify(raw).length>8192)throw new Error('AI_OUTPUT_LENGTH');proposal=validateSmartProposal(raw,text,new Date(t).toISOString());}
