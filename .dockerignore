@@ -1,6 +1,8 @@
-# Only build/runtime inputs may enter the Docker context.
-# Keep evidence, private inputs and repository metadata outside the image.
+# Docker context for the build and isolated Compose test services.
 **
+!Dockerfile
+!.dockerignore
+!amvera.yaml
 !package.json
 !package-lock.json
 !.npmrc
@@ -21,29 +23,32 @@
 !migrations/**
 !patches/
 !patches/**
-!assets/
-!assets/**
 !licenses/
 !licenses/**
-
 !certs/
 !certs/russian-trusted-root-ca.crt
 !certs/README.md
 
-# Re-exclude local/generated material even inside an allowed source directory.
+# Never send local output or private configuration.
 **/node_modules
 **/dist
 **/coverage
 **/.git
-**/.secrets
 **/.env*
+**/.secrets
+**/.runtime
+**/.run-evidence
+**/artifacts
+**/screenshots
+**/logs
+**/presentation-packs
 **/*.log
 **/*.zip
 **/*.sqlite
 **/*.sqlite3
 **/*.db
-**/.runtime
-**/.run-evidence
+**/*.tmp
+**/*.local
 **/.playwright
 **/.browser-output
 **/playwright-report
@@ -55,16 +60,3 @@
 **/.DS_Store
 **/Thumbs.db
 **/desktop.ini
-**/*.local
-**/*.tmp
-**/*.swp
-**/*.swo
-
-# Evidence/private-input directories remain excluded inside allowed source trees.
-**/logs
-**/screenshots
-**/design-references
-**/research
-**/input
-**/docs
-**/artifacts

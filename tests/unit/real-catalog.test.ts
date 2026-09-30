@@ -7,7 +7,7 @@ import {parseCuratedCsv,parseCuratedIcs} from '../../packages/real-catalog/opera
 import {assertDistinctCuratedFiles,candidateFromCanonical} from '../../packages/real-catalog/import.ts';
 import type {Event,Occurrence,Provenance} from '../../packages/domain/event.ts';
 
-const file=JSON.parse(readFileSync('artifacts/real-catalog/curated-official-v1.json','utf8'));
+const file=JSON.parse(readFileSync('tests/fixtures/real-catalog/curated-official-v1.json','utf8'));
 const tretyakovExact=JSON.parse(readFileSync('scripts/data/curated-official-tretyakov-exact-v1.json','utf8'));
 const kudagoA=JSON.parse(readFileSync('scripts/data/curated-kudago-moscow-a-v1.json','utf8'));
 const kudagoB=JSON.parse(readFileSync('scripts/data/curated-kudago-moscow-b-v1.json','utf8'));

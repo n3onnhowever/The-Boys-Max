@@ -15,7 +15,7 @@ assert.ok(databaseUrl&&new URL(databaseUrl).hostname==='127.0.0.1'&&new URL(data
 const cfg:Config={mode:'live',databaseUrl,redisUrl:'redis://127.0.0.1:6379',publicOrigin:'http://127.0.0.1:3000',
  sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:randomBytes(24).toString('hex'),webhookSecret:randomBytes(32).toString('hex'),credentialScope:'REAL_CATALOG_TEST',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:'REVIEWED_MAX26_LIVE',externalOrigins:['https://www.darwinmuseum.ru']};
 const {app,pool,sessions}=await buildApp(cfg);
-const file=JSON.parse(readFileSync('artifacts/real-catalog/curated-official-v1.json','utf8')) as CuratedFile;
+const file=JSON.parse(readFileSync('tests/fixtures/real-catalog/curated-official-v1.json','utf8')) as CuratedFile;
 const scope={kind:'PERSONAL' as const};
 let actor:{id:string;token:string;csrf:string};
 const headers=()=>({cookie:`__Host-max_session=${actor.token}`,origin:cfg.publicOrigin,'content-type':'application/json','x-csrf-token':actor.csrf});

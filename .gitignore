@@ -1,56 +1,45 @@
-# Local dependencies and generated output.
+# Local dependencies and generated builds
 node_modules/
 dist/
 coverage/
 .runtime/
 .run-evidence/
+artifacts/
 openapi.json
 lock-review.json
 dependency-preflight.json
-*.log
-/artifacts/**/logs/
 
-# Private configuration. Only these two safe templates belong in Git.
+# Private configuration; only the safe templates are tracked
 .env*
 !.env.example
 !.env.release.example
 .secrets/
-artifacts/runtime/
-artifacts/secrets/
 *.local
 
-# Local authority/evidence bundles: retain originals outside tracked source.
-input/results/*.zip
-input/reviews/*.zip
-input/official/*.pdf
-# Raw ZIPs remain local; immutable research originals may be tracked explicitly.
-*.zip
-!/docs/research/**/raw/*.zip
-/artifacts/**/packages/*.zip
-
-# Disposable browser/test output; selected audit evidence is kept explicitly.
+# Browser, logs, screenshots and presentation output
+**/screenshots/
+**/logs/
+*.log
 .playwright/
 .browser-output/
 playwright-report/
 blob-report/
 test-results/
 test-downloads/
-/artifacts/screenshots/
-/artifacts/repo-cleanroom/probes/
-/artifacts/repo-cleanroom/install/
+presentation-packs/
+*.zip
+*.tmp
 
-# Local database/storage directories. Do not hide source fixtures globally.
-/pgdata/
-/redis-data/
-/storage/
-/*.sqlite
-/*.sqlite3
-/*.db
+# Local databases and editor state
+pgdata/
+redis-data/
+storage/
+*.sqlite
+*.sqlite3
+*.db
 *.sqlite-journal
 *.sqlite3-journal
 *.db-journal
-
-# Editor state, OS junk and temporary files.
 .idea/
 .history/
 .vscode/*.local.json
@@ -58,10 +47,6 @@ test-downloads/
 *.user
 *.swp
 *.swo
-*.tmp
 .DS_Store
 Thumbs.db
 desktop.ini
-
-# Generated source/evidence packages.
-artifacts/packages/

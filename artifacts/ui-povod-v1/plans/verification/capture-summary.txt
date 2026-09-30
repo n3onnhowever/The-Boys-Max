@@ -1,2 +1,0 @@
-COMMAND=node scripts/capture-povod-home.mjs (my-plans and plan-detail; widths 360,390,430)
-EXIT=0; FILES=8 (6 viewport captures + 2 comparisons); PASSES=4

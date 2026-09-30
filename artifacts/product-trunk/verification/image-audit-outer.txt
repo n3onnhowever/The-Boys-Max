@@ -1,1 +1,0 @@
-{"status": "FAIL", "imageId": "sha256:0b0867b31634ae4bc12b4a4fedcc447182c5709fe8a13fe875ce07c56ed1ea4d", "entries": 16258, "regularFiles": 14015, "scannedBytes": 286369497, "forbiddenPaths": [], "contentFindings": [{"path": "usr/lib/x86_64-linux-gnu/libgnutls.so.30.34.3", "rule": "private-key-material"}], "requiredMissing": [], "developmentDependencyFindings": []}

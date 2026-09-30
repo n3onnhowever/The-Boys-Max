@@ -23,8 +23,8 @@ try {
     Start-Sleep -Seconds 1
   }
   if (-not $ready) { throw 'Isolated PostgreSQL did not become ready.' }
-  $databases = @('max23_test', 'povod_t105_test', 'povod_real_catalog_verify', 'povod_save_fresh', 'povod_demo_verify')
-  foreach ($database in $databases[1..4]) {
+  $databases = @('max23_test', 'povod_t105_test', 'povod_real_catalog_verify', 'povod_save_fresh', 'povod_demo_verify', 'povod_full_catalog_verify')
+  foreach ($database in $databases[1..5]) {
     docker exec $pgName createdb -U max23 $database
     if ($LASTEXITCODE -ne 0) { throw "Cannot create test database $database" }
   }
@@ -44,11 +44,22 @@ try {
   $env:REAL_CATALOG_TEST_DATABASE_URL = $testBase + 'povod_real_catalog_verify'
   $env:P0_SAVE_TEST_DATABASE_URL = $testBase + 'povod_save_fresh'
   $env:DEMO_TEST_DATABASE_URL = $testBase + 'povod_demo_verify'
+  $env:SHOWCASE_TEST_DATABASE_URL = $testBase + 'povod_full_catalog_verify'
   foreach ($database in $databases) {
     $env:DATABASE_URL = $testBase + $database
     npm run migrate *> (Join-Path $evidence "migrate-$database.log")
     if ($LASTEXITCODE -ne 0) { throw "Migration failed for $database; inspect ignored local evidence." }
   }
+  $env:DATABASE_URL = $env:SHOWCASE_TEST_DATABASE_URL
+  $env:CURATED_SOURCE_HOSTS = 'www.darwinmuseum.ru,darwinmuseum.ru,www.tretyakovgallery.ru,tretyakovgallery.ru,kudago.com,www.kudago.com'
+  npm run import:curated-official -- scripts/data/curated-official-v1.json scripts/data/curated-official-tretyakov-exact-v1.json scripts/data/curated-kudago-moscow-a-v1.json scripts/data/curated-kudago-moscow-b-v1.json *> (Join-Path $evidence 'showcase-import.log')
+  if ($LASTEXITCODE -ne 0) { throw 'Showcase import failed; inspect ignored local evidence.' }
+  $env:APP_MODE = 'demo'
+  $env:DEMO_CATALOG_VERSION = 'v3'
+  npm run seed:demo *> (Join-Path $evidence 'showcase-seed.log')
+  if ($LASTEXITCODE -ne 0) { throw 'Showcase seed failed; inspect ignored local evidence.' }
+  $env:APP_MODE = 'test'
+  [Environment]::SetEnvironmentVariable('DEMO_CATALOG_VERSION', $null, 'Process')
   $env:DATABASE_URL = $testBase + 'max23_test'
   npm run test:integration *> (Join-Path $evidence 'integration.log')
   if ($LASTEXITCODE -ne 0) { throw 'Integration suite failed; inspect ignored local evidence.' }

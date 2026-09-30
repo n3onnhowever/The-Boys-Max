@@ -3,7 +3,7 @@ import {mkdir} from 'node:fs/promises';
 import {randomBytes,randomUUID} from 'node:crypto';
 import {buildApp} from '../apps/api/app.ts';
 import {envelopeFor} from '../apps/miniapp/src/core/commands.ts';
-import {blankDraft} from '../modules/integration/projections.ts';
+import {blankDraft,wallTime} from '../modules/integration/projections.ts';
 import {sign} from '../tests/fixtures.ts';
 import {launchPovodBrowser} from './lib/povod-browser.mjs';
 import {categoryArtwork} from '../apps/miniapp/src/view-model/category-artwork.ts';
@@ -116,8 +116,29 @@ try{
  await browser.ready(page);
  assert.equal(await browser.evaluate(page,'[...document.images].filter(x=>x.getBoundingClientRect().top<innerHeight&&x.getBoundingClientRect().bottom>0&&(!x.complete||!x.naturalWidth)).length'),0);
  await browser.capture(page,`${output}/saved.png`);
+ const eventRef=cinema[0].ref;
+ const eventRoute={kind:'EVENT',scope,sourceId:eventRef.sourceId,externalEventId:eventRef.externalEventId,occurrenceId:eventRef.occurrenceId};
+ const detailResponse=await app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify(eventRoute)),headers});
+ assert.equal(detailResponse.statusCode,200,detailResponse.body);
+ const detailView=detailResponse.json();
+ const deadline=(hours)=>wallTime(new Date(Date.now()+hours*3600000).toISOString(),'Europe/Moscow');
+ const planResponse=await app.inject({method:'POST',url:'/api/ui/v1/commands',headers,payload:envelopeFor(detailView,{type:'ADD_TO_PLAN',eventRef:detailView.event.ref,targetPlanId:null,newPlan:{title:'SYNTHETIC visual smoke plan',participantSlots:1,organizerParticipates:true,decisionLocal:deadline(1),commitmentLocal:deadline(2),timeZone:'Europe/Moscow'},ackUnknownReasons:detailView.unknownReasons},randomUUID())});
+ assert.equal(planResponse.statusCode,200,planResponse.body);
+ const planId=planResponse.json().view.planId;assert.ok(planId);
+ for(const [name,url,selector] of [
+  ['plan-detail',origin+'/?ui=plan:'+planId,'.v2-plan-actions'],
+  ['friends',origin+'/?ui=friends','main'],
+  ['profile',origin+'/?ui=profile','main'],
+  ['gigachat-fallback',origin+'/?ui=search&q='+encodeURIComponent('кино вечером'),'.v2-discovery[aria-label="Умный повод"]'],
+ ]){
+  await browser.send('Page.navigate',{url},page.sessionId);
+  await browser.until(page,`Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+  await browser.ready(page);
+  assert.equal(await browser.evaluate(page,'[...document.images].filter(x=>x.getBoundingClientRect().top<innerHeight&&x.getBoundingClientRect().bottom>0&&(!x.complete||!x.naturalWidth)).length'),0,`${name}: broken visible image`);
+  await browser.capture(page,`${output}/${name}.png`);
+ }
  assert.ok(browser.requests.filter(x=>/\.(png|jpe?g|webp)(?:\?|$)/i.test(x.url)).every(x=>x.url.startsWith(origin+'/assets/')),'remote image dependency');
  assert.equal(browser.errors.length,0,JSON.stringify(browser.errors));
- console.log(JSON.stringify({status:'PASS',all:all.length,screenshots:18,artworkHttp200:7,consoleErrors:0,filters:19,savedCategories:3}));
+ console.log(JSON.stringify({status:'PASS',all:all.length,screenshots:22,artworkHttp200:7,consoleErrors:0,filters:19,savedCategories:3}));
  await browser.closePage(page);
 }finally{if(browser)await browser.close();await app.close();}

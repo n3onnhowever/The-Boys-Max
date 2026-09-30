@@ -1,0 +1,7 @@
+# Smart Occasion and GigaChat
+
+Smart Occasion turns short user text into a strict structured filter proposal. The user reviews and accepts it before Search. GigaChat is the server-side external adapter in `modules/ai/gigachat-smart.ts`; `modules/ai/smart-occasion.ts` validates and normalizes the proposal. Deterministic catalog code decides eligibility, real/demo ordering, price constraints and evidence-backed reasons. The model cannot authorize actions, commit a Plan, create official event facts, or turn UNKNOWN price into a hard-budget match.
+
+External calls are disabled by default. `AI_EXTERNAL_ENABLED` and a privately configured `GIGACHAT_AUTH_KEY` activate the adapter in an eligible runtime. The implementation uses bounded OAuth/completion requests, scoped TLS trust, cancellation, and redacted errors. Provider failure leaves manual Search available. Never send MAX tokens, init data, cookies, destination IDs, private Plan text, or friend graph to the model; do not log raw prompts or responses.
+
+The existing proposal store and 10-calls-per-user/session/hour quota are process-local; proposal lifetime is five minutes. A restart clears them, and multi-replica deployment would need a reviewed shared-state design. Enabling calls can consume the owner's GigaChat allowance. Live OAuth, model, network, and Amvera acceptance require operator verification; local fake-response tests do not prove them.

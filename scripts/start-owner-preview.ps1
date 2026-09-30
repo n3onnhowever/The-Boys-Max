@@ -19,7 +19,7 @@ if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL did not become ready' }
 $env:NODE_ENV = 'development'
 $env:POVOD_OWNER_PREVIEW = '1'
 $env:APP_MODE = 'demo'
-$env:DEMO_CATALOG_VERSION = 'v1'
+$env:DEMO_CATALOG_VERSION = 'v3'
 $env:DATABASE_URL = 'postgres://postgres@127.0.0.1:55489/povod_owner_preview'
 $env:REDIS_URL = 'redis://127.0.0.1:56389'
 $env:PUBLIC_ORIGIN = 'http://127.0.0.1:3000'
@@ -45,7 +45,7 @@ if (-not $NoSeed) {
 }
 $env:APP_MODE = 'hybrid'
 if (-not $NoSeed) {
-  npm.cmd run import:curated-official -- artifacts/real-catalog/curated-official-v1.json
+  npm.cmd run import:curated-official -- scripts/data/curated-official-v1.json
   if ($LASTEXITCODE -ne 0) { throw 'Curated catalog import failed' }
 }
 npm.cmd run build

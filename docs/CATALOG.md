@@ -1,0 +1,11 @@
+# Catalog
+
+The prepared fresh catalog contains **166 LIVE event records and 167 exact LIVE occurrences**, plus **48 labeled SYNTHETIC showcase event records and 48 occurrences**: **214 canonical events and 215 occurrences** in total. The four reviewed import inputs live in `scripts/data/`; demo v3 definitions and seed live in `packages/demo/`. Bounded real-source receipts and review evidence live in `data/provenance/real-catalog/`.
+
+Search evaluates admitted LIVE occurrences first and adds suitable, visibly labeled `Демо-каталог` examples when real results are insufficient. The 200-result view cap does not remove source rows. Demo venues and scenarios are fictional. Real cards retain their exact reviewed source URL, source label, timestamps, territory, and rights/uncertainty state. Ended or unconfirmed listings are not presented as future events.
+
+All eight canonical categories are covered: CINEMA, THEATRE, CONCERT, MUSEUM, SPORT, OUTDOOR, VOLUNTEER, OTHER. The prepared showcase has nonempty Free, ≤500, ≤1000, ≤2000, Morning, Day, Evening, and Night scenarios. Hard budget and Free filters exclude real rows with unknown mandatory fees; an unknown price is never treated as free or within budget. Source statements about tickets, availability, coordinates, or ending time are never invented.
+
+Artwork is resolved from canonical categories, independent of localized labels. CINEMA → `category-cinema.png`; THEATRE → `category-theatre.png`; CONCERT → `category-concert.png`; MUSEUM → `category-museum.png`; SPORT → `category-sport.png`; OUTDOOR → `category-outdoor-v2.png`; OTHER → `category-other-v2.png`. VOLUNTEER uses the explicitly temporary editorial `category-other-v2.png` fallback until dedicated approved art exists. All are local files in `apps/miniapp/public/assets/events/`; they are illustrations, not source event posters.
+
+Import into a migrated database with `npm run import:curated-official --` followed by the four `scripts/data/*.json` paths in the Amvera order. Run `npm run seed:demo` only in explicit demo/hybrid v3 mode. Repeating imports and seed must preserve canonical IDs. Old demo compatibility code remains available for existing Saved and deep links. Import files represent reviewed records, not blanket provider approval; refresh rights and source review before future reuse.
