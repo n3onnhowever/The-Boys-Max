@@ -64,11 +64,18 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
         {runtime ? <>
           <section className="filter-sheet-section">
             <h2>Дата</h2>
-            <div className="v2-chip-row">{[{label:'Любая',value:''},{label:'Сегодня',value:new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'})},{label:'Завтра',value:new Date(Date.now()+86400000).toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'})}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.date===x.value?' is-selected':''}`} aria-pressed={runtime.draft.date===x.value} onClick={()=>runtime.onChange({...runtime.draft,date:x.value})}>{x.label}</FilterChip>)}</div>
+            <div className="v2-chip-row">{[{label:'Любая',value:''},{label:'Сегодня',value:new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'})},{label:'Завтра',value:new Date(Date.now()+86400000).toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'})}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.date===x.value?' is-selected':''}`} aria-pressed={runtime.draft.date===x.value} onClick={()=>runtime.onChange({...runtime.draft,date:x.value,dateThrough:undefined})}>{x.label}</FilterChip>)}</div>
             <label htmlFor="runtime-filter-date">Выбрать дату</label>
             <input id="runtime-filter-date" className="v2-input runtime-filter-date" type="date" value={runtime.draft.date}
-              onChange={event => runtime.onChange({ ...runtime.draft, date: event.target.value })} />
+              onChange={event => runtime.onChange({ ...runtime.draft, date: event.target.value,dateThrough:undefined })} />
           </section>
+          <section className="filter-sheet-section"><h2>Время начала</h2><div className="v2-chip-row">{[
+            {label:'Любое',start:'',end:''},{label:'Утро',start:'06:00',end:'12:00'},{label:'День',start:'12:00',end:'18:00'},
+            {label:'Вечер',start:'18:00',end:'22:00'},{label:'Ночь',start:'22:00',end:'23:59'}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.startLocal===x.start?' is-selected':''}`} aria-pressed={runtime.draft.startLocal===x.start} onClick={()=>{
+              const today=new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'});
+              const through=new Date(Date.now()+29*86400000).toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'});
+              runtime.onChange({...runtime.draft,startLocal:x.start,endLocal:x.end,...(x.start&&!runtime.draft.date?{date:today,dateThrough:through,timeZone:'Europe/Moscow'}:{})});
+            }}>{x.label}</FilterChip>)}</div></section>
           <FilterSection title="Категории">
             {RUNTIME_CATEGORY_OPTIONS.map(option => {
               const selected = runtime.draft.includedCategories.includes(option.id);
@@ -79,7 +86,7 @@ export function FilterSheet({ open, filters, onAction, runtime }: FilterSheetPro
               </FilterChip>;
             })}
           </FilterSection>
-          <section className="filter-sheet-section"><h2>Бюджет на человека</h2><div className="v2-chip-row">{[{label:'Любой',value:''},{label:'До 1 000 ₽',value:'1000'},{label:'До 1 500 ₽',value:'1500'},{label:'До 3 000 ₽',value:'3000'},{label:'До 5 000 ₽',value:'5000'}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.budgetText===x.value?' is-selected':''}`} aria-pressed={runtime.draft.budgetText===x.value} onClick={()=>runtime.onChange({...runtime.draft,budgetText:x.value,priceBasis:x.value?'PER_PERSON':'UNKNOWN'})}>{x.label}</FilterChip>)}</div></section>
+          <section className="filter-sheet-section"><h2>Бюджет на человека</h2><div className="v2-chip-row">{[{label:'Любой',value:'',free:false},{label:'Бесплатно',value:'0',free:true},{label:'До 1 000 ₽',value:'1000',free:false},{label:'До 1 500 ₽',value:'1500',free:false},{label:'До 3 000 ₽',value:'3000',free:false},{label:'До 5 000 ₽',value:'5000',free:false}].map(x=><FilterChip key={x.label} className={`sheet-filter-chip${runtime.draft.budgetText===x.value&&!!runtime.draft.freeOnly===x.free?' is-selected':''}`} aria-pressed={runtime.draft.budgetText===x.value&&!!runtime.draft.freeOnly===x.free} onClick={()=>runtime.onChange({...runtime.draft,budgetText:x.value,priceBasis:x.value?'PER_PERSON':'UNKNOWN',freeOnly:x.free})}>{x.label}</FilterChip>)}</div></section>
           <div className="filter-map-row" aria-disabled="true"><Icon name="map"/><span>Показать на карте · Скоро</span></div>
         </> : <>
         <FilterSection title="Дата">

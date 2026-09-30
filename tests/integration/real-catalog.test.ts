@@ -13,7 +13,7 @@ import {sign} from '../fixtures.ts';
 const databaseUrl=process.env.REAL_CATALOG_TEST_DATABASE_URL;
 assert.ok(databaseUrl&&new URL(databaseUrl).hostname==='127.0.0.1'&&new URL(databaseUrl).pathname==='/povod_real_catalog_verify','fresh isolated real-catalog database required');
 const cfg:Config={mode:'live',databaseUrl,redisUrl:'redis://127.0.0.1:6379',publicOrigin:'http://127.0.0.1:3000',
- sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:'REAL_CATALOG_TEST_SIGNING_TOKEN',webhookSecret:randomBytes(32).toString('hex'),credentialScope:'REAL_CATALOG_TEST',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:'REVIEWED_MAX26_LIVE',externalOrigins:['https://www.darwinmuseum.ru']};
+ sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:randomBytes(24).toString('hex'),webhookSecret:randomBytes(32).toString('hex'),credentialScope:'REAL_CATALOG_TEST',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:'REVIEWED_MAX26_LIVE',externalOrigins:['https://www.darwinmuseum.ru']};
 const {app,pool,sessions}=await buildApp(cfg);
 const file=JSON.parse(readFileSync('artifacts/real-catalog/curated-official-v1.json','utf8')) as CuratedFile;
 const scope={kind:'PERSONAL' as const};
@@ -29,7 +29,7 @@ test('real Search → Detail → Save, exact source and rerun identity',async()=
  assert.equal(catalog.events.length,5);assert.ok(catalog.events.every(e=>e.sourceUrl?.startsWith('https://www.darwinmuseum.ru/')));
  const exactSources=new Map(file.records.map(record=>[record.identity,record.source_url]));
  assert.ok(catalog.events.every(event=>event.sourceUrl===exactSources.get(event.ref.externalEventId)));
- assert.ok(catalog.events.every(e=>e.sourceLabel==='Официальный источник'));
+ assert.ok(catalog.events.every(e=>e.sourceLabel==='Дарвиновский музей'));
  const ref=catalog.events[0]!.ref;
  const detail=await view({kind:'EVENT',scope,sourceId:ref.sourceId,externalEventId:ref.externalEventId,occurrenceId:ref.occurrenceId}) as EventView;
  assert.equal(detail.event.sourceUrl,catalog.events[0]!.sourceUrl);
@@ -46,10 +46,10 @@ test('real Search → Detail → Save, exact source and rerun identity',async()=
 });
 test('hybrid shows accepted real first and explicitly disclosed demo fallback',async()=>{
  await seedDemoCatalog(pool,cfg.publicOrigin);
- const hybrid=await buildApp({...cfg,mode:'hybrid',demoCatalogVersion:'v1'});
+ const hybrid=await buildApp({...cfg,mode:'hybrid',demoCatalogVersion:'v3'});
  try{await hybrid.app.ready();const r=await hybrid.app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope})),headers:headers()});assert.equal(r.statusCode,200,r.body);
-  const catalog=r.json<CatalogView>();assert.equal(catalog.events.length,11);
-  assert.ok(catalog.events.slice(0,5).every(e=>e.sourceLabel==='Официальный источник'));
+  const catalog=r.json<CatalogView>();assert.equal(catalog.events.length,53);
+  assert.ok(catalog.events.slice(0,5).every(e=>e.sourceLabel==='Дарвиновский музей'));
   assert.ok(catalog.events.slice(5).every(e=>e.sourceLabel==='Демо-каталог'));
  }finally{await hybrid.app.close();}
 });

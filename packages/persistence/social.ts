@@ -61,6 +61,7 @@ export function socialService(pool:Pool){
   async planPresentation(actor:string,plan:string){
    await mayReadPlan(actor,plan);
    const core=await pool.query<{title:string;slots:unknown[];phase:string;organizer_id:string;organizer_name:string}>("SELECT p.state->>'title' title,p.state->'slots' slots,p.state->>'phase' phase,p.organizer_id,a.display_name organizer_name FROM plans p JOIN actors a ON a.id=p.organizer_id WHERE p.id=$1",[plan]);
+   const participants=await pool.query<{actor_id:string;display_name:string}>("SELECT s.actor_id,a.display_name FROM plan_slots s JOIN actors a ON a.id=s.actor_id WHERE s.plan_id=$1 AND s.state='ACTIVE'",[plan]);
    const r=await pool.query<{version:number;reconfirm_version:number;title:string;meeting_time:Date|null;meeting_point:string|null;note:string|null;participant_limit:number|null;changed_fields:Record<string,{from:string|null;to:string|null}>;seen_version:number|null}>(`SELECT p.*,s.seen_version FROM plan_presentation p LEFT JOIN plan_presentation_seen s ON s.plan_id=p.plan_id AND s.actor_id=$2 WHERE p.plan_id=$1`,[plan,actor]);
    const row=r.rows[0];
    const history=row&&row.version>(row.seen_version??0)?await pool.query<{version:number;changed_fields:Record<string,{from:string|null;to:string|null}>}>(
@@ -73,6 +74,7 @@ export function socialService(pool:Pool){
    return {version:row?.version??0,reconfirmVersion:row?.reconfirm_version??0,title:row?.title??core.rows[0]?.title??'План',meetingTime:row?.meeting_time?.toISOString()??null,
     meetingPoint:row?.meeting_point??null,note:row?.note??null,participantLimit:row?.participant_limit??null,
     maxParticipants:core.rows[0]?.slots?.length??1,phase:core.rows[0]?.phase??'DRAFT',organizerId:core.rows[0]!.organizer_id,organizerName:core.rows[0]!.organizer_name,
+    participantNames:Object.fromEntries(participants.rows.map(row=>[row.actor_id,row.display_name])),
     changedFields,changeHistoryComplete};
   },
   async savePlanPresentation(actor:string,plan:string,input:PlanPresentationInput){

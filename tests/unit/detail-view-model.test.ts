@@ -72,7 +72,8 @@ test('runtime adapter preserves supplied start only and does not invent detail f
   assert.equal(model.source.url, null);
   assert.equal(model.primaryAction.kind, 'UNAVAILABLE');
   assert.equal(model.attendance, null);
-  assert.equal(model.heroArtwork, null);
+  assert.equal(model.heroArtwork, '/assets/events/category-concert.png');
+  assert.equal(model.heroArtworkAlt, 'Иллюстрация категории «Концерты»');
 });
 
 test('runtime source action is exposed only for an allowlisted safe URL', () => {

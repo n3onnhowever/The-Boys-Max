@@ -10,7 +10,9 @@ async function data<T>(response:Response):Promise<T>{
 }
 export async function api<T>(path:string,body?:unknown,key?:string):Promise<T>{
  if(!path.startsWith('/api/')||path.startsWith('//'))throw new Error('SAME_ORIGIN_REQUIRED');
- return data<T>(await fetch(path,{...options(),method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json','X-CSRF-Token':csrf,...(key?{'Idempotency-Key':key}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})}));
+ const request=options();
+ if(path==='/api/v1/ai/smart-occasion/propose')request.signal=AbortSignal.timeout(20000);
+ return data<T>(await fetch(path,{...request,method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json','X-CSRF-Token':csrf,...(key?{'Idempotency-Key':key}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})}));
 }
 export async function apiWrite<T>(method:'POST'|'PUT',path:string,body:unknown):Promise<T>{
  if(!path.startsWith('/api/')||path.startsWith('//'))throw new Error('SAME_ORIGIN_REQUIRED');

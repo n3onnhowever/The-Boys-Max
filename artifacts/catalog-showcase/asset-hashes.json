@@ -1,0 +1,182 @@
+[
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-icon-app.png",
+    "original_sha256": "688F0342208DD4138067667D1BA687F4488C1262817312B96B89DC4261C7AC8D",
+    "current_sha256": "688F0342208DD4138067667D1BA687F4488C1262817312B96B89DC4261C7AC8D",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-icon-circle.png",
+    "original_sha256": "0ED28FC6D1621F9AE3C1D90BA3CD6C744C2BD70DD4898F8C4E0E8E7BFE80D7B9",
+    "current_sha256": "0ED28FC6D1621F9AE3C1D90BA3CD6C744C2BD70DD4898F8C4E0E8E7BFE80D7B9",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-icon-square.png",
+    "original_sha256": "B99BA76F064BBF32CD97064C8F7EA74BACB7019A8C2FFD5815449165A9A42AD6",
+    "current_sha256": "B99BA76F064BBF32CD97064C8F7EA74BACB7019A8C2FFD5815449165A9A42AD6",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-mark-final.svg",
+    "original_sha256": "A37E7514BB6F77EC6630734353DA3C3E852F1A1BE235FFDABD837FDA3BA844DD",
+    "current_sha256": "A37E7514BB6F77EC6630734353DA3C3E852F1A1BE235FFDABD837FDA3BA844DD",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-wordmark-final.svg",
+    "original_sha256": "EFE263A2072E1A26C82EF8FC5B1FC5885FBA483126820C157C05DF1A49C1A0CD",
+    "current_sha256": "EFE263A2072E1A26C82EF8FC5B1FC5885FBA483126820C157C05DF1A49C1A0CD",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-wordmark-home.png",
+    "original_sha256": "2D4C6854A4D23F2A57971C77FAE0280C3B05748605DB41EE4AC78DDF941AAAAC",
+    "current_sha256": "2D4C6854A4D23F2A57971C77FAE0280C3B05748605DB41EE4AC78DDF941AAAAC",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/brand/povod-wordmark.png",
+    "original_sha256": "24A1206A145C038DFA9BFA66C6A4DB33C3ECCB181E1953B3FFB300F55D59E330",
+    "current_sha256": "24A1206A145C038DFA9BFA66C6A4DB33C3ECCB181E1953B3FFB300F55D59E330",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-cinema.png",
+    "original_sha256": "F16C2CEDEEDAC7B2C2139114CD9F17EB2DC0E30DA87539F093C746FE588BC272",
+    "current_sha256": "F16C2CEDEEDAC7B2C2139114CD9F17EB2DC0E30DA87539F093C746FE588BC272",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-concert.png",
+    "original_sha256": "423BCE10431428C31C8B118418EF901F03097B229E7BC07B6F55809EC3FFDFDD",
+    "current_sha256": "423BCE10431428C31C8B118418EF901F03097B229E7BC07B6F55809EC3FFDFDD",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-museum.png",
+    "original_sha256": "25B9BDADCC88CED0E175BA550C1B15CF597437D8000AEBAC058788AA9914B09B",
+    "current_sha256": "25B9BDADCC88CED0E175BA550C1B15CF597437D8000AEBAC058788AA9914B09B",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-other-v2.png",
+    "original_sha256": "C7E0C3B748AE33F463FD22885B359A2E3341639FE24B891511C985B9F4A12AA2",
+    "current_sha256": "C7E0C3B748AE33F463FD22885B359A2E3341639FE24B891511C985B9F4A12AA2",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-outdoor-v2.png",
+    "original_sha256": "93A3EC1686B9F2B529E9ECF4CFF7C5A92F2FDB455D7604766AFFBFBD0420A3F8",
+    "current_sha256": "93A3EC1686B9F2B529E9ECF4CFF7C5A92F2FDB455D7604766AFFBFBD0420A3F8",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-sport.png",
+    "original_sha256": "7D4B61AA25CAD26F007B01278BF25B893318BCAD0013B3AEC29918604C8F10C5",
+    "current_sha256": "7D4B61AA25CAD26F007B01278BF25B893318BCAD0013B3AEC29918604C8F10C5",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/category-theatre.png",
+    "original_sha256": "79F99CE23BE13B054C20F89E5B3EFD33BAA806B45B4A66F12F561F286EC7BFA5",
+    "current_sha256": "79F99CE23BE13B054C20F89E5B3EFD33BAA806B45B4A66F12F561F286EC7BFA5",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/for-you-club.jpg",
+    "original_sha256": "E14B81CD0F0396209A1FC35D13FAA542E0BA05A92B83EB65D350FB0576921EB2",
+    "current_sha256": "E14B81CD0F0396209A1FC35D13FAA542E0BA05A92B83EB65D350FB0576921EB2",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/for-you-concert.jpg",
+    "original_sha256": "89C7AD9F97819F791040755BF31F64388E8BCEFF155A1368CCDEA4443CECE2F6",
+    "current_sha256": "89C7AD9F97819F791040755BF31F64388E8BCEFF155A1368CCDEA4443CECE2F6",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/for-you-gallery.jpg",
+    "original_sha256": "86F1DF3516BFBFE58D18B44A86AC87A35832998CE82A41256266A13CDB8E0348",
+    "current_sha256": "86F1DF3516BFBFE58D18B44A86AC87A35832998CE82A41256266A13CDB8E0348",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/home-hero.jpg",
+    "original_sha256": "3652530EE6274F9C7581F1201A7E575ED27081A9CC33ADF92C702C34F886650C",
+    "current_sha256": "3652530EE6274F9C7581F1201A7E575ED27081A9CC33ADF92C702C34F886650C",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/events/nearby-dance.jpg",
+    "original_sha256": "1E1413C16906D9E3330696793582EF5EDC05D9A85AD82E2C4DF32332E9017C0E",
+    "current_sha256": "1E1413C16906D9E3330696793582EF5EDC05D9A85AD82E2C4DF32332E9017C0E",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/fonts/IBMPlexMono-OFL.txt",
+    "original_sha256": "D741E57D5F865E294DF801F96B7B5161A88B211DF65887E4358D271C9FC5FB4F",
+    "current_sha256": "D741E57D5F865E294DF801F96B7B5161A88B211DF65887E4358D271C9FC5FB4F",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/fonts/IBMPlexMono-Regular.ttf",
+    "original_sha256": "6A3412F058C7D8DFD9170C41E85ADE48E5156ECB89356110CA57A0A27734AF46",
+    "current_sha256": "6A3412F058C7D8DFD9170C41E85ADE48E5156ECB89356110CA57A0A27734AF46",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/fonts/Onest-OFL.txt",
+    "original_sha256": "7805CCC507E6DC0C0796F1AFA4F03AD413A9D302A30A24F8DBEB1AEEF07A6C17",
+    "current_sha256": "7805CCC507E6DC0C0796F1AFA4F03AD413A9D302A30A24F8DBEB1AEEF07A6C17",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/fonts/Onest-Variable.ttf",
+    "original_sha256": "966C5C29B4755DA84B6854D5C21DD4EAA2420225D0E9874DE602DE176D4A9F31",
+    "current_sha256": "966C5C29B4755DA84B6854D5C21DD4EAA2420225D0E9874DE602DE176D4A9F31",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/profile/design-avatar.jpg",
+    "original_sha256": "1CCB542014CF54F1F4861641496B6DB804C06E6A49542D95F9DB309FE874B10B",
+    "current_sha256": "1CCB542014CF54F1F4861641496B6DB804C06E6A49542D95F9DB309FE874B10B",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/states/povod-empty-magnifier.png",
+    "original_sha256": "99F7AF5056643B13D13FF26B13A06CEB5C655E00F0F0E56D254AEB1CF8E75F8F",
+    "current_sha256": "99F7AF5056643B13D13FF26B13A06CEB5C655E00F0F0E56D254AEB1CF8E75F8F",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/states/povod-error-cable.png",
+    "original_sha256": "8057E561728D1262CC8A546893AFBC16F0EC807E0BB593036842D358F32FF21B",
+    "current_sha256": "8057E561728D1262CC8A546893AFBC16F0EC807E0BB593036842D358F32FF21B",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/states/README.md",
+    "original_sha256": "A7B7E25F49B470934D43B1855986CE647C4BAB9507DD89EB74BD52C7A7868664",
+    "current_sha256": "A7B7E25F49B470934D43B1855986CE647C4BAB9507DD89EB74BD52C7A7868664",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/vendor/max/max-colored.svg",
+    "original_sha256": "5CAA61A4B0731D0D89421B4FB24F41433025E5AEA59155A14CF3A3FADA6C9174",
+    "current_sha256": "5CAA61A4B0731D0D89421B4FB24F41433025E5AEA59155A14CF3A3FADA6C9174",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/vendor/max/max-white.svg",
+    "original_sha256": "2D4939E3CF89A5EB61114D8EFAC7B9F67B03737F1226853F177D931E3B354DBD",
+    "current_sha256": "2D4939E3CF89A5EB61114D8EFAC7B9F67B03737F1226853F177D931E3B354DBD",
+    "identical": true
+  },
+  {
+    "path": "apps/miniapp/public/assets/vendor/max/README.md",
+    "original_sha256": "06ACF5545F23069D9C383E06B4FF9F8D9DA9F3EBFB2AE8F66AD83C3830400C62",
+    "current_sha256": "06ACF5545F23069D9C383E06B4FF9F8D9DA9F3EBFB2AE8F66AD83C3830400C62",
+    "identical": true
+  }
+]

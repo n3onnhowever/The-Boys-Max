@@ -1,5 +1,6 @@
 import { safeDemoSourceUrl, safeExternalUrl } from '../core/links.ts';
 import type { EventView } from '../port/contracts.ts';
+import {categoryArtwork} from './category-artwork.ts';
 
 export type DetailCapability = 'AVAILABLE' | 'DESIGN_ONLY' | 'UNAVAILABLE';
 
@@ -89,6 +90,7 @@ function eventId(view: EventView): string {
  */
 export function eventToDetailViewModel(view: EventView, origins: readonly string[]): DetailViewModel {
   const event = view.event;
+  const artwork=categoryArtwork(event.categoryLabel);
   const startLabel = knownText(event.startLabel) ?? 'Дата и время уточняются';
   const venueAddress = knownText(event.place.address);
   const priceLabel = knownText(event.price.baseLabel);
@@ -104,8 +106,8 @@ export function eventToDetailViewModel(view: EventView, origins: readonly string
     title: knownText(event.title) ?? 'Название уточняется',
     heroDateTimeLabel: knownText(event.startLabel),
     heroVenueLabel: venueAddress,
-    heroArtwork: null,
-    heroArtworkAlt: '',
+    heroArtwork: artwork.url,
+    heroArtworkAlt: artwork.alt,
     tags: knownText(event.categoryLabel) ? [event.categoryLabel.trim()] : [],
     description: knownText(event.description) ?? 'Описание отсутствует',
     occurrence: { dateLabel: null, startLabel, endLabel: null },

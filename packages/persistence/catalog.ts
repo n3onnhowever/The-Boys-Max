@@ -15,12 +15,15 @@ import {createPlan,apply,assertRead,capabilities} from '../domain/plan.ts';
 import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
 import {digest} from '../platform/auth.ts';
-import {DEMO_ITEMS,demoEventId} from '../demo/catalog-v1.ts';
+import {currentDemoEventIds,knownDemoEventIds} from '../demo/catalog-versions.ts';
 import {matchesCandidateText,searchWords} from '../../modules/integration/text-search.ts';
 interface ContextRow {id:string;actor_id:string;kind:'PERSONAL'|'PLAN_PRIVATE';plan_id:string|null;revision:number;acl_revision:number;draft:SearchDraft;hard:SearchIntent;approval_id:string|null;}
 export interface CatalogItem {candidate:Candidate;eligibility:Eligibility;offerId:string;contextRevision:number}
 export interface CatalogResult {ctx:ContextRow;items:CatalogItem[];plan:Plan|null;now:string}
 const scopeFor=(c:ContextRow):SearchScope=>c.kind==='PERSONAL'?{kind:'PERSONAL',search_context_id:c.id}:{kind:'PLAN_PRIVATE',search_context_id:c.id,plan_id:c.plan_id!};
+export function listedForDiscovery(e:Eligibility,exactRef:boolean):boolean{
+ return e.status!=='FAIL'&&(exactRef||e.checks.some(check=>check.field==='listing'&&check.status==='PASS'));
+}
 export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
  async function assertSession(db:PoolClient,s:Subject){
   const r=await db.query(`SELECT id FROM app_sessions WHERE id=$1 AND actor_id=$2 AND NOT revoked AND absolute_expires_at>clock_timestamp() AND last_seen_at>clock_timestamp()-interval '15 minutes' FOR SHARE`,[s.session_id,s.actor_id]);
@@ -56,7 +59,6 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
    const items:CatalogItem[]=[];
    const lanes=mode==='hybrid'?(['LIVE','SYNTHETIC'] as const):([mode==='live'?'LIVE':'SYNTHETIC'] as const);
    for(const lane of lanes){
-   if(lane==='SYNTHETIC'&&mode==='hybrid'&&items.length>=6&&!ref)break;
    let cursor:string|null=null;
    // Page latest observations in a stable order. Apply the full domain evaluator before
    // limiting visible choices, so an early run of ineligible rows cannot hide a match.
@@ -68,17 +70,13 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
        AND ($2::text IS NULL OR (provider_id=$2 AND event_id=$3 AND occurrence_id IS NOT DISTINCT FROM $4::text))
       ORDER BY provider_id,event_id,occurrence_id,updated_at DESC,observation_id DESC) latest
      WHERE ($5::text IS NULL OR observation_id>$5)
-     ORDER BY observation_id LIMIT 100`,[lane,ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor,lane==='SYNTHETIC'&&mode!=='test',DEMO_ITEMS.map(demoEventId)]);
+     ORDER BY observation_id LIMIT 100`,[lane,ref?.sourceId??null,ref?.eventId??null,ref?.occurrenceId??null,cursor,lane==='SYNTHETIC'&&mode!=='test',ref?knownDemoEventIds:currentDemoEventIds]);
     for(const raw of r.rows){
     const c=parseCandidate(raw.body),e=evaluateEligibility(hard,c,semantic);
-    if(lane==='LIVE'){
-     const admitted=await db.query(`SELECT 1 FROM canonical_occurrences o JOIN canonical_events ce ON ce.id=o.event_id JOIN catalog_sources s ON s.id=ce.source_id
-      LEFT JOIN occurrence_aliases a ON a.occurrence_id=o.id
-      WHERE s.data_mode='LIVE' AND s.admission_state='APPROVED' AND s.provider_id=$1 AND ce.provider_event_id=$2
-      AND (o.native_session_id=$3 OR a.alias_value=$3) AND o.source_url=$4 LIMIT 1`,[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,c.provenance.source_url]);
-     if(!admitted.rowCount)continue;
-    }
-    if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||e.status==='FAIL')continue;
+    // LIVE rows are written here only by the approved canonical importer and
+    // catalog_occurrences is immutable.  The former re-join by alias could
+    // reject a valid imported row after an unrelated canonical revision.
+    if(rightsCheck(c.rights,'display_facts',time).status!=='PASS'||rightsCheck(c.rights,'display_text',time).status!=='PASS'||!listedForDiscovery(e,!!ref))continue;
     if(!matchesCandidateText(c,words))continue;
     if(!ref&&ctx.draft.freeOnly&&!(c.price.fees_known&&c.price.total_price.knownness==='KNOWN'&&c.price.total_price.amount.kind==='FREE'))continue;
     if(!verifiedFields.every(field=>e.checks.some(check=>check.field===field&&check.status==='PASS')))continue;
@@ -88,9 +86,9 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
       id=CASE WHEN catalog_choices.expires_at<=clock_timestamp() THEN EXCLUDED.id ELSE catalog_choices.id END,
       expires_at=CASE WHEN catalog_choices.expires_at<=clock_timestamp() THEN EXCLUDED.expires_at ELSE catalog_choices.expires_at END RETURNING id`,[randomUUID(),subject.actor_id,subject.session_id,ctx.id,ctx.revision,c.provenance.observation_id]);
     items.push({candidate:c,eligibility:e,offerId:offer.rows[0]!.id,contextRevision:ctx.revision});
-    if(items.length>=100)break;
+    if(items.length>=200)break;
     }
-    if(ref||r.rows.length<100||items.length>=100)break;
+    if(ref||r.rows.length<100||items.length>=200)break;
     cursor=r.rows.at(-1)!.observation_id;
    }while(true);
    }
@@ -130,14 +128,9 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
    const source=await db.query<{body:unknown;data_mode:string}>('SELECT body,data_mode FROM catalog_occurrences WHERE observation_id=$1 FOR SHARE',[choice.observation_id]);
    requireThat(source.rows[0]&&(mode==='hybrid'?['LIVE','SYNTHETIC'].includes(source.rows[0].data_mode):source.rows[0].data_mode===(mode==='live'?'LIVE':'SYNTHETIC')),'SOURCE_UNAVAILABLE',409);
    const c=parseCandidate(source.rows[0].body),time=await now(db),semantic=context(time);
-   if(source.rows[0].data_mode==='LIVE'){
-    const admitted=await db.query(`SELECT 1 FROM canonical_occurrences o JOIN canonical_events ce ON ce.id=o.event_id JOIN catalog_sources s ON s.id=ce.source_id
-     LEFT JOIN occurrence_aliases a ON a.occurrence_id=o.id
-     WHERE s.data_mode='LIVE' AND s.admission_state='APPROVED' AND s.provider_id=$1 AND ce.provider_event_id=$2
-     AND (o.native_session_id=$3 OR a.alias_value=$3) AND o.source_url=$4 LIMIT 1`,[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,c.provenance.source_url]);
-    requireThat(admitted.rowCount===1,'SOURCE_NOT_ADMITTED',409);
-   }
-   requireThat(source.rows[0].data_mode!=='SYNTHETIC'||mode==='test'||c.ref.provider_id==='ManualProvider'&&DEMO_ITEMS.some(item=>demoEventId(item)===c.ref.event_id),'SOURCE_UNAVAILABLE',409);
+   // The selected row is the immutable result of the approved importer; do
+   // not re-match it through mutable canonical aliases before adding a plan.
+   requireThat(source.rows[0].data_mode!=='SYNTHETIC'||mode==='test'||c.ref.provider_id==='ManualProvider'&&knownDemoEventIds.includes(c.ref.event_id),'SOURCE_UNAVAILABLE',409);
    const latest=await db.query<{observation_id:string}>('SELECT observation_id FROM catalog_occurrences WHERE provider_id=$1 AND event_id=$2 AND occurrence_id=$3 AND data_mode=$4 ORDER BY updated_at DESC,observation_id DESC LIMIT 1',[c.ref.provider_id,c.ref.event_id,c.ref.occurrence_id,source.rows[0].data_mode]);
    requireThat(latest.rows[0]?.observation_id===choice.observation_id,'SOURCE_OBSERVATION_SUPERSEDED',409);
    requireThat(c.ref.provider_id===ref.sourceId&&c.ref.event_id===ref.externalEventId&&c.ref.occurrence_id===ref.occurrenceId&&c.provenance.observation_id===ref.observationId,'SOURCE_REF_MISMATCH',409);

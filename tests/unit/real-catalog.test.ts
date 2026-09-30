@@ -4,10 +4,13 @@ import {readFileSync} from 'node:fs';
 import {classifyKudaGoAdvertising,curatedOfficialImport,factualPrice,kudagoMovieShowingAdapter,moscowSportCalendarAdapter,officialIcsAdapter,officialRssAdapter} from '../../packages/real-catalog/adapters.ts';
 import {normalizeRecord} from '../../packages/domain/event-normalizer.ts';
 import {parseCuratedCsv,parseCuratedIcs} from '../../packages/real-catalog/operator-formats.ts';
-import {candidateFromCanonical} from '../../packages/real-catalog/import.ts';
+import {assertDistinctCuratedFiles,candidateFromCanonical} from '../../packages/real-catalog/import.ts';
 import type {Event,Occurrence,Provenance} from '../../packages/domain/event.ts';
 
 const file=JSON.parse(readFileSync('artifacts/real-catalog/curated-official-v1.json','utf8'));
+const tretyakovExact=JSON.parse(readFileSync('scripts/data/curated-official-tretyakov-exact-v1.json','utf8'));
+const kudagoA=JSON.parse(readFileSync('scripts/data/curated-kudago-moscow-a-v1.json','utf8'));
+const kudagoB=JSON.parse(readFileSync('scripts/data/curated-kudago-moscow-b-v1.json','utf8'));
 test('curated first-party facts map to exact canonical sessions and retain unknown fees',()=>{
  const {accepted,quarantined}=curatedOfficialImport(file,['www.darwinmuseum.ru']);
  assert.equal(accepted.length,4);assert.deepEqual(quarantined,[]);
@@ -21,6 +24,34 @@ test('malformed source and duplicate identities quarantine',()=>{
  const invalid=structuredClone(file);invalid.records[0].source_url='https://example.org/fake';invalid.records[1].identity=invalid.records[2].identity;
  const result=curatedOfficialImport(invalid,['www.darwinmuseum.ru']);
  assert.equal(result.quarantined.length,2);
+});
+test('curated files reject event identities reused across a batch',()=>{
+ const first=structuredClone(file),second=structuredClone(file);
+ second.records=second.records.slice(0,1);
+ assert.throws(()=>assertDistinctCuratedFiles([first,second]),/CURATED_BATCH_DUPLICATE_EVENT/);
+ second.records[0]!.identity='second-event';
+ assert.throws(()=>assertDistinctCuratedFiles([first,second]),/CURATED_BATCH_DUPLICATE_SESSION/);
+ second.records[0]!.sessions[0]!.identity='second-session';
+ assert.doesNotThrow(()=>assertDistinctCuratedFiles([first,second]));
+});
+test('Tretyakov catalog contains only explicitly published sessions',()=>{
+ const result=curatedOfficialImport(tretyakovExact,['www.tretyakovgallery.ru']);
+ assert.deepEqual(result.quarantined,[]);
+ assert.equal(result.accepted.reduce((n,record)=>n+record.sessions.length,0),12);
+ assert.deepEqual([...new Set(result.accepted.flatMap(record=>record.categories))].sort(),['CINEMA','MUSEUM']);
+ assert.ok(result.accepted.every(record=>record.sourceUrl?.startsWith('https://www.tretyakovgallery.ru/')===true));
+ assert.ok(result.accepted.every(record=>record.sessions.length===1));
+});
+test('KudaGo catalog has 150 future exact sessions with preserved source links',()=>{
+ const files=[kudagoA,kudagoB];
+ assert.doesNotThrow(()=>assertDistinctCuratedFiles(files));
+ const parsed=files.map(file=>curatedOfficialImport(file,['kudago.com','www.kudago.com']));
+ assert.ok(parsed.every(result=>result.quarantined.length===0));
+ const records=parsed.flatMap(result=>result.accepted);
+ assert.equal(records.reduce((count,record)=>count+record.sessions.length,0),150);
+ assert.ok(records.every(record=>record.sourceUrl?.startsWith('https://kudago.com/msk/event/')===true));
+ assert.deepEqual([...new Set(records.flatMap(record=>record.categories))].sort(),['CINEMA','CONCERT','MUSEUM','OTHER','THEATRE']);
+ assert.equal(records[0]!.title,'экскурсия для детей «От Ван Гога до Матисса»');
 });
 test('price grammar does not claim complete payable total',()=>{
  assert.equal(factualPrice('от 500 ₽','OCCURRENCE','UNKNOWN').kind,'FROM');
@@ -72,4 +103,6 @@ test('canonical real occurrence projects to source-linked Search candidate witho
  assert.equal(candidate.provenance.data_mode,'LIVE');assert.equal(candidate.provenance.source_url,record.sourceUrl);
  assert.equal(candidate.price.base_price.knownness,'KNOWN');assert.equal(candidate.price.total_price.knownness,'UNKNOWN');
  assert.equal(candidate.ref.occurrence_id,'2026-10-09-1130');
+ const corrected=candidateFromCanonical({...event,title:'Исправленное название'},occurrence,'2026-09-26T13:55:00.000Z','2026-11-10T13:55:00.000Z');
+ assert.notEqual(corrected.provenance.observation_id,candidate.provenance.observation_id);
 });

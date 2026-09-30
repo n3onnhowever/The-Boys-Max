@@ -1,4 +1,5 @@
 import type { CatalogView, EventCardView } from '../port/contracts.ts';
+import {categoryArtwork} from './category-artwork.ts';
 
 export interface HomeCategoryViewModel {
   id: string;
@@ -16,6 +17,7 @@ export interface HomeEventViewModel {
   artwork: string | null;
   artworkAlt: string;
   recommendationLabel: string | null;
+  sourceLabel?: string;
   saved: boolean;
 }
 
@@ -45,6 +47,7 @@ function eventId(event: EventCardView): string {
 }
 
 function adaptEvent(event: EventCardView, hero = false, distanceKm:number|null=null): HomeEventViewModel {
+  const artwork=categoryArtwork(event.categoryLabel);
   return {
     id: eventId(event),
     title: event.title,
@@ -53,9 +56,10 @@ function adaptEvent(event: EventCardView, hero = false, distanceKm:number|null=n
     distanceLabel: distanceKm===null?null:`${distanceKm.toFixed(1)} км`,
     priceLabel: event.price.baseLabel || null,
     categoryLabels: [event.categoryLabel],
-    artwork: null,
-    artworkAlt: '',
+    artwork: artwork.url,
+    artworkAlt: artwork.alt,
     recommendationLabel: hero ? event.categoryLabel : null,
+    sourceLabel: event.sourceLabel,
     saved: false,
   };
 }

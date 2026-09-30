@@ -1,4 +1,5 @@
 import type { CatalogView, EventCardView, SearchDraft } from '../port/contracts.ts';
+import {categoryArtwork} from './category-artwork.ts';
 
 export const RUNTIME_CATEGORY_OPTIONS = [
   { id: 'CONCERT', label: 'Концерты' }, { id: 'THEATRE', label: 'Театр' },
@@ -19,6 +20,8 @@ export function runtimeSelectedFilterChips(query: SearchDraft): SelectedFilterVi
       label: RUNTIME_CATEGORY_OPTIONS.find(option => option.id === category)?.label ?? 'Категория', icon: 'music' });
   }
   if(query.budgetText)selected.push({id:`price:${query.budgetText}`,key:'price',value:query.budgetText,label:query.freeOnly?'Бесплатно':`До ${query.budgetText} ₽`,icon:'coins'});
+  if(query.startLocal&&query.endLocal){const label=({'06:00':'Утро','12:00':'День','18:00':'Вечер','22:00':'Ночь'} as Record<string,string>)[query.startLocal]??`${query.startLocal}–${query.endLocal}`;
+    selected.push({id:`time:${query.startLocal}`,key:'time',value:query.startLocal,label,icon:'calendar'});}
   return selected;
 }
 
@@ -80,7 +83,7 @@ export type FormatFilterId = OptionId<typeof SEARCH_FILTER_OPTIONS.formats>;
 export type PriceFilterId = OptionId<typeof SEARCH_FILTER_OPTIONS.prices>;
 export type DistanceFilterId = OptionId<typeof SEARCH_FILTER_OPTIONS.distances>;
 export type SearchSortId = OptionId<typeof SEARCH_FILTER_OPTIONS.sorts>;
-export type SelectedFilterKey = 'date' | 'category' | 'format' | 'price' | 'distance';
+export type SelectedFilterKey = 'date' | 'time' | 'category' | 'format' | 'price' | 'distance';
 
 export interface SearchFilterState {
   query: string;
@@ -102,6 +105,7 @@ export interface SearchEventViewModel {
   artworkAlt: string;
   saved: boolean;
   categoryLabel?:string;
+  sourceLabel?:string;
   reasonLabels?:string[];
 }
 
@@ -267,10 +271,11 @@ export function catalogToSearchViewModel(view: CatalogView): SearchViewModel {
       dateTimeLabel: event.startLabel,
       venue: event.place.address,
       priceLabel: event.price.baseLabel,
-      artwork: null,
-      artworkAlt: '',
+      artwork: categoryArtwork(event.categoryLabel).url,
+      artworkAlt: categoryArtwork(event.categoryLabel).alt,
       saved: false,
       categoryLabel:event.categoryLabel,
+      sourceLabel:event.sourceLabel,
       reasonLabels:event.evidenceReasons?.map(reason=>reason.text),
     })),
   };

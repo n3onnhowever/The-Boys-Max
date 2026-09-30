@@ -5,7 +5,7 @@ import {toOccurrenceView} from '../domain/occurrence-view.ts';
 
 export function savedService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid'='test'){
  const catalog=canonicalCatalog(pool);
- const visible=(param:number,source='s')=>`($${param}::text='test' OR ($${param}::text IN ('demo','hybrid') AND ${source}.id='synthetic:povod-demo:v1' AND ${source}.data_mode='SYNTHETIC') OR ($${param}::text IN ('live','hybrid') AND ${source}.data_mode='LIVE' AND ${source}.admission_state='APPROVED'))`;
+ const visible=(param:number,source='s')=>`($${param}::text='test' OR ($${param}::text IN ('demo','hybrid') AND ${source}.id IN ('synthetic:povod-demo:v1','synthetic:povod-demo:v2','synthetic:povod-demo:v3') AND ${source}.data_mode='SYNTHETIC') OR ($${param}::text IN ('live','hybrid') AND ${source}.data_mode='LIVE' AND ${source}.admission_state='APPROVED'))`;
  return {
   async put(actorId:string,occurrenceId:string){
    const result=await pool.query<{occurrence_id:string}>(

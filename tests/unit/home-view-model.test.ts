@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { HOME_DESIGN_DATA } from '../../apps/miniapp/src/design-data/home.ts';
 import { catalogToHomeViewModel } from '../../apps/miniapp/src/view-model/home.ts';
 import { catalogToSearchViewModel } from '../../apps/miniapp/src/view-model/search.ts';
+import {categoryArtwork} from '../../apps/miniapp/src/view-model/category-artwork.ts';
 import { CONTRACT, type CatalogView } from '../../apps/miniapp/src/port/contracts.ts';
 
 const catalog: CatalogView = {
@@ -61,13 +62,20 @@ test('catalog adapter does not invent an event when the server returns no events
   assert.deepEqual(home.nearby, []);
 });
 
-test('server catalog adapters do not assign design artwork or design map behavior', () => {
+test('server catalog adapters assign only local category artwork', () => {
   const home = catalogToHomeViewModel(catalog);
   const search = catalogToSearchViewModel(catalog);
-  assert.equal(home.hero?.artwork, null);
-  assert.equal(home.forYou[0]?.artwork, null);
-  assert.equal(search.events[0]?.artwork, null);
+  assert.equal(home.hero?.artwork, '/assets/events/category-concert.png');
+  assert.equal(home.forYou[0]?.artwork, '/assets/events/category-concert.png');
+  assert.equal(search.events[0]?.artwork, '/assets/events/category-concert.png');
+  assert.equal(home.hero?.artworkAlt, 'Иллюстрация категории «Концерты»');
   assert.equal(search.mapAffordance, 'HIDDEN');
   assert.equal(search.events[0]?.priceLabel, 'UNKNOWN');
   assert.ok(HOME_DESIGN_DATA.hero?.artwork, 'explicit design preview keeps its accepted artwork');
+});
+
+test('category artwork falls back locally for unknown or multiple labels',()=>{
+ assert.equal(categoryArtwork('Музеи и выставки').url,'/assets/events/category-museum.png');
+ assert.equal(categoryArtwork('Неизвестная категория').url,'/assets/events/category-other-v2.png');
+ assert.equal(categoryArtwork('Другое, Театр').url,'/assets/events/category-other-v2.png');
 });

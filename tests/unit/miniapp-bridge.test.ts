@@ -36,6 +36,11 @@ test('only allowed context fields are read, never user identity',()=>{
  assert.equal(startParam(null,'?user=forged&startapp=c_summer'),'c_summer');
  for(const search of ['?startapp=x&startapp=y','?startapp=x&launch=y','?startapp=%ff','?startapp=role%3Dadmin'])assert.equal(startParam(null,search),null);
 });
+test('MAX launch without optional payload opens personal home',()=>{
+ assert.equal(startParam('auth_date=1800000000&start_param=',''), '');
+ assert.equal(startParam(null,'?startapp'), '');
+ assert.deepEqual(route(startParam(null,'?startapp')),{kind:'CATALOG',scope:{kind:'PERSONAL'}});
+});
 test('512 ASCII characters accepted; 513 or disallowed characters rejected',()=>{
  assert.equal(validStartParam('A'.repeat(512)),true);
  for(const value of ['A'.repeat(513),'a.b','a+b','тест','x/y','x=y','',null])assert.equal(validStartParam(value),false);

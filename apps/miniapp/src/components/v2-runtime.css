@@ -16,3 +16,4 @@
 .v2-plan-card-social>span:last-child{overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:anywhere;line-height:1.3}.v2-plan-card-bottom{align-items:flex-start}.v2-plan-card-bottom>.v2-status{flex:none}
 .v2-event-summary{padding:var(--povod-space-5);border:1px solid #e7e3dd;border-radius:12px;background:#fff}.v2-share-participants{display:flex;align-items:center;gap:var(--povod-space-3);margin-top:var(--povod-space-3)}.v2-share-participants small{font-size:11px}
 .v2-plan-actions>.v2-button-outline:last-child{margin-top:var(--povod-space-3)}
+.v2-plan-actions>a.v2-button{text-decoration:none}
