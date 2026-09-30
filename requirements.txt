@@ -1,8 +1,36 @@
-# POVOD is a Node.js/TypeScript application; there are no Python runtime packages.
-# Application library versions are pinned in package.json and package-lock.json.
-# Required local/runtime tools:
+# ПОВОД: справочный перечень платформы и прямых npm-зависимостей для организаторов.
+# Это приложение Node.js/TypeScript, не Python. Файл НЕ предназначен для pip install.
+# Источник точных версий библиотек: package.json.
+# Авторитетный воспроизводимый lockfile: package-lock.json.
+
+# Runtime / platform
 # Node.js 24.20.0
 # npm 11.19.0
-# Docker and Docker Compose
 # PostgreSQL 18.6
 # Redis 8.2.9
+# Docker и Docker Compose (для локального контейнерного запуска)
+
+# Прямые зависимости приложения (npm, точные версии)
+# @fastify/cookie 11.0.2
+# @fastify/swagger 9.8.1
+# bullmq 6.3.4
+# drizzle-orm 0.45.2
+# fastify 5.12.3
+# fastify-type-provider-zod 7.0.0
+# ioredis 5.11.1
+# leaflet 1.9.4
+# openapi-types 12.1.3
+# pg 8.23.0
+# react 19.2.8
+# react-dom 19.2.8
+# zod 4.5.4
+
+# Инструменты сборки и проверки (npm devDependencies)
+# typescript 5.9.3
+# vite 8.2.2
+# @vitejs/plugin-react 6.1.1
+# @types/node 24.13.3
+# @types/react 19.2.17
+# @types/react-dom 19.2.3
+# @types/pg 8.23.1
+# @types/leaflet 1.9.20

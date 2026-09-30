@@ -1,75 +1,107 @@
-# POVOD
+# ПОВОД
 
-**POVOD (Повод)** is an event discovery and planning Mini App for MAX, built by **The Boys**. It helps people in Moscow find a specific event session that fits their time, budget, and interests, then save it or make a plan. A person can use the app alone; a group is never required.
+**ПОВОД** — мини-приложение MAX для поиска событий в Москве и планирования досуга. Можно выбрать конкретный сеанс по времени, цене и интересам, сохранить его или договориться о встрече с друзьями. Поиск и сохранение работают и для одного человека. Проект команды **The Boys**.
 
-## For whom and what it does
+## Что это и для кого
 
-The app is for people deciding what to do in Moscow and friends coordinating an outing. Search has category, date, time, and price filters. An occurrence detail keeps the event time, price or **UNKNOWN**, source, and the limits of that source visible. Save, «Мой Повод», Plans, Friends, and Notifications support follow-through. Smart Occasion uses GigaChat to suggest structured search filters; the user chooses whether to apply them. The application, rather than the model, enforces eligibility and handles commitments.
+Приложение помогает жителям и гостям Москвы выбрать событие без перехода между разрозненными афишами. В нём есть поиск с фильтрами, карточка конкретного сеанса (Occurrence) с источником и честной информацией о цене, Save и раздел «Мой Повод». Plans, Friends и Notifications помогают согласовать совместный выход. MAX связывает мини-приложение с аккаунтом пользователя; Smart Occasion через GigaChat предлагает параметры поиска, которые пользователь может принять или изменить.
 
-The prepared catalog contains **167 LIVE exact occurrences** from reviewed real sources and **48 clearly labeled DEMO occurrences**, for **215 occurrences total**. LIVE means source-backed real event data; DEMO means synthetic showcase data, not a real event or ticket offer. The two kinds remain distinguishable in the UI and data. The eight categories are Cinema, Theatre, Concert, Museum, Sport, Outdoor, Volunteer, and Other. Source receipts and catalog method are documented in [Catalog](docs/CATALOG.md).
+## Возможности
 
-## Architecture and stack
+- Категории, дата, время, стоимость и текстовый поиск; подробности отдельного сеанса и переход к источнику.
+- Сохранение событий, личные планы, друзья и уведомления. Для поиска группа не требуется.
+- MAX Mini App и серверная интеграция MAX Bot API с обработкой повторных доставок.
+- Smart Occasion: GigaChat предлагает структурированные фильтры, а приложение проверяет условия и показывает записи из каталога.
 
-This is a TypeScript modular monolith with a Fastify API, a separate worker process, and a React/Vite MAX Mini App. PostgreSQL 18.6 stores durable business state. Redis 8.2.9 and BullMQ process asynchronous work through a durable outbox with idempotency controls. The MAX Bot API is used on the server; the MAX Bridge runs in the client. GigaChat is an optional provider for Smart Occasion. The project uses Node.js 24.20.0 and npm 11.19.0. See [Architecture](docs/ARCHITECTURE.md) and [AI](docs/AI.md).
+## Каталог
 
-## Local launch and checks
+Подготовлено **215 конкретных сеансов**: **167 LIVE** из проверенных реальных источников и **48 DEMO**, явно помеченных как синтетические записи для показа на хакатоне. LIVE означает запись, привязанную к реальному источнику; DEMO не является действующим предложением билета. Это подготовленный набор, а не полное покрытие событий Москвы.
 
-Install Node.js 24.20.0, npm 11.19.0, Docker, and Docker Compose. Application library versions are pinned in `package.json` and `package-lock.json`; `requirements.txt` explains why there are no Python packages. From the repository root:
+Категории: **Кино, Театр, Концерты, Музеи и выставки, Спорт, На воздухе, Волонтерство, Другое**. Метод подготовки и ограничения источников описаны в [документации каталога](docs/CATALOG.md).
+
+## Архитектура и технологии
+
+React 19.2.8 и Vite 8.2.2 обслуживают Mini App. Fastify 5.12.3 и TypeScript 5.9.3 образуют API; отдельный Node worker выполняет фоновые задачи. PostgreSQL 18.6 хранит бизнес-данные, Redis 8.2.9 и BullMQ 6.3.4 обслуживают очередь и доставку через outbox. MAX Bot API вызывается только сервером, MAX Bridge работает в клиенте. GigaChat подключён как необязательный поставщик для Smart Occasion. Runtime: **Node.js 24.20.0, npm 11.19.0**. Подробнее: [архитектура](docs/ARCHITECTURE.md), [AI](docs/AI.md).
+
+## Быстрый локальный запуск
+
+Нужны Node.js 24.20.0, npm 11.19.0, Docker и Docker Compose. Команды из терминала:
 
 ```sh
-npm ci --ignore-scripts
+git clone https://github.com/n3onnhowever/The-Boys-Max.git
+cd The-Boys-Max
+npm ci --ignore-scripts --no-audit --no-fund
+npm run typecheck
+npm run test:unit
+npm run build
+docker compose up --build -d
+```
+
+`compose.yaml` поднимает **изолированный локальный тестовый** PostgreSQL, Redis, API и worker. Он создаёт приватную тестовую конфигурацию в Docker volume и тестовые записи; это не каталог из 215 сеансов. После запуска `http://localhost:3000/health/ready` должен отвечать успешно. Интеграционный набор запускается так:
+
+```sh
+docker compose --profile checks run --rm checks
+docker compose down
+```
+
+Для проверки подготовленного каталога в **новой изолированной БД** нужны миграции, импорт четырёх проверенных JSON из `scripts/data/` и посев помеченного DEMO-набора. Порядок и условия описаны в [каталоге](docs/CATALOG.md) и [развёртывании](docs/DEPLOYMENT.md). Не очищайте существующую БД ради совпадения суммарного счётчика.
+
+## Docker-образ
+
+Сборка релизного образа из исходников:
+
+```sh
+docker build --target release -t povod:hackathon-final .
+```
+
+Готовый Docker-образ для загрузки опубликован в [GitHub Release «hackathon-final-2026-09-30»](https://github.com/n3onnhowever/The-Boys-Max/releases/tag/hackathon-final-2026-09-30). Скачайте архив `POVOD_DOCKER_*.tar.gz` и соответствующий `.sha256`, проверьте контрольную сумму, затем загрузите образ:
+
+```sh
+docker load -i POVOD_DOCKER_<SHA>.tar.gz
+```
+
+Для запуска API с **собственной приватной** конфигурацией требуются внешние PostgreSQL и Redis, утверждённый HTTPS origin и переменные из `.env.release.example`. Локально собранный образ можно запустить так:
+
+```sh
+docker run --rm --env-file .env.release -p 127.0.0.1:3000:3000 povod:hackathon-final
+docker compose -f compose.release.yaml up --build -d
+```
+
+Релизный Compose запускает API и worker, но не создаёт производственные PostgreSQL/Redis и не настраивает MAX. Для Amvera предусмотрен `amvera.yaml`; порядок миграций, подготовки каталога и отката — в [инструкции по развёртыванию](docs/DEPLOYMENT.md).
+
+## Переменные окружения
+
+Примеры имён и пустых значений: `.env.example`, `.env.release.example`. Заполненные файлы хранятся вне Git.
+
+- **PostgreSQL:** `DATABASE_URL`.
+- **Redis:** `REDIS_URL`.
+- **MAX:** `BOT_TOKEN`, `MAX_WEBHOOK_SECRET`, `MAX_INGRESS_MODE`, `MAX_BOT_USERNAME`, `POVOD_MINIAPP_URL`.
+- **GigaChat:** `AI_EXTERNAL_ENABLED`, `GIGACHAT_AUTH_KEY` (ключ нужен только при включённом внешнем AI).
+- **Публичный origin и сессии:** `PUBLIC_ORIGIN`, `SESSION_KEY`, `ESCROW_KEY`, `COOKIE_PROFILE`, `CREDENTIAL_SCOPE`.
+
+## Тесты и зависимости
+
+```sh
 npm run typecheck
 npm run typecheck:pure
 npm run test:unit
 npm run build
-docker compose up --build -d
-docker compose --profile checks run --rm checks
+pwsh -NoProfile -File scripts/test-handoff-integration.ps1
 ```
 
-The default Compose file creates an **isolated local test** PostgreSQL/Redis stack, a generated private test runtime in a Docker volume, API, and worker. Its fixture catalog is for development, not the 215-occurrence showcase. Open `http://localhost:3000/health/ready` to check readiness. The integration command runs the suite against this stack. To stop it:
+Последняя команда создаёт отдельные локальные PostgreSQL/Redis, выполняет миграции и импорт каталога, запускает `npm run test:integration`, затем останавливает тестовые контейнеры. Прямой `npm run test:integration` требует уже настроенных тестовых БД и переменных. Проверенный набор: **330/330 unit**, **100/100 integration**. Версии npm-библиотек заданы в `package.json` и воспроизводимо зафиксированы в `package-lock.json`. `requirements.txt` — читаемый перечень версий для организаторов, не файл для `pip install`.
 
-```sh
-docker compose down
-```
+## Структура репозитория
 
-To reproduce the reviewed 215-occurrence showcase in a fresh isolated database, follow [Catalog](docs/CATALOG.md) and the [deployment procedure](docs/DEPLOYMENT.md): migrate, import the four reviewed curated JSON sources under `scripts/data/`, and seed the labeled demo catalog. Do not replace an existing database or erase user rows to force a global count.
+- `apps/api`, `apps/worker`, `apps/miniapp` — API, worker и Mini App.
+- `packages/`, `modules/` — доменная логика, хранение, поиск и интеграции.
+- `migrations/` — миграции PostgreSQL.
+- `scripts/data/`, `packages/demo/` — проверенные входные данные и помеченный DEMO-каталог.
+- `data/provenance/real-catalog/` — происхождение LIVE-записей.
+- `tests/` — unit- и integration-регрессии.
+- `deploy/`, `amvera.yaml`, `compose*.yaml`, `Dockerfile` — конфигурация запуска.
+- `licenses/` — сведения о сторонних материалах.
 
-## Docker image and configured startup
+## Безопасность и данные
 
-Build the production image from this checkout with:
-
-```sh
-docker build --target release -t povod:local .
-```
-
-When a maintainer publishes the image to GitHub Container Registry, pull it with:
-
-```sh
-docker pull ghcr.io/n3onnhowever/the-boys-max:latest
-```
-
-If the organizer receives an image tar instead, load it with `docker load -i POVOD_IMAGE.tar`. The submission links document records which distribution is available.
-
-For a configured API container, copy `.env.release.example` to a **private**, untracked `.env.release`, fill values in your own environment, and use externally provisioned PostgreSQL, Redis, and an approved HTTPS origin:
-
-```sh
-docker run --rm --env-file .env.release -p 127.0.0.1:3000:3000 povod:local
-docker compose -f compose.release.yaml up --build -d
-```
-
-The release Compose file starts the API and worker; it does not create production PostgreSQL/Redis or configure MAX. Use [Deployment](docs/DEPLOYMENT.md) for migrations, catalog preparation, worker operation, external checks, and rollback. `amvera.yaml` is the separate Amvera startup configuration.
-
-## Configuration and safety
-
-`.env.example` and `.env.release.example` list configuration names and placeholders only. Required deployment settings include PostgreSQL `DATABASE_URL`, Redis `REDIS_URL`, `PUBLIC_ORIGIN`, MAX `BOT_TOKEN` and `MAX_WEBHOOK_SECRET`, plus session keys. `GIGACHAT_AUTH_KEY` is required only when `AI_EXTERNAL_ENABLED` enables external Smart Occasion. Keep all filled runtime files and credentials outside Git. Unknown prices remain unknown; synthetic events are labeled; provider output is advisory.
-
-## Project structure
-
-- `apps/api`, `apps/worker`, `apps/miniapp`: server roles and Mini App.
-- `packages/`, `modules/`: domain, persistence, search, provider and social code.
-- `migrations/`: PostgreSQL migrations.
-- `scripts/data/`, `packages/demo/`: curated source inputs and labeled demo data.
-- `data/provenance/real-catalog/`: source receipts and review evidence.
-- `tests/`: unit and integration regressions.
-- `deploy/`, `amvera.yaml`, `compose*.yaml`, `Dockerfile`: runtime and deployment configuration.
-- `licenses/`, `certs/`, `patches/`: third-party notices and support files.
+Секреты и заполненные runtime-файлы не входят в Git или Docker-образ. Неизвестная цена остаётся **UNKNOWN**; DEMO-записи отмечены, а LIVE и DEMO различаются в данных. GigaChat не создаёт события каталога и не принимает решения за пользователя. Источник, время и ограничения записи показываются без выдуманных фактов.
