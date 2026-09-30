@@ -1,0 +1,58 @@
+[
+  {
+    "path": "apps/miniapp/src/port/contracts.ts",
+    "sha256": "f12d0d92d665abc327d0b08a4a5f8ca9111f5ef18eea9707b54749cbddd3103f"
+  },
+  {
+    "path": "apps/miniapp/src/port/schema.ts",
+    "sha256": "16ed0a576f7b246f317331d2dfad69d2f85b1759e2edf6c7645645bbb0c920c5"
+  },
+  {
+    "path": "apps/miniapp/src/view-model/category-artwork.ts",
+    "sha256": "2f6672a73d62199c7a0fdad93c3a49b6891fa915076b16ed4a0f22383db3d965"
+  },
+  {
+    "path": "apps/miniapp/src/view-model/detail.ts",
+    "sha256": "274843383e4dd7823ef7f2782f6628fbe77a913a20fa9a27c7c3f3ee948f86e0"
+  },
+  {
+    "path": "apps/miniapp/src/view-model/home.ts",
+    "sha256": "409d196fc16756b3df880d96e3a95c158c8b6d9d4dc844686c67b8f3330dbe0f"
+  },
+  {
+    "path": "apps/miniapp/src/view-model/saved-runtime.ts",
+    "sha256": "6436e5f25dac788b8b94e3813632ce5478230600af92de2ae322a98c656932db"
+  },
+  {
+    "path": "apps/miniapp/src/view-model/search.ts",
+    "sha256": "cb2d4d6b503390f5fcf6080a22f21c6c458372c00424400ffed236efe6846b67"
+  },
+  {
+    "path": "packages/persistence/ui.ts",
+    "sha256": "35c90f62970ea2abc5186fc512d9232e8d3d174b17bf3fe82efdb3ff83ed52dd"
+  },
+  {
+    "path": "scripts/showcase-browser.mjs",
+    "sha256": "66c5492f6f5b094c313286dcbcf0c0641761a3245efd0b398e0ad1f2b4b04855"
+  },
+  {
+    "path": "scripts/verify-catalog-artwork-assets.mjs",
+    "sha256": "b252c07273e6904597fa1d99ae72f731526c2302fc82b4b5d6289a61cca7555b"
+  },
+  {
+    "path": "tests/unit/catalog-artwork.test.ts",
+    "sha256": "98f4c9cf2d8da0b5c2ae566696d57ba8c78cb3bc13b8c0fe03074e9f89df2d08"
+  },
+  {
+    "path": "tests/unit/detail-view-model.test.ts",
+    "sha256": "a0a7602b0668581e1246ea1deaead6b2903eb9bc906a32977d1f86b243019cbb"
+  },
+  {
+    "path": "tests/unit/home-view-model.test.ts",
+    "sha256": "09bc159c6c9a611901949879fac284c6273db856ce065d0b9d022fa5319532ee"
+  },
+  {
+    "path": "tests/integration/catalog-showcase.test.ts",
+    "sha256": "e212a56fb187603ed254d926dabb8f77a04a68766264ecd158178cf1e3e54274"
+  }
+]

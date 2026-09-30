@@ -21,6 +21,7 @@ import {CONTRACT} from '../../apps/miniapp/src/port/contracts.ts';
 import {DEMO_NOTICE,DEMO_PROVIDER_ID} from '../demo/catalog-v3.ts';
 import {demoByEventId} from '../demo/catalog-versions.ts';
 import {allowedReasons} from '../../modules/ai/smart-occasion.ts';
+import {artworkCategory} from '../../apps/miniapp/src/view-model/category-artwork.ts';
 import type {View,Route,Envelope,Receipt,Revision,EventCardView,PlaceView,PlanView,OptionView} from '../../apps/miniapp/src/port/contracts.ts';
 type Plans=ReturnType<typeof planService>;
 type Mapped={kind:'PLAN';planId:string;command:DomainCommand}|{kind:'INVITE';planId:string;expected:number}|{kind:'JOIN';inviteRef:string};
@@ -53,7 +54,7 @@ export function eventCard(item:CatalogItem,now:string,demoOrigin?:string,recomme
  const demoItem=demoOrigin&&c.provenance.data_mode==='SYNTHETIC'&&c.ref.provider_id===DEMO_PROVIDER_ID?demoByEventId(c.ref.event_id):undefined;
  return {ref:{offerId:item.offerId,contextRevision:item.contextRevision,sourceId:c.ref.provider_id,externalEventId:c.ref.event_id,occurrenceId:c.ref.occurrence_id,observationId:c.provenance.observation_id},
   title:c.untrusted_title,startLabel:c.starts_at?eventTime(c.starts_at,c.city_id?context(now).cities.get(c.city_id)?.timezones[0]??'UTC':'UTC'):'Время не подтверждено',
-  categoryLabel:c.categories.known.map(category=>CATEGORY_LABELS[category]??'Категория уточняется').join(', ')||'Категория не подтверждена',price:priceView(c.price),
+  categoryLabel:c.categories.known.map(category=>CATEGORY_LABELS[category]??'Категория уточняется').join(', ')||'Категория не подтверждена',artworkCategory:artworkCategory(c.categories.known),price:priceView(c.price),
   place:{address:g.geo.address??'Место уточняется',coordinates:prepared.marker,navigationUrl:null,attribution:c.provenance.data_mode==='SYNTHETIC'?'Демо-каталог':c.ref.provider_id==='ManualProvider'?'Официальный источник':c.ref.provider_id,geoView:g},
   sourceLabel:catalogSourceLabel(c.provenance.data_mode,c.ref.provider_id,c.provenance.source_url,!!demoItem),sourceUrl:demoItem?demoItem.url(demoOrigin!):c.provenance.source_url,
   freshnessLabel:observationTime(c.provenance.observed_at),eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description,...(recommendation?{recommendation}:{})};

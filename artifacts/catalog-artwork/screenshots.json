@@ -1,0 +1,110 @@
+[
+  {
+    "path": "artifacts/catalog-showcase/screenshots/home.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "8d387e49c508ac1c9490e6e29f554ceba66854550332498e58535b2f6b6035d6"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/all-events.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "1dac4cb121c39b93684e4ab47d068f4c336a863caebf2f15b287ef0ecbb50381"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/cinema.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "80e4ad3ff2974332d031fb4b8ff2b14f486c296ab20ac1d93ae7c268cfa7bf3f"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/theatre.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "613e68a9c0241d43c501b40c5b32e9f94a596a840dc76580c88cab4250fbf6f1"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/concert.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "9d63adde89cfbe09c917991b825586e8d966b19375c796992ada933a7e539b69"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/museum.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "a544d1906b4307edd3fc530efb686564e3456a47c172e619e2f70e90592add8f"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/sport.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "1c1619956af99d1a2c0f08f0f52bfe84b4feaa6edf542ba501ff66d5bd3a72b4"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/outdoor.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "ffef43ae11e9cb9b3442443aeb6a2e8f2a37450faf9d998b18b85917bbba5047"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/volunteer.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "be3b3ed346e62ac07314bae6c342d40928503bba18837c0c2bf2575212102437"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/other.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "97b35fc4067b940455480e90cc393ccd475b4edad601beaf09e16343297dd490"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/free.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "d78dd9757c660b89ba7289443d0de1b3040f7e3af22365e7d905933a4039a266"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/budget-1000.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "bf67e545183cdabc754301365c26a2aa97a8ffd42652faf8797abf5e92f45a2d"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/evening.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "d4327fd2c6a583a4bb67d4e13c92d4edb1b0d6e63aa4c195d0b7c7d23b5b382d"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/detail-cinema.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "eeeacd0a1a3310d7f7a24b351fa4c414711021732972c1c5066d9c61c89dcfab"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/detail-theatre.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "771609733bd87e2cfec27e6af2405d0cd3585297c20218808f13fb2773c27d19"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/detail-volunteer.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "f49d8cfb56ab7c2433b59a3f4010f31bf7a864952e692a045c06e3b4d0b1c87a"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/event-detail.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "771609733bd87e2cfec27e6af2405d0cd3585297c20218808f13fb2773c27d19"
+  },
+  {
+    "path": "artifacts/catalog-showcase/screenshots/saved.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "01a269370e892cf91a6667eb0d1489df65dcd47e5b5911f9d55cc82c6b50b366"
+  }
+]

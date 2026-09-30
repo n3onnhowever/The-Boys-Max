@@ -25,6 +25,7 @@ const eventView: EventView = {
     title: 'Synthetic concert',
     startLabel: '2 октября · 20:00',
     categoryLabel: 'Концерт',
+    artworkCategory: 'CONCERT',
     place: { address: '', coordinates: null, navigationUrl: null, attribution: null },
     price: { baseLabel: 'UNKNOWN', totalLabel: null, basisLabel: 'Основание неизвестно', fees_known: false, warnings: [] },
     sourceLabel: 'Synthetic source', sourceUrl: 'https://outside.invalid/event', freshnessLabel: 'Synthetic timestamp',

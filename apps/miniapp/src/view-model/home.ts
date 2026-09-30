@@ -47,7 +47,7 @@ function eventId(event: EventCardView): string {
 }
 
 function adaptEvent(event: EventCardView, hero = false, distanceKm:number|null=null): HomeEventViewModel {
-  const artwork=categoryArtwork(event.categoryLabel);
+  const artwork=categoryArtwork(event.artworkCategory);
   return {
     id: eventId(event),
     title: event.title,

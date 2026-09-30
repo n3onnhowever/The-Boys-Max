@@ -38,6 +38,7 @@ export interface ExternalRef {
 }
 export interface EventCardView {
   ref: ExternalRef; title: string; startLabel: string; categoryLabel: string;
+  artworkCategory: import('../../../../modules/search/core/types.ts').Category | null;
   place: PlaceView; price: PriceView; sourceLabel: string; sourceUrl: string | null;
   freshnessLabel: string; eligibilityLabel: string; description: string;
   recommendation?: {score:number;reasons:('INTEREST'|'BUDGET'|'TIME')[];interest:string|null};

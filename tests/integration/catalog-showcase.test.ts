@@ -5,7 +5,10 @@ import {readFileSync} from 'node:fs';
 import {buildApp} from '../../apps/api/app.ts';
 import {envelopeFor} from '../../apps/miniapp/src/core/commands.ts';
 import {blankDraft} from '../../modules/integration/projections.ts';
-import type {CatalogView,Receipt} from '../../apps/miniapp/src/port/contracts.ts';
+import type {CatalogView,EventView,Receipt} from '../../apps/miniapp/src/port/contracts.ts';
+import {catalogToSearchViewModel} from '../../apps/miniapp/src/view-model/search.ts';
+import {eventToDetailViewModel} from '../../apps/miniapp/src/view-model/detail.ts';
+import {savedOccurrenceToDetail,savedToViewModel,type SavedResponse} from '../../apps/miniapp/src/view-model/saved-runtime.ts';
 import type {Config} from '../../packages/platform/config.ts';
 import {sign} from '../fixtures.ts';
 
@@ -58,4 +61,42 @@ test('Save accepts an admitted real occurrence and an allowed demo occurrence',a
  }
  const saved=await app.inject({url:'/api/v1/me/saved',headers:headers()});assert.equal(saved.statusCode,200,saved.body);
  assert.equal(saved.json().items.length,2);
+});
+
+test('five stored records per category retain one artwork through Search, Detail, and Saved',async()=>{
+ const categories=['CINEMA','THEATRE','CONCERT','MUSEUM','SPORT','OUTDOOR','VOLUNTEER','OTHER'];
+ const selected:{id:string;artwork:string;category:string}[]=[];
+ for(const category of categories){
+  const current=await view();
+  const draft={...blankDraft(),city:'Москва',timeZone:'Europe/Moscow',includedCategories:[category]};
+  const response=await app.inject({method:'POST',url:'/api/ui/v1/commands',headers:headers(),payload:envelopeFor(current,{type:'SEARCH',scope,draft},randomUUID())});
+  assert.equal(response.statusCode,200,response.body);
+  const catalog=response.json<Receipt>().view as CatalogView;
+  assert.ok(catalog.events.length>=5,`${category}: fewer than five records`);
+  const search=catalogToSearchViewModel(catalog);
+  for(let index=0;index<5;index++){
+   const event=catalog.events[index]!,ref=event.ref,artwork=search.events[index]!.artwork!;
+   const route={kind:'EVENT',sourceId:ref.sourceId,externalEventId:ref.externalEventId,occurrenceId:ref.occurrenceId,scope};
+   const detailResponse=await app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify(route)),headers:headers()});
+   assert.equal(detailResponse.statusCode,200,`${category}: ${detailResponse.body}`);
+   assert.equal(eventToDetailViewModel(detailResponse.json<EventView>(),[]).heroArtwork,artwork,`${category}: Detail`);
+   const resolved=await app.inject({url:'/api/v1/me/saved/resolve?'+new URLSearchParams({sourceId:ref.sourceId,externalEventId:ref.externalEventId,occurrenceRef:ref.occurrenceId!}),headers:headers()});
+   assert.equal(resolved.statusCode,200,`${category}: ${resolved.body}`);
+   const id=resolved.json<{occurrenceId:string}>().occurrenceId;
+   const saved=await app.inject({method:'PUT',url:'/api/v1/me/saved/'+id,headers:headers(),payload:{}});
+   assert.equal(saved.statusCode,200,`${category}: ${saved.body}`);
+   selected.push({id,artwork,category});
+  }
+ }
+ const response=await app.inject({url:'/api/v1/me/saved',headers:headers()});
+ assert.equal(response.statusCode,200,response.body);
+ const saved=response.json<SavedResponse>();
+ const model=savedToViewModel(saved,new Date('2026-09-29T00:00:00Z'));
+ const cards=new Map([...model.events.upcoming,...model.events.later].map(card=>[card.id,card]));
+ const occurrences=new Map(saved.items.map(item=>[item.occurrence.id,item.occurrence]));
+ for(const {id,artwork,category} of selected){
+  assert.equal(cards.get(id)?.artwork,artwork,`${category}: Saved`);
+  assert.equal(savedOccurrenceToDetail(occurrences.get(id)!,[]).heroArtwork,artwork,`${category}: Saved Detail`);
+ }
+ assert.equal(selected.length,40);
 });

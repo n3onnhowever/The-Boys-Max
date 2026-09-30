@@ -30,6 +30,7 @@ const catalog: CatalogView = {
     title: 'Synthetic concert',
     startLabel: '2 октября · 20:00',
     categoryLabel: 'Концерт',
+    artworkCategory: 'CONCERT',
     place: { address: 'Synthetic venue', coordinates: null, navigationUrl: null, attribution: null },
     price: { baseLabel: 'UNKNOWN', totalLabel: null, basisLabel: 'Основание неизвестно', fees_known: false, warnings: [] },
     sourceLabel: 'Synthetic source', sourceUrl: null, freshnessLabel: 'Synthetic timestamp',
@@ -74,8 +75,7 @@ test('server catalog adapters assign only local category artwork', () => {
   assert.ok(HOME_DESIGN_DATA.hero?.artwork, 'explicit design preview keeps its accepted artwork');
 });
 
-test('category artwork falls back locally for unknown or multiple labels',()=>{
- assert.equal(categoryArtwork('Музеи и выставки').url,'/assets/events/category-museum.png');
- assert.equal(categoryArtwork('Неизвестная категория').url,'/assets/events/category-other-v2.png');
- assert.equal(categoryArtwork('Другое, Театр').url,'/assets/events/category-other-v2.png');
+test('category artwork uses a canonical key and an explicit unknown fallback',()=>{
+ assert.equal(categoryArtwork('MUSEUM').url,'/assets/events/category-museum.png');
+ assert.equal(categoryArtwork(null).url,'/assets/events/category-other-v2.png');
 });

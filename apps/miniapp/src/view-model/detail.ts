@@ -90,7 +90,7 @@ function eventId(view: EventView): string {
  */
 export function eventToDetailViewModel(view: EventView, origins: readonly string[]): DetailViewModel {
   const event = view.event;
-  const artwork=categoryArtwork(event.categoryLabel);
+  const artwork=categoryArtwork(event.artworkCategory);
   const startLabel = knownText(event.startLabel) ?? 'Дата и время уточняются';
   const venueAddress = knownText(event.place.address);
   const priceLabel = knownText(event.price.baseLabel);
