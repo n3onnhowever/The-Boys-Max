@@ -42,16 +42,18 @@ Build the production image from this checkout with:
 docker build --target release -t povod:local .
 ```
 
-The published image can be pulled from GitHub Container Registry:
+When a maintainer publishes the image to GitHub Container Registry, pull it with:
 
 ```sh
 docker pull ghcr.io/n3onnhowever/the-boys-max:latest
 ```
 
+If the organizer receives an image tar instead, load it with `docker load -i POVOD_IMAGE.tar`. The submission links document records which distribution is available.
+
 For a configured API container, copy `.env.release.example` to a **private**, untracked `.env.release`, fill values in your own environment, and use externally provisioned PostgreSQL, Redis, and an approved HTTPS origin:
 
 ```sh
-docker run --rm --env-file .env.release -p 127.0.0.1:3000:3000 ghcr.io/n3onnhowever/the-boys-max:latest
+docker run --rm --env-file .env.release -p 127.0.0.1:3000:3000 povod:local
 docker compose -f compose.release.yaml up --build -d
 ```
 
