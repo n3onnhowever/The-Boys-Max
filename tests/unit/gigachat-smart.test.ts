@@ -51,9 +51,9 @@ test('GigaChat reports an OAuth HTTP code without exposing the authorization key
 });
 
 test('external AI requires an explicit authorization key and remains off by default',()=>{
- const env={APP_MODE:'hybrid',DEMO_CATALOG_VERSION:'v2',COOKIE_PROFILE:'LAX_FIRST_PARTY',PUBLIC_ORIGIN:'https://example.test',
+ const env={APP_MODE:'hybrid',DEMO_CATALOG_VERSION:'v3',COOKIE_PROFILE:'LAX_FIRST_PARTY',PUBLIC_ORIGIN:'https://example.test',
   SESSION_KEY:'a'.repeat(64),ESCROW_KEY:'b'.repeat(64),BOT_TOKEN:'TEST_BOT',MAX_WEBHOOK_SECRET:'c'.repeat(64),
-  CREDENTIAL_SCOPE:'TEST',DATABASE_URL:'postgres://test:test@localhost/test',REDIS_URL:'redis://localhost:6379',
+  CREDENTIAL_SCOPE:'TEST',DATABASE_URL:'postgres://test@localhost/test',REDIS_URL:'redis://localhost:6379',
   MAX_BOT_USERNAME:'test_bot',LIVE_GATE:'REVIEWED_MAX26_LIVE'} as NodeJS.ProcessEnv;
  assert.equal(config(env).aiExternalEnabled,false);
  assert.throws(()=>config({...env,AI_EXTERNAL_ENABLED:'true'}),/GIGACHAT_AUTH_KEY_REQUIRED/);

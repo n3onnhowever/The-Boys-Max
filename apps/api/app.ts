@@ -3,7 +3,7 @@ import cookie from '@fastify/cookie';
 import swagger from '@fastify/swagger';
 import {validatorCompiler,serializerCompiler,jsonSchemaTransform} from 'fastify-type-provider-zod';
 import type {ZodTypeProvider} from 'fastify-type-provider-zod';
-import type {FastifyRequest} from 'fastify';
+import type {FastifyRequest,FastifyReply} from 'fastify';
 import {z} from 'zod';
 import {randomBytes,randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -13,7 +13,8 @@ import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
 import {savedService} from '../../packages/persistence/saved.ts';
 import {socialService} from '../../packages/persistence/social.ts';
-import {DEMO_ITEMS,DEMO_NOTICE} from '../../packages/demo/catalog-v2.ts';
+import {DEMO_NOTICE} from '../../packages/demo/catalog-v3.ts';
+import {demoBySourcePath} from '../../packages/demo/catalog-versions.ts';
 import {planService} from '../../packages/persistence/plans.ts';
 import {ingressService} from '../../packages/platform/ingress.ts';
 import {AppError,requireThat} from '../../packages/domain/errors.ts';
@@ -70,11 +71,15 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  if(ownerPreview)app.post('/dev/owner-session',{schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
   origin(r);json(r);const session=await sessions.ownerPreview(r.body.persona);reply.setCookie('__Host-max_session',session.token,{...attrs,maxAge:3600});return {ready:true};
  });
- if(c.mode==='demo'||c.mode==='hybrid')app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>{
-  const item=DEMO_ITEMS.find(x=>x.id===r.params.id);requireThat(item,'NOT_FOUND',404);
+ if(c.mode==='demo'||c.mode==='hybrid'){
+ const demoSource=async(item:ReturnType<typeof demoBySourcePath>,reply:FastifyReply)=>{
+  requireThat(item,'NOT_FOUND',404);
   reply.header('Content-Security-Policy',"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'");
   return reply.type('text/html; charset=utf-8').send(`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Демонстрационный источник — Повод</title><body style="font:18px system-ui;max-width:42rem;margin:3rem auto;padding:1rem"><h1>${DEMO_NOTICE}</h1><p>${item.title}</p><p>Это подготовленная командой вымышленная запись для показа интерфейса. Место проведения, выступления, билеты и доступность не заявлены.</p><p>Дата в демонстрационном наборе: ${item.start.slice(0,10)} (Москва). Не используйте её для поездки.</p></body></html>`);
- });
+ };
+ app.get('/demo/source/v3/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>demoSource(demoBySourcePath(r.params.id,'v3'),reply));
+ app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>demoSource(demoBySourcePath(r.params.id,'legacy'),reply));
+ }
  app.get('/health/ready',{schema:{response:{200:z.strictObject({database:z.literal('UP'),outboundHold:z.boolean()}),...S.errors}}},async()=>{
   const r=await pool.query<{hold:boolean}>('SELECT hold FROM outbound_control WHERE id=1');return {database:'UP' as const,outboundHold:r.rows[0]?.hold!==false};
  });

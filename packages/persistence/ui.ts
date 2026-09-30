@@ -18,7 +18,8 @@ import {assertRead,current,activeSlot,capabilities,feasibility,confirmation} fro
 import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
 import {CONTRACT} from '../../apps/miniapp/src/port/contracts.ts';
-import {DEMO_NOTICE,DEMO_PROVIDER_ID,demoSourceUrl,demoEventId,DEMO_ITEMS} from '../demo/catalog-v2.ts';
+import {DEMO_NOTICE,DEMO_PROVIDER_ID} from '../demo/catalog-v3.ts';
+import {demoByEventId} from '../demo/catalog-versions.ts';
 import {allowedReasons} from '../../modules/ai/smart-occasion.ts';
 import type {View,Route,Envelope,Receipt,Revision,EventCardView,PlaceView,PlanView,OptionView} from '../../apps/miniapp/src/port/contracts.ts';
 type Plans=ReturnType<typeof planService>;
@@ -38,6 +39,8 @@ export function catalogSourceLabel(dataMode:'LIVE'|'SYNTHETIC',providerId:string
  try{
   const host=sourceUrl?new URL(sourceUrl).hostname.toLowerCase():'';
   if(host==='kudago.com'||host.endsWith('.kudago.com'))return 'KudaGo';
+  if(host==='www.darwinmuseum.ru'||host==='darwinmuseum.ru')return 'Дарвиновский музей';
+  if(host==='www.tretyakovgallery.ru'||host==='tretyakovgallery.ru')return 'Третьяковская галерея';
  }catch{/* source URL was already validated upstream */}
  return providerId==='ManualProvider'?'Официальный источник':providerId;
 }
@@ -47,12 +50,12 @@ export function revision(p:Plan|null,contextRevision:number|null=null):Revision 
 }
 export function eventCard(item:CatalogItem,now:string,demoOrigin?:string,recommendation?:Recommendation):EventCardView {
  const c=item.candidate,g=geoView(c,context(now)),prepared=preparePlace(g);
- const demoItem=demoOrigin&&c.ref.provider_id===DEMO_PROVIDER_ID?DEMO_ITEMS.find(x=>demoEventId(x)===c.ref.event_id):undefined;
+ const demoItem=demoOrigin&&c.provenance.data_mode==='SYNTHETIC'&&c.ref.provider_id===DEMO_PROVIDER_ID?demoByEventId(c.ref.event_id):undefined;
  return {ref:{offerId:item.offerId,contextRevision:item.contextRevision,sourceId:c.ref.provider_id,externalEventId:c.ref.event_id,occurrenceId:c.ref.occurrence_id,observationId:c.provenance.observation_id},
   title:c.untrusted_title,startLabel:c.starts_at?eventTime(c.starts_at,c.city_id?context(now).cities.get(c.city_id)?.timezones[0]??'UTC':'UTC'):'Время не подтверждено',
   categoryLabel:c.categories.known.map(category=>CATEGORY_LABELS[category]??'Категория уточняется').join(', ')||'Категория не подтверждена',price:priceView(c.price),
   place:{address:g.geo.address??'Место уточняется',coordinates:prepared.marker,navigationUrl:null,attribution:c.provenance.data_mode==='SYNTHETIC'?'Демо-каталог':c.ref.provider_id==='ManualProvider'?'Официальный источник':c.ref.provider_id,geoView:g},
-  sourceLabel:catalogSourceLabel(c.provenance.data_mode,c.ref.provider_id,c.provenance.source_url,!!demoItem),sourceUrl:demoItem?demoSourceUrl(demoOrigin!,demoItem):c.provenance.source_url,
+  sourceLabel:catalogSourceLabel(c.provenance.data_mode,c.ref.provider_id,c.provenance.source_url,!!demoItem),sourceUrl:demoItem?demoItem.url(demoOrigin!):c.provenance.source_url,
   freshnessLabel:observationTime(c.provenance.observed_at),eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description,...(recommendation?{recommendation}:{})};
 }
 export function uiService(pool:Pool,plans:Plans,cfg:Config){

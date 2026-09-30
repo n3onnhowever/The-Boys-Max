@@ -8,6 +8,6 @@ build:
 
 run:
   command: /bin/sh
-  args: -c "export CURATED_SOURCE_HOSTS=www.darwinmuseum.ru,darwinmuseum.ru,www.tretyakovgallery.ru,tretyakovgallery.ru,kudago.com,www.kudago.com; export ALLOWED_SOURCE_ORIGINS=https://www.darwinmuseum.ru,https://www.tretyakovgallery.ru,https://kudago.com; node dist/scripts/migrate.js && node dist/scripts/import-curated-official.js scripts/data/curated-official-v1.json scripts/data/curated-official-tretyakov-exact-v1.json scripts/data/curated-kudago-moscow-a-v1.json scripts/data/curated-kudago-moscow-b-v1.json && node dist/scripts/seed-demo.js && exec node dist/scripts/amvera-runtime.js"
+  args: -c "test \"$APP_MODE\" = hybrid || exit 1; export DEMO_CATALOG_VERSION=v3; export CURATED_SOURCE_HOSTS=www.darwinmuseum.ru,darwinmuseum.ru,www.tretyakovgallery.ru,tretyakovgallery.ru,kudago.com,www.kudago.com; export ALLOWED_SOURCE_ORIGINS=https://www.darwinmuseum.ru,https://www.tretyakovgallery.ru,https://kudago.com; node dist/scripts/migrate.js && node dist/scripts/import-curated-official.js scripts/data/curated-official-v1.json scripts/data/curated-official-tretyakov-exact-v1.json scripts/data/curated-kudago-moscow-a-v1.json scripts/data/curated-kudago-moscow-b-v1.json && node dist/scripts/seed-demo.js && exec node dist/scripts/amvera-runtime.js"
   containerPort: 3000
   servicePort: 80

@@ -17,6 +17,7 @@ export interface HomeEventViewModel {
   artwork: string | null;
   artworkAlt: string;
   recommendationLabel: string | null;
+  sourceLabel?: string;
   saved: boolean;
 }
 
@@ -58,6 +59,7 @@ function adaptEvent(event: EventCardView, hero = false, distanceKm:number|null=n
     artwork: artwork.url,
     artworkAlt: artwork.alt,
     recommendationLabel: hero ? event.categoryLabel : null,
+    sourceLabel: event.sourceLabel,
     saved: false,
   };
 }

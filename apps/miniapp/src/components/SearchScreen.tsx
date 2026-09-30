@@ -45,8 +45,9 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
   const openFilters = () => runtime ? (setRuntimeDraft({ ...runtime.query, includedCategories: [...runtime.query.includedCategories] }), setRuntimeSheetOpen(true)) : act({ type: 'OPEN_FILTERS' });
   const removeRuntimeFilter = (key: string, value: string) => {
     if (!runtime) return;
-    runtime.onApply({ ...runtime.query, text: '', date: key === 'date' ? '' : runtime.query.date,dateThrough:key==='date'?undefined:runtime.query.dateThrough,
+    runtime.onApply({ ...runtime.query, text: effectiveText, date: key === 'date' ? '' : runtime.query.date,dateThrough:key==='date'?undefined:runtime.query.dateThrough,
       budgetText:key==='price'?'':runtime.query.budgetText,priceBasis:key==='price'?'UNKNOWN':runtime.query.priceBasis,freeOnly:key==='price'?false:runtime.query.freeOnly,
+      startLocal:key==='time'||key==='date'?'':runtime.query.startLocal,endLocal:key==='time'||key==='date'?'':runtime.query.endLocal,
       includedCategories: key === 'category' ? runtime.query.includedCategories.filter(category => category !== value) : runtime.query.includedCategories });
   };
   return <AppViewport>
@@ -57,7 +58,7 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
         <h1>{model.title}</h1><span aria-hidden="true" />
       </header>}
       {runtime&&<div className="v2-search-title"><h1>Поиск</h1><p>События, выставки и многое другое</p></div>}
-      <form className="search-query" role="search" onSubmit={event => event.preventDefault()}>
+      <form className="search-query" role="search" onSubmit={event => {event.preventDefault();if(runtime)runtime.onApply({...runtime.query,text:effectiveText});}}>
         <SearchBar value={runtime ? effectiveText : state.applied.query} onChange={value => runtime?(onSearchText??setText)(value):act({ type: 'SET_QUERY', value })}
           placeholder="Куда идём?" />
       </form>
@@ -98,7 +99,7 @@ export function SearchScreen({ model, initialFilterSheetOpen = false, onBack, on
     <FilterSheet open={runtime ? runtimeSheetOpen : state.sheetOpen} filters={state.draft} onAction={act}
       runtime={runtime && runtimeDraft ? { draft: runtimeDraft, busy: runtime.busy,
         onChange: setRuntimeDraft, onClose: () => setRuntimeSheetOpen(false),
-        onReset: () => setRuntimeDraft({ ...runtimeDraft, date: '',dateThrough:undefined,freeOnly:false,smartInterests:[],includedCategories: [],budgetText:'',priceBasis:'UNKNOWN' }),
-        onApply: () => { runtime.onApply({ ...runtimeDraft, text: '',dateThrough:runtimeDraft.date===runtime?.query.date?runtimeDraft.dateThrough:undefined,freeOnly:runtimeDraft.budgetText===runtime?.query.budgetText?runtimeDraft.freeOnly:false,smartInterests:[] }); setRuntimeSheetOpen(false); } } : undefined} />
+        onReset: () => setRuntimeDraft({ ...runtimeDraft, date: '',dateThrough:undefined,startLocal:'',endLocal:'',freeOnly:false,smartInterests:[],includedCategories: [],budgetText:'',priceBasis:'UNKNOWN' }),
+        onApply: () => { runtime.onApply({ ...runtimeDraft, text: effectiveText,dateThrough:runtimeDraft.dateThrough,freeOnly:runtimeDraft.freeOnly,smartInterests:[] }); setRuntimeSheetOpen(false); } } : undefined} />
   </AppViewport>;
 }
