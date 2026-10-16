@@ -28,7 +28,9 @@ import {launchLink,launchParam} from '../../packages/platform/links.ts';
 import {smartOccasionService} from '../../modules/ai/smart-service.ts';
 import type {SmartOccasionProvider} from '../../modules/ai/port.ts';
 import type {CatalogClock} from '../../packages/domain/catalog-clock.ts';
-export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null=null,options:{catalogClock?:CatalogClock}={}){
+import {assertOfflinePortfolio,syntheticPortfolioLaunch} from '../../packages/demo/portfolio.ts';
+export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null=null,options:{catalogClock?:CatalogClock;offlinePortfolio?:boolean}={}){
+ if(options.offlinePortfolio){assertOfflinePortfolio(c);requireThat(!smartProvider&&!options.catalogClock,'OFFLINE_PORTFOLIO_REAL_CLOCK_NO_PROVIDER');}
  const app=Fastify({bodyLimit:73728,logger:false,disableRequestLogging:true,genReqId:()=>randomUUID(),trustProxy:false}).withTypeProvider<ZodTypeProvider>();
  app.setValidatorCompiler(validatorCompiler);app.setSerializerCompiler(serializerCompiler);
  app.removeContentTypeParser('application/json');
@@ -36,7 +38,7 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
  const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode),social=socialService(pool);
- const ui=uiService(pool,plans,c,options.catalogClock);
+ const ui=uiService(pool,plans,c,options.catalogClock,options.offlinePortfolio);
  // Test-only injection until a separately approved live provider and durable quota exist.
  const smart=smartOccasionService(c.mode==='test'||c.aiExternalEnabled?smartProvider:null);
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};
@@ -59,7 +61,16 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  });
  app.setNotFoundHandler((req,reply)=>reply.code(404).send({error:{code:'NOT_FOUND',requestId:req.id}}));
  // Static harness is not an authentication fallback. It remains usable only with a legitimate session.
- app.get('/',{schema:{hide:true}},async(_r,reply)=>{try{return reply.type('text/html; charset=utf-8').send(await readFile(resolve('dist/miniapp/index.html')));}catch{throw new AppError('MINIAPP_BUILD_REQUIRED',503);}});
+ app.get('/',{schema:{hide:true}},async(_r,reply)=>{
+  let html:string;try{html=await readFile(resolve('dist/miniapp/index.html'),'utf8');}catch{throw new AppError('MINIAPP_BUILD_REQUIRED',503);}
+  if(options.offlinePortfolio){
+   html=html.replace('<script src="https://st.max.ru/js/max-web-app.js"></script>','');
+   const launch=JSON.stringify(syntheticPortfolioLaunch(c.botToken));
+   html=html.replace('<head>',`<head><script id="povod-offline-launch" type="application/json">${launch}</script><script>if(!location.hash)history.replaceState(null,'',location.pathname+location.search+'#'+new URLSearchParams({WebAppData:JSON.parse(document.getElementById('povod-offline-launch').textContent)}));</script>`);
+   reply.header('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'");
+  }
+  return reply.type('text/html; charset=utf-8').send(html);
+ });
  app.get('/assets/*',{schema:{hide:true}},async(r,reply)=>{
   const name=(r.params as {'*':string})['*'];
   const extension=/^[A-Za-z0-9_/-]+\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf)$/.exec(name)?.[1];
@@ -68,15 +79,15 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
   try{return reply.type(mime[extension]!).send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
- const ownerPreview=ownerPreviewAllowed(process.env,c.mode,c.publicOrigin);
+ const ownerPreview=!options.offlinePortfolio&&ownerPreviewAllowed(process.env,c.mode,c.publicOrigin);
  if(ownerPreview)app.post('/dev/owner-session',{schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
   origin(r);json(r);const session=await sessions.ownerPreview(r.body.persona);reply.setCookie('__Host-max_session',session.token,{...attrs,maxAge:3600});return {ready:true};
  });
- if(c.mode==='demo'||c.mode==='hybrid'){
+ if(c.mode==='demo'||c.mode==='hybrid'||options.offlinePortfolio){
  const demoSource=async(item:ReturnType<typeof demoBySourcePath>,reply:FastifyReply)=>{
   requireThat(item,'NOT_FOUND',404);
   reply.header('Content-Security-Policy',"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'");
-  return reply.type('text/html; charset=utf-8').send(`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Демонстрационный источник — Повод</title><body style="font:18px system-ui;max-width:42rem;margin:3rem auto;padding:1rem"><h1>${DEMO_NOTICE}</h1><p>${item.title}</p><p>Это подготовленная командой вымышленная запись для показа интерфейса. Место проведения, выступления, билеты и доступность не заявлены.</p><p>Дата в демонстрационном наборе: ${item.start.slice(0,10)} (Москва). Не используйте её для поездки.</p></body></html>`);
+  return reply.type('text/html; charset=utf-8').send(`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Демонстрационный источник — Повод</title><body style="font:18px system-ui;max-width:42rem;margin:3rem auto;padding:1rem"><h1>${DEMO_NOTICE}</h1><p>${item.title}</p><p>Это подготовленная командой вымышленная запись для показа интерфейса. Место проведения, выступления, билеты и доступность не заявлены.</p><p>${options.offlinePortfolio?'Даты локального сценария сдвинуты относительно запуска; это не даты реальных мероприятий.':`Дата в демонстрационном наборе: ${item.start.slice(0,10)} (Москва). Не используйте её для поездки.`}</p></body></html>`);
  };
  app.get('/demo/source/v3/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>demoSource(demoBySourcePath(r.params.id,'v3'),reply));
  app.get('/demo/source/:id',{schema:{hide:true,params:z.strictObject({id:z.string().regex(/^[a-z0-9-]+$/)})}},async(r,reply)=>demoSource(demoBySourcePath(r.params.id,'legacy'),reply));

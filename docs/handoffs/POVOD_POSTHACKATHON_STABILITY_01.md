@@ -45,7 +45,15 @@ The new `npm run test:integration:isolated` harness uses fresh PostgreSQL 18.6 a
 
 Executed: both typechecks exit 0; unit tests 337 passed; isolated integration 102 passed, 0 failed/skipped (72.156s). Logs: `clocks-*`, `integration.log`, `migrate-*`, `showcase-import.log`, `showcase-seed.log` under `.run-evidence/stability-01/`. Source data and historical migrations remain byte-preserved.
 
-Offline demo, CI, final checks and documentation remain in progress. No PASS is inferred from historical counts.
+## Offline portfolio demo
+
+`npm run demo:portfolio` provisions dedicated disposable services, builds the accepted UI, migrates and seeds 48 canonical/search synthetic scenarios, then runs a loopback API and the existing BullMQ worker/TestTransport. Explicit local/test guards reject production/non-loopback/provider/owner-preview configurations. Generated keys stay in child environments. Synthetic HMAC launch uses the existing bootstrap/exchange/session checks; no authentication bypass endpoint. HTML omits MAX SDK and has same-origin-only connect CSP. AI is disabled. Historical source fixtures remain untouched; a separate synthetic namespace has consistent future dates relative to startup.
+
+New implementation: `packages/demo/portfolio.ts`, `scripts/start-portfolio.mjs`, `scripts/portfolio-api.ts`, `scripts/seed-portfolio.ts`, `scripts/portfolio-smoke.ts`; small opt-in API/UI wiring and package scripts. Instructions: `docs/PORTFOLIO_DEMO.md`.
+
+Executed: portfolio guard/fixture/signature unit tests 3 passed; `npm run demo:portfolio -- --smoke` exit 0. HTTP journey: Home, Search (six sport matches), Event Detail, Save, Saved, New Plan, Plan Detail, Friends, Profile; anonymous/CSRF/Origin checks, disabled AI, absent owner endpoint, no MAX SDK, Redis PONG and registered BullMQ worker. Browser independently reproduced all nine UI surfaces with synthetic actors and persisted a solo plan. Screenshot/logs: ignored `.run-evidence/stability-01/portfolio-*`. No real MAX, GigaChat or provider called. Initial release Docker build also exited 0; final source-bound rebuild follows CI changes.
+
+CI, final checks and factual documentation remain in progress. No PASS is inferred from historical counts.
 
 ## Boundaries and owner decisions
 

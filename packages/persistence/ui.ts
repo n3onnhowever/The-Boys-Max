@@ -60,7 +60,7 @@ export function eventCard(item:CatalogItem,now:string,demoOrigin?:string,recomme
   sourceLabel:catalogSourceLabel(c.provenance.data_mode,c.ref.provider_id,c.provenance.source_url,!!demoItem),sourceUrl:demoItem?demoItem.url(demoOrigin!):c.provenance.source_url,
   freshnessLabel:observationTime(c.provenance.observed_at),eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description,...(recommendation?{recommendation}:{})};
 }
-export function uiService(pool:Pool,plans:Plans,cfg:Config,catalogClock?:CatalogClock){
+export function uiService(pool:Pool,plans:Plans,cfg:Config,catalogClock?:CatalogClock,offlinePortfolio=false){
  const catalog=catalogService(pool,cfg.mode,catalogClock);
  const social=socialService(pool);
  async function readPlan(actor:string,id:string):Promise<Plan>{const r=await pool.query<{state:Plan}>('SELECT state FROM plans WHERE id=$1',[id]);requireThat(r.rows[0],'NOT_FOUND',404);assertRead(r.rows[0].state,actor);requireCanonicalPlan(r.rows[0].state);return r.rows[0].state;}
@@ -108,10 +108,10 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config,catalogClock?:Catalog
    return {contract:CONTRACT,actorId:subject.actor_id,kind:'INVITE',route,actions:state==='REQUESTABLE'?['REQUEST_JOIN']:[],revision:null,notice:null,state,inviteRef:route.inviteRef,activePlanId:state==='ACTIVE'?row!.plan_id:null,
     context:row?{organizerName:row.organizer_name,planTitle:row.plan_title,eventTitle:row.event_title,startsAt:row.starts_at,venue:row.venue}:null};
   }
-  const b=await catalog.browse(subject,route.scope,route.kind==='EVENT'?{sourceId:route.sourceId,eventId:route.externalEventId,occurrenceId:route.occurrenceId}:undefined),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:cfg.mode==='demo'?DEMO_NOTICE:cfg.mode==='hybrid'?'Сначала — проверенные реальные записи. При нехватке подходящих событий показаны помеченные демо-примеры.':cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
+  const b=await catalog.browse(subject,route.scope,route.kind==='EVENT'?{sourceId:route.sourceId,eventId:route.externalEventId,occurrenceId:route.occurrenceId}:undefined),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:offlinePortfolio||cfg.mode==='demo'?DEMO_NOTICE:cfg.mode==='hybrid'?'Сначала — проверенные реальные записи. При нехватке подходящих событий показаны помеченные демо-примеры.':cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
   if(route.kind==='EVENT'){
    const item=b.items.find(i=>i.candidate.ref.provider_id===route.sourceId&&i.candidate.ref.event_id===route.externalEventId&&i.candidate.ref.occurrence_id===route.occurrenceId);requireThat(item,'EVENT_UNAVAILABLE_OR_STALE',409);
-   return {...base,kind:'EVENT',actions:item.eligibility.status==='FAIL'?[]:['ADD_TO_PLAN'],event:eventCard(item,b.now,['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined),targetPlanId:route.scope.kind==='PLAN'?route.scope.planId:null,unknownReasons:[...new Set(item.eligibility.checks.filter(c=>c.status==='UNKNOWN').map(c=>c.reason))].sort()};
+   return {...base,kind:'EVENT',actions:item.eligibility.status==='FAIL'?[]:['ADD_TO_PLAN'],event:eventCard(item,b.now,offlinePortfolio||['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined),targetPlanId:route.scope.kind==='PLAN'?route.scope.planId:null,unknownReasons:[...new Set(item.eligibility.checks.filter(c=>c.status==='UNKNOWN').map(c=>c.reason))].sort()};
   }
   const labels=Object.entries(b.ctx.hard).filter(([,value])=>value!==null&&(!Array.isArray(value)||value.length>0)).map(([key,value])=>key+': '+JSON.stringify(value));
   // A visible filter means its specific fact is verified. Discovery may retain
@@ -122,7 +122,7 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config,catalogClock?:Catalog
   const ranked=prefs?.city==='Москва'?rankRecommendations(visibleItems,prefs,item=>item.candidate,b.ctx.draft.smartInterests??[])
    :prefs?[]:visibleItems.map(item=>({item,recommendation:undefined}));
   return {...base,kind:'CATALOG',actions:['SEARCH'],query:b.ctx.draft,approvedFilterLabels:labels,events:ranked.map(({item,recommendation})=>{
-   const card=eventCard(item,b.now,['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined,recommendation);
+   const card=eventCard(item,b.now,offlinePortfolio||['demo','hybrid'].includes(cfg.mode)?cfg.publicOrigin:undefined,recommendation);
    if(b.ctx.draft.smartInterests!==undefined)card.evidenceReasons=allowedReasons(item.candidate,item.eligibility,b.ctx.hard,prefs?.interests??[],b.ctx.draft.smartInterests);
    return card;
   }),aiState:'UNAVAILABLE',aiMessage:'Текстовый поиск выполняется по проверенному каталогу. ИИ и внешние модели отключены.'};

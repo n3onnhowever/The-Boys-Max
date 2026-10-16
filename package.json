@@ -43,7 +43,9 @@
     "diagnose:catalog": "node --experimental-strip-types scripts/diagnose-catalog.ts",
     "scan:secrets": "node scripts/scan-repository-secrets.mjs --history=HEAD",
     "test:artwork": "node --experimental-strip-types --test tests/unit/catalog-artwork.test.ts && node scripts/verify-catalog-artwork-assets.mjs",
-    "test:integration:isolated": "node scripts/test-isolated-integration.mjs"
+    "test:integration:isolated": "node scripts/test-isolated-integration.mjs",
+    "demo:portfolio": "node scripts/start-portfolio.mjs",
+    "seed:portfolio": "node --experimental-strip-types scripts/seed-portfolio.ts"
   },
   "dependencies": {
     "@fastify/cookie": "11.0.2",
