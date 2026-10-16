@@ -3,7 +3,10 @@ import {randomBytes} from 'node:crypto';
 import {openSync,closeSync,mkdirSync} from 'node:fs';
 import {setTimeout as delay} from 'node:timers/promises';
 
-export const serviceImages={postgres:'postgres:18.6',redis:'redis:8.2.9'};
+export const serviceImages={
+ postgres:'postgres:18.6@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336',
+ redis:'redis:8.2.9@sha256:66b7f4c2f3c6ef1b298bbd7b13c806bc6f71e61f1136a4f58710daf2cb053b21',
+};
 const docker=(...args)=>execFileSync('docker',args,{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
 export async function isolatedServices(label){
  try{docker('info','--format','{{.ServerVersion}}');}catch{throw Error('BLOCKED_DOCKER: start Docker, then retry the documented command');}
@@ -21,8 +24,9 @@ export async function isolatedServices(label){
   }
   if(!ready)throw Error('ISOLATED_SERVICES_NOT_READY');
   const port=(name,containerPort)=>JSON.parse(docker('inspect','--format','{{json .NetworkSettings.Ports}}',name))[containerPort][0].HostPort;
-  const databaseBase=`postgres://max23:${password}@127.0.0.1:${port(pgName,'5432/tcp')}/`;
-  return {databaseUrl:name=>databaseBase+name,redisUrl:`redis://127.0.0.1:${port(redisName,'6379/tcp')}`,
+  const databaseBase=new URL('postgres://127.0.0.1/');
+  databaseBase.username='max23';databaseBase.password=password;databaseBase.port=port(pgName,'5432/tcp');
+  return {databaseUrl:name=>new URL(name,databaseBase).href,redisUrl:`redis://127.0.0.1:${port(redisName,'6379/tcp')}`,
    createDatabase:name=>{if(!/^[a-z0-9_]+$/.test(name))throw Error('DATABASE_NAME_INVALID');docker('exec',pgName,'createdb','-U','max23',name);},stop};
  }catch(error){stop();throw Error(error.message.startsWith('BLOCKED_')?error.message:'ISOLATED_SERVICE_START_FAILED (Docker diagnostics may contain private configuration; inspect locally)');}
 }

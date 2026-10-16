@@ -1,0 +1,48 @@
+name: Portfolio baseline
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'codex/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.20.0
+          cache: npm
+      - name: Pin npm and install from lockfile
+        run: |
+          npm install --global npm@11.19.0 --ignore-scripts
+          npm ci
+      - run: npm run typecheck
+      - run: npm run typecheck:pure
+      - run: npm run test:unit
+      - name: Verify Docker and isolated PostgreSQL/Redis acceptance
+        run: |
+          docker version
+          npm run test:integration:isolated
+      - run: npm run build
+      - run: npm run demo:portfolio -- --smoke
+      - name: Scan dependencies, current files and reachable history
+        run: |
+          npm audit
+          npm run scan:secrets
+          git diff --check
+      - name: Build release image locally (no publication)
+        run: docker build --target release --build-arg SOURCE_SHA="$GITHUB_SHA" -t povod:ci .

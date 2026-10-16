@@ -53,7 +53,11 @@ New implementation: `packages/demo/portfolio.ts`, `scripts/start-portfolio.mjs`,
 
 Executed: portfolio guard/fixture/signature unit tests 3 passed; `npm run demo:portfolio -- --smoke` exit 0. HTTP journey: Home, Search (six sport matches), Event Detail, Save, Saved, New Plan, Plan Detail, Friends, Profile; anonymous/CSRF/Origin checks, disabled AI, absent owner endpoint, no MAX SDK, Redis PONG and registered BullMQ worker. Browser independently reproduced all nine UI surfaces with synthetic actors and persisted a solo plan. Screenshot/logs: ignored `.run-evidence/stability-01/portfolio-*`. No real MAX, GigaChat or provider called. Initial release Docker build also exited 0; final source-bound rebuild follows CI changes.
 
-CI, final checks and factual documentation remain in progress. No PASS is inferred from historical counts.
+## GitHub CI
+
+Added the small Ubuntu 24.04 workflow in `.github/workflows/portfolio-baseline.yml`: immutable checkout/setup-node pins, Node 24.20.0/npm 11.19.0, clean ci, both typechecks, all unit/integration tests, build, offline smoke, dependency audit, repository current/history scan and local release Docker build. Read-only token, full history, no persisted checkout credentials, no deployment/publication or production secrets. Service images retain 18.6/8.2.9 and now pin verified official image digests. See `docs/CI.md` for source/license pins and limits.
+
+The updated cross-platform helper passed 102 isolated integrations with pinned images (68.448s). Offline smoke passed again. Current + history pattern scan passed with no findings/prohibited/oversized paths. One exact historical blob exception documents a URL template containing variable syntax (not a credential); the current helper uses URL setters. No scanner rule was broadened or disabled. Hosted GitHub execution is **NOT_RUN**: no push/PR authorized in this sprint. Local Docker release build passed; final fresh-install/source-bound evidence follows.
 
 ## Boundaries and owner decisions
 
