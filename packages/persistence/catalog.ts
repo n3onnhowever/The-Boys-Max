@@ -22,7 +22,11 @@ export interface CatalogItem {candidate:Candidate;eligibility:Eligibility;offerI
 export interface CatalogResult {ctx:ContextRow;items:CatalogItem[];plan:Plan|null;now:string}
 const scopeFor=(c:ContextRow):SearchScope=>c.kind==='PERSONAL'?{kind:'PERSONAL',search_context_id:c.id}:{kind:'PLAN_PRIVATE',search_context_id:c.id,plan_id:c.plan_id!};
 export function listedForDiscovery(e:Eligibility,exactRef:boolean):boolean{
- return e.status!=='FAIL'&&(exactRef||e.checks.some(check=>check.field==='listing'&&check.status==='PASS'));
+ // An exact locator opens a historical record; it does not assert future eligibility.
+ // Rights are checked separately by browse, and add re-evaluates admission.
+ if(exactRef)return true;
+ return e.status!=='FAIL'&&['lifecycle','occurrence_lifecycle','listing'].every(field=>
+  e.checks.some(check=>check.field===field&&check.status==='PASS'));
 }
 export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
  async function assertSession(db:PoolClient,s:Subject){

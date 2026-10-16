@@ -25,6 +25,14 @@ Clean base `npm ci` exit 0; `npm audit --json` exit 1 reproduced three underlyin
 
 Executed on the dependency tree: `npm ci`, `npm run typecheck`, `npm run typecheck:pure`, `npm run test:unit` (330 passed), `npm run build`, `npm audit --json` (0 vulnerabilities), `npm ls fastify shell-quote source-map-js gel mysql2 drizzle-orm`, `git diff --check`: all exit 0. Ignored logs: `.run-evidence/stability-01/deps-*`; original audit: `base-audit.json`. Final source-bound evidence manifest will include log SHA-256 values.
 
+## Catalog lifecycle (K11)
+
+`listedForDiscovery` previously accepted UNKNOWN lifecycle with a PRESENT listing. The new regression reproduced the past-start/unknown-end false positive. Future discovery now requires scheduled status, proven upcoming occurrence and observed listing. Unknown provider health remains honestly disclosed. Exact references remain readable independently of discovery; rights checks and add authorization still apply. Ended/cancelled detail no longer offers ADD_TO_PLAN. Saved and Plan storage/access are unchanged.
+
+Saved's client adapter also filtered out every past record. It now retains these in the existing second segment, labeled «Остальные», with an «Архив» date prefix and canonical detail access. Layout and artwork are unchanged. Plan detail access remains unchanged.
+
+Files: `packages/persistence/catalog.ts`, `packages/persistence/ui.ts`, `apps/miniapp/src/view-model/saved-runtime.ts`, lifecycle/Saved unit regressions. No canonical source data or migration changed. `node --experimental-strip-types --test tests/unit/catalog-lifecycle.test.ts tests/unit/integration26.test.ts tests/unit/saved-runtime.test.ts`: exit 0, 36 passed. `git diff --check`: exit 0. Logs: `k11-before.log` (expected failure), `k11-after.log`. Database-backed historical Saved/detail regression follows with the catalog clock acceptance.
+
 ## Remaining acceptance
 
 Catalog, clocks, offline demo, CI, final checks and documentation are in progress. No runtime PASS is inferred from old 330/330 or 100/100 evidence.
