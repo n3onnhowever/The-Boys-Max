@@ -27,7 +27,8 @@ import * as S from '../../packages/contracts/http.ts';
 import {launchLink,launchParam} from '../../packages/platform/links.ts';
 import {smartOccasionService} from '../../modules/ai/smart-service.ts';
 import type {SmartOccasionProvider} from '../../modules/ai/port.ts';
-export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null=null){
+import type {CatalogClock} from '../../packages/domain/catalog-clock.ts';
+export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null=null,options:{catalogClock?:CatalogClock}={}){
  const app=Fastify({bodyLimit:73728,logger:false,disableRequestLogging:true,genReqId:()=>randomUUID(),trustProxy:false}).withTypeProvider<ZodTypeProvider>();
  app.setValidatorCompiler(validatorCompiler);app.setSerializerCompiler(serializerCompiler);
  app.removeContentTypeParser('application/json');
@@ -35,7 +36,7 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
  const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode),social=socialService(pool);
- const ui=uiService(pool,plans,c);
+ const ui=uiService(pool,plans,c,options.catalogClock);
  // Test-only injection until a separately approved live provider and durable quota exist.
  const smart=smartOccasionService(c.mode==='test'||c.aiExternalEnabled?smartProvider:null);
  const attrs={secure:true,httpOnly:true,path:'/',sameSite:c.cookieProfile==='LAX_FIRST_PARTY'?'lax' as const:'none' as const,partitioned:c.cookieProfile==='PARTITIONED_EMBEDDED'};

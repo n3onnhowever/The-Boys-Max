@@ -35,7 +35,17 @@ Files: `packages/persistence/catalog.ts`, `packages/persistence/ui.ts`, `apps/mi
 
 ## Remaining acceptance
 
-Catalog, clocks, offline demo, CI, final checks and documentation are in progress. No runtime PASS is inferred from old 330/330 or 100/100 evidence.
+## Historical clock isolation
+
+The optional in-process `CatalogClock` applies only to catalog browse/filter evaluation. Historical fixture tests explicitly inject `2026-09-30T00:30:00.000Z`; production configuration has no clock environment flag. Catalog add/plan operations, PostgreSQL session checks, credentials, choice expiry and authorization use real time. `confirmSearch` accepts a separate authorization instant so historical filter validation cannot backdate security TTLs. No global Date/Date.now mock.
+
+Historical integration verifies all 167 LIVE + 48 DEMO stored occurrences and the original 200-result ordering. Separate present-day discovery checks eligibility and rights and retains historical Saved/detail access; a 2030 post-expiry check returns no discovery results. An expired real session still fails with the historical catalog clock.
+
+The new `npm run test:integration:isolated` harness uses fresh PostgreSQL 18.6 and Redis 8.2.9 containers on random loopback ports, generated local credentials, six migrated databases and checked-in imports. It never starts real provider transports. The old PowerShell command delegates to it. Cleanup removes only containers created by that invocation. No Windows-specific path in the Node harness.
+
+Executed: both typechecks exit 0; unit tests 337 passed; isolated integration 102 passed, 0 failed/skipped (72.156s). Logs: `clocks-*`, `integration.log`, `migrate-*`, `showcase-import.log`, `showcase-seed.log` under `.run-evidence/stability-01/`. Source data and historical migrations remain byte-preserved.
+
+Offline demo, CI, final checks and documentation remain in progress. No PASS is inferred from historical counts.
 
 ## Boundaries and owner decisions
 

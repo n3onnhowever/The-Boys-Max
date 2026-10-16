@@ -1,3 +1,4 @@
+import {historicalCatalogClock} from '../helpers/catalog-clock.ts';
 import test,{after,before} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomBytes,randomUUID} from 'node:crypto';
@@ -16,7 +17,7 @@ const databaseUrl=process.env.DEMO_TEST_DATABASE_URL;
 assert.ok(databaseUrl&&new URL(databaseUrl).hostname==='127.0.0.1'&&new URL(databaseUrl).pathname==='/povod_demo_verify','fresh isolated demo database required');
 const cfg:Config={mode:'demo',demoCatalogVersion:'v3',databaseUrl,redisUrl:'redis://127.0.0.1:6379',publicOrigin:'http://127.0.0.1:3000',
  sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:randomBytes(24).toString('hex'),webhookSecret:randomBytes(32).toString('hex'),credentialScope:'DEMO_TEST',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:''};
-const {app,pool,sessions}=await buildApp(cfg);
+const {app,pool,sessions}=await buildApp(cfg,null,{catalogClock:historicalCatalogClock});
 type Actor=Awaited<ReturnType<typeof launch>>;
 async function launch(){const boot=await sessions.bootstrap(),external=BigInt('0x'+randomBytes(7).toString('hex')).toString();
  const exchanged=await sessions.exchange(boot.binding,boot.body.csrfToken,sign(cfg.botToken,`{"id":${external},"first_name":"DEMO_TEST"}`,Math.floor(Date.now()/1000),{query_id:randomUUID()}),randomUUID(),undefined);

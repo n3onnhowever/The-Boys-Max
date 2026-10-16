@@ -7,6 +7,7 @@ import {rankRecommendations,type Recommendation} from '../../modules/integration
 import type {CatalogItem,CatalogResult} from './catalog.ts';
 import type {planService} from './plans.ts';
 import type {Config} from '../platform/config.ts';
+import type {CatalogClock} from '../domain/catalog-clock.ts';
 import {digest} from '../platform/auth.ts';
 import {launchLink} from '../platform/links.ts';
 import {canonical} from '../../modules/search/core/guard.ts';
@@ -59,8 +60,8 @@ export function eventCard(item:CatalogItem,now:string,demoOrigin?:string,recomme
   sourceLabel:catalogSourceLabel(c.provenance.data_mode,c.ref.provider_id,c.provenance.source_url,!!demoItem),sourceUrl:demoItem?demoItem.url(demoOrigin!):c.provenance.source_url,
   freshnessLabel:observationTime(c.provenance.observed_at),eligibilityLabel:item.eligibility.status==='PASS'?'Подходит по проверенным условиям':`Не всё подтверждено: ${item.eligibility.checks.filter(x=>x.status==='UNKNOWN').map(x=>x.reason).join(', ')}`,description:c.untrusted_description,...(recommendation?{recommendation}:{})};
 }
-export function uiService(pool:Pool,plans:Plans,cfg:Config){
- const catalog=catalogService(pool,cfg.mode);
+export function uiService(pool:Pool,plans:Plans,cfg:Config,catalogClock?:CatalogClock){
+ const catalog=catalogService(pool,cfg.mode,catalogClock);
  const social=socialService(pool);
  async function readPlan(actor:string,id:string):Promise<Plan>{const r=await pool.query<{state:Plan}>('SELECT state FROM plans WHERE id=$1',[id]);requireThat(r.rows[0],'NOT_FOUND',404);assertRead(r.rows[0].state,actor);requireCanonicalPlan(r.rows[0].state);return r.rows[0].state;}
  async function planView(actor:string,p:Plan,inviteUrl:string|null=null):Promise<PlanView>{

@@ -21,12 +21,12 @@ export function assertBinding(a:Approval,c:Capability):void {
  if(a.actor_id!==c.actor_id||canonical(a.scope)!==canonical(c.scope)||canonical(a.binding)!==canonical(c.binding))fail('STALE_AUTHORIZATION_OR_SEARCH');
 }
 /** Must be invoked only by authenticated + CSRF-protected explicit confirm command. */
-export async function confirmSearch(rawDraft:unknown,receipt:unknown,subject:Subject,scope:SearchScope,policy:PolicyPort,ctx:SemanticContext,issuance:IssuancePort):Promise<Approval> {
- const cap=await loadCapability(policy,subject,scope,'CONFIRM_SEARCH',ctx.now_utc),d=parseDraft(rawDraft,ctx);
+export async function confirmSearch(rawDraft:unknown,receipt:unknown,subject:Subject,scope:SearchScope,policy:PolicyPort,ctx:SemanticContext,issuance:IssuancePort,authorizationNow=ctx.now_utc):Promise<Approval> {
+ const cap=await loadCapability(policy,subject,scope,'CONFIRM_SEARCH',authorizationNow),d=parseDraft(rawDraft,ctx);
  const r=obj(receipt);keys(r,['action','approval_id','expected_binding','expected_draft_json']);
  if(r.action!=='CONFIRM_SEARCH'||r.expected_draft_json!==canonical(rawDraft)||canonical(r.expected_binding)!==canonical(cap.binding))fail('EXPLICIT_CONFIRMATION_REQUIRED');
- const a:Approval=freeze({schema_version:'max.approved-search/3-candidate',approval_id:id(r.approval_id),actor_id:subject.actor_id,scope:copy(scope),binding:copy(cap.binding),hard:copy(d.intent),canonical_hard_json:canonical(d.intent),approved_at:ctx.now_utc});
- await issuance.saveApproval(a,subject,new Date(Math.min(Date.parse(cap.expires_at),Date.parse(ctx.now_utc)+900000)).toISOString());return a;
+ const a:Approval=freeze({schema_version:'max.approved-search/3-candidate',approval_id:id(r.approval_id),actor_id:subject.actor_id,scope:copy(scope),binding:copy(cap.binding),hard:copy(d.intent),canonical_hard_json:canonical(d.intent),approved_at:authorizationNow});
+ await issuance.saveApproval(a,subject,new Date(Math.min(Date.parse(cap.expires_at),Date.parse(authorizationNow)+900000)).toISOString());return a;
 }
 export function assertApproval(a:Approval,ctx:SemanticContext):void {
  if(a.schema_version!=='max.approved-search/3-candidate'||a.canonical_hard_json!==canonical(a.hard))fail('UNTRUSTED_APPROVAL');validateIntent(a.hard,ctx);
