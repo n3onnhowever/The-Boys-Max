@@ -5,7 +5,7 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import pg from 'pg';
 import {buildApp} from '../../apps/api/app.ts';
 import {seedDemoCatalog} from '../../packages/demo/seed.ts';
-import {DEMO_ITEMS,DEMO_NOTICE,DEMO_SOURCE_ID} from '../../packages/demo/catalog-v3.ts';
+import {DEMO_ITEMS,DEMO_NOTICE,DEMO_SOURCE_ID,demoCandidate} from '../../packages/demo/catalog-v3.ts';
 import {blankDraft} from '../../modules/integration/projections.ts';
 import type {SearchDraft} from '../../apps/miniapp/src/port/contracts.ts';
 import {envelopeFor} from '../../apps/miniapp/src/core/commands.ts';
@@ -98,4 +98,28 @@ test('live-mode negative control has no synthetic catalog or demo source page',a
   assert.equal((await live.app.inject({method:'PUT',url:'/api/v1/me/saved/'+syntheticId,headers:headers(a),payload:{}})).statusCode,404);
   assert.equal((await live.app.inject({url:'/demo/source/v3/park-warmup'})).statusCode,404);
  }finally{await live.app.close();}
+});
+
+test('present-day future occurrence requires current rights, independently of its future start',async()=>{
+ const present=await buildApp(cfg),fresh=await launch(),now=Date.now();
+ const candidate=structuredClone(demoCandidate(DEMO_ITEMS[0]!,0));
+ candidate.starts_at=new Date(now+86400000).toISOString();
+ candidate.provenance.observed_at=new Date(now).toISOString();candidate.provenance.fetched_at=new Date(now).toISOString();
+ candidate.rights.reviewed_at=new Date(now-2*86400000).toISOString();candidate.rights.review_due_at=new Date(now-86400000).toISOString();
+ const append=async()=>{
+  candidate.provenance.observation_id=randomUUID();candidate.price.provenance.observation_id=candidate.provenance.observation_id;
+  await pool.query("INSERT INTO catalog_occurrences(observation_id,provider_id,event_id,occurrence_id,body,data_mode) VALUES($1,$2,$3,$4,$5,'SYNTHETIC')",[candidate.provenance.observation_id,candidate.ref.provider_id,candidate.ref.event_id,candidate.ref.occurrence_id,candidate]);
+ };
+ const current=async()=>{
+  const response=await present.app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope:{kind:'PERSONAL'}})),headers:headers(fresh)});
+  assert.equal(response.statusCode,200,response.body);return response.json<CatalogView>();
+ };
+ try{
+  await present.app.ready();await append();
+  assert.equal((await current()).events.some(x=>x.ref.externalEventId===candidate.ref.event_id),false);
+  // Positive control: same synthetic start/source; only a newly reviewed rights observation changes admission.
+  candidate.rights.reviewed_at=new Date(now).toISOString();candidate.rights.review_due_at=new Date(now+7*86400000).toISOString();
+  await append();
+  assert.ok((await current()).events.some(x=>x.ref.observationId===candidate.provenance.observation_id));
+ }finally{await present.app.close();}
 });
