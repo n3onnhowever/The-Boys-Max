@@ -30,6 +30,9 @@ const searched=await json<Receipt>('/api/ui/v1/commands','POST',envelopeFor(cata
 catalog=searched.view as CatalogView;assert.equal(catalog.events.length,6);
 const ref=catalog.events[0]!.ref;
 const detail=await json<EventView>(route({kind:'EVENT',scope,sourceId:ref.sourceId,externalEventId:ref.externalEventId,occurrenceId:ref.occurrenceId}));
+assert.ok(detail.event.sourceUrl?.startsWith(origin+'/demo/source/v3/'));
+const explanatory=await request(new URL(detail.event.sourceUrl!).pathname);
+assert.equal(explanatory.status,200);assert.match(await explanatory.text(),/события вымышлены/);
 const resolved=await json<{occurrenceId:string}>('/api/v1/me/saved/resolve?'+new URLSearchParams({sourceId:ref.sourceId,externalEventId:ref.externalEventId,occurrenceRef:ref.occurrenceId!}));assert.ok(resolved.occurrenceId);
 assert.equal((await request('/api/v1/me/saved/'+resolved.occurrenceId,'PUT',{}, {'x-csrf-token':'invalid'})).status,403);
 assert.equal((await request('/api/v1/me/saved/'+resolved.occurrenceId,'PUT',{}, {origin:'https://foreign.invalid'})).status,403);
