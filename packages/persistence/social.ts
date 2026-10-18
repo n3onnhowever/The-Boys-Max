@@ -2,6 +2,10 @@ import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import type {Pool} from 'pg';
 import {requireThat} from '../domain/errors.ts';
 import {transaction} from './sessions.ts';
+// Retain notification history, but never present a normal meeting reminder to
+// an actor whose current durable response is NO (including older revisions).
+const visibleNotification=`n.kind<>'PLAN_CHAT' AND (n.kind<>'PLAN_REMINDER' OR NOT EXISTS(
+ SELECT 1 FROM plan_rsvps r WHERE r.plan_id=n.plan_id AND r.actor_id=n.actor_id AND r.state='NO'))`;
 
 export interface Preferences {city:string;interests:string[];budgetRub:number|null;radiusKm:number;notificationsEnabled:boolean;preferredTime:'ANY'|'MORNING'|'DAY'|'EVENING'|'NIGHT'}
 export interface PreferenceState extends Preferences {catalogCoverage:'SUPPORTED'|'UNSUPPORTED'}
@@ -134,7 +138,7 @@ export function socialService(pool:Pool){
   },
   async setPlanRsvp(actor:string,plan:string,state:'YES'|'MAYBE'|'NO',expectedReconfirmVersion:number){
    return transaction(pool,async db=>{
-   const phase=await db.query<{phase:string;organizer_id:string}>("SELECT state->>'phase' phase,organizer_id FROM plans WHERE id=$1 FOR SHARE",[plan]);
+   const phase=await db.query<{phase:string;organizer_id:string}>("SELECT state->>'phase' phase,organizer_id FROM plans WHERE id=$1 FOR UPDATE",[plan]);
    requireThat(phase.rows[0],'NOT_FOUND',404);
    const allowed=await db.query('SELECT 1 FROM plan_slots WHERE plan_id=$1 AND actor_id=$2 AND state=\'ACTIVE\'',[plan,actor]);
    requireThat(phase.rows[0].organizer_id===actor||allowed.rowCount===1,'FORBIDDEN',403);
@@ -211,13 +215,13 @@ export function socialService(pool:Pool){
    const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,n.plan_id,n.invite_ref,n.actor_context_id,n.read_at,n.created_at,a.display_name actor_name,
     COALESCE(pp.title,p.state->>'title') plan_title,p.state->'options'->0->'snapshots'->0->'terms'->>'title' event_title
     FROM in_app_notifications n LEFT JOIN actors a ON a.id=n.actor_context_id LEFT JOIN plans p ON p.id=n.plan_id
-    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND n.kind<>'PLAN_CHAT' ORDER BY n.created_at DESC,n.id DESC LIMIT 100`,[actor]);
-   const count=await pool.query<{count:string}>("SELECT count(*) AS count FROM in_app_notifications WHERE actor_id=$1 AND read_at IS NULL AND kind<>'PLAN_CHAT'",[actor]);
+    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND ${visibleNotification} ORDER BY n.created_at DESC,n.id DESC LIMIT 100`,[actor]);
+   const count=await pool.query<{count:string}>(`SELECT count(*) AS count FROM in_app_notifications n WHERE n.actor_id=$1 AND n.read_at IS NULL AND ${visibleNotification}`,[actor]);
    return {unreadCount:Number(count.rows[0]!.count),items:r.rows.map(x=>({id:x.id,kind:x.kind,title:x.title,planId:x.plan_id,inviteRef:x.invite_ref,actorId:x.actor_context_id,read:x.read_at!==null,createdAt:x.created_at.toISOString(),actorName:x.actor_name,planTitle:x.plan_title,eventTitle:x.event_title,
     target:x.invite_ref?{kind:'INVITE',inviteRef:x.invite_ref}:x.plan_id?{kind:'PLAN',planId:x.plan_id}:x.kind==='FRIEND_REQUEST'?{kind:'FRIENDS'}:{kind:'UNAVAILABLE'}}))};
   },
   async unreadCount(actor:string){
-   const r=await pool.query<{count:string}>("SELECT count(*) AS count FROM in_app_notifications WHERE actor_id=$1 AND read_at IS NULL AND kind<>'PLAN_CHAT'",[actor]);
+   const r=await pool.query<{count:string}>(`SELECT count(*) AS count FROM in_app_notifications n WHERE n.actor_id=$1 AND n.read_at IS NULL AND ${visibleNotification}`,[actor]);
    return {unreadCount:Number(r.rows[0]!.count)};
   },
   async readNotification(actor:string,id:string){
