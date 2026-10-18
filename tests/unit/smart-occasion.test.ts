@@ -64,7 +64,7 @@ test('provider text is not an instruction or reason source',()=>{
  const e=evaluateEligibility(request,c,context(now)),allowed=allowedReasons(c,e,request,[]);
  assert.deepEqual(allowed.map(x=>x.code),['CATEGORY_MATCH']);
  assert.throws(()=>selectAllowedReasons(['BUDGET_FIT'],allowed));
- const interestProposal=validateSmartProposal(draft({interests:['Выставки'],soft_preferences:['INTEREST']}),'интересуют выставки',now);
+ const interestProposal=validateSmartProposal(draft({categories:['MUSEUM'],hard_constraints:['CATEGORY'],interests:['Выставки'],soft_preferences:['INTEREST']}),'интересуют выставки',now);
  const interested=allowedReasons(c,e,request,[],interestProposal.draft.interests);
  assert.equal(interested.find(x=>x.code==='INTEREST_MATCH')?.source,'request');
 });
