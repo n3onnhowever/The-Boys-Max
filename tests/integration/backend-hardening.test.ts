@@ -135,7 +135,7 @@ test('literal Search keeps structured filters and exact Event locator survives S
  assert.deepEqual((await pool.query<{state:typeof raw}>('SELECT state FROM plans WHERE id=$1',[planId])).rows[0]!.state.options[0]!.snapshots[0]!.source.ref,ref);
  const original=await ui.read(subject(a),{kind:'EVENT',scope,sourceId:ref.provider_id,externalEventId:ref.event_id,occurrenceId:ref.occurrence_id}) as EventView;
  assert.equal(original.event.ref.observationId,id);
- const savedPrefs=await social.saveSettings(a.id,{city:'Казань',interests:[],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY'});
+ const savedPrefs=await social.saveSettings(a.id,{city:'Казань',interests:[],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY',expectedVersion:(await social.settings(a.id)).version});
  assert.equal(savedPrefs.catalogCoverage,'UNSUPPORTED');
  assert.equal((await ui.read(subject(a),{kind:'CATALOG',scope}) as CatalogView).events.length,0);
  assert.equal((await ui.read(subject(a),{kind:'EVENT',scope,sourceId:ref.provider_id,externalEventId:ref.event_id,occurrenceId:ref.occurrence_id}) as EventView).event.ref.observationId,id);

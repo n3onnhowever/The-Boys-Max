@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {calendarEventUrl, preferenceWritePayload} from '../../apps/miniapp/src/core/runtime-actions.ts';
 
 test('preferences round trip excludes server-only catalog coverage',()=>{
- const fetched={city:'Москва',interests:['Музыка','Спорт'],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY' as const,catalogCoverage:'SUPPORTED',unexpected:'server metadata'};
- assert.deepEqual(preferenceWritePayload(fetched),{city:'Москва',interests:['Музыка','Спорт'],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY'});
+ const fetched={city:'Москва',interests:['Музыка','Спорт'],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY' as const,version:7,catalogCoverage:'SUPPORTED',unexpected:'server metadata'};
+ assert.deepEqual(preferenceWritePayload(fetched),{city:'Москва',interests:['Музыка','Спорт'],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY',expectedVersion:7});
 });
 
 test('calendar event link carries the plan title, time and location',()=>{
