@@ -2,6 +2,7 @@ import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import type {Pool} from 'pg';
 import {requireThat} from '../domain/errors.ts';
 import {transaction} from './sessions.ts';
+import {notificationCursor,parseNotificationCursor} from './notification-cursor.ts';
 // Retain notification history, but never present a normal meeting reminder to
 // an actor whose current durable response is NO (including older revisions).
 const visibleNotification=`n.kind<>'PLAN_CHAT' AND (n.kind<>'PLAN_REMINDER' OR NOT EXISTS(
@@ -222,13 +223,20 @@ export function socialService(pool:Pool){
    for(const n of notifications.rows)if(!states.has(n.actor_id)&&n.invite_ref&&live.has(digest(n.invite_ref)))states.set(n.actor_id,'PENDING');
    return {items:[...states].sort(([a],[b])=>a.localeCompare(b)).map(([friendId,state])=>({friendId,state}))};
   },
-  async notifications(actor:string){
-   const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,n.plan_id,n.invite_ref,n.actor_context_id,n.read_at,n.created_at,a.display_name actor_name,
+  async notifications(actor:string,options:{cursor?:string;limit?:number}={}){
+   const limit=options.limit??100;requireThat(Number.isInteger(limit)&&limit>=1&&limit<=100,'NOTIFICATION_PAGE_SIZE_INVALID',400);
+   const boundary=options.cursor===undefined?null:parseNotificationCursor(options.cursor);
+   const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;cursor_at:string;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,n.plan_id,n.invite_ref,n.actor_context_id,n.read_at,n.created_at,a.display_name actor_name,
+    to_char(n.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') cursor_at,
     COALESCE(pp.title,p.state->>'title') plan_title,p.state->'options'->0->'snapshots'->0->'terms'->>'title' event_title
     FROM in_app_notifications n LEFT JOIN actors a ON a.id=n.actor_context_id LEFT JOIN plans p ON p.id=n.plan_id
-    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND ${visibleNotification} ORDER BY n.created_at DESC,n.id DESC LIMIT 100`,[actor]);
+    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND ${visibleNotification}
+    AND ($2::timestamptz IS NULL OR (n.created_at,n.id)<($2::timestamptz,$3::uuid))
+    ORDER BY n.created_at DESC,n.id DESC LIMIT $4`,[actor,boundary?.at??null,boundary?.id??null,limit+1]);
    const count=await pool.query<{count:string}>(`SELECT count(*) AS count FROM in_app_notifications n WHERE n.actor_id=$1 AND n.read_at IS NULL AND ${visibleNotification}`,[actor]);
-   return {unreadCount:Number(count.rows[0]!.count),items:r.rows.map(x=>({id:x.id,kind:x.kind,title:x.title,planId:x.plan_id,inviteRef:x.invite_ref,actorId:x.actor_context_id,read:x.read_at!==null,createdAt:x.created_at.toISOString(),actorName:x.actor_name,planTitle:x.plan_title,eventTitle:x.event_title,
+   const rows=r.rows.slice(0,limit),last=rows.at(-1);
+   const nextCursor=r.rows.length>limit&&last?notificationCursor({v:1,at:last.cursor_at,id:last.id}):null;
+   return {nextCursor,unreadCount:Number(count.rows[0]!.count),items:rows.map(x=>({id:x.id,kind:x.kind,title:x.title,planId:x.plan_id,inviteRef:x.invite_ref,actorId:x.actor_context_id,read:x.read_at!==null,createdAt:x.created_at.toISOString(),actorName:x.actor_name,planTitle:x.plan_title,eventTitle:x.event_title,
     target:x.invite_ref?{kind:'INVITE',inviteRef:x.invite_ref}:x.plan_id?{kind:'PLAN',planId:x.plan_id}:x.kind==='FRIEND_REQUEST'?{kind:'FRIENDS'}:{kind:'UNAVAILABLE'}}))};
   },
   async unreadCount(actor:string){
@@ -237,7 +245,7 @@ export function socialService(pool:Pool){
   },
   async readNotification(actor:string,id:string){
    const r=await pool.query('UPDATE in_app_notifications SET read_at=COALESCE(read_at,clock_timestamp()) WHERE actor_id=$1 AND id=$2 RETURNING id',[actor,id]);
-   requireThat(r.rowCount===1,'NOTIFICATION_NOT_FOUND',404);return {read:true};
+   requireThat(r.rowCount===1,'NOTIFICATION_NOT_FOUND',404);return {read:true,...await this.unreadCount(actor)};
   }
  };
 }

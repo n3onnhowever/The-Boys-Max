@@ -9,6 +9,7 @@ import './v2-runtime.css';
 import {share as shareInMax} from '../../bridge.ts';
 import {calendarEventUrl,createPreferenceEditor,type VersionedPreferences,type WritablePreferences} from '../core/runtime-actions.ts';
 import {ExternalLink} from './ExternalLink.tsx';
+import {createNotificationFeed,type NotificationPage} from '../core/notification-feed.ts';
 
 export type PreferencePage = 'interests'|'city'|'budget'|'time'|'radius'|'notification-preferences'|'linked-services';
 type Preferences = VersionedPreferences;
@@ -89,7 +90,7 @@ export function PreferenceRuntime({page,onNavigate,onBack,onOpenCity}:{page:Pref
   {notice&&<p className="v2-feedback" role="status">{notice}</p>}
   {preserved&&<PovodButton variant="secondary" disabled={busy} onClick={editor.reapply}>Применить мой выбор снова</PovodButton>}
   {!draft?<p role="status">Загружаем…</p>:<>
-   <fieldset disabled={busy} style={{border:0,padding:0,margin:0,minWidth:0}}>
+   <fieldset disabled={busy} style={{display:'contents',border:0,padding:0,margin:0,minWidth:0}}>
    {page==='interests'&&<><h2 className="v2-editor-title">Выберите, что вам интересно</h2><p className="v2-muted">Мы будем показывать более точные рекомендации.</p><div className="v2-chip-row">{interests.map(x=><Chip key={x} selected={draft.interests.includes(x)} onClick={()=>setDraft({...draft,interests:draft.interests.includes(x)?draft.interests.filter(y=>y!==x):[...draft.interests,x]})}>{x}</Chip>)}</div></>}
    {page==='city'&&<><input className="v2-input" type="search" aria-label="Поиск города" placeholder="Поиск города" onChange={e=>{const list=document.querySelectorAll<HTMLElement>('[data-city]');list.forEach(node=>{node.hidden=!node.dataset.city?.toLowerCase().includes(e.target.value.toLowerCase())})}}/>{draft.city!=='Москва'&&<div className="v2-city-current"><Icon name="pin"/><span>Текущий город<strong>{draft.city}</strong></span></div>}<h2 className="v2-editor-title">Доступно сейчас</h2><button type="button" className="v2-city-row" data-city="Москва" onClick={()=>setDraft({...draft,city:'Москва'})}><span>Москва</span><StatusChip tone="red">События доступны</StatusChip></button><h2 className="v2-editor-title">Скоро в Поводе</h2>{cityOptions.slice(1).map(x=><button type="button" className="v2-city-row" data-city={x} key={x} onClick={()=>setDraft({...draft,city:x})}><span>{x}</span><StatusChip>Скоро</StatusChip></button>)}{draft.city!=='Москва'&&<p className="v2-coverage">В этом городе пока нет подтверждённых событий. Можно вернуться к Москве в любое время.</p>}</>}
    {page==='budget'&&<><p className="v2-muted">Ваш бюджет сохранится в профиле. Для точной выдачи установите фильтр цены в Поиске.</p><div className="v2-chip-row">{[null,...Array.from(new Set([1000,1500,2000,3000,5000,...(draft.budgetRub===null?[]:[draft.budgetRub])])).sort((a,b)=>a-b)].map(n=><Chip key={n??'any'} selected={draft.budgetRub===n} onClick={()=>setDraft({...draft,budgetRub:n})}>{n===null?'Любой':`До ${n.toLocaleString('ru-RU')} ₽`}</Chip>)}</div></>}
@@ -134,12 +135,15 @@ export function FriendsRuntime({onNavigate,onBack,inviteToken}:{onNavigate:(id:s
 }
 
 export function NotificationsRuntime({onNavigate,onBack,onOpenPlan,onOpenInvite}:{onNavigate:(id:string)=>void;onBack:()=>void;onOpenPlan:(id:string)=>void;onOpenInvite:(ref:string)=>void}){
- const [items,setItems]=useState<Notice[]|null>(null),[error,setError]=useState('');
- useEffect(()=>{let live=true;api<{items:Notice[]}>('/api/v1/me/notifications').then(x=>{if(live)setItems(x.items.filter(n=>n.kind!=='PLAN_CHAT'))}).catch(()=>{if(live)setError('Не удалось загрузить уведомления')});return()=>{live=false}},[]);
- const open=async(n:Notice)=>{try{await apiWrite('POST',`/api/v1/me/notifications/${n.id}/read`,{});setItems(current=>current?.map(x=>x.id===n.id?{...x,read:true}:x)??null);window.dispatchEvent(new Event('povod:notifications-read'));if(n.inviteRef)onOpenInvite(n.inviteRef);else if(n.planId)onOpenPlan(n.planId);else if(n.kind==='FRIEND_REQUEST')onNavigate('friends')}catch{setError('Не удалось открыть уведомление')}};
+ const [feed]=useState(()=>createNotificationFeed<Notice>(cursor=>api<NotificationPage<Notice>>('/api/v1/me/notifications'+(cursor?'?cursor='+encodeURIComponent(cursor):'')),id=>apiWrite('POST',`/api/v1/me/notifications/${id}/read`,{})));
+ const {items,error,nextCursor,pending,unreadCount}=useSyncExternalStore(feed.subscribe,feed.getSnapshot);
+ useEffect(()=>{void feed.load()},[feed]);
+ const open=async(n:Notice)=>{if(!await feed.markRead(n.id))return;window.dispatchEvent(new Event('povod:notifications-read'));if(n.inviteRef)onOpenInvite(n.inviteRef);else if(n.planId)onOpenPlan(n.planId);else if(n.kind==='FRIEND_REQUEST')onNavigate('friends')};
  return <Frame title="Уведомления" onNavigate={onNavigate} onBack={onBack}>
-  {error&&<ErrorState message={error}/>}
+  {error&&<ErrorState message={error} onRetry={!items||nextCursor?()=>void feed.load():undefined}/>}
+  {items&&<p className="v2-muted" role="status">Непрочитанных: {unreadCount}</p>}
   {!items&&!error?<p role="status">Загружаем уведомления…</p>:items?.length?<ul className="v2-list">{items.map(n=><NotificationRow key={n.id} action={n.title} actorName={n.actorName} planTitle={n.planTitle} eventTitle={n.eventTitle} createdAt={n.createdAt} unread={!n.read} icon={n.kind==='FRIEND_REQUEST'?'people':n.kind==='REMINDER'?'bell':'calendar'} onOpen={()=>void open(n)}/>)}</ul>:<EmptyState icon="bell" title="Пока уведомлений нет" description="Приглашения и изменения планов появятся здесь."/>}
+  {nextCursor&&<PovodButton variant="secondary" disabled={pending} onClick={()=>void feed.load()}>{pending?'Загружаем…':'Показать еще'}</PovodButton>}
  </Frame>;
 }
 
