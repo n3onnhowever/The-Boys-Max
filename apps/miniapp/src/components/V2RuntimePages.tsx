@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { api, apiWrite, logout } from '../../client.ts';
 import { AppViewport, Screen } from './AppShell.tsx';
 import { BottomNav } from './BottomNav.tsx';
@@ -7,11 +7,12 @@ import { AppHeader, BackHeader, Chip, EmptyState, ErrorState, FriendRow, Notific
 import type { Route } from '../port/contracts.ts';
 import './v2-runtime.css';
 import {share as shareInMax} from '../../bridge.ts';
-import {calendarEventUrl,preferenceWritePayload} from '../core/runtime-actions.ts';
+import {calendarEventUrl,createPreferenceEditor,type VersionedPreferences,type WritablePreferences} from '../core/runtime-actions.ts';
 import {ExternalLink} from './ExternalLink.tsx';
+import {createNotificationFeed,type NotificationPage} from '../core/notification-feed.ts';
 
 export type PreferencePage = 'interests'|'city'|'budget'|'time'|'radius'|'notification-preferences'|'linked-services';
-type Preferences = {city:string;interests:string[];budgetRub:number|null;radiusKm:number;notificationsEnabled:boolean;preferredTime:'ANY'|'MORNING'|'DAY'|'EVENING'|'NIGHT'};
+type Preferences = VersionedPreferences;
 type Actor = {id:string;displayName:string};
 type Friend = {id:string;name:string;state:string;direction:string};
 function uniqueFriends(items:Friend[]):Friend[]{
@@ -44,8 +45,7 @@ function Frame({title,active='profile',onBack,onNavigate,children,headerAction}:
 function usePreferences(){
  const [value,setValue]=useState<Preferences|null>(null),[error,setError]=useState(''),[tick,setTick]=useState(0);
  useEffect(()=>{let live=true;api<Preferences>('/api/v1/me/preferences').then(x=>{if(live){setValue(x);setError('')}}).catch(()=>{if(live)setError('Не удалось загрузить предпочтения')});return()=>{live=false}},[tick]);
- const save=async(next:Preferences)=>{try{const saved=await apiWrite<Preferences>('PUT','/api/v1/me/preferences',preferenceWritePayload(next));setValue(saved);setError('');return true}catch{setError('Не удалось сохранить. Попробуйте ещё раз.');return false}};
- return {value,error,retry:()=>setTick(x=>x+1),save};
+ return {value,error,retry:()=>setTick(x=>x+1)};
 }
 export function ProfileRuntime({onNavigate,onSaved,onSettings,onNotifications,onPreference}:{onNavigate:(id:string)=>void;onSaved:()=>void;onSettings:()=>void;onNotifications:()=>void;onPreference:(page:PreferencePage)=>void}){
  const {value,error,retry}=usePreferences();const [actor,setActor]=useState<Actor|null>(null);
@@ -71,17 +71,26 @@ export function ProfileRuntime({onNavigate,onSaved,onSettings,onNotifications,on
 }
 
 export function PreferenceRuntime({page,onNavigate,onBack,onOpenCity}:{page:PreferencePage;onNavigate:(id:string)=>void;onBack:()=>void;onOpenCity:()=>void}){
- const {value,error,retry,save}=usePreferences();const [draft,setDraft]=useState<Preferences|null>(null),[busy,setBusy]=useState(false);
+ const editor=useMemo(()=>{
+  const fields:Record<PreferencePage,keyof WritablePreferences>={interests:'interests',city:'city',budget:'budgetRub',time:'preferredTime',radius:'radiusKm','notification-preferences':'notificationsEnabled','linked-services':'city'};
+  return createPreferenceEditor(fields[page],()=>api<Preferences>('/api/v1/me/preferences'),payload=>apiWrite<Preferences>('PUT','/api/v1/me/preferences',payload));
+ },[page]);
+ const {draft,error,pending:busy,conflict,preserved,notice}=useSyncExternalStore(editor.subscribe,editor.getSnapshot);
+ const setDraft=editor.edit;
  const [locationState,setLocationState]=useState('Проверяем доступ к местоположению…');
- useEffect(()=>{if(value)setDraft(value)},[value]);
+ useEffect(()=>{void editor.load()},[editor]);
  useEffect(()=>{if(page!=='radius')return;let live=true;if(!navigator.geolocation){setLocationState('Геолокация недоступна в этом браузере.');return}
   if(!navigator.permissions?.query){setLocationState('Состояние разрешения неизвестно.');return}
   void navigator.permissions.query({name:'geolocation'}).then(permission=>{const update=()=>{if(live)setLocationState(permission.state==='granted'?'Доступ к местоположению разрешён.':permission.state==='denied'?'Доступ к местоположению запрещён в браузере.':'Браузер спросит разрешение при поиске рядом.')};update();permission.addEventListener('change',update)}).catch(()=>{if(live)setLocationState('Состояние разрешения неизвестно.')});return()=>{live=false}},[page]);
  const title:Record<PreferencePage,string>={interests:'Интересы',city:'Выбор города',budget:'Бюджет',time:'Предпочтительное время',radius:'Где искать события','notification-preferences':'Уведомления','linked-services':'Связанные сервисы'};
- const apply=async()=>{if(!draft)return;setBusy(true);if(await save(draft))onBack();setBusy(false)};
+ const apply=async()=>{if(await editor.save())onBack()};
  return <Frame title={title[page]} onBack={onBack} onNavigate={onNavigate}>
-  {error&&<ErrorState message={error} onRetry={retry}/>}
+  {error&&<ErrorState message={error} onRetry={!draft?()=>void editor.load():undefined}/>}
+  {conflict&&<PovodButton variant="secondary" disabled={busy} onClick={()=>void editor.reloadSaved()}>Загрузить сохранённые настройки</PovodButton>}
+  {notice&&<p className="v2-feedback" role="status">{notice}</p>}
+  {preserved&&<PovodButton variant="secondary" disabled={busy} onClick={editor.reapply}>Применить мой выбор снова</PovodButton>}
   {!draft?<p role="status">Загружаем…</p>:<>
+   <fieldset disabled={busy} style={{display:'contents',border:0,padding:0,margin:0,minWidth:0}}>
    {page==='interests'&&<><h2 className="v2-editor-title">Выберите, что вам интересно</h2><p className="v2-muted">Мы будем показывать более точные рекомендации.</p><div className="v2-chip-row">{interests.map(x=><Chip key={x} selected={draft.interests.includes(x)} onClick={()=>setDraft({...draft,interests:draft.interests.includes(x)?draft.interests.filter(y=>y!==x):[...draft.interests,x]})}>{x}</Chip>)}</div></>}
    {page==='city'&&<><input className="v2-input" type="search" aria-label="Поиск города" placeholder="Поиск города" onChange={e=>{const list=document.querySelectorAll<HTMLElement>('[data-city]');list.forEach(node=>{node.hidden=!node.dataset.city?.toLowerCase().includes(e.target.value.toLowerCase())})}}/>{draft.city!=='Москва'&&<div className="v2-city-current"><Icon name="pin"/><span>Текущий город<strong>{draft.city}</strong></span></div>}<h2 className="v2-editor-title">Доступно сейчас</h2><button type="button" className="v2-city-row" data-city="Москва" onClick={()=>setDraft({...draft,city:'Москва'})}><span>Москва</span><StatusChip tone="red">События доступны</StatusChip></button><h2 className="v2-editor-title">Скоро в Поводе</h2>{cityOptions.slice(1).map(x=><button type="button" className="v2-city-row" data-city={x} key={x} onClick={()=>setDraft({...draft,city:x})}><span>{x}</span><StatusChip>Скоро</StatusChip></button>)}{draft.city!=='Москва'&&<p className="v2-coverage">В этом городе пока нет подтверждённых событий. Можно вернуться к Москве в любое время.</p>}</>}
    {page==='budget'&&<><p className="v2-muted">Ваш бюджет сохранится в профиле. Для точной выдачи установите фильтр цены в Поиске.</p><div className="v2-chip-row">{[null,...Array.from(new Set([1000,1500,2000,3000,5000,...(draft.budgetRub===null?[]:[draft.budgetRub])])).sort((a,b)=>a-b)].map(n=><Chip key={n??'any'} selected={draft.budgetRub===n} onClick={()=>setDraft({...draft,budgetRub:n})}>{n===null?'Любой':`До ${n.toLocaleString('ru-RU')} ₽`}</Chip>)}</div></>}
@@ -89,7 +98,8 @@ export function PreferenceRuntime({page,onNavigate,onBack,onOpenCity}:{page:Pref
    {page==='radius'&&<><p className="v2-muted">Расстояние используется для событий с известными координатами, если разрешена геолокация.</p><div className="v2-location-state"><Icon name="pin"/><span><strong>Местоположение</strong><small>{locationState}</small></span></div>{navigator.geolocation&&<PovodButton variant="secondary" onClick={()=>navigator.geolocation.getCurrentPosition(()=>setLocationState('Местоположение доступно. Поиск рядом использует радиус ниже.'),()=>setLocationState('Местоположение недоступно. Проверьте разрешение в браузере или выберите город.'),{timeout:5000,maximumAge:300000})}>Проверить местоположение</PovodButton>}<PovodButton variant="quiet" onClick={onOpenCity}>Выбрать город вручную</PovodButton><div className="v2-radius-value">{draft.radiusKm} км</div><input className="v2-range" aria-label="Радиус поиска в километрах" type="range" min="1" max="50" step="1" value={draft.radiusKm} onChange={e=>setDraft({...draft,radiusKm:Number(e.target.value)})}/><div className="v2-range-labels"><span>1 км</span><span>25 км</span><span>50 км</span></div></>}
    {page==='notification-preferences'&&<SettingsRow icon="bell" label="Уведомления о планах и приглашениях" value={draft.notificationsEnabled?'Включены':'Выключены'} onClick={()=>setDraft({...draft,notificationsEnabled:!draft.notificationsEnabled})}/>}
    {page==='linked-services'&&<><div className="v2-card"><strong>MAX</strong><p className="v2-muted">Ваш аккаунт Повода связан с входом через MAX.</p></div><p className="v2-muted">Другие сервисы пока недоступны.</p></>}
-   {page!=='linked-services'&&<PovodButton onClick={()=>void apply()} disabled={busy}>Сохранить</PovodButton>}
+   </fieldset>
+   {page!=='linked-services'&&<PovodButton onClick={()=>void apply()} disabled={busy||conflict}>{busy?'Сохраняем…':'Сохранить'}</PovodButton>}
   </>}
  </Frame>;
 }
@@ -125,12 +135,15 @@ export function FriendsRuntime({onNavigate,onBack,inviteToken}:{onNavigate:(id:s
 }
 
 export function NotificationsRuntime({onNavigate,onBack,onOpenPlan,onOpenInvite}:{onNavigate:(id:string)=>void;onBack:()=>void;onOpenPlan:(id:string)=>void;onOpenInvite:(ref:string)=>void}){
- const [items,setItems]=useState<Notice[]|null>(null),[error,setError]=useState('');
- useEffect(()=>{let live=true;api<{items:Notice[]}>('/api/v1/me/notifications').then(x=>{if(live)setItems(x.items.filter(n=>n.kind!=='PLAN_CHAT'))}).catch(()=>{if(live)setError('Не удалось загрузить уведомления')});return()=>{live=false}},[]);
- const open=async(n:Notice)=>{try{await apiWrite('POST',`/api/v1/me/notifications/${n.id}/read`,{});setItems(current=>current?.map(x=>x.id===n.id?{...x,read:true}:x)??null);window.dispatchEvent(new Event('povod:notifications-read'));if(n.inviteRef)onOpenInvite(n.inviteRef);else if(n.planId)onOpenPlan(n.planId);else if(n.kind==='FRIEND_REQUEST')onNavigate('friends')}catch{setError('Не удалось открыть уведомление')}};
+ const [feed]=useState(()=>createNotificationFeed<Notice>(cursor=>api<NotificationPage<Notice>>('/api/v1/me/notifications'+(cursor?'?cursor='+encodeURIComponent(cursor):'')),id=>apiWrite('POST',`/api/v1/me/notifications/${id}/read`,{})));
+ const {items,error,nextCursor,pending,unreadCount}=useSyncExternalStore(feed.subscribe,feed.getSnapshot);
+ useEffect(()=>{void feed.load()},[feed]);
+ const open=async(n:Notice)=>{if(!await feed.markRead(n.id))return;window.dispatchEvent(new Event('povod:notifications-read'));if(n.inviteRef)onOpenInvite(n.inviteRef);else if(n.planId)onOpenPlan(n.planId);else if(n.kind==='FRIEND_REQUEST')onNavigate('friends')};
  return <Frame title="Уведомления" onNavigate={onNavigate} onBack={onBack}>
-  {error&&<ErrorState message={error}/>}
+  {error&&<ErrorState message={error} onRetry={!items||nextCursor?()=>void feed.load():undefined}/>}
+  {items&&<p className="v2-muted" role="status">Непрочитанных: {unreadCount}</p>}
   {!items&&!error?<p role="status">Загружаем уведомления…</p>:items?.length?<ul className="v2-list">{items.map(n=><NotificationRow key={n.id} action={n.title} actorName={n.actorName} planTitle={n.planTitle} eventTitle={n.eventTitle} createdAt={n.createdAt} unread={!n.read} icon={n.kind==='FRIEND_REQUEST'?'people':n.kind==='REMINDER'?'bell':'calendar'} onOpen={()=>void open(n)}/>)}</ul>:<EmptyState icon="bell" title="Пока уведомлений нет" description="Приглашения и изменения планов появятся здесь."/>}
+  {nextCursor&&<PovodButton variant="secondary" disabled={pending} onClick={()=>void feed.load()}>{pending?'Загружаем…':'Показать еще'}</PovodButton>}
  </Frame>;
 }
 

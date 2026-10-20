@@ -2,22 +2,27 @@ import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import type {Pool} from 'pg';
 import {requireThat} from '../domain/errors.ts';
 import {transaction} from './sessions.ts';
+import {notificationCursor,parseNotificationCursor} from './notification-cursor.ts';
 // Retain notification history, but never present a normal meeting reminder to
 // an actor whose current durable response is NO (including older revisions).
 const visibleNotification=`n.kind<>'PLAN_CHAT' AND (n.kind<>'PLAN_REMINDER' OR NOT EXISTS(
  SELECT 1 FROM plan_rsvps r WHERE r.plan_id=n.plan_id AND r.actor_id=n.actor_id AND r.state='NO'))`;
 
 export interface Preferences {city:string;interests:string[];budgetRub:number|null;radiusKm:number;notificationsEnabled:boolean;preferredTime:'ANY'|'MORNING'|'DAY'|'EVENING'|'NIGHT'}
-export interface PreferenceState extends Preferences {catalogCoverage:'SUPPORTED'|'UNSUPPORTED'}
+export interface PreferenceState extends Preferences {version:number;catalogCoverage:'SUPPORTED'|'UNSUPPORTED'}
+type PreferenceRow={city:string;interests:string[];budget_rub:number|null;radius_km:number;notifications_enabled:boolean;preferred_time:Preferences['preferredTime'];version:number};
+const preferenceState=(row?:PreferenceRow):PreferenceState=>{
+ const value:Preferences=row?{city:row.city,interests:row.interests,budgetRub:row.budget_rub,radiusKm:row.radius_km,notificationsEnabled:row.notifications_enabled,preferredTime:row.preferred_time}
+  :{city:'Москва',interests:[],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY'};
+ return {...value,version:row?.version??0,catalogCoverage:value.city==='Москва'?'SUPPORTED':'UNSUPPORTED'};
+};
 export interface PlanPresentationInput {title:string;meetingTime:string|null;meetingPoint:string|null;note:string|null;participantLimit:number|null;expectedVersion:number}
 export function socialService(pool:Pool){
  const digest=(value:string)=>createHash('sha256').update(value).digest('hex');
  const settings=async(actor:string):Promise<PreferenceState>=>{
-  const result=await pool.query<{city:string;interests:string[];budget_rub:number|null;radius_km:number;notifications_enabled:boolean;preferred_time:Preferences['preferredTime']}>(
-   'SELECT city,interests,budget_rub,radius_km,notifications_enabled,preferred_time FROM actor_preferences WHERE actor_id=$1',[actor]);
-  const row=result.rows[0];const value:Preferences=row?{city:row.city,interests:row.interests,budgetRub:row.budget_rub,radiusKm:row.radius_km,notificationsEnabled:row.notifications_enabled,preferredTime:row.preferred_time}
-   :{city:'Москва',interests:[],budgetRub:null,radiusKm:15,notificationsEnabled:true,preferredTime:'ANY'};
-  return {...value,catalogCoverage:value.city==='Москва'?'SUPPORTED' as const:'UNSUPPORTED' as const};
+  const result=await pool.query<PreferenceRow>(
+   'SELECT city,interests,budget_rub,radius_km,notifications_enabled,preferred_time,version FROM actor_preferences WHERE actor_id=$1',[actor]);
+  return preferenceState(result.rows[0]);
  };
  const mayReadPlan=async(actor:string,plan:string)=>{
   const r=await pool.query('SELECT 1 FROM plans p WHERE p.id=$1 AND (p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state=\'ACTIVE\'))',[plan,actor]);
@@ -155,10 +160,17 @@ export function socialService(pool:Pool){
    return {state,reconfirmVersion:currentVersion};
    });
   },
-  async saveSettings(actor:string,value:Preferences){
-   await pool.query(`INSERT INTO actor_preferences(actor_id,city,interests,budget_rub,radius_km,notifications_enabled,preferred_time) VALUES($1,$2,$3,$4,$5,$6,$7)
-    ON CONFLICT(actor_id) DO UPDATE SET city=EXCLUDED.city,interests=EXCLUDED.interests,budget_rub=EXCLUDED.budget_rub,radius_km=EXCLUDED.radius_km,notifications_enabled=EXCLUDED.notifications_enabled,preferred_time=EXCLUDED.preferred_time,updated_at=clock_timestamp()`,
-    [actor,value.city,value.interests,value.budgetRub,value.radiusKm,value.notificationsEnabled,value.preferredTime]);return settings(actor);
+  async saveSettings(actor:string,value:Preferences&{expectedVersion:number}){
+   // PostgreSQL orders competing inserts/updates. A missing row may only be created
+   // by version zero; an already-created version one cannot be overwritten by it.
+   const params=[actor,value.city,value.interests,value.budgetRub,value.radiusKm,value.notificationsEnabled,value.preferredTime];
+   const result=value.expectedVersion===0?await pool.query<PreferenceRow>(`INSERT INTO actor_preferences(actor_id,city,interests,budget_rub,radius_km,notifications_enabled,preferred_time,version) VALUES($1,$2,$3,$4,$5,$6,$7,1)
+    ON CONFLICT(actor_id) DO UPDATE SET city=EXCLUDED.city,interests=EXCLUDED.interests,budget_rub=EXCLUDED.budget_rub,radius_km=EXCLUDED.radius_km,notifications_enabled=EXCLUDED.notifications_enabled,preferred_time=EXCLUDED.preferred_time,version=actor_preferences.version+1,updated_at=clock_timestamp()
+    WHERE actor_preferences.version=0 RETURNING *`,params)
+    :await pool.query<PreferenceRow>(`UPDATE actor_preferences SET city=$2,interests=$3,budget_rub=$4,radius_km=$5,notifications_enabled=$6,preferred_time=$7,version=version+1,updated_at=clock_timestamp()
+     WHERE actor_id=$1 AND version=$8 RETURNING *`,[...params,value.expectedVersion]);
+   requireThat(result.rowCount===1,'PREFERENCES_VERSION_CONFLICT',409);
+   return preferenceState(result.rows[0]);
   },
   async friends(actor:string){
    const r=await pool.query<{id:string;display_name:string;state:string;direction:string}>(`SELECT a.id,a.display_name,f.state,CASE WHEN f.requester_id=$1 THEN 'OUTGOING' ELSE 'INCOMING' END direction
@@ -211,13 +223,20 @@ export function socialService(pool:Pool){
    for(const n of notifications.rows)if(!states.has(n.actor_id)&&n.invite_ref&&live.has(digest(n.invite_ref)))states.set(n.actor_id,'PENDING');
    return {items:[...states].sort(([a],[b])=>a.localeCompare(b)).map(([friendId,state])=>({friendId,state}))};
   },
-  async notifications(actor:string){
-   const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,n.plan_id,n.invite_ref,n.actor_context_id,n.read_at,n.created_at,a.display_name actor_name,
+  async notifications(actor:string,options:{cursor?:string;limit?:number}={}){
+   const limit=options.limit??100;requireThat(Number.isInteger(limit)&&limit>=1&&limit<=100,'NOTIFICATION_PAGE_SIZE_INVALID',400);
+   const boundary=options.cursor===undefined?null:parseNotificationCursor(options.cursor);
+   const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;cursor_at:string;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,n.plan_id,n.invite_ref,n.actor_context_id,n.read_at,n.created_at,a.display_name actor_name,
+    to_char(n.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') cursor_at,
     COALESCE(pp.title,p.state->>'title') plan_title,p.state->'options'->0->'snapshots'->0->'terms'->>'title' event_title
     FROM in_app_notifications n LEFT JOIN actors a ON a.id=n.actor_context_id LEFT JOIN plans p ON p.id=n.plan_id
-    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND ${visibleNotification} ORDER BY n.created_at DESC,n.id DESC LIMIT 100`,[actor]);
+    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND ${visibleNotification}
+    AND ($2::timestamptz IS NULL OR (n.created_at,n.id)<($2::timestamptz,$3::uuid))
+    ORDER BY n.created_at DESC,n.id DESC LIMIT $4`,[actor,boundary?.at??null,boundary?.id??null,limit+1]);
    const count=await pool.query<{count:string}>(`SELECT count(*) AS count FROM in_app_notifications n WHERE n.actor_id=$1 AND n.read_at IS NULL AND ${visibleNotification}`,[actor]);
-   return {unreadCount:Number(count.rows[0]!.count),items:r.rows.map(x=>({id:x.id,kind:x.kind,title:x.title,planId:x.plan_id,inviteRef:x.invite_ref,actorId:x.actor_context_id,read:x.read_at!==null,createdAt:x.created_at.toISOString(),actorName:x.actor_name,planTitle:x.plan_title,eventTitle:x.event_title,
+   const rows=r.rows.slice(0,limit),last=rows.at(-1);
+   const nextCursor=r.rows.length>limit&&last?notificationCursor({v:1,at:last.cursor_at,id:last.id}):null;
+   return {nextCursor,unreadCount:Number(count.rows[0]!.count),items:rows.map(x=>({id:x.id,kind:x.kind,title:x.title,planId:x.plan_id,inviteRef:x.invite_ref,actorId:x.actor_context_id,read:x.read_at!==null,createdAt:x.created_at.toISOString(),actorName:x.actor_name,planTitle:x.plan_title,eventTitle:x.event_title,
     target:x.invite_ref?{kind:'INVITE',inviteRef:x.invite_ref}:x.plan_id?{kind:'PLAN',planId:x.plan_id}:x.kind==='FRIEND_REQUEST'?{kind:'FRIENDS'}:{kind:'UNAVAILABLE'}}))};
   },
   async unreadCount(actor:string){
@@ -226,7 +245,7 @@ export function socialService(pool:Pool){
   },
   async readNotification(actor:string,id:string){
    const r=await pool.query('UPDATE in_app_notifications SET read_at=COALESCE(read_at,clock_timestamp()) WHERE actor_id=$1 AND id=$2 RETURNING id',[actor,id]);
-   requireThat(r.rowCount===1,'NOTIFICATION_NOT_FOUND',404);return {read:true};
+   requireThat(r.rowCount===1,'NOTIFICATION_NOT_FOUND',404);return {read:true,...await this.unreadCount(actor)};
   }
  };
 }

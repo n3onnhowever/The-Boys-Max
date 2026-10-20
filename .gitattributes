@@ -18,7 +18,5 @@
 /docs/product/povod-2026-09-19/POVOD_SCREEN_ACCEPTANCE_V1.md -text
 /docs/product/povod-2026-09-19/POVOD_UI_TRANSLATION_V2_SPEC.md -text
 
-# Preserve reviewed migration hashes across Windows and Linux.
-/migrations/0004_t105_catalog.sql text eol=lf
-/migrations/0005_saved_occurrences.sql text eol=lf
-/migrations/0006_max_destination_fencing.sql text eol=lf
+# All root migration SQL has a deterministic LF checkout representation.
+/migrations/*.sql text eol=lf

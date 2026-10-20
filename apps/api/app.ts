@@ -148,10 +148,10 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  });
  app.get('/api/v1/session',{schema:{response:{200:S.sessionSchema,...S.errors},security:[{sessionCookie:[]}]}},async r=>{const x=await auth(r);return {actor:x.actor,csrfToken:x.csrfToken,absoluteExpiresAt:x.absoluteExpiresAt,idleTtlSeconds:x.idleTtlSeconds};});
  const preferenceSchema=z.strictObject({city:z.string().min(1).max(80),interests:z.array(z.string().min(1).max(80)).max(20),budgetRub:z.number().int().min(0).max(1000000).nullable(),radiusKm:z.number().int().min(1).max(100),notificationsEnabled:z.boolean(),preferredTime:z.enum(['ANY','MORNING','DAY','EVENING','NIGHT'])});
- const preferenceResponseSchema=preferenceSchema.extend({catalogCoverage:z.enum(['SUPPORTED','UNSUPPORTED'])});
+ const preferenceResponseSchema=preferenceSchema.extend({version:z.number().int().min(0),catalogCoverage:z.enum(['SUPPORTED','UNSUPPORTED'])});
  const idParam=z.strictObject({id:z.uuid()});
  app.get('/api/v1/me/preferences',{schema:{response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.settings((await auth(r)).actor.id));
- app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema,response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
+ app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema.extend({expectedVersion:z.number().int().min(0).max(2147483646)}),response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
  app.get('/api/v1/me/friends',async r=>social.friends((await auth(r)).actor.id));
  app.post('/api/v1/me/friend-links',{schema:{body:z.strictObject({})}},async r=>social.createFriendLink((await auth(r,true)).actor.id));
  app.post('/api/v1/friend-links/:token/request',{schema:{params:z.strictObject({token:z.string().regex(/^[a-f0-9]{64}$/)}),body:z.strictObject({})}},async r=>social.requestFromFriendLink((await auth(r,true)).actor.id,r.params.token));
@@ -159,7 +159,7 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  app.post('/api/v1/me/friends',{schema:{body:z.strictObject({actorId:z.uuid()})}},async r=>social.requestFriend((await auth(r,true)).actor.id,r.body.actorId));
  app.post('/api/v1/me/friends/:id/accept',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.acceptFriend((await auth(r,true)).actor.id,r.params.id));
  app.post('/api/v1/me/friends/:id/reject',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.rejectFriend((await auth(r,true)).actor.id,r.params.id));
- app.get('/api/v1/me/notifications',async r=>social.notifications((await auth(r)).actor.id));
+ app.get('/api/v1/me/notifications',{schema:{querystring:z.strictObject({cursor:z.string().min(1).max(256).optional(),limit:z.coerce.number().int().min(1).max(100).default(100)})}},async r=>social.notifications((await auth(r)).actor.id,r.query));
  app.get('/api/v1/me/notifications/count',async r=>social.unreadCount((await auth(r)).actor.id));
  app.post('/api/v1/me/notifications/:id/read',{schema:{params:idParam,body:z.strictObject({})}},async r=>social.readNotification((await auth(r,true)).actor.id,r.params.id));
  const planPresentationSchema=z.strictObject({title:z.string().trim().min(1).max(160),meetingTime:z.iso.datetime().nullable(),meetingPoint:z.string().max(200).nullable(),note:z.string().max(2000).nullable(),participantLimit:z.number().int().min(1).max(50).nullable(),expectedVersion:z.number().int().min(0)});

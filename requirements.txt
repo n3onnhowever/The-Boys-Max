@@ -27,7 +27,7 @@
 
 # Инструменты сборки и проверки (npm devDependencies)
 # typescript 5.9.3
-# vite 8.2.2
+# vite 8.2.4
 # @vitejs/plugin-react 6.1.1
 # @types/node 24.13.3
 # @types/react 19.2.17
