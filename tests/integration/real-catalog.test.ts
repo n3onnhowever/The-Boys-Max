@@ -1,3 +1,4 @@
+import {historicalCatalogClock} from '../helpers/catalog-clock.ts';
 import test,{after,before} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -14,7 +15,7 @@ const databaseUrl=process.env.REAL_CATALOG_TEST_DATABASE_URL;
 assert.ok(databaseUrl&&new URL(databaseUrl).hostname==='127.0.0.1'&&new URL(databaseUrl).pathname==='/povod_real_catalog_verify','fresh isolated real-catalog database required');
 const cfg:Config={mode:'live',databaseUrl,redisUrl:'redis://127.0.0.1:6379',publicOrigin:'http://127.0.0.1:3000',
  sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:randomBytes(24).toString('hex'),webhookSecret:randomBytes(32).toString('hex'),credentialScope:'REAL_CATALOG_TEST',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:'REVIEWED_MAX26_LIVE',externalOrigins:['https://www.darwinmuseum.ru']};
-const {app,pool,sessions}=await buildApp(cfg);
+const {app,pool,sessions}=await buildApp(cfg,null,{catalogClock:historicalCatalogClock});
 const file=JSON.parse(readFileSync('tests/fixtures/real-catalog/curated-official-v1.json','utf8')) as CuratedFile;
 const scope={kind:'PERSONAL' as const};
 let actor:{id:string;token:string;csrf:string};
@@ -46,7 +47,7 @@ test('real Search → Detail → Save, exact source and rerun identity',async()=
 });
 test('hybrid shows accepted real first and explicitly disclosed demo fallback',async()=>{
  await seedDemoCatalog(pool,cfg.publicOrigin);
- const hybrid=await buildApp({...cfg,mode:'hybrid',demoCatalogVersion:'v3'});
+ const hybrid=await buildApp({...cfg,mode:'hybrid',demoCatalogVersion:'v3'},null,{catalogClock:historicalCatalogClock});
  try{await hybrid.app.ready();const r=await hybrid.app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope})),headers:headers()});assert.equal(r.statusCode,200,r.body);
   const catalog=r.json<CatalogView>();assert.equal(catalog.events.length,53);
   assert.ok(catalog.events.slice(0,5).every(e=>e.sourceLabel==='Дарвиновский музей'));

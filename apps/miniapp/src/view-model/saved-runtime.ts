@@ -12,15 +12,16 @@ export function savedToViewModel(response:SavedResponse,now=new Date()):SavedVie
  const upcoming:SearchEventViewModel[]=[],later:SearchEventViewModel[]=[];
  for(const {occurrence:o} of response.items){
   const start=Date.parse(o.startsAt);
-  if(!Number.isFinite(start)||start<=now.getTime())continue;
-  const dateTimeLabel=new Intl.DateTimeFormat('ru-RU',{timeZone:o.timeZone,day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(start));
+  if(!Number.isFinite(start))continue;
+  const historical=start<=now.getTime();
+  const dateTimeLabel=(historical?'Архив · ':'')+new Intl.DateTimeFormat('ru-RU',{timeZone:o.timeZone,day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(start));
   const categoryLabel=RUNTIME_CATEGORY_OPTIONS.find(option=>o.categories.includes(option.id))?.label;
   const artwork=categoryArtwork(artworkCategory(o.categories)),demo=o.source.sourceId?.startsWith('synthetic:povod-demo:')??false;
   const event={id:o.id,title:o.title,dateTimeLabel,venue:o.venue.name??o.venue.address??(o.venue.state==='ONLINE'?'Онлайн':'Место уточняется'),priceLabel:o.price.kind==='CONDITIONAL'?'Цена с условиями':o.price.label,
    artwork:artwork.url,artworkAlt:artwork.alt,categoryLabel,sourceLabel:demo?'Демо-каталог':undefined,saved:true};
-  (start-now.getTime()<=30*DAY?upcoming:later).push(event);
+  (!historical&&start-now.getTime()<=30*DAY?upcoming:later).push(event);
  }
- return {provenance:'SERVER_ADAPTER',title:'Сохранённое',segments:[{id:'upcoming',label:'Ближайшие'},{id:'later',label:'Позже'}],events:{upcoming,later}};
+ return {provenance:'SERVER_ADAPTER',title:'Сохранённое',segments:[{id:'upcoming',label:'Ближайшие'},{id:'later',label:'Остальные'}],events:{upcoming,later}};
 }
 export function savedOccurrenceToDetail(occurrence:OccurrenceView,origins:readonly string[]):DetailViewModel{
  const o=occurrence;

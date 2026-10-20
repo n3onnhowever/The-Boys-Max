@@ -1,3 +1,4 @@
+import {historicalCatalogClock} from '../helpers/catalog-clock.ts';
 import test,{after,before} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomBytes,randomUUID} from 'node:crypto';
@@ -11,12 +12,16 @@ import {eventToDetailViewModel} from '../../apps/miniapp/src/view-model/detail.t
 import {savedOccurrenceToDetail,savedToViewModel,type SavedResponse} from '../../apps/miniapp/src/view-model/saved-runtime.ts';
 import type {Config} from '../../packages/platform/config.ts';
 import {sign} from '../fixtures.ts';
+import {listedForDiscovery} from '../../packages/persistence/catalog.ts';
+import {evaluateEligibility,rightsCheck} from '../../modules/search/core/eligibility.ts';
+import {context,defaultIntent} from '../../modules/integration/projections.ts';
+import type {Candidate} from '../../modules/search/core/types.ts';
 
 const databaseUrl=process.env.SHOWCASE_TEST_DATABASE_URL;
 assert.ok(databaseUrl&&new URL(databaseUrl).hostname==='127.0.0.1'&&new URL(databaseUrl).pathname==='/povod_full_catalog_verify','isolated fully imported showcase database required');
 const cfg:Config={mode:'hybrid',demoCatalogVersion:'v3',databaseUrl,redisUrl:'redis://127.0.0.1:56390',publicOrigin:'http://127.0.0.1:3000',
  sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:randomBytes(24).toString('hex'),webhookSecret:randomBytes(32).toString('hex'),credentialScope:'SHOWCASE_TEST',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:'REVIEWED_MAX26_LIVE'};
-const {app,pool,sessions}=await buildApp(cfg);
+const {app,pool,sessions}=await buildApp(cfg,null,{catalogClock:historicalCatalogClock});
 const scope={kind:'PERSONAL' as const};
 let actor:{token:string;csrf:string};
 const headers=()=>({cookie:`__Host-max_session=${actor.token}`,origin:cfg.publicOrigin,'content-type':'application/json','x-csrf-token':actor.csrf});
@@ -99,4 +104,49 @@ test('five stored records per category retain one artwork through Search, Detail
   assert.equal(savedOccurrenceToDetail(occurrences.get(id)!,[]).heroArtwork,artwork,`${category}: Saved Detail`);
  }
  assert.equal(selected.length,40);
+});
+
+test('present-day discovery excludes past/unknown-end and rights-expired prepared records',async()=>{
+ const present=await buildApp(cfg);
+ try{
+  await present.app.ready();
+  const boot=await present.sessions.bootstrap();
+  const session=await present.sessions.exchange(boot.binding,boot.body.csrfToken,sign(cfg.botToken,`{"id":${BigInt('0x'+randomBytes(7).toString('hex'))},"first_name":"PRESENT_TEST"}`,Math.floor(Date.now()/1000),{query_id:randomUUID()}),randomUUID(),undefined);
+  const response=await present.app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope})),headers:{cookie:'__Host-max_session='+session.token}});
+  assert.equal(response.statusCode,200,response.body);
+  const current=response.json<CatalogView>(),now=new Date().toISOString();
+  const candidates=(await pool.query<{body:Candidate}>('SELECT body FROM catalog_occurrences')).rows.map(r=>r.body);
+  assert.ok(candidates.some(c=>c.starts_at!<now&&c.ends_at===null),'fixture includes K11 historical unknown ends');
+  for(const event of current.events){
+   const candidate=candidates.find(c=>c.provenance.observation_id===event.ref.observationId)!;
+   assert.ok(candidate.starts_at!>now);
+   assert.equal(listedForDiscovery(evaluateEligibility(defaultIntent(),candidate,context(now)),false),true);
+   assert.equal(rightsCheck(candidate.rights,'display_facts',now).status,'PASS');
+  }
+  const saved=await present.app.inject({url:'/api/v1/me/saved',headers:headers()});
+  assert.equal(saved.statusCode,200,saved.body);
+  const history=saved.json<SavedResponse>();
+  const historical=history.items.filter(x=>x.occurrence.startsAt<=now);
+  assert.ok(historical.length>0);
+  const model=savedToViewModel(history,new Date(now));
+  for(const item of historical){
+   assert.ok(model.events.later.some(card=>card.id===item.occurrence.id));
+   assert.equal(savedOccurrenceToDetail(item.occurrence,[]).id,item.occurrence.id);
+  }
+ }finally{await present.app.close();}
+});
+
+test('post-expiry catalog is empty while saved facts and real session expiry remain independent',async()=>{
+ const expired=await buildApp(cfg,null,{catalogClock:()=>'2030-01-01T00:00:00.000Z'});
+ try{
+  await expired.app.ready();
+  const response=await expired.app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope})),headers:headers()});
+  assert.equal(response.statusCode,200,response.body);assert.deepEqual(response.json<CatalogView>().events,[]);
+  assert.ok((await expired.app.inject({url:'/api/v1/me/saved',headers:headers()})).json<SavedResponse>().items.length>0);
+  // Security TTLs use PostgreSQL's real clock even with a historical catalog clock.
+  const boot=await sessions.bootstrap();
+  const old=await sessions.exchange(boot.binding,boot.body.csrfToken,sign(cfg.botToken,`{"id":${BigInt('0x'+randomBytes(7).toString('hex'))},"first_name":"EXPIRED_SESSION_TEST"}`,Math.floor(Date.now()/1000),{query_id:randomUUID()}),randomUUID(),undefined);
+  await pool.query("UPDATE app_sessions SET absolute_expires_at=clock_timestamp()-interval '1 second' WHERE actor_id=$1",[old.body.actor.id]);
+  assert.equal((await app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope})),headers:{cookie:'__Host-max_session='+old.token}})).statusCode,401);
+ }finally{await expired.app.close();}
 });

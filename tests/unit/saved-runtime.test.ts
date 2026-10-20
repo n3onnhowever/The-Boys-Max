@@ -49,3 +49,18 @@ test('runtime Saved keeps synthetic source disclosure and local category artwork
  const card=savedToViewModel(response,new Date('2027-04-01T00:00:00.000Z')).events.upcoming[0]!;
  assert.equal(card.sourceLabel,'Демо-каталог');assert.equal(card.artwork,'/assets/events/category-sport.png');
 });
+
+test('historical Saved records stay visible and retain canonical Detail facts',()=>{
+ const old=occurrence('historical','2026-09-01T18:00:00+03:00');
+ const bytes=JSON.stringify(old);
+ const model=savedToViewModel({items:[{savedAt:'2026-08-01T00:00:00.000Z',occurrence:old}]},new Date('2026-10-17T12:00:00.000Z'));
+ assert.deepEqual(model.events.upcoming,[]);
+ assert.equal(model.events.later[0]?.id,old.id);
+ assert.match(model.events.later[0]!.dateTimeLabel,/Архив/);
+ assert.equal(model.segments[1]!.label,'Остальные');
+ const detail=savedOccurrenceToDetail(old,[]);
+ assert.equal(detail.id,old.id);assert.equal(detail.title,old.title);
+ assert.equal(detail.occurrence.endLabel,null);
+ assert.equal(detail.saved,true);assert.equal(detail.saveCapability,'AVAILABLE');
+ assert.equal(JSON.stringify(old),bytes);
+});

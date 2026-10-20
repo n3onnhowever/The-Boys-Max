@@ -11,6 +11,7 @@ import type {Candidate,Eligibility,SearchIntent,SearchScope,Subject} from '../..
 import {blankDraft,defaultIntent,context,fromUiDraft,sourceSnapshot,candidateTerms,uniqueInstant} from '../../modules/integration/projections.ts';
 import type {Scope,SearchDraft,ExternalRef,NewPlan,Revision} from '../../apps/miniapp/src/port/contracts.ts';
 import type {Plan,Slot} from '../contracts/domain.ts';
+import type {CatalogClock} from '../domain/catalog-clock.ts';
 import {createPlan,apply,assertRead,capabilities} from '../domain/plan.ts';
 import {requireCanonicalPlan} from '../domain/price-upgrade.ts';
 import {requireThat} from '../domain/errors.ts';
@@ -22,9 +23,13 @@ export interface CatalogItem {candidate:Candidate;eligibility:Eligibility;offerI
 export interface CatalogResult {ctx:ContextRow;items:CatalogItem[];plan:Plan|null;now:string}
 const scopeFor=(c:ContextRow):SearchScope=>c.kind==='PERSONAL'?{kind:'PERSONAL',search_context_id:c.id}:{kind:'PLAN_PRIVATE',search_context_id:c.id,plan_id:c.plan_id!};
 export function listedForDiscovery(e:Eligibility,exactRef:boolean):boolean{
- return e.status!=='FAIL'&&(exactRef||e.checks.some(check=>check.field==='listing'&&check.status==='PASS'));
+ // An exact locator opens a historical record; it does not assert future eligibility.
+ // Rights are checked separately by browse, and add re-evaluates admission.
+ if(exactRef)return true;
+ return e.status!=='FAIL'&&['lifecycle','occurrence_lifecycle','listing'].every(field=>
+  e.checks.some(check=>check.field===field&&check.status==='PASS'));
 }
-export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
+export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid',catalogClock?:CatalogClock) {
  async function assertSession(db:PoolClient,s:Subject){
   const r=await db.query(`SELECT id FROM app_sessions WHERE id=$1 AND actor_id=$2 AND NOT revoked AND absolute_expires_at>clock_timestamp() AND last_seen_at>clock_timestamp()-interval '15 minutes' FOR SHARE`,[s.session_id,s.actor_id]);
   requireThat(r.rowCount===1,'SESSION_INVALID',401);
@@ -47,7 +52,7 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
  return {
  async browse(subject:Subject,scope:Scope,ref?:{sourceId:string;eventId:string;occurrenceId:string|null}):Promise<CatalogResult>{
   return transaction(pool,async db=>{
-   await assertSession(db,subject);const {ctx,plan}=await ensure(db,subject.actor_id,scope),time=await now(db),semantic=context(time);
+   await assertSession(db,subject);const {ctx,plan}=await ensure(db,subject.actor_id,scope),time=catalogClock?.()??await now(db),semantic=context(time);
    // Draft values are actor-private. An obsolete date does not erase the user's stored filters.
    // Opening a known occurrence is independent of the viewer's current Search filters.
    // The source reference still selects the exact canonical occurrence below.
@@ -102,11 +107,11 @@ export function catalogService(pool:Pool,mode:'test'|'demo'|'live'|'hybrid') {
    const {ctx}=await ensure(db,subject.actor_id,scope);
    if(old)return {scope,outcome:'REPLAYED' as const};
    requireThat(expectedContextRevision===ctx.revision,'SEARCH_CONTEXT_STALE',409);
-   const time=await now(db),semantic=context(time),hard=fromUiDraft(draft,semantic),approvalId=randomUUID();
+   const time=await now(db),semantic=context(catalogClock?.()??time),hard=fromUiDraft(draft,semantic),approvalId=randomUUID();
    await db.query('UPDATE search_contexts SET draft=$2,hard=$3,revision=revision+1,approval_id=$4,updated_at=clock_timestamp() WHERE id=$1',[ctx.id,draft,hard,approvalId]);
    const searchScope=scopeFor(ctx),policy={load:(s:Subject,scope:SearchScope)=>searchCapability(db,s,scope,false)};
    const cap=await policy.load(subject,searchScope),d=draftForManualConfirmation(hard);
-   await confirmSearch(d,{action:'CONFIRM_SEARCH',approval_id:approvalId,expected_binding:cap.binding,expected_draft_json:canonical(d)},subject,searchScope,policy,semantic,new PgIssuance(db));
+   await confirmSearch(d,{action:'CONFIRM_SEARCH',approval_id:approvalId,expected_binding:cap.binding,expected_draft_json:canonical(d)},subject,searchScope,policy,semantic,new PgIssuance(db),time);
    await db.query('INSERT INTO command_receipts(scope,actor_id,key,payload_hash,body) VALUES($1,$2,$3,$4,$5)',['UI_SEARCH',subject.actor_id,key,hash,{scope}]);
    return {scope,outcome:'APPLIED' as const};
   });
