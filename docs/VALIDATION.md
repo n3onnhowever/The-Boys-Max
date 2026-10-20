@@ -1,6 +1,6 @@
 # Stable offline portfolio validation
 
-This is the current acceptance reference for POVOD's first stable offline portfolio snapshot. Measurements below are historical and pinned to source revisions; they do not establish production readiness. The owner supplied independent audit verdict **READY_FOR_STABLE_FINALIZATION** for candidate `0c0c2a528e6daf523a74df0e3c5747482196b5c1` on 2026-10-20. Finalization requires fresh CI on both the documentation cleanup head and the exact integrated main commit before the annotated `povod-stable-v1` tag is created. No deployment or Docker publication is part of this checkpoint.
+This is the current acceptance reference for POVOD's first stable offline portfolio snapshot. Measurements below are historical and pinned to source revisions; they do not establish production readiness. The owner supplied independent audit verdict **READY_FOR_STABLE_FINALIZATION** for candidate `0c0c2a528e6daf523a74df0e3c5747482196b5c1` on 2026-10-20. Finalization requires fresh push and PR CI on the Vite-patched candidate and fresh CI on the exact integrated main commit before the annotated `povod-stable-v1` tag is created. No deployment or Docker publication is part of this checkpoint.
 
 ## Source references
 
@@ -12,8 +12,10 @@ This is the current acceptance reference for POVOD's first stable offline portfo
 | Correctness 02B before portability repair | `ae05e8f88d937c6c96972b3619dff383de706a4a` |
 | Audited candidate, PR #5 | `0c0c2a528e6daf523a74df0e3c5747482196b5c1` |
 | Full audited candidate Git tree | `f462a7b6fd35c017d9adc364b794759de3c53eb8` |
+| Documentation cleanup blocked by fresh Vite advisory | `3d54fecc84d03e1e148d5ef2736bd5a08a1d230a` |
+| Vite 8.2.4 security patch | `9a603920eb2fa7e09ab721d8557baacbf078958a` |
 
-All 15 accepted commits between historical main and the audited candidate must remain ancestors of integrated main. Use merge commits, without squash/rebase/history rewriting. The final main tree must equal the reviewed documentation-cleanup branch tree; runtime/build/test trees and all migration SQL blobs must remain identical to the audited candidate. The historical hackathon tag must stay at its original commit. The stable tag identifies the integrated offline source snapshot, not a production release. Repository license remains **OWNER_REQUIRED**.
+All 15 accepted commits between historical main and the audited candidate must remain ancestors of integrated main. Use merge commits, without squash/rebase/history rewriting. The final main tree must equal the approved Vite-patched candidate tree. Relative to the documentation-cleanup tree, only Vite dependency metadata/lock resolution and necessary documentation updates are authorized; runtime/build/test sources and all migration SQL blobs remain identical to the audited candidate. The historical hackathon tag must stay at its original commit. The stable tag identifies the integrated offline source snapshot, not a production release. Repository license remains **OWNER_REQUIRED**.
 
 The private complete-history backup was verified before finalization (139 refs; SHA-256 `23c9b65e17544502720578e13e1ba9fccaf1eb7d5c1a1dc1db31c20edc28e8fb`). It stays private and does not contain uncommitted, untracked or ignored files. The original dirty checkout is preserved separately and is not used for this work.
 
@@ -49,9 +51,35 @@ Candidate local checks on 2026-10-20 also passed the commands below, including a
 
 Real MAX is unavailable; live GigaChat was **NOT_TESTED**. No real provider calls, production database access, deployment or image publication were performed. Deterministic AI stubs, synthetic actors and TestTransport establish only their tested contracts.
 
+## Vite security patch
+
+On 2026-10-20, fresh `npm audit --json` at documentation cleanup source `3d54fecc84d03e1e148d5ef2736bd5a08a1d230a` reproduced one moderate finding: [GHSA-698v-4r3x-3vcv](https://github.com/advisories/GHSA-698v-4r3x-3vcv). Vite 8.2.2 bundled launch-editor 2.14.1, whose Windows command escaping omitted `%`. `npm ls launch-editor` returned an empty tree because this code is bundled inside Vite, not separately resolved in the application lockfile. The official advisory identifies Vite 8.2.4 as patched in the 8.2 line.
+
+Patch source `9a603920eb2fa7e09ab721d8557baacbf078958a` was produced with `npm install --save-dev --save-exact vite@8.2.4`. Only the root Vite pin and Vite's lockfile version/tarball/integrity changed; all other package entries and dependency edges are identical. Installed Vite 8.2.4 bundles launch-editor 2.14.2. No unrelated dependency, Node/npm version, audit setting or exception changed. Existing historical zero-finding audit measurements above remain pinned to their original revisions.
+
+Fresh local results for that patch source:
+
+| Command / check | Actual result |
+| --- | --- |
+| `npm ci` | exit 0; clean install; lockfile unchanged |
+| `npm ls vite`, `npm ls --all` | exit 0; Vite 8.2.4; no dependency conflict |
+| `npm run typecheck`, `npm run typecheck:pure` | both exit 0 |
+| `npm run test:unit` | exit 0; 367 passed, zero failed/skipped |
+| `npm run test:integration:isolated` | **exit 1; 141 passed, 1 failed, zero skipped (142 total)** |
+| Cross-EOL migration regression (included in integration) | **8 passed, 1 failed**; isolated 0017 legacy CRLF → LF scenario failed its schema assertion |
+| `npm run build` | exit 0; Vite 8.2.4 |
+| `npm run demo:portfolio -- --smoke` | exit 0; offline HTTP journey PASS |
+| `npm audit`, `npm audit --json` | exit 0; zero findings |
+| `npm run scan:secrets`, `git diff --check` | both exit 0 |
+| `docker build --target release --build-arg SOURCE_SHA=9a603920eb2fa7e09ab721d8557baacbf078958a -t povod:stable-v1-security-9a60392 .` | exit 0; local image only |
+
+**BLOCKED_WITH_EXACT_REASON:** `tests/integration/migration-eol.test.ts:71` selects the first constraint whose definition contains `version` without an ordering or constraint-type filter. In the isolated 0017 scenario, PostgreSQL returned `NOT NULL version`; the assertion expected `/version >= 0/`. The test failed at its schema assertion, before that scenario's subsequent portability probes. Test source, migration runner and all 17 SQL blobs are unchanged by this patch. This observation does not establish a missing CHECK constraint or a runtime migration failure. No test was removed, skipped, weakened or repaired during this dependency-only task.
+
+The Vite advisory is resolved locally, but the required integration gate is not green. No patched push/PR CI, ready/retarget/merge operation or stable tag was attempted. Finalization remains blocked pending separate authorization to address the existing test assertion and then rerun all required gates. The previously reported Debian/container findings remain deferred; no container vulnerability scan was rerun and this npm result does not establish an advisory-free OS image.
+
 ## Stability 01 contracts retained
 
-- Dependency repair updated only the affected Fastify 5.12.5, shell-quote 1.11.0 and source-map-js 1.2.2 versions/integrities for [GHSA-4mh8-r7rc-xpvc](https://github.com/advisories/GHSA-4mh8-r7rc-xpvc), [GHSA-pqg4-j6r4-53mv](https://github.com/advisories/GHSA-pqg4-j6r4-53mv) and [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q). Existing Drizzle declarations, Gel/MySQL peers and runtime pins were retained. Finalization changes no dependencies.
+- Dependency repair updated only the affected Fastify 5.12.5, shell-quote 1.11.0 and source-map-js 1.2.2 versions/integrities for [GHSA-4mh8-r7rc-xpvc](https://github.com/advisories/GHSA-4mh8-r7rc-xpvc), [GHSA-pqg4-j6r4-53mv](https://github.com/advisories/GHSA-pqg4-j6r4-53mv) and [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q). Existing Drizzle declarations, Gel/MySQL peers and runtime pins were retained. The later finalization patch changes only Vite 8.2.2 to 8.2.4, as recorded below.
 - K11: future discovery requires scheduled status, proven upcoming occurrence and observed listing. Past/unknown-end occurrences are excluded from future recommendations. Historical Saved/detail access remains; ended/cancelled detail offers no add-to-plan action. Saved keeps historical entries in «Остальные» with «Архив». UI layout/artwork remain as accepted.
 - Historical fixture acceptance injects a catalog-only clock (`2026-09-30T00:30:00.000Z`); no production clock environment flag/global Date mock. Sessions, credentials, authorization, add/Plan operations and TTLs use real time. Tests preserve 167 LIVE + 48 DEMO stored occurrences and original 200-result ordering; separate present-day and 2030 expiry/rights tests exclude ineligible discovery while retaining historical Saved access. An expired real session still fails under the fixture catalog clock.
 - The isolated harness uses fresh PostgreSQL 18.6/Redis 8.2.9, pinned images, random loopback ports, six migrated databases and checked-in imports. It cleans up only services it owns. No production data, provider transport or Windows-specific path is required.

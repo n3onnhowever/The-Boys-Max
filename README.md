@@ -23,7 +23,7 @@
 
 ## Архитектура и технологии
 
-React 19.2.8 и Vite 8.2.2 обслуживают Mini App. Fastify 5.12.5 и TypeScript 5.9.3 образуют API; отдельный Node worker выполняет фоновые задачи. PostgreSQL 18.6 хранит бизнес-данные, Redis 8.2.9 и BullMQ 6.3.4 обслуживают очередь и доставку через outbox. MAX Bot API вызывается только сервером, MAX Bridge работает в клиенте. GigaChat подключён как необязательный поставщик для Smart Occasion. Runtime: **Node.js 24.20.0, npm 11.19.0**. Подробнее: [архитектура](docs/ARCHITECTURE.md), [AI](docs/AI.md).
+React 19.2.8 и Vite 8.2.4 обслуживают Mini App. Fastify 5.12.5 и TypeScript 5.9.3 образуют API; отдельный Node worker выполняет фоновые задачи. PostgreSQL 18.6 хранит бизнес-данные, Redis 8.2.9 и BullMQ 6.3.4 обслуживают очередь и доставку через outbox. MAX Bot API вызывается только сервером, MAX Bridge работает в клиенте. GigaChat подключён как необязательный поставщик для Smart Occasion. Runtime: **Node.js 24.20.0, npm 11.19.0**. Подробнее: [архитектура](docs/ARCHITECTURE.md), [AI](docs/AI.md).
 
 ## Быстрый локальный запуск
 
