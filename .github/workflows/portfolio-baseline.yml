@@ -33,7 +33,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run typecheck:pure
       - run: npm run test:unit
-      - name: Verify Docker and isolated PostgreSQL/Redis acceptance
+      - name: Verify Docker, cross-EOL migrations and isolated PostgreSQL/Redis acceptance
         run: |
           docker version
           npm run test:integration:isolated

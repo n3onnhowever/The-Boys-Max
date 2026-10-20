@@ -2,9 +2,17 @@
 
 ## Production preflight
 
-Record the currently deployed package revision, current database migration ledger, catalog counts, and previous package for rollback before any Amvera upload. In particular, verify that `schema_migrations` already contains migration `0010` with SHA-256 `896fffb4bf8826bbc7129ef1b8ec5be5cb1197128f09dae32dc9c7fde94e0d51` (the hash of `migrations/0010_friendship_pair_unique.sql`). Its **first** application deletes duplicate friendship pairs before creating a unique index. If an existing populated production database has not applied `0010`, stop and prepare a separate reviewed data-preserving migration plan. An empty fresh database has no duplicate Friend rows to remove.
+Record the currently deployed package revision, current database migration ledger, catalog counts, and previous package for rollback before any Amvera upload. In particular, verify that `schema_migrations` already contains migration `0010` with canonical LF SHA-256 `d9577cb554c383b7ada45c7ad4e5aded2a6a74ec882fb2af14a550b8df93db5e` or the exact historical CRLF SHA-256 `896fffb4bf8826bbc7129ef1b8ec5be5cb1197128f09dae32dc9c7fde94e0d51` for `migrations/0010_friendship_pair_unique.sql`. Its **first** application deletes duplicate friendship pairs before creating a unique index. If an existing populated production database has not applied `0010`, stop and prepare a separate reviewed data-preserving migration plan. An empty fresh database has no duplicate Friend rows to remove.
 
 Keep the existing PostgreSQL and Redis instances and volumes. No database reset, actor reset, Save/Plan/Friend/Notification/MAX destination/outbox reset, destructive rollback, or queue replacement belongs in this release. `scripts/migrate.ts` checks migration IDs and hashes; reviewed catalog imports and demo v3 seed are additive and idempotent.
+
+## Migration checksum contract
+
+Root `/migrations/*.sql` checks out as LF. The runner validates UTF-8 and uniform EOL, executes canonical LF text, and stores its SHA-256 for new ledger entries. It does not trim text, ignore whitespace/comments, update existing ledger hashes/timestamps, or replay applied migrations when the representation changes.
+
+`scripts/migration-fingerprint.ts` pins the exact LF fingerprints of all 17 reviewed migration blobs at `ae05e8f88d937c6c96972b3619dff383de706a4a` and their exact audit-reproduced CRLF fingerprints for **0001–0003 and 0007–0017**. These are the only recognized historical exceptions. Migrations 0004–0006 already had an LF checkout policy; they receive no CRLF exception. Both physical representations of the approved historical variants validate against either approved ledger fingerprint. Future migrations record canonical LF hashes and receive no historical ledger exception. BOM, invalid UTF-8, bare CR, mixed EOL, changed historical SQL and unknown ledger hashes fail closed with `MIGRATION_HASH_MISMATCH:<id>`.
+
+Read the actual ledger before production startup. An approved existing 0010 row is recognized without executing its destructive first-application SQL. The populated-production STOP gate above remains mandatory when 0010 is absent. Never clear `schema_migrations`, rewrite its hashes, or drop friendships to resolve a mismatch.
 
 ## Amvera startup
 
