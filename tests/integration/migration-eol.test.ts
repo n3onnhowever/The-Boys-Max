@@ -68,7 +68,9 @@ async function fixture(){
  async function schema(){
   const version=(await pool.query("SELECT column_default,is_nullable FROM information_schema.columns WHERE table_name='actor_preferences' AND column_name='version'")).rows[0];assert.equal(version.column_default,'0');assert.equal(version.is_nullable,'NO');
   assert.match((await pool.query("SELECT indexdef FROM pg_indexes WHERE indexname='in_app_notifications_actor_cursor'")).rows[0].indexdef,/actor_id, created_at DESC, id DESC/);
-  assert.match((await pool.query("SELECT pg_get_constraintdef(oid) def FROM pg_constraint WHERE conrelid='actor_preferences'::regclass AND pg_get_constraintdef(oid) LIKE '%version%'")).rows[0].def,/version >= 0/);
+  const versionChecks=(await pool.query("SELECT pg_get_constraintdef(oid) def FROM pg_constraint WHERE conrelid='actor_preferences'::regclass AND contype='c' AND conname='actor_preferences_version_check'")).rows;
+  assert.equal(versionChecks.length,1);
+  assert.match(versionChecks[0].def,/version >= 0/);
  }
  async function close(){await pool.end();await admin.query(`DROP DATABASE ${name}`);assert.equal(dirname(resolve(dir)),resolve(tmpdir()));assert.ok(basename(dir).startsWith('povod-eol-'));rmSync(dir,{recursive:true});}
  return {pool,dir,represent,run,ledger,data,preserve,seed,schema,close};
