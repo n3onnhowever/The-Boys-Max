@@ -11,6 +11,13 @@ import type {WireOutcome} from '../contracts/domain.ts';
 import {transaction} from './sessions.ts';
 import {requireThat} from '../domain/errors.ts';
 import {digest} from '../platform/auth.ts';
+// A decline remains authoritative across presentation revisions. ACTIVE is ACL,
+// not attendance consent; all other existing reminder RSVP behavior is retained.
+const reminderNotDeclined=`NOT EXISTS(SELECT 1 FROM plan_rsvps r WHERE r.plan_id=p.id AND r.actor_id=s.actor_id AND r.state='NO')`;
+const planNoticeCurrent=`SELECT 1 FROM plans p JOIN plan_presentation pp ON pp.plan_id=p.id JOIN plan_slots s ON s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE'
+ WHERE p.id=$1 AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') AND pp.reconfirm_version=$3
+ AND ($4::text<>'REMINDER' OR pp.meeting_time>clock_timestamp() AND ${reminderNotDeclined})
+ AND ($4::text<>'RECONFIRMATION' OR EXISTS(SELECT 1 FROM plan_rsvps r WHERE r.plan_id=p.id AND r.actor_id=$2 AND r.state='YES' AND r.reconfirm_version<pp.reconfirm_version))`;
 const recommendationCurrent=`SELECT o.revision FROM max_event_launch_refs r
  JOIN canonical_events e ON e.provider_event_id=r.external_event_id
  JOIN catalog_sources s ON s.id=e.source_id AND s.provider_id=r.source_id
@@ -37,6 +44,16 @@ export async function reconcile(pool:Pool,queue:Queue){
  await transaction(pool,async c=>{
   await c.query(`UPDATE outbox o SET state=CASE WHEN EXISTS(SELECT 1 FROM delivery_attempts a WHERE a.outbox_id=o.id AND a.lease_owner=o.lease_owner AND a.wire_started_at IS NOT NULL) THEN 'UNKNOWN' WHEN expires_at<=clock_timestamp() THEN 'EXPIRED' ELSE 'READY' END,result_reason='LEASE_RECOVERY',lease_until=NULL WHERE state='RUNNING' AND lease_until<clock_timestamp()`);
   await c.query(`UPDATE outbox SET state='EXPIRED',result_reason='DEADLINE_BEFORE_SUBMIT' WHERE state IN ('READY','QUEUED','RETRY_WAIT') AND expires_at<=clock_timestamp()`);
+  await c.query(`UPDATE outbox o SET state='CANCELLED',result_reason='REMINDER_NO_LONGER_ELIGIBLE',lease_until=NULL
+   WHERE o.kind='REMINDER' AND o.state IN ('READY','QUEUED','RETRY_WAIT') AND NOT EXISTS(
+    SELECT 1 FROM plans p JOIN plan_presentation pp ON pp.plan_id=p.id JOIN plan_slots s ON s.plan_id=p.id AND s.actor_id=o.actor_id AND s.state='ACTIVE'
+    WHERE p.id=o.plan_id AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') AND pp.reconfirm_version=o.semantic_revision
+     AND pp.meeting_time>clock_timestamp() AND ${reminderNotDeclined})`);
+  // RSVP writes take the conflicting plan lock. A fresh INSERT statement after
+  // this lock sees a decline that committed while scheduling was waiting.
+  await c.query(`SELECT p.id FROM plans p JOIN plan_presentation pp ON pp.plan_id=p.id
+   WHERE pp.meeting_time>clock_timestamp() AND pp.meeting_time<=clock_timestamp()+interval '24 hours'
+    AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') ORDER BY p.id FOR SHARE OF p`);
   await c.query(`WITH due AS (
     INSERT INTO outbox(id,command_id,plan_id,actor_id,kind,purpose,state,expires_at,notification_key,semantic_revision)
     SELECT gen_random_uuid(),NULL,p.id,s.actor_id,'REMINDER','REMINDER','READY',
@@ -47,6 +64,7 @@ export async function reconcile(pool:Pool,queue:Queue){
     JOIN plan_slots s ON s.plan_id=p.id AND s.state='ACTIVE'
     WHERE pp.meeting_time>clock_timestamp() AND pp.meeting_time<=clock_timestamp()+interval '24 hours'
       AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED')
+      AND ${reminderNotDeclined}
       AND COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=s.actor_id),true)
     ON CONFLICT DO NOTHING RETURNING actor_id,plan_id)
     INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id)
@@ -90,11 +108,9 @@ export async function deliver(pool:Pool,outboxId:string,transport:Transport,gove
     AND NOT EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=i.plan_id AND s.actor_id=$2 AND s.state='ACTIVE')`,[row.plan_id,row.actor_id,row.invite_ref,digest(row.invite_ref??'')]);
    if(!valid.rowCount){await c.query("UPDATE outbox SET state='CANCELLED',result_reason='INVITE_REVOKED_OR_EXPIRED',lease_until=NULL WHERE id=$1",[outboxId]);return null;}
   }else if(row.kind==='RECONFIRMATION'||row.kind==='REMINDER'){
-   const valid=await c.query(`SELECT 1 FROM plans p JOIN plan_presentation pp ON pp.plan_id=p.id JOIN plan_slots s ON s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE'
-    WHERE p.id=$1 AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') AND pp.reconfirm_version=$3
-    AND ($4::text<>'REMINDER' OR pp.meeting_time>clock_timestamp())
-    AND ($4::text<>'RECONFIRMATION' OR EXISTS(SELECT 1 FROM plan_rsvps r WHERE r.plan_id=p.id AND r.actor_id=$2 AND r.state='YES' AND r.reconfirm_version<pp.reconfirm_version))`,[row.plan_id,row.actor_id,row.semantic_revision,row.kind]);
-   if(!valid.rowCount){await c.query("UPDATE outbox SET state='CANCELLED',result_reason='REVISION_OR_MEMBERSHIP_STALE',lease_until=NULL WHERE id=$1",[outboxId]);return null;}
+   const valid=await c.query(planNoticeCurrent,[row.plan_id,row.actor_id,row.semantic_revision,row.kind]);
+   if(!valid.rowCount){await c.query("UPDATE outbox SET state='CANCELLED',result_reason='REVISION_MEMBERSHIP_OR_RSVP_STALE',lease_until=NULL WHERE id=$1",[outboxId]);
+    await c.query("UPDATE delivery_attempts SET outcome='CANCELLED',reason='REVISION_MEMBERSHIP_OR_RSVP_STALE',finished_at=clock_timestamp() WHERE id=$1",[attempt]);return null;}
   }else if(row.kind!=='BOT_WELCOME'){
    const acl=await c.query<{state:Plan}>(`SELECT p.state FROM plans p WHERE p.id=$1 AND (p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE'))`,[row.plan_id,row.actor_id]);
    if(!acl.rows[0]||!noticeStillCurrent(acl.rows[0].state,row.purpose,row.expected_selection_revision,row.expected_config_revision)){
@@ -136,10 +152,18 @@ export async function deliver(pool:Pool,outboxId:string,transport:Transport,gove
      AND NOT EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=i.plan_id AND s.actor_id=$2 AND s.state='ACTIVE')`,[row.plan_id,row.actor_id,row.invite_ref,digest(row.invite_ref??'')]);
     if(!valid.rowCount)return {kind:'DEAD',reason:'INVITE_REVOKED_BEFORE_WIRE'} as WireOutcome;
    }else if(row.kind==='RECONFIRMATION'||row.kind==='REMINDER'){
-    const valid=await pool.query(`SELECT 1 FROM plans p JOIN plan_presentation pp ON pp.plan_id=p.id JOIN plan_slots s ON s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE'
-     WHERE p.id=$1 AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') AND pp.reconfirm_version=$3
-     AND ($4::text<>'REMINDER' OR pp.meeting_time>clock_timestamp())
-     AND ($4::text<>'RECONFIRMATION' OR EXISTS(SELECT 1 FROM plan_rsvps r WHERE r.plan_id=p.id AND r.actor_id=$2 AND r.state='YES' AND r.reconfirm_version<pp.reconfirm_version))`,[row.plan_id,row.actor_id,row.semantic_revision,row.kind]);
+    if(row.kind==='REMINDER')return transaction(pool,async c=>{
+     // Serialize against RSVP, roster, cancellation and material presentation
+     // edits through transport submission. MaxTransport has an 8s deadline.
+     // Once submitted, a later decline cannot turn uncertainty into safe retry.
+     await c.query('SELECT id FROM plans WHERE id=$1 FOR SHARE',[row.plan_id]);
+     const valid=await c.query(planNoticeCurrent,[row.plan_id,row.actor_id,row.semantic_revision,row.kind]);
+     if(!valid.rowCount)return {kind:'DEAD',reason:'REMINDER_INELIGIBLE_BEFORE_WIRE'} as WireOutcome;
+     const owned=await c.query("SELECT 1 FROM outbox WHERE id=$1 AND state='RUNNING' AND lease_owner=$2 AND expires_at>clock_timestamp() AND lease_until>clock_timestamp()",[outboxId,lease]);
+     if(!owned.rowCount)return {kind:'DEAD',reason:'REMINDER_LEASE_OR_DEADLINE_BEFORE_WIRE'} as WireOutcome;
+     invoked=true;return transport.send(attempt,outboxId,reservation.chatId,reservation.message,reservation.attachments);
+    });
+    const valid=await pool.query(planNoticeCurrent,[row.plan_id,row.actor_id,row.semantic_revision,row.kind]);
     if(!valid.rowCount)return {kind:'DEAD',reason:'REVISION_STALE_BEFORE_WIRE'} as WireOutcome;
    }else if(row.kind!=='BOT_WELCOME'){
     const latest=await pool.query<{state:Plan}>(`SELECT p.state FROM plans p WHERE p.id=$1 AND (p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE'))`,[row.plan_id,row.actor_id]);

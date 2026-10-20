@@ -1,13 +1,13 @@
 # Active task
 
-**No implementation ticket active.** POVOD Post-Hackathon Stability Sprint 01 is implemented with local acceptance PASS; stop at this checkpoint. Hosted GitHub Actions is NOT_RUN and the nested Docker Desktop Linux diagnostic limitation is recorded in the handoff. No stable release/tag is claimed.
+**Correctness Sprint 02A — final validation/publication checkpoint.** The owner explicitly authorized K1 AI constraint preservation and K5 RSVP reminder eligibility on 2026-10-19. Implementation is complete; finish local validation, publish a draft stacked PR and verify hosted CI against its exact head. Stop before 02B. No merge, stable tag, release or deployment.
 
-The owner explicitly authorized Sprint 01 on 2026-10-17.
+Accepted base: `dca0036bb3a39f7a099c923d7dfd32e03e891b00`, branch `codex/posthackathon-stability-01`, PR #3. Isolated branch: `codex/posthackathon-correctness-02a`. One writer/integration owner.
 
-Base: `8f1348f0f009008d83830a4de3fd8835f5653a2c`. One writer and integration owner. Scope: dependency advisories, K11 discovery lifecycle, historical catalog test clocks, isolated offline demo, minimal CI, factual documentation and acceptance evidence. Stop at this sprint boundary. No deployment, push, merge or stable tag.
+Scope is limited to K1/K5 source, regression tests and this concise engineering handoff. Preserve the Stability 01 foundation, original dirty checkout, Stability worktree/branch/PR, main, historical tag and private bundle.
 
 The owner's sprint instructions supersede historical execution pointers. Preserve canonical data, historical migrations, accepted UI, MAX source and `hackathon-final-2026-09-30`.
 
-Deferred correctness findings: K1 AI semantics; K2 durable AI state; K4 MAX revocation ordering; K5 RSVP reminders; K6 notification pagination; K7 preference concurrency. These remain open.
+Deferred: K2 durable AI state, K4 MAX revocation ordering, K6 notification pagination, K7 preference concurrency, Telegram, transport/UI refactoring, broad cleanup/README styling and hosting.
 
-Evidence: [handoff](../handoffs/POVOD_POSTHACKATHON_STABILITY_01.md).
+Engineering contract and local checks: [02A handoff](../handoffs/POVOD_CORRECTNESS_02A.md). Earlier acceptance: [Stability 01](../handoffs/POVOD_POSTHACKATHON_STABILITY_01.md).

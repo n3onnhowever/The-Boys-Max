@@ -4,6 +4,7 @@ import {dateEpoch,localDate,plusDays} from '../search/core/time.ts';
 import {defaultIntent,context} from '../integration/projections.ts';
 import {validateIntent} from '../search/core/search.ts';
 import type {SearchDraft} from '../../apps/miniapp/src/port/contracts.ts';
+import {recognizedSmartConstraints} from './smart-language.ts';
 
 export const SMART_INTENT_VERSION='smart-occasion-intent/1' as const;
 const hard=z.enum(['DATE','TIME','CATEGORY','BUDGET','FREE','CITY']);
@@ -25,7 +26,6 @@ export type BudgetBasis='PER_PERSON'|'GROUP_TOTAL';
 export interface SmartProposal {schema_version:typeof SMART_INTENT_VERSION;draft:SmartIntent;clarification:{code:'BUDGET_BASIS'|'UNSUPPORTED_CITY'|'HARD_AMBIGUITY';question:string}|null}
 const cityNames:Readonly<Record<string,string>>={'москва':'msk','moscow':'msk','санкт-петербург':'spb','санкт петербург':'spb','спб':'spb'};
 const dayparts={MORNING:['06:00','12:00'],DAY:['12:00','18:00'],EVENING:['18:00','23:00'],NIGHT:['23:00','06:00']} as const;
-const categoryEvidence:Readonly<Record<Category,RegExp>>={CINEMA:/кино|фильм/iu,THEATRE:/театр|спектакл/iu,CONCERT:/концерт|музык/iu,MUSEUM:/выстав|музе/iu,SPORT:/спорт|матч/iu,OUTDOOR:/прогул|парк/iu,VOLUNTEER:/волонт/iu,OTHER:/другое/iu};
 const interestEvidence:Readonly<Record<string,RegExp>>={'выставки':/выстав|музе/iu,'искусство':/искусств|худож/iu,'музыка':/музык|концерт/iu,'театр':/театр|спектакл/iu,'кино':/кино|фильм/iu,'спорт':/спорт|матч/iu};
 const norm=(s:string)=>s.toLocaleLowerCase('ru-RU').replaceAll('ё','е').trim();
 function resolvedDate(value:string,now:string):{from:string;to:string}{
@@ -50,28 +50,26 @@ export function validateSmartProposal(raw:unknown,request:string,now:string):Sma
  const d={...smartIntentSchema.parse(typeof raw==='string'?JSON.parse(raw) as unknown:raw),query_text:request};
  if(request.length<1||request.length>240)throw new Error('AI_INPUT_LENGTH');
  if(d.free_only&&d.budget_max!==null)throw new Error('AI_BUDGET_CONFLICT');
+ const expected=recognizedSmartConstraints(request);
+ if(expected.unsupported||expected.city==='Санкт-Петербург'){
+  // No model filter from unsupported wording can reach acceptance or appear as
+  // a positive interpretation of an exclusion in the review sheet.
+  const cleared:SmartIntent={query_text:request,date_from:null,date_to:null,daypart:null,categories:[],interests:[],budget_max:null,free_only:false,city:null,radius_preference:null,social_context:null,party_size:null,mood_tags:[],hard_constraints:[],soft_preferences:[],clarification_required:true,clarification_question:null};
+  return {schema_version:SMART_INTENT_VERSION,draft:cleared,clarification:expected.city==='Санкт-Петербург'?{code:'UNSUPPORTED_CITY',question:'Сейчас доступны подтверждённые события только в Москве. Изменить город на Москву?'}:{code:'HARD_AMBIGUITY',question:'Не удалось однозначно сохранить все условия. Укажите дату (сегодня, завтра, выходные или ГГГГ-ММ-ДД), категорию без отрицания и бюджет в рублях либо используйте обычные фильтры.'}};
+ }
+ if(d.date_from!==expected.date||d.date_to!==null&&d.date_to!==expected.date||d.daypart!==expected.daypart||d.budget_max!==expected.budget||d.free_only!==expected.free||d.party_size!==expected.party||
+  (d.city?cityNames[norm(d.city)]??norm(d.city):null)!==(expected.city?'msk':null)||d.categories.length!==expected.categories.length||expected.categories.some(c=>!d.categories.includes(c)))throw new Error('AI_CONSTRAINT_MISMATCH');
  if(d.date_to&&!d.date_from||d.daypart&&!d.date_from)throw new Error('AI_DATE_REQUIRED');
  if(d.date_from&&d.date_to&&['TODAY','TOMORROW','WEEKEND'].includes(d.date_from)&&d.date_from!==d.date_to)throw new Error('AI_DATE_CONFLICT');
  if(d.date_from&&d.date_to&&!['TODAY','TOMORROW','WEEKEND'].includes(d.date_from)&&!['TODAY','TOMORROW','WEEKEND'].includes(d.date_to)&&dateEpoch(d.date_to)<dateEpoch(d.date_from))throw new Error('AI_DATE_ORDER');
  if(d.date_from){const from=resolvedDate(d.date_from,now).from,to=resolvedDate(d.date_to??d.date_from,now).to,today=localDate(now,'Europe/Moscow');
   if(dateEpoch(from)<dateEpoch(today)||dateEpoch(to)<dateEpoch(from)||dateEpoch(to)-dateEpoch(from)>30*86400000||dateEpoch(to)>dateEpoch(today)+180*86400000)throw new Error('AI_DATE_BOUNDS');}
  const wording=norm(request);
- if(wording.includes('сегодня')&&d.date_from&&d.date_from!=='TODAY'||wording.includes('завтра')&&d.date_from&&d.date_from!=='TOMORROW'||wording.includes('выходн')&&d.date_from&&d.date_from!=='WEEKEND')throw new Error('AI_DATE_TOKEN_REQUIRED');
- if(d.daypart&&!({MORNING:/утр/iu,DAY:/дн|днем|днём/iu,EVENING:/вечер/iu,NIGHT:/ноч/iu}[d.daypart].test(request)))throw new Error('AI_UNREQUESTED_TIME');
- if(d.party_size===2&&!/вдвоем|вдвоём|на двоих|для двоих/iu.test(request))throw new Error('AI_UNREQUESTED_PARTY_SIZE');
  if(d.social_context==='PAIR'&&d.party_size!==2||d.social_context==='SOLO'&&d.party_size!==null&&d.party_size!==1)throw new Error('AI_SOCIAL_CONFLICT');
  if(new Set(d.categories).size!==d.categories.length||new Set(d.hard_constraints).size!==d.hard_constraints.length||new Set(d.soft_preferences).size!==d.soft_preferences.length)throw new Error('AI_DUPLICATE');
- const budgetMention=/(?:^|\s)(?:до|не дороже|не больше|максимум|бюджет)\s*(\d[\d\s]{0,8})/iu.exec(request);
- const explicitlyFree=/бесплатн|даром/iu.test(request);
- if(d.budget_max!==null&&(!budgetMention||Number(budgetMention[1]!.replace(/\s/g,''))!==d.budget_max)||d.free_only&&!explicitlyFree)throw new Error('AI_UNREQUESTED_PRICE');
  if(d.hard_constraints.includes('BUDGET')!==Boolean(d.budget_max!==null)||d.hard_constraints.includes('FREE')!==d.free_only)throw new Error('AI_HARD_MISMATCH');
  if(d.hard_constraints.includes('CATEGORY')!==Boolean(d.categories.length)||d.hard_constraints.includes('DATE')!==Boolean(d.date_from)||d.hard_constraints.includes('TIME')!==Boolean(d.daypart)||d.hard_constraints.includes('CITY')!==Boolean(d.city))throw new Error('AI_HARD_MISMATCH');
- if(d.categories.some(category=>!categoryEvidence[category].test(request)))throw new Error('AI_UNREQUESTED_CATEGORY');
  if(d.interests.some(value=>!wording.includes(norm(value))&&!interestEvidence[norm(value)]?.test(request)))throw new Error('AI_UNREQUESTED_INTEREST');
- if(d.date_from&&!/сегодня|завтра|выходн|\d{4}-\d{2}-\d{2}/iu.test(request))throw new Error('AI_UNREQUESTED_DATE');
- if(d.date_from&&/^20\d{2}-/.test(d.date_from)&&!request.includes(d.date_from))throw new Error('AI_UNREQUESTED_DATE');
- if(d.city){const city=norm(d.city),mentioned=city==='москва'||city==='moscow'?/москв|moscow/iu.test(request):city==='спб'||city.includes('петербург')?/санкт[- ]петербург|петербурге|спб/iu.test(request):wording.includes(city);if(!mentioned)throw new Error('AI_UNREQUESTED_CITY');}
- if(d.city&&!['москва','moscow'].includes(norm(d.city)))return {schema_version:SMART_INTENT_VERSION,draft:d,clarification:{code:'UNSUPPORTED_CITY',question:'Сейчас доступны подтверждённые события только в Москве. Изменить город на Москву?'}};
  if(d.budget_max!==null&&d.party_size!==null&&d.party_size>1)return {schema_version:SMART_INTENT_VERSION,draft:d,clarification:{code:'BUDGET_BASIS',question:`${d.budget_max} ₽ — на ${d.party_size===2?'двоих':'всех'} или на человека?`}};
  if(d.clarification_required)return {schema_version:SMART_INTENT_VERSION,draft:d,clarification:{code:'HARD_AMBIGUITY',question:'Уточните, какое условие поиска для вас обязательно.'}};
  if(d.city&&cityNames[norm(d.city)]!=='msk')throw new Error('AI_UNSUPPORTED_CITY');
