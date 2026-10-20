@@ -13,6 +13,20 @@ Pinned tooling (verified from official sources on 2026-10-17):
 | Docker Official PostgreSQL | 18.6, digest `74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336` | existing service version; `scripts/lib/isolated-services.mjs` |
 | Docker Official Redis | 8.2.9, digest `66b7f4c2f3c6ef1b298bbd7b13c806bc6f71e61f1136a4f58710daf2cb053b21` | existing service version; `scripts/lib/isolated-services.mjs` |
 
-Docker's Node release base remains pinned by the existing Dockerfile digest. Ubuntu's hosted runner image receives GitHub maintenance updates; it is not a frozen VM snapshot. Local reproduction uses the documented npm commands and Docker; a green local run is not evidence that GitHub hosted Actions has executed. GitHub execution requires a later owner-authorized push/PR. No workflow run is triggered by this local-only sprint.
+Docker's Node release base remains pinned by the existing Dockerfile digest. Ubuntu's hosted runner image receives GitHub maintenance updates; it is not a frozen VM snapshot. Local reproduction uses the commands in [VALIDATION](VALIDATION.md) and Docker.
+
+Hosted execution has completed successfully for all three accepted stacked PR heads:
+
+| Measurement date (Europe/Moscow) | Exact source SHA | Successful hosted push run | Unit / integration |
+| --- | --- | --- | --- |
+| 2026-10-17, Stability 01 | `dca0036bb3a39f7a099c923d7dfd32e03e891b00` | [38985716207](https://github.com/n3onnhowever/The-Boys-Max/actions/runs/38985716207) | 340 / 103 |
+| 2026-10-19, Correctness 02A | `d1185f047bef3e1998d4ff87a390214b72916a45` | [39174983138](https://github.com/n3onnhowever/The-Boys-Max/actions/runs/39174983138) | 359 / 119 |
+| 2026-10-20, Correctness 02B + migration portability | `0c0c2a528e6daf523a74df0e3c5747482196b5c1` | [39483652475](https://github.com/n3onnhowever/The-Boys-Max/actions/runs/39483652475) | 367 / 142 |
+
+The candidate also passed [PR run 39483658871](https://github.com/n3onnhowever/The-Boys-Max/actions/runs/39483658871). These are historical, source-pinned measurements. A new documentation head and the integrated main commit each require their own fresh successful run; an older result cannot satisfy that gate. Inspect the run's `headSha`, event, job steps and logs. Push runs validate the exact branch commit; pull-request workflow checkout uses GitHub's test merge commit. [Main push runs](https://github.com/n3onnhowever/The-Boys-Max/actions?query=branch%3Amain+event%3Apush) retain the final integration evidence.
+
+The integration step includes `tests/integration/migration-eol.test.ts`: nine PostgreSQL scenarios explicitly create LF and reviewed legacy CRLF files on Ubuntu, reproduce failures using the old runner, and require the repaired runner to preserve ledger and business data. No portability test is skipped because the host uses LF. See [the checksum contract](DEPLOYMENT.md#migration-checksum-contract).
+
+`npm audit` measures application dependencies. The workflow builds the release image but does not scan container OS packages: the previously reported 27 high/critical image advisories require separate review before public hosting. A successful workflow does not establish an advisory-free container or live MAX/GigaChat operation.
 
 Secret scanning is the existing dependency-free repository pattern scanner, with its existing blob/rule/line-specific synthetic exceptions. It scans reachable Git blobs and tracked/nonignored working files; compressed archive payloads are not unpacked. It is evidence of the stated checks, not a guarantee of recognizing every possible credential format.
