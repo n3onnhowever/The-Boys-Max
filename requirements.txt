@@ -15,7 +15,7 @@
 # @fastify/swagger 9.8.1
 # bullmq 6.3.4
 # drizzle-orm 0.45.2
-# fastify 5.12.5
+# fastify 5.12.6
 # fastify-type-provider-zod 7.0.0
 # ioredis 5.11.1
 # leaflet 1.9.4
@@ -23,7 +23,7 @@
 # pg 8.23.0
 # react 19.2.8
 # react-dom 19.2.8
-# zod 4.5.4
+# zod 4.6.6
 
 # Инструменты сборки и проверки (npm devDependencies)
 # typescript 5.9.3
