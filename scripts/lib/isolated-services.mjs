@@ -12,7 +12,14 @@ export async function isolatedServices(label){
  try{docker('info','--format','{{.ServerVersion}}');}catch{throw Error('BLOCKED_DOCKER: start Docker, then retry the documented command');}
  const suffix=randomBytes(6).toString('hex'),created=[];
  const password=randomBytes(24).toString('hex');
- const stop=()=>{for(const name of created.reverse()){try{docker('rm','--force','--volumes',name);}catch{console.error('Cleanup required for owned container '+name);}}};
+ const stop=()=>{
+  const failures=[];
+  for(const name of [...created].reverse()){
+   try{docker('rm','--force','--volumes',name);created.splice(created.indexOf(name),1);}
+   catch{failures.push(Error('Cleanup required for owned container '+name));}
+  }
+  if(failures.length)throw new AggregateError(failures,'ISOLATED_SERVICE_CLEANUP_FAILED');
+ };
  try{
   const pgName=`povod-${label}-pg-${suffix}`,redisName=`povod-${label}-redis-${suffix}`;
   execFileSync('docker',['run','--detach','--name',pgName,'--label','povod.isolated='+suffix,'-e','POSTGRES_DB=max23_test','-e','POSTGRES_USER=max23','-e','POSTGRES_PASSWORD','--publish','127.0.0.1::5432',serviceImages.postgres],{env:{...process.env,POSTGRES_PASSWORD:password},stdio:['ignore','pipe','pipe']});created.push(pgName);
@@ -28,7 +35,11 @@ export async function isolatedServices(label){
   databaseBase.username='max23';databaseBase.password=password;databaseBase.port=port(pgName,'5432/tcp');
   return {databaseUrl:name=>new URL(name,databaseBase).href,redisUrl:`redis://127.0.0.1:${port(redisName,'6379/tcp')}`,
    createDatabase:name=>{if(!/^[a-z0-9_]+$/.test(name))throw Error('DATABASE_NAME_INVALID');docker('exec',pgName,'createdb','-U','max23',name);},stop};
- }catch(error){stop();throw Error(error.message.startsWith('BLOCKED_')?error.message:'ISOLATED_SERVICE_START_FAILED (Docker diagnostics may contain private configuration; inspect locally)');}
+ }catch(error){
+  const startError=Error(error.message.startsWith('BLOCKED_')?error.message:'ISOLATED_SERVICE_START_FAILED (Docker diagnostics may contain private configuration; inspect locally)');
+  try{stop();}catch(cleanupError){throw new AggregateError([startError,cleanupError],'ISOLATED_SERVICE_START_AND_CLEANUP_FAILED');}
+  throw startError;
+ }
 }
 export function isolatedEnvironment(services){
  const env={...process.env};

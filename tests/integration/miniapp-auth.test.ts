@@ -12,7 +12,11 @@ const {app,pool,sessions}=await buildApp(cfg);
 before(async()=>{await pool.query('SELECT 1');await app.ready();});
 after(async()=>{await app.close();});
 const identity=()=> (9223372036854775807n-BigInt('0x'+randomBytes(6).toString('hex'))).toString();
-const proof=(id=identity(),extra:Record<string,string>={},age=0)=>sign(cfg.botToken,'{"id":'+id+',"first_name":"SYNTHETIC_MINIAPP"}',Math.floor(Date.now()/1000)+age,{query_id:randomUUID(),...extra});
+// Session verification uses PostgreSQL time; fixture signing must use the same authority.
+async function proof(id=identity(),extra:Record<string,string>={},age=0){
+ const {rows}=await pool.query<{now:number}>('SELECT floor(extract(epoch FROM clock_timestamp()))::integer AS now');
+ return sign(cfg.botToken,'{"id":'+id+',"first_name":"SYNTHETIC_MINIAPP"}',rows[0]!.now+age,{query_id:randomUUID(),...extra});
+}
 const cookie=(response:{headers:Record<string,unknown>},name:string)=>{
  const cookies=response.headers['set-cookie'],values=Array.isArray(cookies)?cookies:[cookies];
  const value=values.find(v=>typeof v==='string'&&v.startsWith(name+'='));assert.ok(typeof value==='string');return value.split(';')[0]!.slice(name.length+1);
@@ -23,39 +27,47 @@ async function exchange(raw:string,previous?:string,provided?:Awaited<ReturnType
  const r=await app.inject({method:'POST',url:'/api/v1/session/max',headers:{origin:cfg.publicOrigin,'content-type':'application/json','x-bootstrap-csrf':b.csrf,cookie:'__Host-max_bootstrap='+b.binding+(previous?'; __Host-max_session='+previous:'')},payload:{initData:raw,exchangeKey:key}});
  return {r,b,key};
 }
-async function launch(raw=proof(),previous?:string){const x=await exchange(raw,previous);assert.equal(x.r.statusCode,200,x.r.json().error?.code);return {...x,raw,token:cookie(x.r,'__Host-max_session'),body:x.r.json()};}
+async function launch(raw?:string,previous?:string){raw??=await proof();const x=await exchange(raw,previous);assert.equal(x.r.statusCode,200,x.r.json().error?.code);return {...x,raw,token:cookie(x.r,'__Host-max_session'),body:x.r.json()};}
 const headers=(x:Awaited<ReturnType<typeof launch>>)=>({origin:cfg.publicOrigin,cookie:'__Host-max_session='+x.token,'content-type':'application/json','x-csrf-token':x.body.csrfToken});
 test('MAX-AUTH-01 valid launch preserves signed int64 and issues host-only secure HttpOnly cookie',async()=>{
- const id=identity(),x=await launch(proof(id));
+ const id=identity(),x=await launch(await proof(id));
  const actor=await pool.query('SELECT external_id FROM actors WHERE id=$1',[x.body.actor.id]);assert.equal(actor.rows[0].external_id,id);
  const attrs=String(x.r.headers['set-cookie']);assert.match(attrs,/HttpOnly/);assert.match(attrs,/Secure/);assert.match(attrs,/SameSite=Lax/);assert.doesNotMatch(attrs,/Domain=/);
  assert.equal('token' in x.body,false);assert.equal(x.r.headers['cache-control'],'no-store');assert.equal(x.r.headers['referrer-policy'],'no-referrer');
  assert.equal((await app.inject({url:'/api/v1/session',headers:headers(x)})).statusCode,200);
 });
 test('MAX-AUTH-02 tampered hash, stale/future date, duplicates and malformed encoding are rejected',async()=>{
- const raw=proof();
- const cases=[raw.replace(/hash=([a-f0-9])/,(_,n)=>'hash='+(n==='0'?'1':'0')),proof(identity(),{},-3600),proof(identity(),{},301),raw+'&hash='+'0'.repeat(64),raw+'&%75ser=forged','user=%ff&hash='+'0'.repeat(64)];
- for(const [i,candidate] of cases.entries()){const x=await exchange(candidate);assert.equal(x.r.statusCode,[401,401,401,422,422,422][i],x.r.json().error?.code);assert.equal(x.r.headers['set-cookie'],undefined);}
+ const raw=await proof();
+ // Exact boundary seconds remain covered by pure auth tests; this routing test avoids elapsed-time boundaries.
+ const cases=[
+  {name:'tampered hash',raw:raw.replace(/hash=([a-f0-9])/,(_,n)=>'hash='+(n==='0'?'1':'0')),status:401},
+  {name:'stale PG timestamp',raw:await proof(identity(),{},-7200),status:401},
+  {name:'future PG timestamp',raw:await proof(identity(),{},3600),status:401},
+  {name:'duplicate hash',raw:raw+'&hash='+'0'.repeat(64),status:422},
+  {name:'duplicate encoded user',raw:raw+'&%75ser=forged',status:422},
+  {name:'malformed encoding',raw:'user=%ff&hash='+'0'.repeat(64),status:422},
+ ];
+ for(const candidate of cases){const x=await exchange(candidate.raw);assert.equal(x.r.statusCode,candidate.status,candidate.name+': '+x.r.json().error?.code);assert.equal(x.r.headers['set-cookie'],undefined,candidate.name);}
 });
 test('MAX-AUTH-03 Origin and bootstrap CSRF are required for exchange; foreign bootstrap reads rejected',async()=>{
  const b=await boot();
  for(const extras of [{origin:'https://foreign.invalid','x-bootstrap-csrf':b.csrf},{'x-bootstrap-csrf':b.csrf},{origin:cfg.publicOrigin,'x-bootstrap-csrf':'invalid'},{origin:cfg.publicOrigin}]){
-  const r=await app.inject({method:'POST',url:'/api/v1/session/max',headers:{cookie:'__Host-max_bootstrap='+b.binding,'content-type':'application/json',...extras},payload:{initData:proof(),exchangeKey:randomUUID()}});
+  const r=await app.inject({method:'POST',url:'/api/v1/session/max',headers:{cookie:'__Host-max_bootstrap='+b.binding,'content-type':'application/json',...extras},payload:{initData:await proof(),exchangeKey:randomUUID()}});
   assert.ok([401,403].includes(r.statusCode));
  }
  for(const h of [{origin:'null'},{origin:'https://foreign.invalid'},{'sec-fetch-site':'cross-site'}])assert.equal((await app.inject({url:'/api/v1/session/bootstrap',headers:h})).statusCode,403);
 });
 test('MAX-AUTH-04 anonymous access and query/unsafe identities cannot authorize',async()=>{
  for(const url of ['/api/v1/session?user=1&startapp=admin','/api/ui/v1/session','/api/v1/plans','/api/v1/plans/'+randomUUID()])assert.equal((await app.inject({url})).statusCode,401);
- const b=await boot();const r=await app.inject({method:'POST',url:'/api/v1/session/max',headers:{origin:cfg.publicOrigin,cookie:'__Host-max_bootstrap='+b.binding,'x-bootstrap-csrf':b.csrf},payload:{initData:proof(),exchangeKey:randomUUID(),initDataUnsafe:{user:{id:1}},startapp:'admin'}});
+ const b=await boot();const r=await app.inject({method:'POST',url:'/api/v1/session/max',headers:{origin:cfg.publicOrigin,cookie:'__Host-max_bootstrap='+b.binding,'x-bootstrap-csrf':b.csrf},payload:{initData:await proof(),exchangeKey:randomUUID(),initDataUnsafe:{user:{id:1}},startapp:'admin'}});
  assert.equal(r.statusCode,400);
 });
 test('MAX-AUTH-05 start_param tampering invalidates HMAC; valid context grants no foreign-object ACL',async()=>{
  const a=await launch(),b=await launch();
  const created=await app.inject({method:'POST',url:'/api/v1/plans',headers:{...headers(a),'idempotency-key':randomUUID()},payload:{title:'SYNTHETIC ACL',slots:[{slotId:randomUUID(),label:'Owner',required:true,actorId:a.body.actor.id,state:'ACTIVE'}],rule:{kind:'ALL'},decisionDeadline:new Date(Date.now()+3600000).toISOString(),commitmentDeadline:new Date(Date.now()+7200000).toISOString()}});
  assert.equal(created.statusCode,200);const id=created.json().planId;
- const raw=proof(identity(),{start_param:'catalog'});assert.equal((await exchange(raw.replace('start_param=catalog','start_param=p_'+id))).r.statusCode,401);
- const foreign=await launch(proof(identity(),{start_param:'p_'+id}));
+ const raw=await proof(identity(),{start_param:'catalog'});assert.equal((await exchange(raw.replace('start_param=catalog','start_param=p_'+id))).r.statusCode,401);
+ const foreign=await launch(await proof(identity(),{start_param:'p_'+id}));
  for(const x of [b,foreign]){
   assert.equal((await app.inject({url:'/api/v1/plans/'+id+'?startapp=p_'+id,headers:headers(x)})).statusCode,404);
   assert.equal((await app.inject({method:'POST',url:'/api/v1/plans/'+id+'/invites',headers:{...headers(x),'idempotency-key':randomUUID()},payload:{expectedStateVersion:1}})).statusCode,404);
@@ -90,7 +102,7 @@ test('MAX-AUTH-06 replay same exchange is idempotent; new bootstrap resumes only
  const other=await exchange(x.raw);assert.equal(other.r.statusCode,401);
 });
 test('MAX-AUTH-07 fresh launch rotates token and CSRF; new MAX account cannot inherit old identity',async()=>{
- const a=await launch(),b=await launch(proof(),a.token);
+ const a=await launch(),b=await launch(await proof(),a.token);
  assert.notEqual(a.body.actor.id,b.body.actor.id);assert.ok(a.token!==b.token);assert.ok(a.body.csrfToken!==b.body.csrfToken);
  assert.equal((await app.inject({url:'/api/v1/session',headers:headers(a)})).statusCode,401);
  assert.equal((await exchange(a.raw,undefined,a.b,a.key)).r.statusCode,401);
@@ -120,16 +132,16 @@ test('MAX-AUTH-10 embedded cookie profile uses Secure SameSite=None Partitioned'
 });
 
 test('MAX-AUTH-11 simultaneous same exchange is idempotent and cross-browser proof replay has one winner',async()=>{
- const b=await boot(),raw=proof(),key=randomUUID();
+ const b=await boot(),raw=await proof(),key=randomUUID();
  const same=await Promise.all([exchange(raw,undefined,b,key),exchange(raw,undefined,b,key)]);
  assert.deepEqual(same.map(x=>x.r.statusCode),[200,200]);
  assert.ok(cookie(same[0]!.r,'__Host-max_session')===cookie(same[1]!.r,'__Host-max_session'));
- const another=proof(),bindings=await Promise.all([boot(),boot()]);
+ const another=await proof(),bindings=await Promise.all([boot(),boot()]);
  const cross=await Promise.all(bindings.map(binding=>exchange(another,undefined,binding)));
  assert.deepEqual(cross.map(x=>x.r.statusCode).sort(),[200,401]);
 });
 test('MAX-AUTH-12 same-account fresh launch rotates token; direct session revocation blocks escrow replay',async()=>{
- const id=identity(),a=await launch(proof(id)),b=await launch(proof(id),a.token);
+ const id=identity(),a=await launch(await proof(id)),b=await launch(await proof(id),a.token);
  assert.equal(a.body.actor.id,b.body.actor.id);assert.ok(a.token!==b.token);assert.ok(a.body.csrfToken!==b.body.csrfToken);
  await pool.query('UPDATE app_sessions SET revoked=true WHERE actor_id=$1',[b.body.actor.id]);
  assert.equal((await exchange(b.raw,undefined,b.b,b.key)).r.statusCode,401);

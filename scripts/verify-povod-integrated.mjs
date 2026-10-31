@@ -175,7 +175,7 @@ try {
     for (const search of ['', '?design=unknown', '?design=toString']) {
       const page = await browser.open(origin + '/' + search, 390, { unavailableApi: true });
       normalSessionIds.add(page.sessionId);
-      await browser.until(page, "Boolean(document.querySelector('.status-panel[role=\"alert\"]'))");
+      await browser.until(page, "Boolean(document.querySelector('.launch-state-screen [role=\"alert\"]'))");
       const evidence = await browser.evaluate(page, `(()=>({fixtureBoundary:!!document.querySelector('[data-provenance="DESIGN_FIXTURE"]'),syntheticText:/Дизайн-пример|Аня|БИКИНИ|128 человек|Берём метро|До 3 000/.test(document.body.innerText),fixtureChunk:performance.getEntriesByType('resource').some(entry=>/DesignPreview-/.test(entry.name)),profileControls:document.querySelectorAll('.profile-contact,.discussion-composer,.search-map-affordance').length}))()`);
       assert.deepEqual(evidence, { fixtureBoundary: false, syntheticText: false, fixtureChunk: false, profileControls: 0 });
       audit.runtimeNegativeControls.push({ search, unavailableApi: true, ...evidence }); await browser.closePage(page);

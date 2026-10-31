@@ -16,7 +16,7 @@ before(async () => {
     root: fileURLToPath(new URL('../../', import.meta.url)),
     configFile: false,
     appType: 'custom',
-    server: { middlewareMode: true },
+    server: { middlewareMode: true, hmr: false, ws: false },
   });
   ({ ProfileScreen } = await vite.ssrLoadModule('/apps/miniapp/src/components/ProfileScreen.tsx') as {
     ProfileScreen: typeof ProfileScreen;

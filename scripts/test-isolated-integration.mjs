@@ -1,7 +1,9 @@
 // Platform-neutral replacement for the historical PowerShell-only harness.
 import {readFileSync} from 'node:fs';
 import {isolatedServices,isolatedEnvironment,runNpm} from './lib/isolated-services.mjs';
+import {requireIntegrationHistory} from './lib/integration-history.ts';
 
+requireIntegrationHistory();
 const services=await isolatedServices('integration');
 try{
  const env=isolatedEnvironment(services),dir='.run-evidence/stability-01';
