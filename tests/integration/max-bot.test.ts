@@ -193,18 +193,32 @@ test('equal source time with conflicting chats keeps the first committed destina
  assert.equal((await rows(actor)).length,1);
  assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_TIMESTAMP_COLLISION' AND payload_hash=$1",[digest(Buffer.from(started(actor,other,now)).toString('base64'))])).rowCount,1);
 });
-test('legacy destination holds ambiguous delayed evidence until a post-verification event',async()=>{
- const actor=id(),current=id(),delayed=id(),fresh=id(),now=Date.now();
+test('legacy destination holds ambiguous delayed evidence until a post-verification event',async(t)=>{
+ const actor=id(),current=id(),delayed=id(),fresh=id();
  const actorId=randomUUID();
  await pool.query('INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3)',[actorId,actor,'SYNTHETIC']);
- await pool.query('INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest) VALUES($1,$2,clock_timestamp(),$3)',[actorId,current,'SYNTHETIC_LEGACY']);
- assert.equal((await send(started(actor,delayed,now-1000))).statusCode,200);
- assert.equal((await destination(actor))?.chat_id,current);
- assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_LEGACY_ORDER_UNKNOWN' AND payload_hash=$1",[digest(Buffer.from(started(actor,delayed,now-1000)).toString('base64'))])).rowCount,1);
+ const hostBefore=new Date().toISOString();
+ // Use the exact persisted PG millisecond comparator used by ingress, including its rounding.
+ const verification=(await pool.query<{verified_at:Date;verified_ms:string}>(`INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest)
+  VALUES($1,$2,clock_timestamp(),$3) RETURNING verified_at,(extract(epoch FROM verified_at)*1000)::bigint::text AS verified_ms`,[actorId,current,'SYNTHETIC_LEGACY'])).rows[0]!;
+ const now=Number(verification.verified_ms),initial=await destination(actor);
+ t.diagnostic(JSON.stringify({hostBefore,postgres:verification.verified_at.toISOString(),verifiedMs:verification.verified_ms,hostAfter:new Date().toISOString()}));
+ assert.equal(initial?.source_timestamp_ms,null);
+ for(const timestamp of [now-1000,now]){
+  const raw=started(actor,delayed,timestamp);
+  assert.equal((await send(raw)).statusCode,200);
+  assert.equal((await destination(actor))?.chat_id,current);assert.deepEqual(await destination(actor),initial);
+  assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_LEGACY_ORDER_UNKNOWN' AND payload_hash=$1",[digest(Buffer.from(raw).toString('base64'))])).rowCount,1);
+  assert.equal((await rows(actor)).length,0);
+ }
  assert.equal((await send(started(actor,fresh,now+60000))).statusCode,200);
  assert.equal((await destination(actor))?.chat_id,fresh);
  assert.equal((await destination(actor))?.source_timestamp_ms,String(now+60000));
  assert.equal((await rows(actor)).length,1);
+ await delivered(actor);await reconcile(pool,queue);
+ assert.equal(calls.filter(call=>call.chatId===fresh).length,1);
+ assert.equal(calls.filter(call=>call.chatId===current||call.chatId===delayed).length,0);
+ assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[(await rows(actor))[0].id])).rowCount,1);
 });
 test('message_created routes start/help/app into durable bot replies',async()=>{
  for(const [text,purpose] of [['/start','WELCOME'],['/help','HELP'],['/app','APP'],['Привет','FALLBACK']]){
