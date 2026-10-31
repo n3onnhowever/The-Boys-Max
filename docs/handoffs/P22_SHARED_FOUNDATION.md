@@ -1,5 +1,11 @@
 # P22 shared foundation — blocked acceptance
 
+**Historical P22 receipt.** The P22B continuation starts at `9836f0fa8f7367bae13ca27e9cbc7bd7eff39767`; its implementation is `670d1d2dc51f8fa7126ddd2f9b90fcb93923913d`. The P22 failures below remain dated evidence, not results for the later candidate.
+
+P22B changes only fixtures and validation infrastructure: catalog timestamps share PostgreSQL authority with explicit negative/boundary controls; legacy events use the persisted verification comparator; the real-child crash scenario models periodic reconciliation and retains sanitized failure/cleanup evidence. Controlled reproductions establish the mixed-clock legacy ordering defect and the unscheduled definite no-wire deferral. The exact trigger of the old IT-10 timeout and exact historical legacy skew were not retained and are not reconstructed by later successes. Production behavior, dependencies, image pins, packaging and all migration bytes remain unchanged.
+
+Focused P22B checks passed on three fresh service sets per affected file: catalog 24/24, bot 16/16, final foundation 16/16. Earlier attempts, including one invalid new boundary fixture and the subsequent review corrections, remain outside Git. P22B evidence is under `D:\Dev\Codex\Evidence\povod-pretelegram-recovery\P22B`: `BLOCKER_LEDGER.md`, `commands.jsonl`, controlled probes, `candidate.json`, exact-candidate acceptance receipts and final disposition. Full acceptance must identify that final candidate (including this documentation update), run both complete integration suites without intervening edits, and use fresh hosted CI for its exact pushed head. This focused checkpoint alone does not authorize publication or writer resumption.
+
 Verdict: **BLOCKED_WITH_EXACT_EVIDENCE**. The dependency, toolchain, authorized harness and packaging changes are committed locally. The full integration gate is red. No push, Draft PR, hosted CI, merge, tag, deployment or package publication was performed.
 
 Base: `164d02552de90b32fdd3dcf9c2eaddb73d8ef5bb`.
