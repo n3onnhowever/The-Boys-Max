@@ -1,7 +1,7 @@
 name: the-boys-integration26-test
 services:
   init:
-    image: node:24.20.0-bookworm-slim
+    image: node:24.22.2-bookworm-slim@sha256:c86ecead9e55a5210ac1727de38a4ca840bf03dcaf34dc9749addbf383b1920c
     user: "0:0"
     volumes: ["./scripts:/scripts:ro", "runtime:/runtime"]
     command: ["sh","-c","node /scripts/init-test.mjs /runtime/test.json && chown -R 1000:1000 /runtime"]

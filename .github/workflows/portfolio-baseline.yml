@@ -24,11 +24,11 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 24.20.0
+          node-version: 24.22.2
           cache: npm
       - name: Pin npm and install from lockfile
         run: |
-          npm install --global npm@11.19.0 --ignore-scripts
+          npm install --global npm@11.19.1 --ignore-scripts
           npm ci
       - run: npm run typecheck
       - run: npm run typecheck:pure

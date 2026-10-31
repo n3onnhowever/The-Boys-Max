@@ -1,6 +1,6 @@
 # Isolated portfolio baseline checks
 
-`.github/workflows/portfolio-baseline.yml` runs on Ubuntu 24.04 for pull requests, main/codex branch pushes and manual dispatch. It uses Node 24.20.0, npm 11.19.0 and the committed npm lockfile. The platform-neutral Node integration harness creates its own fresh PostgreSQL/Redis containers and random loopback ports. No pre-existing local database, Windows path, production credential, MAX account or GigaChat key is required.
+`.github/workflows/portfolio-baseline.yml` runs on Ubuntu 24.04 for pull requests, main/codex branch pushes and manual dispatch. It uses Node 24.22.2, npm 11.19.1 and the committed npm lockfile. The platform-neutral Node integration harness creates its own fresh PostgreSQL/Redis containers and random loopback ports. No pre-existing local database, Windows path, production credential, MAX account or GigaChat key is required.
 
 Checks: clean npm ci, both typechecks, every unit/integration test, build, offline demo HTTP smoke, npm audit, current + HEAD-reachable-history repository secret/prohibited-file scan, whitespace check and release Docker image build. The workflow does not deploy, publish images, upload private runtime logs or reference production secrets. GitHub token permissions are read-only; checkout does not persist credentials.
 
