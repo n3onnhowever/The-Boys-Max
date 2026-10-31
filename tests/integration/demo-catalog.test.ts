@@ -12,6 +12,7 @@ import {envelopeFor} from '../../apps/miniapp/src/core/commands.ts';
 import type {CatalogView,EventView,Receipt,Route} from '../../apps/miniapp/src/port/contracts.ts';
 import type {Config} from '../../packages/platform/config.ts';
 import {sign} from '../fixtures.ts';
+import {rightsCheck} from '../../modules/search/core/eligibility.ts';
 
 const databaseUrl=process.env.DEMO_TEST_DATABASE_URL;
 assert.ok(databaseUrl&&new URL(databaseUrl).hostname==='127.0.0.1'&&new URL(databaseUrl).pathname==='/povod_demo_verify','fresh isolated demo database required');
@@ -100,26 +101,56 @@ test('live-mode negative control has no synthetic catalog or demo source page',a
  }finally{await live.app.close();}
 });
 
-test('present-day future occurrence requires current rights, independently of its future start',async()=>{
- const present=await buildApp(cfg),fresh=await launch(),now=Date.now();
+test('present-day future occurrence requires current rights, independently of its future start',async(t)=>{
+ const present=await buildApp(cfg),fresh=await launch();
+ // The unmodified evaluator uses PostgreSQL clock_timestamp(), not the host clock.
+ const hostBefore=new Date().toISOString();
+ const reference=(await pool.query<{now:Date}>('SELECT clock_timestamp() AS now')).rows[0]!.now;
+ t.diagnostic(JSON.stringify({hostBefore,postgres:reference.toISOString(),hostAfter:new Date().toISOString()}));
+ const now=reference.getTime(),at=(offset:number)=>new Date(now+offset).toISOString();
  const candidate=structuredClone(demoCandidate(DEMO_ITEMS[0]!,0));
- candidate.starts_at=new Date(now+86400000).toISOString();
- candidate.provenance.observed_at=new Date(now).toISOString();candidate.provenance.fetched_at=new Date(now).toISOString();
- candidate.rights.reviewed_at=new Date(now-2*86400000).toISOString();candidate.rights.review_due_at=new Date(now-86400000).toISOString();
+ candidate.starts_at=at(86400000);
+ candidate.provenance.observed_at=at(0);candidate.provenance.fetched_at=at(0);
+ const observations:string[]=[];
  const append=async()=>{
   candidate.provenance.observation_id=randomUUID();candidate.price.provenance.observation_id=candidate.provenance.observation_id;
-  await pool.query("INSERT INTO catalog_occurrences(observation_id,provider_id,event_id,occurrence_id,body,data_mode) VALUES($1,$2,$3,$4,$5,'SYNTHETIC')",[candidate.provenance.observation_id,candidate.ref.provider_id,candidate.ref.event_id,candidate.ref.occurrence_id,candidate]);
+  observations.unshift(candidate.provenance.observation_id);
+  // Explicit ordering belongs to this synthetic fixture; no wall-clock tie decides the control.
+  await pool.query("INSERT INTO catalog_occurrences(observation_id,provider_id,event_id,occurrence_id,body,data_mode,updated_at) VALUES($1,$2,$3,$4,$5,'SYNTHETIC',$6)",[candidate.provenance.observation_id,candidate.ref.provider_id,candidate.ref.event_id,candidate.ref.occurrence_id,candidate,at(observations.length)]);
+  const ordered=await pool.query<{observation_id:string}>(`SELECT observation_id FROM catalog_occurrences
+   WHERE provider_id=$1 AND event_id=$2 AND occurrence_id IS NOT DISTINCT FROM $3
+   ORDER BY updated_at DESC,observation_id DESC`,[candidate.ref.provider_id,candidate.ref.event_id,candidate.ref.occurrence_id]);
+  assert.deepEqual(ordered.rows.slice(0,observations.length).map(row=>row.observation_id),observations);
  };
  const current=async()=>{
   const response=await present.app.inject({url:'/api/ui/v1/view?route='+encodeURIComponent(JSON.stringify({kind:'CATALOG',scope:{kind:'PERSONAL'}})),headers:headers(fresh)});
   assert.equal(response.statusCode,200,response.body);return response.json<CatalogView>();
  };
  try{
-  await present.app.ready();await append();
-  assert.equal((await current()).events.some(x=>x.ref.externalEventId===candidate.ref.event_id),false);
+  await present.app.ready();
+  for(const control of [
+   {name:'expired',reviewed:at(-2*86400000),due:at(-86400000),clearance:'CLEARED' as const},
+   {name:'future review',reviewed:at(86400000),due:at(7*86400000),clearance:'CLEARED' as const},
+   {name:'unverified',reviewed:at(0),due:at(7*86400000),clearance:'UNKNOWN' as const},
+  ]){
+   candidate.rights.reviewed_at=control.reviewed;candidate.rights.review_due_at=control.due;candidate.rights.ad_clearance=control.clearance;
+   await append();assert.equal((await current()).events.some(x=>x.ref.externalEventId===candidate.ref.event_id),false,control.name);
+  }
   // Positive control: same synthetic start/source; only a newly reviewed rights observation changes admission.
-  candidate.rights.reviewed_at=new Date(now).toISOString();candidate.rights.review_due_at=new Date(now+7*86400000).toISOString();
+  candidate.rights.reviewed_at=at(0);candidate.rights.review_due_at=at(7*86400000);candidate.rights.ad_clearance='CLEARED';
   await append();
-  assert.ok((await current()).events.some(x=>x.ref.observationId===candidate.provenance.observation_id));
+  const admitted=(await current()).events.filter(x=>x.ref.externalEventId===candidate.ref.event_id);
+  assert.deepEqual(admitted.map(x=>x.ref.observationId),[candidate.provenance.observation_id]);
  }finally{await present.app.close();}
+});
+
+test('rights review and expiry boundaries use the explicit evaluator time',()=>{
+ const rights=structuredClone(demoCandidate(DEMO_ITEMS[0]!,0).rights),now='2026-10-01T00:00:00.000Z';
+ rights.reviewed_at=now;rights.review_due_at='2026-10-01T00:00:00.001Z';
+ for(const operation of ['display_facts','display_text'] as const){
+  assert.equal(rightsCheck(rights,operation,now).status,'PASS');
+  assert.equal(rightsCheck({...rights,reviewed_at:'2026-10-01T00:00:00.001Z',review_due_at:'2026-10-01T00:00:00.002Z'},operation,now).status,'UNKNOWN');
+  assert.equal(rightsCheck({...rights,reviewed_at:'2026-09-30T23:59:59.999Z',review_due_at:now},operation,now).status,'UNKNOWN');
+  assert.equal(rightsCheck({...rights,ad_clearance:'UNKNOWN'},operation,now).status,'UNKNOWN');
+ }
 });
