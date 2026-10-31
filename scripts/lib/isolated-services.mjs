@@ -33,7 +33,7 @@ export async function isolatedServices(label){
   const port=(name,containerPort)=>JSON.parse(docker('inspect','--format','{{json .NetworkSettings.Ports}}',name))[containerPort][0].HostPort;
   const databaseBase=new URL('postgres://127.0.0.1/');
   databaseBase.username='max23';databaseBase.password=password;databaseBase.port=port(pgName,'5432/tcp');
-  return {databaseUrl:name=>new URL(name,databaseBase).href,redisUrl:`redis://127.0.0.1:${port(redisName,'6379/tcp')}`,
+  return {ownership:{names:[pgName,redisName],label:suffix},databaseUrl:name=>new URL(name,databaseBase).href,redisUrl:`redis://127.0.0.1:${port(redisName,'6379/tcp')}`,
    createDatabase:name=>{if(!/^[a-z0-9_]+$/.test(name))throw Error('DATABASE_NAME_INVALID');docker('exec',pgName,'createdb','-U','max23',name);},stop};
  }catch(error){
   const startError=Error(error.message.startsWith('BLOCKED_')?error.message:'ISOLATED_SERVICE_START_FAILED (Docker diagnostics may contain private configuration; inspect locally)');

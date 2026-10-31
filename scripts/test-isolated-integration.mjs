@@ -1,5 +1,8 @@
 // Platform-neutral replacement for the historical PowerShell-only harness.
-import {readFileSync} from 'node:fs';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
+import {resolve,join} from 'node:path';
 import {isolatedServices,isolatedEnvironment,runNpm} from './lib/isolated-services.mjs';
 import {requireIntegrationHistory} from './lib/integration-history.ts';
 
@@ -7,6 +10,15 @@ requireIntegrationHistory();
 const services=await isolatedServices('integration');
 try{
  const env=isolatedEnvironment(services),dir='.run-evidence/stability-01';
+ const diagnosticDir=resolve(process.env.INTEGRATION_DIAGNOSTIC_DIR??join(dir,'diagnostics',randomUUID()));
+ mkdirSync(diagnosticDir,{recursive:true});
+ const owned=JSON.parse(execFileSync('docker',['inspect',...services.ownership.names],{encoding:'utf8'})).map(info=>{
+  if(info.Config.Labels['povod.isolated']!==services.ownership.label)throw Error('ISOLATED_RESOURCE_OWNERSHIP_MISMATCH');
+  return {id:info.Id,name:info.Name,created:info.Created,image:info.Image,label:services.ownership.label,volumes:info.Mounts.filter(m=>m.Type==='volume').map(m=>m.Name)};
+ });
+ env.INTEGRATION_RUN_ID=randomUUID();env.INTEGRATION_DIAGNOSTIC_DIR=diagnosticDir;
+ env.INTEGRATION_OWNED_RESOURCES_FILE=join(diagnosticDir,'owned-resources.json');
+ writeFileSync(env.INTEGRATION_OWNED_RESOURCES_FILE,JSON.stringify({runId:env.INTEGRATION_RUN_ID,owned},null,2),{flag:'wx'});
  const databases={T105_TEST_DATABASE_URL:'povod_t105_test',REAL_CATALOG_TEST_DATABASE_URL:'povod_real_catalog_verify',P0_SAVE_TEST_DATABASE_URL:'povod_save_fresh',DEMO_TEST_DATABASE_URL:'povod_demo_verify',SHOWCASE_TEST_DATABASE_URL:'povod_full_catalog_verify'};
  for(const [key,name] of Object.entries(databases)){services.createDatabase(name);env[key]=services.databaseUrl(name);}
  for(const name of ['max23_test',...Object.values(databases)])runNpm(['run','migrate'],{...env,DATABASE_URL:services.databaseUrl(name)},`${dir}/migrate-${name}.log`);

@@ -6,8 +6,7 @@ import test,{before,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID,randomBytes} from 'node:crypto';
 import {setTimeout as sleep} from 'node:timers/promises';
-import {fork} from 'node:child_process';
-import {once} from 'node:events';
+import {CrashWorker,finishCrashScenario} from '../helpers/crash-worker.ts';
 import {Queue,Worker} from 'bullmq';
 import {Redis} from 'ioredis';
 import {buildApp} from '../../apps/api/app.ts';
@@ -142,15 +141,53 @@ test('IT-09: scoped Redis key loss fences sends; restore requires an explicit ne
 
 test('IT-10: SIGKILL after test submission becomes UNKNOWN, never blind resend',{timeout:60000},async()=>{
  const id=await notice();
- const child=fork(new URL('../helpers/kill-worker.ts',import.meta.url),[],{execArgv:['--experimental-strip-types'],env:{...process.env,IT_QUEUE:queueName,IT_SCOPE:scope,IT_EPOCH:epoch,IT_OUTBOX:id},stdio:['ignore','ignore','inherit','ipc']});
+ const child=new CrashWorker({pool,redis,queue,scope,epoch,outboxId:id});
+ let failure:unknown;
  try{
-  await once(child,'message',{signal:AbortSignal.timeout(15000)});
-  const entered=new Promise<void>((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('wire entry timeout')),15000);child.on('message',m=>{if(m==='WIRE_ENTERED'){clearTimeout(timer);resolve();}});});
-  await reconcile(pool,queue);await entered;
-  child.kill('SIGKILL');await once(child,'exit');await sleep(31000);
-  await reconcile(pool,queue);assert.equal((await pool.query('SELECT state FROM outbox WHERE id=$1',[id])).rows[0]!.state,'UNKNOWN');
-  await reconcile(pool,queue);assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,1);
- }finally{if(child.exitCode===null)child.kill('SIGKILL');}
+  await child.ready();await child.wire();await child.kill();await child.recover();
+ }catch(error){failure=error;}
+ finally{await finishCrashScenario(failure,child);}
+});
+
+test('IT-10B: definite no-wire deferral is reconciled before real crash and UNKNOWN',{timeout:90000},async()=>{
+ const id=await notice(),privateScope=`isolated-it-${randomUUID()}`,privateEpoch=randomUUID();
+ const privateGov=new Governor(redis,privateScope,privateEpoch);
+ let privateQueue:Queue|undefined,child:CrashWorker|undefined,failure:unknown;
+ const row=async()=>(await pool.query('SELECT state,result_reason,attempt_count,queue_generation,not_before<=clock_timestamp() AS due FROM outbox WHERE id=$1',[id])).rows[0]!;
+ try{
+  privateQueue=new Queue(`max23-it-${randomUUID()}`,{connection:redis});
+  assert.equal(await redis.exists(privateGov.key),0,'fresh private governor scope');
+  child=new CrashWorker({pool,redis,queue:privateQueue,scope:privateScope,epoch:privateEpoch,outboxId:id});
+  await child.ready();await reconcile(pool,privateQueue);
+  await until(async()=>(await row()).state==='RETRY_WAIT');
+  assert.deepEqual((await pool.query('SELECT wire_started_at,outcome,reason FROM delivery_attempts WHERE outbox_id=$1',[id])).rows,
+   [{wire_started_at:null,outcome:'RETRY_WAIT',reason:'GOVERNOR_BEFORE_WIRE'}]);
+  assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,0);
+  assert.equal(child.entered,false);await child.capture('definite no-wire');
+  await until(async()=>(await row()).due&&await (await privateQueue!.getJob(`${id}-1`))?.getState()==='completed');
+  const tm=await redis.time(),now=Number(tm[0])*1000+Math.floor(Number(tm[1])/1000);
+  await redis.set(privateGov.key,JSON.stringify({epoch:privateEpoch,lastTime:now,holdUntil:0,globalNext:0,cooldown:0,turn:0,seq:0,dests:{},waiters:{}}));
+  assert.deepEqual(await row(),{state:'RETRY_WAIT',result_reason:'GOVERNOR_BEFORE_WIRE',attempt_count:1,queue_generation:1,due:true});
+  assert.equal(child.entered,false);await child.capture('due but not yet reconciled');
+  await child.wire();assert.equal((await row()).queue_generation,2);assert.equal((await row()).attempt_count,2);
+  await child.capture('wire before real kill');await child.kill();await child.recover();await child.capture('durable UNKNOWN without resend');
+ }catch(error){failure=error;}
+ finally{await finishCrashScenario(failure,child,[async()=>{await privateQueue?.close();},async()=>redis.del(privateGov.key)]);}
+});
+
+test('IT-10C: diagnostic and child cleanup failures retain the original error and attempt all cleanup',async()=>{
+ const original=Error('synthetic scenario failure'),capture=Error('synthetic evidence failure'),child=Error('synthetic child cleanup failure'),queue=Error('synthetic queue cleanup failure');
+ const calls:string[]=[];
+ await assert.rejects(finishCrashScenario(original,{
+  capture:async()=>{calls.push('capture');throw capture;},close:async()=>{calls.push('child');throw child;},
+ },[async()=>{calls.push('queue');throw queue;},async()=>{calls.push('governor');}]),
+ error=>error instanceof AggregateError&&assert.deepEqual(error.errors,[original,capture,child,queue])===undefined);
+ assert.deepEqual(calls,['capture','child','queue','governor']);
+ await assert.rejects(finishCrashScenario(original,undefined,[async()=>{calls.push('partial setup cleanup');}]),
+ error=>error instanceof AggregateError&&assert.deepEqual(error.errors,[original])===undefined);
+ assert.equal(calls.at(-1),'partial setup cleanup');
+ await finishCrashScenario(undefined,{capture:async()=>{assert.fail('no failure to capture');},close:async()=>{calls.push('success cleanup');}});
+ assert.equal(calls.at(-1),'success cleanup');
 });
 
 
