@@ -5,10 +5,13 @@
 import test,{before,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID,randomBytes} from 'node:crypto';
+import {readFileSync} from 'node:fs';
 import {setTimeout as sleep} from 'node:timers/promises';
 import {CrashWorker,finishCrashScenario} from '../helpers/crash-worker.ts';
+import {It08Diagnostics,type NoticeIdentity,type OutboxObservation} from '../helpers/it08-diagnostics.ts';
 import {Queue,Worker} from 'bullmq';
 import {Redis} from 'ioredis';
+import type {PoolClient} from 'pg';
 import {buildApp} from '../../apps/api/app.ts';
 import {config} from '../../packages/platform/config.ts';
 import {Governor} from '../../packages/platform/governor.ts';
@@ -39,7 +42,15 @@ async function cmd(actor:string,id:string,command:Input,key=randomUUID()){
 async function create(actor=O,participant:string|null=O){return plans.create(actor,randomUUID(),{title:'SYNTHETIC INTEGRATION',slots:[slot(participant)],rule:{kind:'ALL'},decisionDeadline:dec,commitmentDeadline:com});}
 const code=(name:string)=>(e:unknown)=>e instanceof AppError&&e.code===name;
 async function until(check:()=>Promise<boolean>,ms=15000){const end=Date.now()+ms;while(Date.now()<end){if(await check())return;await sleep(50);}assert.fail('condition timed out');}
-async function notice(){const p=await create();const optionId=randomUUID();await cmd(O,p.planId,{kind:'ADD_OPTION',optionId,snapshotId:randomUUID(),terms} as Command);await cmd(O,p.planId,{kind:'START'});await cmd(O,p.planId,{kind:'RESPOND',optionId,termsRevision:1,value:'CAN'} as Command);await cmd(O,p.planId,{kind:'SELECT',optionId,allowProvisional:false,reason:''} as Command);return (await pool.query<{id:string}>('SELECT id FROM outbox WHERE plan_id=$1',[p.planId])).rows[0]!.id;}
+async function notice(observe?:(rows:NoticeIdentity[])=>void){
+ const p=await create(),optionId=randomUUID();
+ await cmd(O,p.planId,{kind:'ADD_OPTION',optionId,snapshotId:randomUUID(),terms} as Command);
+ await cmd(O,p.planId,{kind:'START'});await cmd(O,p.planId,{kind:'RESPOND',optionId,termsRevision:1,value:'CAN'} as Command);
+ await cmd(O,p.planId,{kind:'SELECT',optionId,allowProvisional:false,reason:''} as Command);
+ const {rows}=await pool.query<NoticeIdentity>('SELECT id,purpose,kind FROM outbox WHERE plan_id=$1',[p.planId]);
+ observe?.(rows);
+ return rows[0]!.id;
+}
 before(async()=>{
  await app.ready();await pool.query('SELECT 1');await redis.ping();
  for(const id of users){const external=BigInt('0x'+randomBytes(7).toString('hex')).toString();await pool.query('INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3)',[id,external,'SYNTHETIC']);await pool.query('INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest) VALUES($1,$2,clock_timestamp(),$3)',[id,external,'TEST_ONLY']);}
@@ -124,13 +135,81 @@ test('IT-07: Redis down preserves committed PostgreSQL action; later reconciliat
  assert.ok(await queue.getJob(`${id}-${Number(row.queue_generation)+1}`)); // Actual scoped job loss in Redis, recovered from PG.
 });
 
+async function runIt08(deliveryQueue:Queue,governor:Governor,redisScope:string,synthetic=false){
+ let notices:NoticeIdentity[]=[];
+ const id=await notice(rows=>{notices=rows;});
+ const diagnostics=new It08Diagnostics({pool,databaseUrl:c.databaseUrl,redisUrl:c.redisUrl,queue:deliveryQueue,
+  governor,scope:redisScope,notices,outboxId:id,synthetic});
+ const testTransport=new TestTransport(pool,'test');
+ let release=()=>{};
+ const barrier=new Promise<void>(resolve=>{release=resolve;});
+ let held=false;
+ const transport=diagnostics.transport({send:async (...args)=>{
+  if(synthetic&&args[1]===id){held=true;await barrier;}
+  return testTransport.send(...args);
+ }});
+ const restoreGovernor=diagnostics.watchGovernor();
+ let worker:Worker|undefined;
+ const primaryClients:PoolClient[]=[];
+ let queuedPrimaryClient:Promise<PoolClient|undefined>|undefined;
+ let failed=false;
+ let originalFailure:unknown;
+ try{
+  worker=new Worker(deliveryQueue.name,job=>diagnostics.process(job,()=>deliver(pool,job.data.outboxId,transport,governor,'test')),
+   {connection:workerRedis,concurrency:2});
+  diagnostics.watchWorker(worker);
+  await worker.waitUntilReady();diagnostics.workerReady();await diagnostics.reconcile();
+  if(synthetic){
+   await until(async()=>held);
+   for(let i=0;i<pool.options.max!;i++)primaryClients.push(await pool.connect());
+   queuedPrimaryClient=pool.connect().catch(()=>undefined);
+  }
+  await until(async()=>{
+   await diagnostics.reconcile();
+   const row=(await pool.query<OutboxObservation>(`SELECT state,queue_generation,result_reason,
+    not_before<=clock_timestamp() AS due FROM outbox WHERE id=$1`,[id])).rows[0]!;
+   diagnostics.observe(row);
+   return row.state==='SUCCEEDED';
+  },synthetic?0:20000);
+  assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,1);
+  const result=(await pool.query('SELECT provider_mid,result_reason FROM outbox WHERE id=$1',[id])).rows[0]!;
+  assert.match(result.provider_mid,/^TEST_ONLY_/);assert.equal(result.result_reason,'TEST_ACCEPTED');
+ }catch(error){
+  failed=true;originalFailure=error;
+  if(worker)try{
+   const {path,record}=await diagnostics.capture(worker,error);
+   if(synthetic){
+    // The real processor is still held at the transport barrier and the worker has not been closed.
+    assert.equal(worker.isRunning(),true);
+    assert.deepEqual(JSON.parse(readFileSync(path,'utf8')),JSON.parse(JSON.stringify(record)));
+    assert.match(record.source.value?.sha??'',/^[0-9a-f]{40}$/);
+    assert.match(record.source.value?.tree??'',/^[0-9a-f]{40}$/);
+    assert.match(record.source.value?.lockSha256??'',/^[0-9a-f]{64}$/);
+    assert.equal(record.postgres.value?.outbox?.value?.[0]?.state,'RUNNING');
+    assert.equal(record.pool.idle,0);
+    assert.equal(record.pool.waiting,1);
+    assert.equal(record.redis.value?.jobs?.find(job=>job.generation===1)?.state.value,'active');
+    assert.equal(record.attemptCounts?.possiblyInvoked,1);
+    assert.equal(record.transport.receiptCount,0);
+    assert.deepEqual(record.transport.trace.filter(entry=>'outboxId' in entry.data&&entry.data.outboxId===id).map(entry=>entry.event),['TRANSPORT_BEGIN']);
+   }
+  }catch(captureError){throw new AggregateError([error,captureError],'IT08_FAILURE_CAPTURE_FAILED');}
+  throw error;
+ }finally{
+  for(const client of primaryClients)client.release();
+  (await queuedPrimaryClient)?.release();
+  release();
+  try{
+   await worker?.close();
+   if(synthetic&&held)assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,1);
+  }
+  catch(cleanupError){if(failed)throw new AggregateError([originalFailure,cleanupError],'IT08_WORKER_CLEANUP_FAILED');throw cleanupError;}
+  finally{restoreGovernor();}
+ }
+}
+
 test('IT-08: real BullMQ workers use PostgreSQL outbox + explicit test transport, not MAX',async()=>{
- const id=await notice();const transport=new TestTransport(pool,'test');
- const worker=new Worker(queueName,job=>deliver(pool,job.data.outboxId,transport,gov,'test'),{connection:workerRedis,concurrency:2});worker.on('error',()=>{});
- try{await worker.waitUntilReady();await reconcile(pool,queue);await until(async()=>{await reconcile(pool,queue);return (await pool.query('SELECT state FROM outbox WHERE id=$1',[id])).rows[0]!.state==='SUCCEEDED';},20000);
- assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,1);
- const result=(await pool.query('SELECT provider_mid,result_reason FROM outbox WHERE id=$1',[id])).rows[0]!;assert.match(result.provider_mid,/^TEST_ONLY_/);assert.equal(result.result_reason,'TEST_ACCEPTED');
- }finally{await worker.close();}
+ await runIt08(queue,gov,scope);
 });
 
 test('IT-09: scoped Redis key loss fences sends; restore requires an explicit new epoch',async()=>{
@@ -241,4 +320,15 @@ test('IT-14: concurrent and sequential SELECT receipt replay creates and deliver
   assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[id])).rowCount,1);
   assert.equal((await pool.query('SELECT attempt_count FROM outbox WHERE id=$1',[id])).rows[0]!.attempt_count,1);
  }finally{await w.close();await q.close();}
+});
+
+test('IT-08D: synthetic timeout captures a live processor before teardown',async()=>{
+ const diagnosticScope=`isolated-it-${randomUUID()}`,diagnosticGovernor=new Governor(redis,diagnosticScope,randomUUID());
+ const diagnosticQueue=new Queue(`max23-it-${randomUUID()}`,{connection:redis});
+ try{
+  const [seconds,microseconds]=await redis.time(),now=Number(seconds)*1000+Math.floor(Number(microseconds)/1000);
+  await redis.set(diagnosticGovernor.key,JSON.stringify({epoch:diagnosticGovernor.epoch,lastTime:now,holdUntil:0,
+   globalNext:0,cooldown:0,turn:0,seq:0,dests:{},waiters:{}}));
+  await assert.rejects(runIt08(diagnosticQueue,diagnosticGovernor,diagnosticScope,true),{message:'condition timed out'});
+ }finally{try{await diagnosticQueue.close();}finally{await redis.del(diagnosticGovernor.key);}}
 });
