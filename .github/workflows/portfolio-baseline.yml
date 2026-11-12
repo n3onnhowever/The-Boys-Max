@@ -30,6 +30,7 @@ jobs:
         run: |
           npm install --global npm@11.19.1 --ignore-scripts
           npm ci
+      - run: npm run verify:dependencies
       - run: npm run typecheck
       - run: npm run typecheck:pure
       - run: npm run test:unit
