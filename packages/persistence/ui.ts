@@ -96,17 +96,26 @@ export function uiService(pool:Pool,plans:Plans,cfg:Config,catalogClock?:Catalog
  async function read(subject:Subject,route:Route):Promise<View>{
   if(route.kind==='PLAN')return planView(subject.actor_id,await readPlan(subject.actor_id,route.planId));
   if(route.kind==='INVITE'){
-   const r=await pool.query<{plan_id:string;state:string|null;valid:boolean;active:boolean;organizer_name:string;plan_title:string;event_title:string|null;starts_at:string|null;venue:string|null}>(`SELECT i.plan_id,j.state,NOT i.revoked AND i.expires_at>clock_timestamp() AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') AS valid,
-    p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE') AS active,
-    a.display_name organizer_name,COALESCE(pp.title,p.state->>'title') plan_title,
-    p.state->'options'->0->'snapshots'->0->'terms'->>'title' event_title,
-    p.state->'options'->0->'snapshots'->0->'terms'->>'startsAt' starts_at,
-    p.state->'options'->0->'snapshots'->0->'terms'->>'place' venue
-    FROM invites i JOIN plans p ON p.id=i.plan_id JOIN actors a ON a.id=p.organizer_id LEFT JOIN plan_presentation pp ON pp.plan_id=p.id
-    LEFT JOIN join_requests j ON j.plan_id=i.plan_id AND j.actor_id=$2 WHERE i.token_hash=$1`,[digest(route.inviteRef),subject.actor_id]);
+   // ACL, invitation validity and private projection share one statement snapshot.
+   // A read overlapping uncommitted revocation may see the preceding authority;
+   // a new read after commit cannot. Materialize validity once, including its clock.
+   const r=await pool.query<{plan_id:string|null;state:string|null;valid:boolean;active:boolean;context:Extract<View,{kind:'INVITE'}>['context']}>(`WITH access AS MATERIALIZED (
+    SELECT i.plan_id,j.state,NOT i.revoked AND i.expires_at>clock_timestamp() AND p.state->>'phase' NOT IN ('CANCELLED','CLOSED') AS valid,
+     p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state='ACTIVE') AS active
+    FROM invites i JOIN plans p ON p.id=i.plan_id
+    LEFT JOIN join_requests j ON j.plan_id=i.plan_id AND j.actor_id=$2 WHERE i.token_hash=$1
+   ) SELECT CASE WHEN access.active THEN access.plan_id END AS plan_id,access.state,access.valid,access.active,
+    CASE WHEN p.id IS NOT NULL THEN jsonb_build_object(
+     'organizerName',a.display_name,'planTitle',COALESCE(pp.title,p.state->>'title'),
+     'eventTitle',p.state->'options'->0->'snapshots'->0->'terms'->>'title',
+     'startsAt',p.state->'options'->0->'snapshots'->0->'terms'->>'startsAt',
+     'venue',p.state->'options'->0->'snapshots'->0->'terms'->>'place') END AS context
+    FROM access LEFT JOIN plans p ON p.id=access.plan_id AND
+     (access.active OR (access.valid AND (access.state IS NULL OR access.state='PENDING')))
+    LEFT JOIN actors a ON a.id=p.organizer_id LEFT JOIN plan_presentation pp ON pp.plan_id=p.id`,[digest(route.inviteRef),subject.actor_id]);
    const row=r.rows[0],state=row?.active?'ACTIVE':!row?.valid?'EXPIRED':row.state==='PENDING'?'PENDING':row.state==='REJECTED'||row.state==='REMOVED'?'REJECTED':'REQUESTABLE';
    return {contract:CONTRACT,actorId:subject.actor_id,kind:'INVITE',route,actions:state==='REQUESTABLE'?['REQUEST_JOIN']:[],revision:null,notice:null,state,inviteRef:route.inviteRef,activePlanId:state==='ACTIVE'?row!.plan_id:null,
-    context:row?{organizerName:row.organizer_name,planTitle:row.plan_title,eventTitle:row.event_title,startsAt:row.starts_at,venue:row.venue}:null};
+    context:row?.context??null};
   }
   const b=await catalog.browse(subject,route.scope,route.kind==='EVENT'?{sourceId:route.sourceId,eventId:route.externalEventId,occurrenceId:route.occurrenceId}:undefined),base={contract:CONTRACT,actorId:subject.actor_id,route,revision:revision(b.plan,b.ctx.revision),notice:offlinePortfolio||cfg.mode==='demo'?DEMO_NOTICE:cfg.mode==='hybrid'?'Сначала — проверенные реальные записи. При нехватке подходящих событий показаны помеченные демо-примеры.':cfg.mode==='test'?'Тестовый режим: подготовленные примеры, не работающая интеграция афиши.':'Показываются только допущенные источники; список может быть пустым.'};
   if(route.kind==='EVENT'){
