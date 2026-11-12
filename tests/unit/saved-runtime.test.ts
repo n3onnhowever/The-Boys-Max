@@ -14,7 +14,7 @@ const occurrence=(id:string,startsAt:string,kind:OccurrenceView['price']['kind']
  lifecycle:'UNKNOWN',confirmation:'UNCONFIRMED',warnings:['END_UNKNOWN','PLACE_UNKNOWN','SOURCE_UNAVAILABLE'],
 });
 test('runtime Detail exposes Save and reports rejected mutation without false success',async()=>{
- const server=await createServer({server:{middlewareMode:true},appType:'custom'});
+ const server=await createServer({server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});
  try{
   const module=await server.ssrLoadModule('/apps/miniapp/src/components/DetailScreen.tsx') as {DetailScreen:ComponentType<Record<string,unknown>>};
   const model=savedOccurrenceToDetail(occurrence('one','2027-04-10T18:00:00+03:00'),[]);

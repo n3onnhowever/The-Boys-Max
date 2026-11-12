@@ -38,7 +38,22 @@ async function destination(actor:string){return (await pool.query<{chat_id:strin
 function started(actor:string,chat:string,timestamp:number){return `{"update_type":"bot_started","timestamp":${timestamp},"chat_id":${chat},"user":{"user_id":${actor},"first_name":"SYNTHETIC","is_bot":false}}`;}
 function stopped(kind:'bot_stopped'|'dialog_removed',actor:string,chat:string,timestamp:number){return `{"update_type":"${kind}","timestamp":${timestamp},"chat_id":${chat},"user":{"user_id":${actor},"first_name":"SYNTHETIC","is_bot":false}}`;}
 async function active(actor:string){return (await pool.query<{active:boolean}>("SELECT d.active FROM destinations d JOIN actors a ON a.id=d.actor_id WHERE a.external_id=$1",[actor])).rows[0]?.active;}
-async function delivered(actor:string){await reconcile(pool,queue);await until(async()=>(await rows(actor)).every(r=>r.state==='SUCCEEDED'));}
+async function delivered(actor:string){
+ // Model the worker's one-second reconciliation loop, including durable no-wire deferrals.
+ // Queue completion alone does not reschedule RETRY_WAIT; keep the original 15-second bound.
+ let nextReconcile=0;
+ try{await until(async()=>{
+  if(Date.now()>=nextReconcile){await reconcile(pool,queue);nextReconcile=Date.now()+1000;}
+  const out=await rows(actor);assert.ok(out.length>0,'delivery must not pass for an empty outbox');
+  return out.every(r=>r.state==='SUCCEEDED');
+ });}catch(error){
+  const out=(await rows(actor)).map(({id,state,attempt_count,not_before,queue_generation,result_reason})=>({id,state,attempt_count,not_before,queue_generation,result_reason}));
+  const ids=out.map(r=>r.id);
+  const attempts=(await pool.query('SELECT outbox_id,outcome,wire_started_at,reason FROM delivery_attempts WHERE outbox_id=ANY($1::uuid[]) ORDER BY started_at',[ids])).rows;
+  const receipts=(await pool.query('SELECT outbox_id,attempt_id FROM test_transport_receipts WHERE outbox_id=ANY($1::uuid[])',[ids])).rows;
+  console.error('SYNTHETIC bot delivery diagnostic',JSON.stringify({outbox:out,attempts,receipts}));throw error;
+ }
+}
 
 before(async()=>{
  const t=await redis.time(),now=Number(t[0])*1000+Math.floor(Number(t[1])/1000);
@@ -49,6 +64,30 @@ before(async()=>{
 after(async()=>{
  await worker?.close();await queue.close();await redis.del(gov.key);
  await Promise.all([redis.quit(),workerRedis.quit()]);await app.close();
+});
+
+test('no-wire deferral needs due reconciliation and finishes with one synthetic receipt',async t=>{
+ // First test in this file; only this file's private governor key is removed.
+ await redis.del(gov.key);
+ const x=start();assert.equal((await send(x.raw)).statusCode,200);
+ await reconcile(pool,queue);
+ await until(async()=>(await rows(x.actor))[0]?.state==='RETRY_WAIT');
+ const deferred=(await rows(x.actor))[0];
+ const attempts=async()=>(await pool.query('SELECT wire_started_at,outcome,reason FROM delivery_attempts WHERE outbox_id=$1 ORDER BY started_at',[deferred.id])).rows;
+ const receipts=async()=>(await pool.query('SELECT attempt_id FROM test_transport_receipts WHERE outbox_id=$1',[deferred.id])).rows;
+ assert.equal(deferred.result_reason,'GOVERNOR_BEFORE_WIRE');assert.equal(deferred.attempt_count,1);
+ assert.deepEqual(await attempts(),[{wire_started_at:null,outcome:'RETRY_WAIT',reason:'GOVERNOR_BEFORE_WIRE'}]);
+ assert.equal((await receipts()).length,0);assert.equal(calls.filter(r=>r.chatId===x.actor).length,0);
+ t.diagnostic(JSON.stringify({phase:'no-wire',state:deferred.state,notBefore:deferred.not_before,generation:deferred.queue_generation}));
+ await until(async()=>(await pool.query('SELECT not_before<=clock_timestamp() AS due FROM outbox WHERE id=$1',[deferred.id])).rows[0].due);
+ assert.equal((await rows(x.actor))[0].state,'RETRY_WAIT','elapsed time alone must not fabricate delivery');
+ const tm=await redis.time(),now=Number(tm[0])*1000+Math.floor(Number(tm[1])/1000);
+ await redis.set(gov.key,JSON.stringify({epoch,lastTime:now,holdUntil:0,globalNext:0,cooldown:0,turn:0,seq:0,dests:{},waiters:{}}));
+ await delivered(x.actor);
+ const final=(await rows(x.actor))[0];
+ assert.equal(final.queue_generation,deferred.queue_generation+1);assert.equal(final.attempt_count,2);
+ assert.equal((await attempts()).length,2);assert.equal((await receipts()).length,1);assert.equal(calls.filter(r=>r.chatId===x.actor).length,1);
+ t.diagnostic(JSON.stringify({phase:'reconciled-final',state:final.state,generation:final.queue_generation,receiptCount:1}));
 });
 
 test('real durable ACK for bot_started; BullMQ delivers current Russian copy and native button',async()=>{
@@ -154,18 +193,32 @@ test('equal source time with conflicting chats keeps the first committed destina
  assert.equal((await rows(actor)).length,1);
  assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_TIMESTAMP_COLLISION' AND payload_hash=$1",[digest(Buffer.from(started(actor,other,now)).toString('base64'))])).rowCount,1);
 });
-test('legacy destination holds ambiguous delayed evidence until a post-verification event',async()=>{
- const actor=id(),current=id(),delayed=id(),fresh=id(),now=Date.now();
+test('legacy destination holds ambiguous delayed evidence until a post-verification event',async(t)=>{
+ const actor=id(),current=id(),delayed=id(),fresh=id();
  const actorId=randomUUID();
  await pool.query('INSERT INTO actors(id,external_id,display_name) VALUES($1,$2,$3)',[actorId,actor,'SYNTHETIC']);
- await pool.query('INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest) VALUES($1,$2,clock_timestamp(),$3)',[actorId,current,'SYNTHETIC_LEGACY']);
- assert.equal((await send(started(actor,delayed,now-1000))).statusCode,200);
- assert.equal((await destination(actor))?.chat_id,current);
- assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_LEGACY_ORDER_UNKNOWN' AND payload_hash=$1",[digest(Buffer.from(started(actor,delayed,now-1000)).toString('base64'))])).rowCount,1);
+ const hostBefore=new Date().toISOString();
+ // Use the exact persisted PG millisecond comparator used by ingress, including its rounding.
+ const verification=(await pool.query<{verified_at:Date;verified_ms:string}>(`INSERT INTO destinations(actor_id,chat_id,verified_at,source_digest)
+  VALUES($1,$2,clock_timestamp(),$3) RETURNING verified_at,(extract(epoch FROM verified_at)*1000)::bigint::text AS verified_ms`,[actorId,current,'SYNTHETIC_LEGACY'])).rows[0]!;
+ const now=Number(verification.verified_ms),initial=await destination(actor);
+ t.diagnostic(JSON.stringify({hostBefore,postgres:verification.verified_at.toISOString(),verifiedMs:verification.verified_ms,hostAfter:new Date().toISOString()}));
+ assert.equal(initial?.source_timestamp_ms,null);
+ for(const timestamp of [now-1000,now]){
+  const raw=started(actor,delayed,timestamp);
+  assert.equal((await send(raw)).statusCode,200);
+  assert.equal((await destination(actor))?.chat_id,current);assert.deepEqual(await destination(actor),initial);
+  assert.equal((await pool.query("SELECT 1 FROM quarantine WHERE reason='DESTINATION_LEGACY_ORDER_UNKNOWN' AND payload_hash=$1",[digest(Buffer.from(raw).toString('base64'))])).rowCount,1);
+  assert.equal((await rows(actor)).length,0);
+ }
  assert.equal((await send(started(actor,fresh,now+60000))).statusCode,200);
  assert.equal((await destination(actor))?.chat_id,fresh);
  assert.equal((await destination(actor))?.source_timestamp_ms,String(now+60000));
  assert.equal((await rows(actor)).length,1);
+ await delivered(actor);await reconcile(pool,queue);
+ assert.equal(calls.filter(call=>call.chatId===fresh).length,1);
+ assert.equal(calls.filter(call=>call.chatId===current||call.chatId===delayed).length,0);
+ assert.equal((await pool.query('SELECT 1 FROM test_transport_receipts WHERE outbox_id=$1',[(await rows(actor))[0].id])).rowCount,1);
 });
 test('message_created routes start/help/app into durable bot replies',async()=>{
  for(const [text,purpose] of [['/start','WELCOME'],['/help','HELP'],['/app','APP'],['Привет','FALLBACK']]){

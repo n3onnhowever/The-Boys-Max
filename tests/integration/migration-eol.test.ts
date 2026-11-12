@@ -17,8 +17,10 @@ import {canonicalCatalog} from '../../packages/persistence/canonical-catalog.ts'
 import {portfolioFixtures} from '../../packages/demo/portfolio.ts';
 import {socialService} from '../../packages/persistence/social.ts';
 import {hash} from '../../packages/domain/event.ts';
+import {migrationHistoryBase,requireIntegrationHistory} from '../../scripts/lib/integration-history.ts';
 
-const base='ae05e8f88d937c6c96972b3619dff383de706a4a',cfg=config();
+requireIntegrationHistory();
+const base=migrationHistoryBase,cfg=config();
 assert.equal(process.env.RUN_MAX23_INTEGRATION,'1');assert.equal(cfg.mode,'test');
 assert.equal(new URL(cfg.databaseUrl).pathname,'/max23_test');
 const admin=new Pool({connectionString:cfg.databaseUrl});after(async()=>{await admin.end()});

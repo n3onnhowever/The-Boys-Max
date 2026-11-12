@@ -1,18 +1,21 @@
 # Pinned base resolved in accepted Cleanroom; fresh build identity is recorded per release.
-ARG NODE_IMAGE=node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+ARG NODE_IMAGE=node:24.22.2-bookworm-slim@sha256:c86ecead9e55a5210ac1727de38a4ca840bf03dcaf34dc9749addbf383b1920c
 FROM ${NODE_IMAGE} AS build
 WORKDIR /app
 COPY package.json package-lock.json .npmrc ./
-RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --ignore-scripts
+RUN npm install --global npm@11.19.1 --ignore-scripts && npm ci --ignore-scripts
 COPY . .
 RUN npm run build
 
 FROM ${NODE_IMAGE} AS production-dependencies
 WORKDIR /app
 COPY package.json package-lock.json .npmrc ./
-RUN npm install --global npm@11.19.0 --ignore-scripts && npm ci --omit=dev --ignore-scripts
+RUN npm install --global npm@11.19.1 --ignore-scripts && npm ci --omit=dev --ignore-scripts
 
 FROM ${NODE_IMAGE} AS release
+# Release startup uses Node directly; retain the shell required by amvera.yaml.
+RUN rm -rf /usr/local/lib/node_modules/npm /opt/yarn-v1.22.22 \
+    /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/yarn /usr/local/bin/yarnpkg
 WORKDIR /app
 ENV NODE_ENV=production
 ARG SOURCE_SHA

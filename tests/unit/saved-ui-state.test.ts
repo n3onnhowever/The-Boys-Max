@@ -51,7 +51,7 @@ test('Saved screen renders the populated and empty saved states', async () => {
     configFile: path.resolve('apps/miniapp/vite.config.ts'),
     appType: 'custom',
     logLevel: 'silent',
-    server: { middlewareMode: true },
+    server: { middlewareMode: true, hmr: false, ws: false },
   });
   try {
     const module = await server.ssrLoadModule('/apps/miniapp/src/components/SavedScreen.tsx') as {

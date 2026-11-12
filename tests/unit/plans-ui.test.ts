@@ -16,7 +16,7 @@ let MyPlansScreen: ComponentType<{ model: MyPlansViewModel }>;
 let PlanDetailScreen: ComponentType<{ model: PlanDetailViewModel }>;
 
 before(async () => {
-  vite = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent' });
+  vite = await createServer({ server: { middlewareMode: true, hmr: false, ws: false }, appType: 'custom', logLevel: 'silent' });
   ({ MyPlansScreen } = await vite.ssrLoadModule('/apps/miniapp/src/components/MyPlansScreen.tsx') as {
     MyPlansScreen: ComponentType<{ model: MyPlansViewModel }>;
   });

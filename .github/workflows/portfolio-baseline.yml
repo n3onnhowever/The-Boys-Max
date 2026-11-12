@@ -24,12 +24,13 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 24.20.0
+          node-version: 24.22.2
           cache: npm
       - name: Pin npm and install from lockfile
         run: |
-          npm install --global npm@11.19.0 --ignore-scripts
+          npm install --global npm@11.19.1 --ignore-scripts
           npm ci
+      - run: npm run verify:dependencies
       - run: npm run typecheck
       - run: npm run typecheck:pure
       - run: npm run test:unit
@@ -39,10 +40,14 @@ jobs:
           npm run test:integration:isolated
       - run: npm run build
       - run: npm run demo:portfolio -- --smoke
-      - name: Scan dependencies, current files and reachable history
-        run: |
-          npm audit
-          npm run scan:secrets
-          git diff --check
+      - name: Audit all lockfile dependencies
+        if: ${{ !cancelled() }}
+        run: npm audit
+      - name: Scan current files and reachable history
+        if: ${{ !cancelled() }}
+        run: npm run scan:secrets
+      - name: Check whitespace
+        if: ${{ !cancelled() }}
+        run: git diff --check
       - name: Build release image locally (no publication)
         run: docker build --target release --build-arg SOURCE_SHA="$GITHUB_SHA" -t povod:ci .

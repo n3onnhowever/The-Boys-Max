@@ -10,4 +10,8 @@ const scope=process.env.IT_SCOPE!,epoch=process.env.IT_EPOCH!,queue=process.env.
 requireThat(scope.startsWith('isolated-it-')&&queue.startsWith('max23-it-'),'TEST_SCOPE');
 const testTransport=new TestTransport(pool,'test');
 const transport:Transport={send:async(...args)=>{const result=await testTransport.send(...args);if(args[1]===target){process.send?.('WIRE_ENTERED');return new Promise(()=>{});}return result;}};
-const worker=new Worker(queue,job=>deliver(pool,job.data.outboxId,transport,new Governor(g,scope,epoch),'test'),{connection:r,concurrency:1});worker.on('error',()=>{});await worker.waitUntilReady();process.send?.('READY');
+const worker=new Worker(queue,job=>deliver(pool,job.data.outboxId,transport,new Governor(g,scope,epoch),'test'),{connection:r,concurrency:1});
+worker.on('error',()=>console.error(JSON.stringify({event:'TEST_WORKER_ERROR'})));
+worker.on('failed',()=>console.error(JSON.stringify({event:'TEST_JOB_FAILED'})));
+// READY means all actual startup dependencies have answered, before the measured wire phase.
+await Promise.all([worker.waitUntilReady(),pool.query('SELECT 1'),g.ping()]);process.send?.('READY');

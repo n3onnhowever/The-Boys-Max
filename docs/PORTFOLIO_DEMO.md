@@ -1,6 +1,6 @@
 # Local portfolio demo
 
-Prerequisites: Node.js 24.20.0, npm 11.19.0 and a running Linux Docker engine. Run `npm ci` first. The pinned PostgreSQL/Redis images must be available locally or downloadable on the first run. No MAX account, bot/webhook credentials, GigaChat credentials, production database or event provider is needed.
+Prerequisites: Node.js 24.22.2, npm 11.19.1 and a running Linux Docker engine. Run `npm ci` first. The pinned PostgreSQL/Redis images must be available locally or downloadable on the first run. No MAX account, bot/webhook credentials, GigaChat credentials, production database or event provider is needed.
 
 Start from the repository root:
 
