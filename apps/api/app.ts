@@ -9,6 +9,7 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import {readFile,realpath} from 'node:fs/promises';
 import {resolve,relative,isAbsolute,sep,posix,win32} from 'node:path';
 import {ownerPreviewAllowed,isLoopbackPeer,type Config} from '../../packages/platform/config.ts';
+import {BootstrapAdmission} from '../../packages/platform/bootstrap-admission.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
 import {savedService} from '../../packages/persistence/saved.ts';
@@ -38,6 +39,7 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
  const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode),social=socialService(pool);
+ const bootstrapAdmission=new BootstrapAdmission(c);
  const ui=uiService(pool,plans,c,options.catalogClock,options.offlinePortfolio);
  // Test-only injection until a separately approved live provider and durable quota exist.
  const smart=smartOccasionService(c.mode==='test'||c.aiExternalEnabled?smartProvider:null);
@@ -153,7 +155,8 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
   const s=await auth(r,true);return ui.execute({actor_id:s.actor.id,session_id:s.id},r.body,r.id);
  });
  app.get('/api/v1/session/bootstrap',{schema:{response:{200:z.strictObject({bootstrapId:z.uuid(),csrfToken:z.string(),expiresAt:z.iso.datetime()}),...S.errors}}},async(r,reply)=>{
-  readOrigin(r);const x=await sessions.bootstrap();reply.setCookie('__Host-max_bootstrap',x.binding,{...attrs,maxAge:120});return x.body;
+  readOrigin(r);await bootstrapAdmission.admit(r.raw.socket.remoteAddress);
+  const x=await sessions.bootstrap();reply.setCookie('__Host-max_bootstrap',x.binding,{...attrs,maxAge:120});return x.body;
  });
  app.post('/api/v1/session/max',{schema:{body:z.strictObject({initData:z.string().min(1).max(65536),exchangeKey:z.uuid()}),response:{200:S.sessionSchema,...S.errors}}},async(r,reply)=>{
   origin(r);json(r);const x=await sessions.exchange(r.cookies['__Host-max_bootstrap'],header(r,'x-bootstrap-csrf'),r.body.initData,r.body.exchangeKey,r.cookies['__Host-max_session']);
@@ -224,6 +227,6 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
    return result;
   });
  });
- app.addHook('onClose',async()=>{await pool.end();});
+ app.addHook('onClose',async()=>{bootstrapAdmission.close();await pool.end();});
  return {app,pool,plans,sessions,ui};
 }
