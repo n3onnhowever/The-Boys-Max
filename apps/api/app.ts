@@ -8,7 +8,7 @@ import {z} from 'zod';
 import {randomBytes,randomUUID} from 'node:crypto';
 import {readFile,realpath} from 'node:fs/promises';
 import {resolve,relative,isAbsolute,sep,posix,win32} from 'node:path';
-import {ownerPreviewAllowed,type Config} from '../../packages/platform/config.ts';
+import {ownerPreviewAllowed,isLoopbackPeer,type Config} from '../../packages/platform/config.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
 import {savedService} from '../../packages/persistence/saved.ts';
@@ -91,7 +91,9 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
  const ownerPreview=!options.offlinePortfolio&&ownerPreviewAllowed(process.env,c.mode,c.publicOrigin);
- if(ownerPreview)app.post('/dev/owner-session',{schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
+ if(ownerPreview)app.post('/dev/owner-session',{
+  onRequest:async r=>{requireThat(isLoopbackPeer(r.raw.socket.remoteAddress),'PREVIEW_LOCAL_ONLY',403);},
+  schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
   origin(r);json(r);const session=await sessions.ownerPreview(r.body.persona);reply.setCookie('__Host-max_session',session.token,{...attrs,maxAge:3600});return {ready:true};
  });
  if(c.mode==='demo'||c.mode==='hybrid'||options.offlinePortfolio){
