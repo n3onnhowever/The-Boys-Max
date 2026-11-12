@@ -138,10 +138,14 @@ does not claim general DoS resistance or eliminate all authenticated parser work
 
 Production: apps/api/app.ts, apps/api/main.ts, packages/platform/config.ts and
 new packages/platform/bootstrap-admission.ts. Tests: four focused integration
-files and their shared http-boundary-fixtures.ts. This handoff is the tenth
-changed path. No existing tests, persistence/business/auth code, MiniApp,
+files and their shared http-boundary-fixtures.ts; the existing p0-save.test.ts
+fixture now takes the runner's REDIS_URL before its legacy local default.
+Its synthetic bot key is generated in memory like its other fixture keys.
+This handoff is the eleventh changed path. No existing test assertions,
+persistence/business/auth code, MiniApp,
 migration, package baseline, Dockerfile, queue or provider files were changed.
-Commits are separated by finding. No wire DTO/version change; deliberate error
+Commits are separated by finding, plus the integration fixture correction.
+No wire DTO/version change; deliberate error
 precedence changes and bootstrap resource errors are described above.
 
 Pre-freeze checks: locked npm ci exit 0; focused repaired regressions **136/136**
@@ -154,6 +158,26 @@ Docker/package, cross-EOL, audit/secrets, canonical bytes, cleanup and hosted
 publication receipts belong to external `WP1C/FINAL_REPORT.md` and
 `WP1C/docs/handoffs/WP1C.md`. This pre-freeze handoff does not claim those
 pending gates passed; any mandatory acceptance failure blocks publication.
+
+First frozen candidate `6f128fb971b66bf9a69da6de5b18a68d99f851db` passed install,
+dependency checks, both typechecks and all 372 units. Its first full integration
+run was **266/269**, with three Save tests receiving 503 at bootstrap because
+their fixture used hardcoded Redis port 6379 instead of the isolated runner's
+assigned REDIS_URL. Failure logs and database state were retained before verified
+teardown. Publication stopped. The one-line fixture correction changes no
+assertion and adds no production bypass. Fresh complete acceptance must run
+twice on the new frozen descendant; the failed run is not relabelled as PASS.
+
+Second unpublished candidate `d1c5e9f338b89fbbb3fed5210de97b173e00f93d` passed
+both complete 269-test integration runs and the runtime/browser/package gates,
+then failed the secret scan: the modified Save fixture's existing fixed synthetic
+bot-key placeholder no longer matched the old blob-specific scan exception.
+The fixture now generates this key in memory; no scan rule or exception changes.
+The failed commit and logs are retained under the local evidence ref
+`refs/wp1c-evidence/failed-secret-scan` and external `acceptance-v2` directory.
+Only the unpublished final fixture commit is replaced, so the obsolete flagged
+blob is absent from the proposed branch history. No remote history is rewritten.
+All acceptance gates must run again on the resulting frozen SHA.
 
 Next action: complete frozen-source gates, then only on all required PASS push
 normally and open a Draft stacked on unchanged WP1B. Preserve F001/F002/F004;

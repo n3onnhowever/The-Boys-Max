@@ -11,8 +11,8 @@ import {sign} from '../fixtures.ts';
 
 const databaseUrl=process.env.P0_SAVE_TEST_DATABASE_URL;
 assert.ok(databaseUrl&&['127.0.0.1','postgres'].includes(new URL(databaseUrl).hostname)&&['/povod_save_fresh','/povod_t105_save_upgrade'].includes(new URL(databaseUrl).pathname)||databaseUrl&&['127.0.0.1','postgres'].includes(new URL(databaseUrl).hostname)&&new URL(databaseUrl).pathname.startsWith('/povod_int_fresh_'));
-const cfg:Config={mode:'test',databaseUrl,redisUrl:new URL(databaseUrl).hostname==='postgres'?'redis://redis:6379':'redis://127.0.0.1:6379',publicOrigin:'http://127.0.0.1:3000',
- sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:'SYNTHETIC_SAVE_BOT_TOKEN',webhookSecret:randomBytes(32).toString('hex'),
+const cfg:Config={mode:'test',databaseUrl,redisUrl:process.env.REDIS_URL??(new URL(databaseUrl).hostname==='postgres'?'redis://redis:6379':'redis://127.0.0.1:6379'),publicOrigin:'http://127.0.0.1:3000',
+ sessionKey:randomBytes(32).toString('hex'),escrowKey:randomBytes(32).toString('hex'),botToken:randomBytes(32).toString('hex'),webhookSecret:randomBytes(32).toString('hex'),
  credentialScope:'SYNTHETIC_SAVE',cookieProfile:'LAX_FIRST_PARTY',ingressMode:'WEBHOOK',liveGate:''};
 const {app,pool}=await buildApp(cfg);
 const catalog=canonicalCatalog(pool),sourceId='synthetic:save:'+randomUUID();
