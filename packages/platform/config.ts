@@ -1,11 +1,20 @@
 import {readFileSync} from 'node:fs';
+import {BlockList,isIP} from 'node:net';
 import {configuredBotUrl,type BotConfig} from './bot.ts';
 import {requireThat} from '../domain/errors.ts';
 export interface Config extends BotConfig {mode:'test'|'demo'|'live'|'hybrid';demoCatalogVersion?:'v3';databaseUrl:string;redisUrl:string;publicOrigin:string;sessionKey:string;escrowKey:string;botToken:string;webhookSecret:string;credentialScope:string;cookieProfile:'LAX_FIRST_PARTY'|'PARTITIONED_EMBEDDED';ingressMode:'WEBHOOK'|'POLLING';liveGate:string;botUsername?:string;externalOrigins?:string[];aiExternalEnabled?:boolean;gigaChatAuthKey?:string;}
 export function ownerPreviewAllowed(e:NodeJS.ProcessEnv,mode:Config['mode'],publicOrigin:string):boolean {
  try {const origin=new URL(publicOrigin);return e.POVOD_OWNER_PREVIEW==='1'&&e.NODE_ENV!=='production'&&['test','demo','hybrid'].includes(mode)
-  &&origin.protocol==='http:'&&['localhost','127.0.0.1'].includes(origin.hostname)&&origin.origin===publicOrigin;}
+  &&origin.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(origin.hostname)&&origin.origin===publicOrigin;}
  catch{return false;}
+}
+const loopback=new BlockList();loopback.addSubnet('127.0.0.0',8,'ipv4');loopback.addAddress('::1','ipv6');
+export function isLoopbackPeer(peer:string|undefined):boolean {
+ const family=peer?isIP(peer):0;
+ return Boolean(peer&&family&&loopback.check(peer,family===4?'ipv4':'ipv6'));
+}
+export function apiListenHost(c:Config,e:NodeJS.ProcessEnv=process.env):string {
+ return ownerPreviewAllowed(e,c.mode,c.publicOrigin)?(new URL(c.publicOrigin).hostname==='[::1]'?'::1':'127.0.0.1'):'0.0.0.0';
 }
 export function config(e:NodeJS.ProcessEnv=process.env):Config {
  const local=e.RUNTIME_FILE?JSON.parse(readFileSync(e.RUNTIME_FILE,'utf8')) as Record<string,string>:{};
@@ -17,7 +26,7 @@ export function config(e:NodeJS.ProcessEnv=process.env):Config {
  requireThat(ingress!=='POLLING','POLLING_ADAPTER_NOT_IMPLEMENTED',503); // Explicit fail-closed until durable marker runner is integrated.
  const publicOrigin=get('PUBLIC_ORIGIN');const origin=new URL(publicOrigin);
  const localOwnerPreview=ownerPreviewAllowed({...e,POVOD_OWNER_PREVIEW:get('POVOD_OWNER_PREVIEW')},mode,publicOrigin);
- requireThat(origin.origin===publicOrigin&&(origin.protocol==='https:'||((!['live','hybrid'].includes(mode)||localOwnerPreview)&&['localhost','127.0.0.1'].includes(origin.hostname))), 'HTTPS_ORIGIN_REQUIRED');
+ requireThat(origin.origin===publicOrigin&&(origin.protocol==='https:'||((!['live','hybrid'].includes(mode)||localOwnerPreview)&&['localhost','127.0.0.1','[::1]'].includes(origin.hostname))), 'HTTPS_ORIGIN_REQUIRED');
  for(const key of ['SESSION_KEY','ESCROW_KEY','BOT_TOKEN','CREDENTIAL_SCOPE','DATABASE_URL','REDIS_URL'])requireThat(get(key).length>0,`MISSING_${key}`);
  const webhookSecret=get('MAX_WEBHOOK_SECRET')||get('WEBHOOK_SECRET');
  requireThat(webhookSecret.length>0,'MISSING_MAX_WEBHOOK_SECRET');

@@ -6,9 +6,10 @@ import type {ZodTypeProvider} from 'fastify-type-provider-zod';
 import type {FastifyRequest,FastifyReply} from 'fastify';
 import {z} from 'zod';
 import {randomBytes,randomUUID} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
-import {resolve} from 'node:path';
-import {ownerPreviewAllowed,type Config} from '../../packages/platform/config.ts';
+import {readFile,realpath} from 'node:fs/promises';
+import {resolve,relative,isAbsolute,sep,posix,win32} from 'node:path';
+import {ownerPreviewAllowed,isLoopbackPeer,type Config} from '../../packages/platform/config.ts';
+import {BootstrapAdmission} from '../../packages/platform/bootstrap-admission.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
 import {savedService} from '../../packages/persistence/saved.ts';
@@ -38,6 +39,7 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  await app.register(cookie);
  await app.register(swagger,{openapi:{openapi:'3.0.3',info:{title:'The Boys — личная афиша и совместный план',version:'26.1.0-candidate'},servers:[{url:c.publicOrigin}],components:{securitySchemes:{sessionCookie:{type:'apiKey',in:'cookie',name:'__Host-max_session'}}}},transform:jsonSchemaTransform});
  const {pool,db}=connect(c.databaseUrl),sessions=sessionService(pool,c),plans=planService(db,c.sessionKey),ingress=ingressService(pool,{...c,mode:c.ingressMode}),saved=savedService(pool,c.mode),social=socialService(pool);
+ const bootstrapAdmission=new BootstrapAdmission(c);
  const ui=uiService(pool,plans,c,options.catalogClock,options.offlinePortfolio);
  // Test-only injection until a separately approved live provider and durable quota exist.
  const smart=smartOccasionService(c.mode==='test'||c.aiExternalEnabled?smartProvider:null);
@@ -71,16 +73,29 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
   }
   return reply.type('text/html; charset=utf-8').send(html);
  });
+ const assetRoot=resolve('dist/miniapp/assets'); // Resolve the trusted root independently of the locator.
+ const contained=(root:string,file:string)=>{const name=relative(root,file);return name!==''&&name!=='..'&&!name.startsWith('..'+sep)&&!isAbsolute(name);};
  app.get('/assets/*',{schema:{hide:true}},async(r,reply)=>{
   const name=(r.params as {'*':string})['*'];
-  const extension=/^[A-Za-z0-9_/-]+\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf)$/.exec(name)?.[1];
+  // Built asset URLs are canonical ASCII. Reject encoding/decoding and platform normalization ambiguities.
+  if(posix.isAbsolute(name)||win32.isAbsolute(name)||r.raw.url?.split('?')[0]!=='/assets/'+name
+   ||!name.split('/').every(part=>/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/.test(part)
+    &&!/^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part)))throw new AppError('NOT_FOUND',404);
+  const extension=/\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf)$/.exec(name)?.[1];
   if(!extension)throw new AppError('NOT_FOUND',404);
   const mime:Record<string,string>={js:'application/javascript',css:'text/css',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',webp:'image/webp',gif:'image/gif',svg:'image/svg+xml',ico:'image/x-icon',woff:'font/woff',woff2:'font/woff2',ttf:'font/ttf',otf:'font/otf'};
-  try{return reply.type(mime[extension]!).send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
+  try{
+   const root=await realpath(assetRoot),candidate=resolve(root,name);
+   if(!contained(root,candidate))throw new Error('asset boundary');
+   const file=await realpath(candidate);if(!contained(root,file))throw new Error('asset boundary');
+   return reply.type(mime[extension]!).send(await readFile(file));
+  }catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
  const ownerPreview=!options.offlinePortfolio&&ownerPreviewAllowed(process.env,c.mode,c.publicOrigin);
- if(ownerPreview)app.post('/dev/owner-session',{schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
+ if(ownerPreview)app.post('/dev/owner-session',{
+  onRequest:async r=>{requireThat(isLoopbackPeer(r.raw.socket.remoteAddress),'PREVIEW_LOCAL_ONLY',403);},
+  schema:{hide:true,body:z.strictObject({persona:z.enum(['owner','friend'])})}},async(r,reply)=>{
   origin(r);json(r);const session=await sessions.ownerPreview(r.body.persona);reply.setCookie('__Host-max_session',session.token,{...attrs,maxAge:3600});return {ready:true};
  });
  if(c.mode==='demo'||c.mode==='hybrid'||options.offlinePortfolio){
@@ -140,7 +155,8 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
   const s=await auth(r,true);return ui.execute({actor_id:s.actor.id,session_id:s.id},r.body,r.id);
  });
  app.get('/api/v1/session/bootstrap',{schema:{response:{200:z.strictObject({bootstrapId:z.uuid(),csrfToken:z.string(),expiresAt:z.iso.datetime()}),...S.errors}}},async(r,reply)=>{
-  readOrigin(r);const x=await sessions.bootstrap();reply.setCookie('__Host-max_bootstrap',x.binding,{...attrs,maxAge:120});return x.body;
+  readOrigin(r);await bootstrapAdmission.admit(r.raw.socket.remoteAddress);
+  const x=await sessions.bootstrap();reply.setCookie('__Host-max_bootstrap',x.binding,{...attrs,maxAge:120});return x.body;
  });
  app.post('/api/v1/session/max',{schema:{body:z.strictObject({initData:z.string().min(1).max(65536),exchangeKey:z.uuid()}),response:{200:S.sessionSchema,...S.errors}}},async(r,reply)=>{
   origin(r);json(r);const x=await sessions.exchange(r.cookies['__Host-max_bootstrap'],header(r,'x-bootstrap-csrf'),r.body.initData,r.body.exchangeKey,r.cookies['__Host-max_session']);
@@ -151,7 +167,18 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  const preferenceResponseSchema=preferenceSchema.extend({version:z.number().int().min(0),catalogCoverage:z.enum(['SUPPORTED','UNSUPPORTED'])});
  const idParam=z.strictObject({id:z.uuid()});
  app.get('/api/v1/me/preferences',{schema:{response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.settings((await auth(r)).actor.id));
- app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema.extend({expectedVersion:z.number().int().min(0).max(2147483646)}),response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
+ const preferenceActor=new WeakMap<FastifyRequest,string>();
+ app.put('/api/v1/me/preferences',{
+  // 1,680 allowed UTF-16 string units need <=10,080 bytes even as JSON Unicode escapes.
+  // 16 KiB also covers field names/numbers/punctuation; the accepted DTO limits remain unchanged.
+  bodyLimit:16_384,
+  onRequest:async r=>{preferenceActor.set(r,(await auth(r,true)).actor.id);},
+  preValidation:async r=>{
+   const body=r.body;
+   requireThat(!body||typeof body!=='object'||!Array.isArray(body.interests)||body.interests.length<=20,'VALIDATION_FAILED',400);
+  },
+  schema:{body:preferenceSchema.extend({expectedVersion:z.number().int().min(0).max(2147483646)}),response:{200:preferenceResponseSchema,...S.errors}}
+ },async r=>{const actor=preferenceActor.get(r);requireThat(actor,'SESSION_REQUIRED',401);return social.saveSettings(actor,r.body);});
  app.get('/api/v1/me/friends',async r=>social.friends((await auth(r)).actor.id));
  app.post('/api/v1/me/friend-links',{schema:{body:z.strictObject({})}},async r=>social.createFriendLink((await auth(r,true)).actor.id));
  app.post('/api/v1/friend-links/:token/request',{schema:{params:z.strictObject({token:z.string().regex(/^[a-f0-9]{64}$/)}),body:z.strictObject({})}},async r=>social.requestFromFriendLink((await auth(r,true)).actor.id,r.params.token));
@@ -211,6 +238,6 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
    return result;
   });
  });
- app.addHook('onClose',async()=>{await pool.end();});
+ app.addHook('onClose',async()=>{bootstrapAdmission.close();await pool.end();});
  return {app,pool,plans,sessions,ui};
 }
