@@ -6,8 +6,8 @@ import type {ZodTypeProvider} from 'fastify-type-provider-zod';
 import type {FastifyRequest,FastifyReply} from 'fastify';
 import {z} from 'zod';
 import {randomBytes,randomUUID} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
-import {resolve} from 'node:path';
+import {readFile,realpath} from 'node:fs/promises';
+import {resolve,relative,isAbsolute,sep,posix,win32} from 'node:path';
 import {ownerPreviewAllowed,type Config} from '../../packages/platform/config.ts';
 import {connect} from '../../packages/persistence/db.ts';
 import {sessionService} from '../../packages/persistence/sessions.ts';
@@ -71,12 +71,23 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
   }
   return reply.type('text/html; charset=utf-8').send(html);
  });
+ const assetRoot=resolve('dist/miniapp/assets'); // Resolve the trusted root independently of the locator.
+ const contained=(root:string,file:string)=>{const name=relative(root,file);return name!==''&&name!=='..'&&!name.startsWith('..'+sep)&&!isAbsolute(name);};
  app.get('/assets/*',{schema:{hide:true}},async(r,reply)=>{
   const name=(r.params as {'*':string})['*'];
-  const extension=/^[A-Za-z0-9_/-]+\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf)$/.exec(name)?.[1];
+  // Built asset URLs are canonical ASCII. Reject encoding/decoding and platform normalization ambiguities.
+  if(posix.isAbsolute(name)||win32.isAbsolute(name)||r.raw.url?.split('?')[0]!=='/assets/'+name
+   ||!name.split('/').every(part=>/^[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/.test(part)
+    &&!/^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part)))throw new AppError('NOT_FOUND',404);
+  const extension=/\.(js|css|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf)$/.exec(name)?.[1];
   if(!extension)throw new AppError('NOT_FOUND',404);
   const mime:Record<string,string>={js:'application/javascript',css:'text/css',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',webp:'image/webp',gif:'image/gif',svg:'image/svg+xml',ico:'image/x-icon',woff:'font/woff',woff2:'font/woff2',ttf:'font/ttf',otf:'font/otf'};
-  try{return reply.type(mime[extension]!).send(await readFile(resolve('dist/miniapp/assets',name)));}catch{throw new AppError('NOT_FOUND',404);}
+  try{
+   const root=await realpath(assetRoot),candidate=resolve(root,name);
+   if(!contained(root,candidate))throw new Error('asset boundary');
+   const file=await realpath(candidate);if(!contained(root,file))throw new Error('asset boundary');
+   return reply.type(mime[extension]!).send(await readFile(file));
+  }catch{throw new AppError('NOT_FOUND',404);}
  });
  app.get('/health/live',{schema:{response:{200:z.strictObject({alive:z.literal(true)})}}},async()=>({alive:true as const}));
  const ownerPreview=!options.offlinePortfolio&&ownerPreviewAllowed(process.env,c.mode,c.publicOrigin);
