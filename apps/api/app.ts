@@ -167,7 +167,18 @@ export async function buildApp(c:Config,smartProvider:SmartOccasionProvider|null
  const preferenceResponseSchema=preferenceSchema.extend({version:z.number().int().min(0),catalogCoverage:z.enum(['SUPPORTED','UNSUPPORTED'])});
  const idParam=z.strictObject({id:z.uuid()});
  app.get('/api/v1/me/preferences',{schema:{response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.settings((await auth(r)).actor.id));
- app.put('/api/v1/me/preferences',{schema:{body:preferenceSchema.extend({expectedVersion:z.number().int().min(0).max(2147483646)}),response:{200:preferenceResponseSchema,...S.errors}}},async r=>social.saveSettings((await auth(r,true)).actor.id,r.body));
+ const preferenceActor=new WeakMap<FastifyRequest,string>();
+ app.put('/api/v1/me/preferences',{
+  // 1,680 allowed UTF-16 string units need <=10,080 bytes even as JSON Unicode escapes.
+  // 16 KiB also covers field names/numbers/punctuation; the accepted DTO limits remain unchanged.
+  bodyLimit:16_384,
+  onRequest:async r=>{preferenceActor.set(r,(await auth(r,true)).actor.id);},
+  preValidation:async r=>{
+   const body=r.body;
+   requireThat(!body||typeof body!=='object'||!Array.isArray(body.interests)||body.interests.length<=20,'VALIDATION_FAILED',400);
+  },
+  schema:{body:preferenceSchema.extend({expectedVersion:z.number().int().min(0).max(2147483646)}),response:{200:preferenceResponseSchema,...S.errors}}
+ },async r=>{const actor=preferenceActor.get(r);requireThat(actor,'SESSION_REQUIRED',401);return social.saveSettings(actor,r.body);});
  app.get('/api/v1/me/friends',async r=>social.friends((await auth(r)).actor.id));
  app.post('/api/v1/me/friend-links',{schema:{body:z.strictObject({})}},async r=>social.createFriendLink((await auth(r,true)).actor.id));
  app.post('/api/v1/friend-links/:token/request',{schema:{params:z.strictObject({token:z.string().regex(/^[a-f0-9]{64}$/)}),body:z.strictObject({})}},async r=>social.requestFromFriendLink((await auth(r,true)).actor.id,r.params.token));
