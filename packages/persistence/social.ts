@@ -1,5 +1,5 @@
 import {createHash,randomBytes,randomUUID} from 'node:crypto';
-import type {Pool} from 'pg';
+import type {Pool,PoolClient} from 'pg';
 import {requireThat} from '../domain/errors.ts';
 import {transaction} from './sessions.ts';
 import {notificationCursor,parseNotificationCursor} from './notification-cursor.ts';
@@ -24,9 +24,17 @@ export function socialService(pool:Pool){
    'SELECT city,interests,budget_rub,radius_km,notifications_enabled,preferred_time,version FROM actor_preferences WHERE actor_id=$1',[actor]);
   return preferenceState(result.rows[0]);
  };
- const mayReadPlan=async(actor:string,plan:string)=>{
-  const r=await pool.query('SELECT 1 FROM plans p WHERE p.id=$1 AND (p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state=\'ACTIVE\'))',[plan,actor]);
+ const mayReadPlan=async(actor:string,plan:string,db:Pool|PoolClient=pool)=>{
+  const r=await db.query('SELECT 1 FROM plans p WHERE p.id=$1 AND (p.organizer_id=$2 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$2 AND s.state=\'ACTIVE\'))',[plan,actor]);
   requireThat(r.rowCount===1,'FORBIDDEN',403);
+ };
+ const lockChatAccess=async(db:PoolClient,actor:string,plan:string)=>{
+  // Same order as Plan commands: Plan row, then membership, then business writes.
+  // SHARE allows concurrent readers/senders but conflicts with roster FOR UPDATE.
+  // Check ACL in a NEW READ COMMITTED statement after any lock wait: an EXISTS
+  // inside the locking statement could retain the pre-revocation slot snapshot.
+  await db.query('SELECT id FROM plans WHERE id=$1 FOR SHARE',[plan]);
+  await mayReadPlan(actor,plan,db);
  };
  return {
   settings,
@@ -197,19 +205,23 @@ export function socialService(pool:Pool){
    return {accepted:true};
   },
   async messages(actor:string,plan:string){
-   await mayReadPlan(actor,plan);
-   const r=await pool.query<{id:string;actor_id:string;display_name:string;body:string;created_at:Date}>(`SELECT m.id,m.actor_id,a.display_name,m.body,m.created_at FROM plan_messages m JOIN actors a ON a.id=m.actor_id WHERE m.plan_id=$1 ORDER BY m.created_at,m.id LIMIT 200`,[plan]);
-   return {items:r.rows.map(x=>({id:x.id,senderId:x.actor_id,sender:x.display_name,text:x.body,createdAt:x.created_at.toISOString()}))};
+   return transaction(pool,async db=>{
+    await lockChatAccess(db,actor,plan);
+    const r=await db.query<{id:string;actor_id:string;display_name:string;body:string;created_at:Date}>(`SELECT m.id,m.actor_id,a.display_name,m.body,m.created_at FROM plan_messages m JOIN actors a ON a.id=m.actor_id WHERE m.plan_id=$1 ORDER BY m.created_at,m.id LIMIT 200`,[plan]);
+    return {items:r.rows.map(x=>({id:x.id,senderId:x.actor_id,sender:x.display_name,text:x.body,createdAt:x.created_at.toISOString()}))};
+   });
   },
   async sendMessage(actor:string,plan:string,body:string){
-   await mayReadPlan(actor,plan);
+   return transaction(pool,async db=>{
+   await lockChatAccess(db,actor,plan);
    const id=randomUUID();
-   await pool.query('INSERT INTO plan_messages(id,plan_id,actor_id,body) VALUES($1,$2,$3,$4)',[id,plan,actor,body]);
-   await pool.query(`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id)
+   await db.query('INSERT INTO plan_messages(id,plan_id,actor_id,body) VALUES($1,$2,$3,$4)',[id,plan,actor,body]);
+   await db.query(`INSERT INTO in_app_notifications(id,actor_id,kind,title,plan_id)
     SELECT gen_random_uuid(),member.actor_id,'PLAN_CHAT','Новое сообщение в плане',$1 FROM
     (SELECT organizer_id actor_id FROM plans WHERE id=$1 UNION SELECT actor_id FROM plan_slots WHERE plan_id=$1 AND state='ACTIVE') member
     WHERE member.actor_id<>$2 AND COALESCE((SELECT notifications_enabled FROM actor_preferences WHERE actor_id=member.actor_id),true)`,[plan,actor]);
    return {id};
+   });
   },
   async planInviteStatuses(actor:string,plan:string){
    await mayReadPlan(actor,plan);
@@ -226,11 +238,18 @@ export function socialService(pool:Pool){
   async notifications(actor:string,options:{cursor?:string;limit?:number}={}){
    const limit=options.limit??100;requireThat(Number.isInteger(limit)&&limit>=1&&limit<=100,'NOTIFICATION_PAGE_SIZE_INVALID',400);
    const boundary=options.cursor===undefined?null:parseNotificationCursor(options.cursor);
-   const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;cursor_at:string;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,n.plan_id,n.invite_ref,n.actor_context_id,n.read_at,n.created_at,a.display_name actor_name,
+   // Recipient ownership preserves history, not current Plan authority. Gate all
+   // enrichment and Plan navigation in the same statement/snapshot as the ACL.
+   // Invite locators retain their separate invitation flow and its own checks.
+   const r=await pool.query<{id:string;kind:string;title:string;plan_id:string|null;invite_ref:string|null;actor_context_id:string|null;read_at:Date|null;created_at:Date;cursor_at:string;actor_name:string|null;plan_title:string|null;event_title:string|null}>(`SELECT n.id,n.kind,n.title,p.id plan_id,n.invite_ref,
+    CASE WHEN n.plan_id IS NULL OR p.id IS NOT NULL THEN n.actor_context_id END actor_context_id,
+    n.read_at,n.created_at,a.display_name actor_name,
     to_char(n.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') cursor_at,
     COALESCE(pp.title,p.state->>'title') plan_title,p.state->'options'->0->'snapshots'->0->'terms'->>'title' event_title
-    FROM in_app_notifications n LEFT JOIN actors a ON a.id=n.actor_context_id LEFT JOIN plans p ON p.id=n.plan_id
-    LEFT JOIN plan_presentation pp ON pp.plan_id=n.plan_id WHERE n.actor_id=$1 AND ${visibleNotification}
+    FROM in_app_notifications n LEFT JOIN plans p ON p.id=n.plan_id
+     AND (p.organizer_id=$1 OR EXISTS(SELECT 1 FROM plan_slots s WHERE s.plan_id=p.id AND s.actor_id=$1 AND s.state='ACTIVE'))
+    LEFT JOIN actors a ON a.id=n.actor_context_id AND (n.plan_id IS NULL OR p.id IS NOT NULL)
+    LEFT JOIN plan_presentation pp ON pp.plan_id=p.id WHERE n.actor_id=$1 AND ${visibleNotification}
     AND ($2::timestamptz IS NULL OR (n.created_at,n.id)<($2::timestamptz,$3::uuid))
     ORDER BY n.created_at DESC,n.id DESC LIMIT $4`,[actor,boundary?.at??null,boundary?.id??null,limit+1]);
    const count=await pool.query<{count:string}>(`SELECT count(*) AS count FROM in_app_notifications n WHERE n.actor_id=$1 AND n.read_at IS NULL AND ${visibleNotification}`,[actor]);
